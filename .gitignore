@@ -23,3 +23,5 @@ __pycache__
 TKJ4215 statterm/m_AB.pkl
 TKJ4215 statterm/Stirlings.txt
 TFY4350*
+*.toc
+*.out
