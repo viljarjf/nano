@@ -1,0 +1,527 @@
+\documentclass[11pt, a4paper, norsk]{NTNUoving}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+
+\ovingnr{5}    % Nummer på innlevering
+\semester{Våren 2020}
+\fag{TMA 4115} %4105 er matte 2, 4115 er matte 3
+\institutt{Institutt for matematiske fag}
+
+\newenvironment{pkt}{\begin{punkt}}{\end{punkt}}
+
+\newenvironment{matrise}[1][]{
+        \left[
+            \begin{array}{#1}
+    }
+    {
+            \end{array}
+        \right]      
+}
+
+\newenvironment{indreprod}{
+    \langle
+}{
+\rangle}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\P}{\mathcal{P}}
+
+\begin{document}
+%#################################################
+%Dette er for enkel copy-pasting
+\ifx
+%-------------------------
+\begin{oppgave}
+    \begin{punkt}
+        \begin{align*}
+        
+        
+        \end{align*}
+    \end{punkt}
+\end{oppgave}
+%-------------------------
+\begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (-5.9,-5.9) grid (5.9,5.9);
+        \draw (-6,0) -- (6,0);
+        \draw (0,-6) -- (0,6);
+        \draw[->] (-6,0) -- (6,0); 
+        \draw[->] (0,-6) -- (0,6);
+        \draw (0, 6.2) node {y};
+        \draw (6.2, 0) node {x};
+\end{tikzpicture}
+\fi
+
+%Her begynner dokumentet
+%#####################################
+
+\begin{oppgave}
+    \begin{pkt}
+        \begin{align*}
+            det
+            \begin{matrise}[cc]
+                1-\lambda & 2\\
+                2 & 1-\lambda
+            \end{matrise}
+            &=(1-\lambda)^2-4
+            \\&=(\lambda-3)(\lambda+1)        
+        \end{align*}
+        Det gir egenverdiene $\lambda = 3$ og $\lambda=-1$.
+        
+        $\lambda=3:$
+        \begin{align*}
+            \begin{matrise}[cc]
+                -2 & 2 \\ 2 & -2
+            \end{matrise}
+            &\sim
+            \begin{matrise}[cc]
+                1 & -1\\0 & 0
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 1 \\ 1\end{matrise}\right\}$.
+
+        $\lambda=-1:$
+        \begin{align*}
+            \begin{matrise}[cc]
+                2 & 2 \\ 2 & 2
+            \end{matrise}
+            \sim 
+            \begin{matrise}[cc]
+                1 & 1 \\ 0 & 0
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 1 \\ -1\end{matrise}\right\}$.
+    \end{pkt}
+    \begin{pkt}
+        \begin{align*}
+        det
+            \begin{matrise}[ccc]
+                1-\lambda & 2 & 0\\
+                2 & 1-\lambda & 0\\
+                0 & 0 & -\lambda
+            \end{matrise}
+            =-\lambda(det\begin{matrise}[cc]
+                1-\lambda & 2\\
+                2 & 1-\lambda
+            \end{matrise}
+        \end{align*}
+        Det gir egenverdiene $\lambda = 3$, $\lambda=0$, og $\lambda=-1$.
+        
+        $\lambda=0:$
+        \begin{align*}
+            \begin{matrise}[ccc]
+                1 & 2 & 0\\
+                2 & 1 & 0\\
+                0 & 0 & 0
+            \end{matrise}
+            \sim
+            \begin{matrise}[ccc]
+                1 & 0 & 0\\
+                0 & 1 & 0\\
+                0 & 0 & 0
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 0 \\ 0 \\ 1\end{matrise}\right\}$.
+        
+        Fra oppgave 1 a) ser vi at for $\lambda=3$ er egenrommet $sp\left\{\begin{matrise} 1 \\ 1 \\ 0\end{matrise}\right\}$.
+        
+        Tilsvarende for $\lambda=-1$ er egenrommet $sp\left\{\begin{matrise} 1 \\ -1 \\ 0\end{matrise}\right\}$.
+    \end{pkt}
+    \begin{pkt}
+        Her ser vi $\lambda=0$, med algebraisk multiplisitet lik 2. 
+        
+        Egenrommet for $\lambda=0$ er $sp\left\{\begin{matrise} 1 \\ 0\end{matrise}\right\}$.
+    \end{pkt}
+    \begin{pkt}
+    \begin{math}
+        \det
+        \begin{matrise}[ccc]
+            4-\lambda & 2 & 3\\
+            -1 & 1-\lambda & -3\\
+            2 & 4 & 9-\lambda
+        \end{matrise}
+        \\&=(4-\lambda)\det\begin{matrise}[cc]
+            1-\lambda & -3 \\
+            4 & 9-\lambda
+        \end{matrise}
+        -2\det\begin{matrise}[cc]
+            -1 & -3\\
+            2 & 9-\lambda
+        \end{matrise}
+        +3\det\begin{matrise}[cc]
+            -1 & 1-\lambda\\
+            2 & 4
+        \end{matrise}
+        \\&=(4-\lambda)((1-\lambda)(9-\lambda)+12)-2(\lambda-9+6)+3(-4-2(1-\lambda))
+        \\&=  - \lambda^3 + 14 \lambda^2 - 57 \lambda+72        
+    \end{math}
+
+    Ved hjelp av stirremetoden ser vi at $\lambda = 3$ er en løsning. Polynomdivisjon gir dermed
+    \begin{align*}
+        - \lambda^3 + 14 \lambda^2 - 57 \lambda+72 &=(\lambda-3)(-\lambda^2+11\lambda-24)
+        \\&=-(\lambda-3)^2(\lambda-8)
+    \end{align*}
+    $\lambda=3:$
+    \begin{align*}
+        \begin{matrise}[ccc]
+            1 & 2 & 3\\
+            -1 & -2 & -3\\
+            2 & 4 & 6
+        \end{matrise}
+        \sim
+        \begin{matrise}[ccc]
+            1 & 2 & 3\\
+            0 & 0 & 0\\
+            0 & 0 & 0
+        \end{matrise}
+    \end{align*}
+    Egenrommet er da $sp\left\{\begin{matrise} 6 \\ 3 \\ 2\end{matrise}\right\}$.
+    
+    $\lambda=8:$
+    \begin{align*}
+        \begin{matrise}[ccc]
+            -4 & 2 & 3\\
+            -1 & -7 & -3\\
+            2 & 4 & 1
+        \end{matrise}
+        &\sim
+        \begin{matrise}[ccc]
+            -4 & 2 & 3\\
+            0 & 30 & 15\\
+            0 & 10 & 5
+        \end{matrise}
+        \\&\sim
+        \begin{matrise}[ccc]
+            -4 & 2 & 3\\
+            0 & 2 & 1\\
+            0 & 0 & 0
+        \end{matrise}
+        \\&\sim
+        \begin{matrise}[ccc]
+            2 & 0 & -1\\
+            0 & 2 & 1\\
+            0 & 0 & 0
+        \end{matrise}
+    \end{align*}
+    Egenrommet er da $sp\left\{\begin{matrise} 1 \\ -1 \\ 2\end{matrise}\right\}$.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    \begin{pkt}
+        \begin{align*}
+            \det
+            \begin{matrise}[cc]
+                -\lambda & 1\\
+                -1 & -\lambda
+            \end{matrise}
+            =\lambda^2+1,
+        \end{align*}
+        som ikke har noen reelle løsninger.
+    \end{pkt}
+    \begin{pkt}
+        Geometrisk er denne matrisen en lineærtransformasjon som roterer alle vektorer $\frac{3\pi}{2}$. Den eneste reelle vektoren som sendes på seg selv er da \textbf{0}, som ikke er en egenvektor.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    \begin{pkt}
+        $\begin{matrise}\cos\theta\\\sin\theta\end{matrise}$ for \textbf{e}$_1$, og $\begin{matrise}-\sin\theta\\\cos\theta\end{matrise}$ for \textbf{e}$_2$.
+    \end{pkt}
+    \begin{pkt}
+        $\begin{matrise}[cc]\cos\theta & -\sin\theta\\\sin\theta & \cos\theta\end{matrise}$
+    \end{pkt}
+    \begin{pkt}
+        Når man roterer en vektor vil den være parallell med start hver $\pi$ radianer. $T_\theta$ har dermed reelle egenverdier for $\theta=n\pi\,\forall\, n \in \mathbb{Z}$.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    \begin{pkt}
+        Matrisen er på trappeform, som gir at egenverdiene er verdiene på diagonalen. Her er de 1, 2, -5, og 77.
+    \end{pkt}
+    \begin{pkt}
+        $\lambda=1:$
+        \begin{align*}
+            \begin{matrise}[cccc]
+                0 & 2 & 3 & 4\\
+                0 & 1 & 3 & 4\\
+                0 & 0 & -6 & 0\\
+                0 & 0 & 0 & 76
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 1 \\ 0 \\ 0 \\ 0\end{matrise}\right\}$.
+        
+        $\lambda=2:$
+        \begin{align*}
+            \begin{matrise}[cccc]
+                -1 & 2 & 3 & 4\\
+                0 & 0 & 3 & 4\\
+                0 & 0 & -7 & 0\\
+                0 & 0 & 0 & 75
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 2 \\ 1 \\ 0 \\ 0\end{matrise}\right\}$.
+        
+        $\lambda=-5:$
+        \begin{align*}
+            \begin{matrise}[cccc]
+                6 & 2 & 3 & 4\\
+                0 & 7 & 3 & 4\\
+                0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 82
+            \end{matrise}
+            &\sim
+            \begin{matrise}[cccc]
+                6 & 2 & 3 & 0\\
+                0 & 7 & 3 & 0\\
+                0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 1
+            \end{matrise}
+            \\&\sim
+            \begin{matrise}[cccc]
+                6 & 0 & \frac{15}{7} & 0\\
+                0 & 7 & 3 & 0\\
+                0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 1
+            \end{matrise}
+            \\&\sim
+            \begin{matrise}[cccc]
+                14 & 0 & 5 & 0\\
+                0 & 14 & 6 & 0\\
+                0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 1
+            \end{matrise}
+        \end{align*}
+        Egenrommet er da $sp\left\{\begin{matrise} 5 \\ 6 \\ -14 \\ 0\end{matrise}\right\}$.
+        
+        $\lambda=77:$
+        \begin{align*}
+            \begin{matrise}[cccc]
+                -76 & 2 & 3 & 4\\
+                0 & -75 & 3 & 4\\
+                0 & 0 & -82 & 0\\
+                0 & 0 & 0 & 0
+            \end{matrise}
+            &\sim
+            \begin{matrise}[cccc]
+                -38 & 1 & 0 & 2\\
+                0 & -75 & 0 & 4\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 0
+            \end{matrise}
+            \\&\sim
+            \begin{matrise}[cccc]
+                -17 & 0 & 0 & \frac{77}{75}\\
+                0 & -75 & 0 & 4\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 0
+            \end{matrise}
+            \\&\sim
+            \begin{matrise}[cccc]
+                -1425 & 0 & 0 & 77\\
+                0 & -75 & 0 & 4\\
+                0 & 0 & 1 & 0\\
+                0 & 0 & 0 & 0
+            \end{matrise}
+        \end{align*}
+        
+        Egenrommet er da $sp\left\{\begin{matrise} 75*77 \\ 4*1425 \\ 0 \\ 1425*75\end{matrise}\right\}$.
+    \end{pkt}
+    \begin{pkt}
+        Nei, dette var et fryktelig rart spørsmål. For en $n\times n$-matrise blir egenverdiene løsninger på et $n$-tegradspolynom, altså er det ikke på noen måte gitt at dette er enkelt.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+\begin{pkt}
+    Det virker slitsomt å regne ut alle egenverdiene og egenrommene. Derfor velger jeg bare å sette inn og se. Nullvektoren og enhetsvektoren er trivielt ikke egenvektorer.
+    \begin{align*}
+        \begin{matrise}[cccc]
+            28 & 30 & -20 & -2\\
+            6 & 40 & -10 & -4\\
+            4 & 10 & 20 & -6\\
+            2 & 20 & -30 & 32
+        \end{matrise}
+        \begin{matrise}
+        1\\2\\3\\4
+        \end{matrise}
+        =
+        \begin{matrise}
+            28+60-60-8\\
+            6+80-30-16\\
+            4+20+60-24\\
+            2+40-90+128
+        \end{matrise}
+        =
+        \begin{matrise}
+            20\\40\\60\\80
+        \end{matrise}
+        =20
+        \begin{matrise}
+        1\\2\\3\\4
+        \end{matrise}
+    \end{align*}
+    Denne er da en egenvektor med egenverdi 20.
+    \begin{align*}
+        \begin{matrise}[cccc]
+            28 & 30 & -20 & -2\\
+            6 & 40 & -10 & -4\\
+            4 & 10 & 20 & -6\\
+            2 & 20 & -30 & 32
+        \end{matrise}
+        \begin{matrise}
+        3\\2\\2\\1
+        \end{matrise}
+        =
+        \begin{matrise}
+            84+60-40-2\\
+            18+80-20-4\\
+            12+20+40-6\\
+            6+40-60+32
+        \end{matrise}
+        =
+        \begin{matrise}
+            102\\
+            74\\
+            66\\
+            18
+        \end{matrise}
+    \end{align*}
+    Denne er da ikke en egenvektor.
+    
+    Litt magi gir at 20 er en egenverdi med multiplisitet minst lik 2, ettersom den fjerde vektoren også ligger i det egenrommet. I tillegg er den siste vektoren en egenvektor, med 40 som egenverdi. 
+    \end{pkt}
+    \begin{pkt}
+        Enda mer magi gir at 40 også har multiplisitet lik 2.
+        \begin{align*}
+        \begin{matrise}[cccc]
+            8 & 30 & -20 & -2\\
+            6 & 20 & -10 & -4\\
+            4 & 10 & 0 & -6\\
+            2 & 20 & -30 & 12
+        \end{matrise}
+        &\sim
+        \begin{matrise}[cccc]
+            2 & 20 & -30 & 12\\
+            8 & 30 & -20 & -2\\
+            6 & 20 & -10 & -4\\
+            4 & 10 & 0 & -6
+        \end{matrise}
+        \\&\sim
+        \begin{matrise}[cccc]
+            2 & 20 & -30 & 12\\
+            0 & -50 & 100 & -50\\
+            0 & -40 & 80 & -40\\
+            0 & -30 & 60 & -30
+        \end{matrise}
+        \\&\sim
+        \begin{matrise}[cccc]
+            1 & 10 & -15 & 6\\
+            0 & 1 & -2 & 1\\
+            0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0
+        \end{matrise}
+        \\&\sim
+        \begin{matrise}[cccc]
+            1 & 4 & -3 & 0\\
+            0 & 1 & -2 & 1\\
+            0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0
+        \end{matrise}
+        \end{align*}
+        
+        Egenrommet er da $sp\left\{\begin{matrise} 3 \\ 0 \\ 1 \\ 2\end{matrise},\begin{matrise} 4 \\ -1 \\ 0 \\ 1\end{matrise}\right\}$.
+        
+        Egenrommet til $\lambda = 20$ er $sp\left\{\begin{matrise} 1 \\ 2 \\ 3 \\ 4\end{matrise},\begin{matrise} 2 \\ 1 \\ 2 \\ 3\end{matrise}\right\}$, som vi fant i forrige deloppgave.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    For at $A^2=A$ må $A$ være kvadratisk. Dersom matrisen har en invers må $A=A^{-1}$, som gir $A=A^2=AA^{-1}=I_n$. Egenverdien for denne er $\lambda=1$, med multiplisitet $n$. Om $A$ ikke har en invers vil determinanten være 0, som gir at 0 også er en egenverdi. 
+\end{oppgave}
+\begin{oppgave}
+    Dersom $\lambda=0$ er en egenverdi, er $\det (A-0I_n)=\det A=0$, og derfor er ikke matrisen inverterbar. 
+\end{oppgave}
+
+
+\begin{oppgave}[1]
+    \begin{pkt}
+        Egenverdiene er 2 og 4. Egenvektorene er $\begin{matrise}6 \\0\\-3\end{matrise}$, $\begin{matrise}0\\6 \\3\end{matrise}$, og $\begin{matrise}-1\\-3\\2\end{matrise}$. Matrisen er diagonaliserbar ettersom den har tre (lineært uahvengige) egenvektorer.
+    \end{pkt}
+    \begin{pkt}
+        Determinanten er $(3-\lambda)(-\lambda)(\lambda^2+1)$. Det gir egenverdiene 3, 0, $i$, og $-i$. Egenvektorene er matematisk enkle å finne, men det er mye jobb. Matrisen er diagonaliserbar, ettersom den har 4 unike egenverdier. 
+    \end{pkt}
+\end{oppgave}
+\begin{oppgave}[2]
+    Egenverdiene til $A$ er $\pm \sqrt{3}$. Egenvektorene er $\begin{matrise}1+\sqrt{3}\\1+i\end{matrise}$ og $\begin{matrise}1-\sqrt{3}\\1+i\end{matrise}$. $D$ og $P$ er henholdsvis $I_2$, der hver rad er ganget med hver sin egenverdi, og matrisen av egenvektorene. 
+\end{oppgave}
+\begin{oppgave}[3]
+    La $z=a+bi$. Da er egenverdiene gitt ved $(r_1-\lambda)(r_2-\lambda)-a^2-b^2=0$. abc-formelen gir dermed at egenverdiene er 
+    \begin{align*}
+        \frac{\pm\sqrt{4a^2+4b^2+r_1^2+r_2^2-2r_1r_2}+r_1+r_2}{2}
+    \end{align*}
+\end{oppgave}
+\begin{oppgave}[4]
+    $A$ er en reell symmetrisk matrise, og er dermed diagonaliserbar.
+    
+    Egenverdiene er gitt ved $(a-b-\lambda)((a-\lambda)^2-b^2)=(a-b-\lambda)(a-\lambda-b)(a-\lambda+b)$. Egenvektorene er $\begin{matrise}0 \\0\\1\end{matrise}$, $\begin{matrise}1 \\1\\0\end{matrise}$, og $\begin{matrise}1 \\-1\\0\end{matrise}$.
+\end{oppgave}
+\begin{oppgave}[5]
+\begin{pkt}
+    \begin{align*}
+        T\left(\begin{matrise}
+            1\\0\\0
+        \end{matrise}\right)
+        = \begin{matrise}
+            1\\0\\0
+        \end{matrise}
+    \end{align*}
+    
+    \begin{align*}
+        T\left(\begin{matrise}
+            0\\1\\0
+        \end{matrise}\right)
+        = \begin{matrise}
+            1\\2\\0
+        \end{matrise}
+    \end{align*}
+    
+    \begin{align*}
+        T\left(\begin{matrise}
+            0\\0\\1
+        \end{matrise}\right)
+        = \begin{matrise}
+            0\\2\\3
+        \end{matrise}
+    \end{align*}
+    Det gir at standardmatrisen til $T$ er $\begin{matrise}[ccc]1&1&0\\0&2&2\\0&0&3\end{matrise}$.
+    \end{pkt}
+    \begin{pkt}
+        Egenverdiene er 1, 2 og 3. Det gir at matrisen er diagonaliserbar. Rask hoderegning tilsier at egenvektorene burde være noe sånt som $\begin{matrise}1 \\0\\0\end{matrise}$, $\begin{matrise}1 \\1\\0\end{matrise}$, og $\begin{matrise}1 \\2\\1\end{matrise}$.
+    \end{pkt}
+\end{oppgave}
+\begin{oppgave}[6]
+    \begin{pkt}
+        $\frac{\pi}{6}$
+    \end{pkt}
+    \begin{pkt}
+        For den generelle rotasjonsmatrisen er egenverdiene $(\cos\theta-\lambda)^2+\sin^2\theta = \lambda^2-2\lambda\cos\theta +1$. Det gir at egenverdiene er $ \pm\sqrt{\operatorname{cos} ^{2}\left( \theta \right) - 1} + \operatorname{cos} \left( \theta \right) =\pm i\sin\theta +\cos\theta$. Her blir det $\pm \frac{1}{2}i+\frac{\sqrt{3}}{2}$. 
+        
+        De tilhørende egenvektorene er $\begin{matrise}
+        \pm i \\ 1
+        \end{matrise}$.
+    \end{pkt}
+    \begin{pkt}
+        \begin{align*}
+            T(\textbf{v}_1) &= \frac{i}{2}\begin{matrise}\sqrt{3}  \\ 1 \end{matrise}+\frac{1}{2}\begin{matrise}-1\\\sqrt{3}  \end{matrise}
+            \\&=\frac{1}{2}\begin{matrise}i\sqrt{3}-1  \\ 1+\sqrt{3} \end{matrise}\\
+            T(\textbf{v}_2) &= -\frac{i}{2}\begin{matrise}\sqrt{3}  \\ 1 \end{matrise}+\frac{1}{2}\begin{matrise}-1\\\sqrt{3}  \end{matrise}
+            \\&=\frac{1}{2}\begin{matrise}-i\sqrt{3}-1  \\ 1+\sqrt{3} \end{matrise}
+        \end{align*}
+        Det gir at standardmatrisen for $T$ med egenvektorene som basis er $\begin{matrise}[cc]
+        i\lambda_1 & -i\lambda_2 \\ 1\lambda_1 & 1\lambda_2 
+        \end{matrise} = [\lambda_1\textbf{v}_1, \, \lambda_2\textbf{v}_2] $.
+    \end{pkt}
+\end{oppgave}
+\end{document}
