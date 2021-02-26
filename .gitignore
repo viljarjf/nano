@@ -1,0 +1,6 @@
+﻿EXPH0300
+*.vscode
+TDT4102 C++/TDT4102_Windows(5)
+*debug/
+*release/
+*MakeFile
