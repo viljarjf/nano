@@ -17,13 +17,13 @@
 
 %\renewcommand{\vec}{\vv}
 \renewcommand{\vec}[1]{\mathbf{#1}}
-\newcommand{\E}{\ifmmode\vec{E}\else{$\vec{E}$ }\fi}
-\newcommand{\e}{\ifmmode\epsilon_0\else{$\epsilon_0$ }\fi}
-\newcommand{\p}{\ifmmode\vec{\underline{p}}\else{$\vec{\underline{p}}$ }\fi}
-\newcommand{\D}{\ifmmode\vec{D}\else{$\vec{D}$ }\fi}
-\renewcommand{\j}{\ifmmode\vec{j}\else{$\vec{j}$ }\fi}
+\newcommand{\E}{\ensuremath{\vec{E}}}
+\newcommand{\e}{\ensuremath{\epsilon_0}}
+\newcommand{\p}{\ensuremath{\vec{\underline{p}}}}
+\newcommand{\D}{\ensuremath{\vec{D}}}
+\renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\Epsilon}{\emf}
-\newcommand{\B}{\ifmmode\vec{B}\else{$\vec{B}$ }\fi}
+\newcommand{\B}{\ensuremath{\vec{B}}}
 
 \begin{document}
 
@@ -259,60 +259,62 @@
   
 \subsection{Current}
     Current is the amount of charges moving through a conductor during a time period. 
+    \subsubsection{Current density vector}
+        The amount charge moving through a surface $\Sigma$ during $\Delta t$ is given by
+        \begin{equation}
+            dq = nq\vec{v}\cdot \vec{u_r}\,\Sigma \,\Delta t
+        \end{equation}
+        where $n$ is the volume density of charged particles (unit \si{\per\metre\cubed}), and $q$ is the charge of each particle.
+        Therefore, the current is given by
+        \begin{equation}
+            dI = \frac{dq}{\Delta t} = nq\vec{v}\cdot\vec{u_n}\,d\Sigma = \j\cdot\vec{u_n}\,d\Sigma
+        \end{equation}
+        where the surface $d\Sigma$ goes towards zero, and $\j$ is the current density vector, i.e.
+        \begin{equation}
+            \j = nq\vec{v}.
+        \end{equation}
+        
+        Integrating over $\Sigma$ yields
+        \begin{equation}
+            I = \iint_\Sigma \j\cdot\vec{u_n}d\Sigma.
+        \end{equation}
+        Taking the divergence of $\j$, we get
+        \begin{equation}
+            \nabla \cdot \j = \frac{d\rho}{dt}
+        \end{equation}
+        where $\rho$ is the volume charge distribution.
+        In stationary conditions ($\j_{in} = \j_{out}$, this is equal to 0. 
     
-    The amount charge moving through a surface $\Sigma$ during $\Delta t$ is given by
-    \begin{equation}
-        dq = nq\vec{v}\cdot \vec{u_r}\,\Sigma \,\Delta t
-    \end{equation}
-    where $n$ is the volume density of charged particles (unit \si{\per\metre\cubed}), and $q$ is the charge of each particle.
-    Therefore, the current is given by
-    \begin{equation}
-        dI = \frac{dq}{\Delta t} = nq\vec{v}\cdot\vec{u_n}\,d\Sigma = \j\cdot\vec{u_n}\,d\Sigma
-    \end{equation}
-    where the surface $d\Sigma$ goes towards zero, and $\j$ is the current density vector. 
-    
-    Integrating over $\Sigma$ yields
-    \begin{equation}
-        I = \iint_\Sigma \j\cdot\vec{u_n}d\Sigma.
-    \end{equation}
-    Taking the divergence of $\j$, we get
-    \begin{equation}
-        \nabla \cdot \j = \frac{d\rho}{dt}
-    \end{equation}
-    where $\rho$ is the volume charge distribution.
-    In stationary conditions ($\j_{in} = \j_{out}$, this is equal to 0. 
-    
-    In an external field, charges propagate in a conductor with a \textit{drift velocity} of
-    \begin{equation}
-        \vec{v_d} = \frac{q\tau}{m}\,\E
-    \end{equation}
-    where $q$ is the charge of the charge, and $\tau$ is the mean time between collisions of the charges in the conductor, and $m$ is the mass of the charge.
-    
-    Therefore, $\j$ in a conductor in an external electric field is
-    \begin{equation}
-        \j = nq\vec{v} = \frac{nq^2\tau}{m}\,\E.
-    \end{equation}
-    We name this constant \textit{conductivity}: 
-    \begin{equation}
-        \sigma = \frac{nq^2\tau}{m},
-    \end{equation}
-    and the \textit{resistivity}:
-    \begin{equation}
-        \rho = \frac{1}{\sigma},
-    \end{equation}
-    where $n$ is the density of charges, $q$ is the charge of a single charge, $\tau$ is the mean time between the charges colliding in the conductor, and $m$ is the mass of each charge. 
-    
-    We have the relations 
-    \begin{align}
-        \vec{j} &= \sigma \vec{E} \\
-        \vec{E} &= \rho \vec{j}.
-    \end{align}
+        In an external field, charges propagate in a conductor with a \textit{drift velocity} of
+        \begin{equation}
+            \vec{v_d} = \frac{q\tau}{m}\,\E
+        \end{equation}
+        where $q$ is the charge of the charge, and $\tau$ is the mean time between collisions of the charges in the conductor, and $m$ is the mass of the charge.
+        
+        Therefore, $\j$ in a conductor in an external electric field is
+        \begin{equation}
+            \j = nq\vec{v} = \frac{nq^2\tau}{m}\,\E.
+        \end{equation}
+        We name this constant \textit{conductivity}: 
+        \begin{equation}
+            \sigma = \frac{nq^2\tau}{m},
+        \end{equation}
+        and the \textit{resistivity}:
+        \begin{equation}
+            \rho = \frac{1}{\sigma},
+        \end{equation}
+        where $n$ is the density of charges, $q$ is the charge of a single charge, $\tau$ is the mean time between the charges colliding in the conductor, and $m$ is the mass of each charge. 
+        
+        We have the relations 
+        \begin{align}
+            \j &= \sigma \E \\
+            \E &= \rho \j.
+        \end{align}
     \subsubsection{Ohm's law}
         It can be shown that 
         \begin{equation}
             \Delta V = \frac{Il\rho}{\Sigma} = IR,
         \end{equation}
-        where the final 
     
     \subsubsection{Resistance}
         The resistance of a conductor is given as
@@ -410,7 +412,7 @@
 
 \section{Magnetostatics}
     \subsection{Magnetic field}
-        In this course, we call the \B-field the \textit{magnetic field}. \B is measured in tesla (\si\tesla).
+        In this course, we call the \B-field the \textit{magnetic field}. \B{} is measured in tesla (\si\tesla).
         
         The magnetic field has no divergence, i.e.
         \begin{equation}
@@ -426,7 +428,8 @@
         \end{equation}
         where $m$ is the mass of the charge, $v$ is the velocity, $q$ is the charge, and $B$ is the magnitude of the uniform magnetic field.
         
-        This holds in general for the orthogonal component of the velocity, whereas the parallel component is unaffected by the presence of the magnetic field. Therefore, if the velocity is neither parallel nor orthogonal to the magnetic field, the resulting motion is a spiral with constant velocity, pitch and radius.
+        This holds in general for the orthogonal component of the velocity, whereas the parallel component is unaffected by the presence of the magnetic field. 
+        Therefore, if the velocity is neither parallel nor orthogonal to the magnetic field, the resulting motion is a spiral with constant velocity, pitch and radius.
         
     \subsection{Mass spectroscopy}
         One can find the ratio of charge per mass for ionised particles by accelerating them with a parallel plate capacitor before introducing a uniform magnetic field orthogonal to the direction of velocity. One can then measure the distance between the entry and exit points.
@@ -467,7 +470,93 @@
             \vec{\tau} &= \vec{p} \times \E
         \end{align*}
     
-    \begin{equation}
-        \E = \nabla \times \B
-    \end{equation}
+    \subsection{Currents as magnetic field sources}
+    
+        The \textit{first Laplace elementary law} states the following:
+        \begin{equation}
+            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{S}\times\vec{u}_r}{r^2},
+        \end{equation}
+        relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{S}$.
+        $\mu_0 = 4\pi\cdot 10^{-7}$\si{\henry\per\metre}  is the \textit{magnetic permeability}. 
+        The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
+
+        The first Laplace elementary law can be rewritten in terms of \j{} instead:
+        \begin{equation}
+            d\B = \frac{mu_0}{4\pi}\cdot \frac{\j\times\vec{u}_r}{r^2}\,d\tau,
+        \end{equation}
+        where one now integrates over the volume $d\tau$ rather than the length of the conductor.
+
+        If one considers a point charge with charge $q$ and velocity $\vec{v}$, the following equation describes the magnetic field:
+        \begin{equation}
+            \B = \frac{mu_0}{4\pi}\cdot q\frac{\vec{v}\times\vec{u}_r}{r^2}.
+        \end{equation}
+
+        This helps us relate the electric and magnetic field resulting from a point source to each other:
+        \begin{equation}
+            \B = \e \mu_0 \cdot\vec{v}\times\E,
+        \end{equation}
+        which holds for non-relativistic velocities. Intrestingly, we also get 
+        \begin{equation}
+            \e\mu_0 = \frac{1}{c^2},
+        \end{equation}
+        where $c = 299792458$ \si{\metre\per\second} is the speed of light in vacuum.
+
+    \subsection{Common examples of magnetic field sources}
+        \subsubsection{Straight linear conductor}
+            This relation is sometimes called the \textit{Biot-Savart law}.
+
+            Consider a point beside an infinite, straight conductive wire. Using the first Laplace elementary law, we get 
+            \begin{equation}
+                \B = \frac{\mu_0 I}{2\pi R}\,\vec{u}_\phi,
+            \end{equation}
+            where $R$ is the shortest distance to the conductor, and $\vec{u}_\phi$ is the  unit vector orthogonal to both $\vec{u}_r$ and the direction of current.
+            The sign is found by the right-hand rule, where the thumb should point along the current flow.
+            
+        \subsubsection{Closed circular loop}
+            For simplicities sake, consider a point \textit{along the axis} of a circular conductive wire with radius $R$, 
+            such that the distance along the axis to the point is $x$, and the distance from the point to the actual conductor is $r$ 
+            (this is constant regardless of where on the conductor this is measured, due to the symmetry).
+            The conductor has a current flowing through it, such that the positive $x$-direction follows the right-hand rule. 
+
+            The magnetic field is then given by
+            \begin{equation}
+                \B = \frac{\mu_0 I R^2}{2 \left(x^2 + R^2\right)^\frac{3}{2}}\,\vec{u}_x.
+            \end{equation}
+            Note that the field in the centre of the conductive loop is
+            \begin{equation}
+                \B = \frac{\mu_0 I}{2R}.
+            \end{equation}
+        
+        \subsubsection{Linear solenoid}
+            A solenoid is a stack of equidistant circular loops of conductive wire, each having the same dimensions and current. 
+            This configuration is impossible to achieve physically, but is closely approximated by a coil. 
+
+            Consider a point inside a solenoid with linear loop density $n$, radius $R$, and current $I$. 
+            The resulting magnetic field \textit{inside} the solenoid is given by
+            \begin{equation}
+                d\B = \frac{\mu_0 I n}{2}\sin\theta d\theta,
+            \end{equation}
+            where $\theta$ is the angle between the axis of the solenoid and the vector to each point on the solenoid along its axis.
+            Performing the integration yields
+            \begin{equation}
+                \B = \frac{\mu_0 In}{2}\left(\cos\theta_0 - \cos\theta_1\right),
+            \end{equation}
+            where the angles represent the angles from the axis to the first and last point of the solenoid, respectively. 
+
+            If the solenoid is infinite, we get
+            \begin{equation}
+                \B = \mu_0 In,
+            \end{equation}
+            which is usually used as an approximation inside finite solenoids as well.
+    
+    \subsection{Ampere's law}
+        Ampere's law describes how the sum of currents enclosed in a loop relates to the magnetic field: 
+        \begin{equation}
+            \oint_\mathcal{L}\B\cdot d\vec{l} = \mu_0 I_{enclosed},
+        \end{equation}
+        or, in differential form: 
+        \begin{equation}
+            \nabla\times\B = \mu_0\j
+        \end{equation}
+    
 \end{document}
