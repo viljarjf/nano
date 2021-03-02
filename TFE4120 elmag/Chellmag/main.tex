@@ -24,6 +24,7 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\Epsilon}{\emf}
 \newcommand{\B}{\ensuremath{\vec{B}}}
+\renewcommand{\H}{\ensuremath{\vec{H}}}
 
 \begin{document}
 
@@ -632,7 +633,7 @@
             \end{equation}
             where $\j_m$ is a surface density of magnetisation current. If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$. This does NOT imply $\j_{s, m} = 0$, since the latter is a linear density whereas $\j_m$ is a suface density.
 
-            The following table compares these results to Ampere's law for dielectrics.
+            The following table compares magnetisation to polatisation.
             \begin{center}
                 \begin{tabular}{ c|c } 
                 Magnetic & Dielectric \\
@@ -641,5 +642,28 @@
                  $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
                 \end{tabular}
             \end{center}
-        
+    \subsection{Magnetising field}
+        By a similar argument as with \D, combining the general Ampere's law with the one for magnetic materials, we get
+        \begin{equation*}
+            \oint_\mathcal{L}\left(\frac{\B}{\mu_0}-\vec{M}\right)d\vec{l} = I_{encl},
+        \end{equation*}
+        and as such we define the \textit{magnetising field} as 
+        \begin{equation}
+            \H = \frac{\B}{\mu_0}-\vec{M}.
+        \end{equation}
+        Note that the name of \H{} can vary in litterature; some call it the magnetic field (the name we gave \B), and some call it the magnetic field intensity or amplitude (names which might be interpreted as scalar fields).
+
+        \begin{equation}
+            \oint_\mathcal{L}\H = I_{encl},
+        \end{equation}
+        and 
+        \begin{equation}
+            \nabla\times\H = \j.
+        \end{equation}
+    \subsubsection{Continuity conditions}
+        It can be shown that:
+        \begin{itemize}
+            \item The normal component of the \B-field is conserved over an interface
+            \item The tangential component of the \H-field is conserved over an interface
+        \end{itemize}
 \end{document}
