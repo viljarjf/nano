@@ -1,28 +1,31 @@
-﻿EXPH0300
-*.vscode
-TDT4102 C++/TDT4102_Windows(5)
-*debug/
-*release/
-*MakeFile
+﻿# single files
 TDT4102 C++/TDT4102aud2(no)_56391916_1587561584716/TDT4102aud2(no)/informasjon.pdf
-*.pdf
-*.zip
-*.png
 TDT4110 ITGK/Øvinger/_Oving1.py
 TDT4110 ITGK/Øvinger/aefisjnte.py
 TDT4102 C++/Øvinger/øving 0/main.exe
 TDT4102 C++/Øvinger/øving 0/main.obj
 TFY4115 fysikk 1/Fysikklab.xlsx
-TFY4185*
-__pycache__
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.gz
 TKJ4215 statterm/m_AB.pkl
 TKJ4215 statterm/Stirlings.txt
+
+# filetypes
+*.pdf
+*.zip
+*.png
+*MakeFile
+*.synctex.gz
+
+# courses
+TFY4185*
 TFY4350*
-*.toc
-*.out
-*_temp.tex
+EXPH0300
+
+# folders
+*.vscode
+__pycache__
+*.build
+*debug/
+*release/
+TDT4102 C++/TDT4102_Windows(5)
+
+
