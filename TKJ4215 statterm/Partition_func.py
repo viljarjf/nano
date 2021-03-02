@@ -10,18 +10,17 @@ def Calculate_Q_exact(E, T):
 
 def Calculate_Q_approx(Number_of_particles, T):
     W = factorial(Number_of_particles)/(factorial(Number_of_particles//2))**2 #Should return the multiplicity of a system with N particle and N_A = N_B = N/2
-    return W*np.exp(-Number_of_particles / T)  #The function should return the Bragg-Williams approximated partition function
+    return W*exp(-Number_of_particles / T)  #The function should return the Bragg-Williams approximated partition function
 
 def Partition_function_plot(m_AB, Number_of_particles): #This is the plotting function. You do not need to do anything to this function.
     Temp = np.linspace(1,10,100)
     Q_exact_list = []
     Q_approx_list = []
     Q_ratio = []
-    E = [m_AB.count(i) for i in list(set(m_AB))]
-    print(E)
+
 
     for T in Temp:
-        Q_exact = Calculate_Q_exact(E, T)
+        Q_exact = Calculate_Q_exact(m_AB, T)
         Q_approx = Calculate_Q_approx(Number_of_particles, T)
         Q_exact_list.append(Q_exact)
         Q_approx_list.append(Q_approx)

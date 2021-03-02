@@ -27,10 +27,8 @@ def Count_AB(Lattice):
     m_AB = 0
     for y in range(Lattice.shape[0]):
         for x in range(Lattice.shape[1]):
-            if y != Lattice.shape[0]-1:
-                m_AB += 1 if Lattice[y+1, x] != Lattice[y, x] else 0
-            if x != Lattice.shape[1]-1:
-                m_AB += 1 if Lattice[y, x+1] != Lattice[y, x] else 0     
+                m_AB += 1 if Lattice[y-1, x] != Lattice[y, x] else 0
+                m_AB += 1 if Lattice[y, x-1] != Lattice[y, x] else 0     
     return m_AB
 
 
