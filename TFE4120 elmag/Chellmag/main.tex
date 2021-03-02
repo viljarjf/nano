@@ -24,7 +24,6 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\Epsilon}{\emf}
 \newcommand{\B}{\ensuremath{\vec{B}}}
-\renewcommand{\nabla}{\text{aruran}}
 
 \begin{document}
 
@@ -220,8 +219,10 @@
     The following table compares $\D$ and $\p$:
     \begin{center}
         \begin{tabular}{ c|c } 
-         $\nabla \cdot \p = -\rho_{pol}$ & $\p \cdot \vec{u_n} = \sigma_p$ \\[6px] 
-         $\nabla \cdot \D = \rho_{free}$ & $\D \cdot \vec{u_n} = \sigma_o$
+        Polarisation & Displacement \\
+        \hline
+         $\nabla \cdot \p = -\rho_{pol}$ & $\nabla \cdot \D = \rho_{free}$ \\[6px] 
+         $\p \cdot \vec{u_n} = \sigma_p$ & $\D \cdot \vec{u_n} = \sigma_o$
         \end{tabular}
     \end{center}
     \subsubsection{Continuity conditions at interfaces}
@@ -595,4 +596,50 @@
             \begin{equation}
                 M_{2,1} = M_{1,2}.
             \end{equation}
+    \subsection{Theory behind magnetic materials}
+        By waving our hands, we realise that atoms behave as tiny current loops, and they therefore have magnetic dipole momentum.
+        However, 
+        \begin{equation*}
+            \left<\vec{m}\right> = 0
+        \end{equation*}
+        in most materials, since each $\vec{m}$ point in a random direction. 
+        \subsubsection{Magnetisation vector}
+            We define the \textit{magnetisation vector} as follows:
+            \begin{equation}
+                \vec{M} = n\left<\vec{m}\right>
+            \end{equation}
+            where $n$ is the volume density of current loops, and $\vec{m}$ is the magnetic dipole momentum of the loops. Note the similarity to the polarisation vector $\p$.
+
+            If many $\vec{m}$ are oriented in the same direction on a disc, there will appear to be a current $I_mag$ along the perimiter of the disc. This is not an actual current, since there are no charges moving along the perimiter.
+            Taking an infinitesimally thick disc, we have 
+            \begin{equation}
+                \j_{s, m} = \vec{M}\times\vec{u}_n,
+            \end{equation}
+            where $\j_{s, m}$ is the current density on the \textbf{s}urface (perimiter, the disc has no surface area on its edge due to beind infinitely thin) resulting from the \textbf{m}agnets, and $\vec{u}_n$ is the unit vector orthogonal to the perimiter of the disc. 
+
+            Generalising the disc to a cylinder with length $l$, we have the relation
+            \begin{equation}
+                I_{mag} = Ml = j_{s, m}l,
+            \end{equation}
+            a result of Ampere's law for magnetic materials given a uniform $\vec{M}$.
+        \subsubsection{Ampere's law for magnetic materials}
+            \begin{equation}
+                \oint_\mathcal{L}\vec{M}\cdot d\vec{l} = I_{mag},
+            \end{equation}
+            where $\mathcal{L}$ is an arbitrary closed path encompassing $I_{mag}$ magnetisation current. Rewriting to a differential form yields
+            \begin{equation}
+                \nabla \times \vec{M} = \j_m,
+            \end{equation}
+            where $\j_m$ is a surface density of magnetisation current. If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$. This does NOT imply $\j_{s, m} = 0$, since the latter is a linear density whereas $\j_m$ is a suface density.
+
+            The following table compares these results to Ampere's law for dielectrics.
+            \begin{center}
+                \begin{tabular}{ c|c } 
+                Magnetic & Dielectric \\
+                \hline
+                 $\vec{M}\times\vec{u}_n = \j_{s, m}$ & $\p \cdot \vec{u_n} = \sigma_p$ \\[6px] 
+                 $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
+                \end{tabular}
+            \end{center}
+        
 \end{document}
