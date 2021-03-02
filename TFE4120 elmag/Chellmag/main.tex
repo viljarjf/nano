@@ -24,6 +24,7 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\Epsilon}{\emf}
 \newcommand{\B}{\ensuremath{\vec{B}}}
+\renewcommand{\nabla}{\text{aruran}}
 
 \begin{document}
 
@@ -559,4 +560,39 @@
             \nabla\times\B = \mu_0\j
         \end{equation}
     
+    \subsection{Magnetic interactions between circuits}
+        \subsubsection{Force}
+            It can be shown that the force acting upon a circuit $C_2$ from circuit $C_1$ is given by
+            \begin{equation}
+                \vec{F}_{2,1} = \frac{\mu_0}{4\pi}\cdot I_1 I_2 \cdot G_{2,1},
+            \end{equation}
+            where $I_i$ is the current in circuit $i$, and where 
+            \begin{equation}
+                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{S_2}\times\left(d\vec{S_1} \times \vec{u}_r\right).
+            \end{equation}
+            $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
+            This coefficient is not named in the lectures, and neither the shorthand notation of $G$.
+            $r$ is the pointwise distance between the circuits. By Newton's third law of motion, $F_{2,1} = -F_{1,2}$, and as such $G_{2,1} = - G_{1,2}$.
+
+            A simple example would be two parallel infinite wires with currents $I_1$ and $I_2$, separated by a distance $r$. The linear force density is then
+            \begin{equation}
+                f = \frac{\mu_0 I_1 I_2}{2\pi r}.
+            \end{equation}
+            Note that $f$ is not a force, but a linear force density, an as such is measured in \si{\newton\per\metre}. The total force between infinite wires would be infinite, and therefore uninteresting.
+        \subsubsection{Magnetic flux}
+            The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
+            \begin{equation}
+                \Phi_{2,1} = I_1 \cdot M_{2,1},
+            \end{equation}
+            where $M_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
+            \begin{equation}
+                M_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{S_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
+            \end{equation}
+            where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
+            (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $M$, as it is a constant and not relevant for the geometry.)
+
+            It can be shown that 
+            \begin{equation}
+                M_{2,1} = M_{1,2}.
+            \end{equation}
 \end{document}
