@@ -671,11 +671,11 @@
         \subsubsection{Paramagnetic materials}
             Examples: Al, Pt, W, Ti.
 
-            $\left<p\right>=0$ if $\B_ext = 0$. Else, 
+            $\left<m\right>=0$ if $\B_{\text{ext}} = 0$. Else, 
             \begin{equation}
                 \vec{M} = \chi_m\H,
             \end{equation}
-            where $\chi_m$ is the magnetic suceptability of the material. It usually ranges around $10^{-6}$ to $10^{-3}$, and is always positive (since $vec{M} || \H$).
+            where $\chi_m$ is the magnetic suceptability of the material. It usually ranges around $10^{-6}$ to $10^{-3}$, and is always positive (since $\vec{M} || \H$).
 
             Curie's law states that 
             \begin{equation}
@@ -683,13 +683,13 @@
             \end{equation}
             where $C$ is a material-dependent constant. Note that this makes $\vec{M}$ larger for lower temperatures.
         \subsubsection{Diamagnetic materials}
-            Examples: $\text{H}_2$, $\text{N}_2$, Na, Cu, Hg. 
+            Examples: $\text{H}_2$, $\text{N}_2$, Na, Cu, Hg. The common trait is an unpaired electron in the molecular orbitals.
             
             These materials do NOT have a microscopic dipole momentum $\vec{m}$. Still, since electrons are moving, an external magnetic field will affect the material similarly to paramagnetic materials:
             \begin{equation}
                 \vec{M} = \chi_m\H,
             \end{equation}
-            where the magnetic suceptability $\chi_m$ ranges from around $10^{-9}$ to $10^{-5}$. For diamagnetic materials, $\chi_m < 0$ and $\vec{M}$ is antiparallel to \H.
+            where the magnetic suceptability $\chi_m$ ranges from around $10^{-9}$ to $10^{-5}$. For diamagnetic materials, $\chi_m < 0$ and $\vec{M}$ is antiparallel to \H. This effect is present in ALL materials (as all materials have moving electrons), but is usually negligable.
         
         For both para- and diamagnetic materials, we can write
         \begin{equation}
@@ -698,7 +698,12 @@
         where $\mu_r = 1+\chi_m$ is the relative magnetic permeability of the material.
         
         \subsubsection{Ferromagnetic materials}
+            In ferromagnetic materials, each grain in the crystal has aligned $\vec{m}$ separately. In an external \B-field, more and more grains align. 
+            Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H is NOT linear.
 
-            
+            If the applied \H{} is increased, $\vec{M}$ will eventually reach \textit{saturation magnetisation}. 
+            If \H{} is then decreased to zero, there will still be a \textit{residual magnetisation} $\vec{M} > 0$. 
+            Similarly and equivalently for continuing the reduction of \H{} into high negative values, a saturation magnetisation of equal magnitude as before will be reached.
+
 
 \end{document}
