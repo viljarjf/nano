@@ -25,6 +25,7 @@
 \newcommand{\Epsilon}{\emf}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
+\renewcommand{\nabla}{\text{aruran}}
 
 \begin{document}
 
@@ -668,5 +669,36 @@
             \end{itemize}
     \subsection{Real magnetic materials}
         \subsubsection{Paramagnetic materials}
-            blablabla
+            Examples: Al, Pt, W, Ti.
+
+            $\left<p\right>=0$ if $\B_ext = 0$. Else, 
+            \begin{equation}
+                \vec{M} = \chi_m\H,
+            \end{equation}
+            where $\chi_m$ is the magnetic suceptability of the material. It usually ranges around $10^{-6}$ to $10^{-3}$, and is always positive (since $vec{M} || \H$).
+
+            Curie's law states that 
+            \begin{equation}
+                \chi_m = \frac{C}{T}, 
+            \end{equation}
+            where $C$ is a material-dependent constant. Note that this makes $\vec{M}$ larger for lower temperatures.
+        \subsubsection{Diamagnetic materials}
+            Examples: $\text{H}_2$, $\text{N}_2$, Na, Cu, Hg. 
+            
+            These materials do NOT have a microscopic dipole momentum $\vec{m}$. Still, since electrons are moving, an external magnetic field will affect the material similarly to paramagnetic materials:
+            \begin{equation}
+                \vec{M} = \chi_m\H,
+            \end{equation}
+            where the magnetic suceptability $\chi_m$ ranges from around $10^{-9}$ to $10^{-5}$. For diamagnetic materials, $\chi_m < 0$ and $\vec{M}$ is antiparallel to \H.
+        
+        For both para- and diamagnetic materials, we can write
+        \begin{equation}
+            \B = \mu_0 \mu_r \H,
+        \end{equation}
+        where $\mu_r = 1+\chi_m$ is the relative magnetic permeability of the material.
+        
+        \subsubsection{Ferromagnetic materials}
+
+            
+
 \end{document}
