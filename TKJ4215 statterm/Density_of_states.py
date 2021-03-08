@@ -1,6 +1,4 @@
-from ast import Num
 import numpy as np
-import itertools as it
 import matplotlib.pyplot as plt
 import pickle, time
 from numba import jit
@@ -60,9 +58,9 @@ def Create_arrays_and_count(Number_of_particles):
             m_AB.append(e) # skip checking !config (the logical not of config)
     return m_AB
 
-
+Count_AB(np.array([[1,1,],[0,0]])) # compile the function
 s = time.time()
-for i in [30]: #You will be calculating the density of states for the given system size
+for i in [4, 6, 8, 12, 16, 20, 24]: #You will be calculating the density of states for the given system size
     m_AB = Create_arrays_and_count(i) #Call the correct function to create a list of all possible configuration AB-interactions
     Available_microstates = list(set(m_AB)) #Finds all uniqe macrostates
     Available_microstates.sort() #Sorts this list in ascending order, for plotting purposes.
