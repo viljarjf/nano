@@ -22,10 +22,9 @@
 \newcommand{\p}{\ensuremath{\vec{\underline{p}}}}
 \newcommand{\D}{\ensuremath{\vec{D}}}
 \renewcommand{\j}{\ensuremath{\vec{j}}}
-\newcommand{\Epsilon}{\emf}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
-\renewcommand{\nabla}{\text{aruran}}
+%\renewcommand{\nabla}{\text{aruran}}
 
 \begin{document}
 
@@ -51,12 +50,14 @@ The lectures and my notes are both in english, and as such this document will al
     \begin{equation}
         \vec{F} = \frac{qq'}{4\pi\e r^2}\vec{u_r},
     \end{equation}
-    where \e is the vacuum permitivity constant, and $\vec{u_r}$ is a unit vector pointing from $q$ to $q'$. In SI units, $\e \approx \SI{8.854e-12}{\farad \per \metre}$.
+    where \e is the vacuum permitivity constant, and $\vec{u_r}$ is a unit vector pointing from $q$ to $q'$. 
+    In SI units, $\e \approx \SI{8.854e-12}{\farad \per \metre}$.
     We define the electrical field experienced by a charge $q'$ resulting from the charge $q$ at a distance $r$ as follows:
     \begin{equation}
         \E = \frac{\vec{F}}{q'} = \frac{q}{4\pi\e r^2}\vec{u_r}.
     \end{equation}
-    From the definition of $\vec{u_r}$'s direction, note that, for positive $q$, \E points \textit{away} from the source, and opposite for negative $q$.
+    From the definition of $\vec{u_r}$'s direction, note that, for positive $q$, 
+    \E{} points \textit{away} from the source, and opposite for negative $q$.
     
     For multiple charges, the superposition principle applies, i.e. 
     \begin{equation}
@@ -94,19 +95,23 @@ The lectures and my notes are both in english, and as such this document will al
     for any line $\mathcal{L}$ connecting point $A$ to $B$.
 
 \subsection{Electric dipoles}
-    An electric dipole consists of two charges of equal magnitude $q$ but opposite sign, separated by a distance $a$. We define the polarisation vector as follows: 
+    An electric dipole consists of two charges of equal magnitude $q$ but opposite sign, separated by a distance $a$. 
+    We define the polarisation vector as follows: 
     \begin{equation}
         \vec{p} = q\vec{a},
     \end{equation}
     where $\vec{a}$ is the vector from the negative  to the positive charge. 
     
-    In most cases, the distances $r_1$ and $r_2$ to each of the charges are much larger than $a$. Therefore, for a point $P$, the potential is given as 
+    In most cases, the distances $r_1$ and $r_2$ to each of the charges are much larger than $a$. 
+    Therefore, for a point $P$, the potential is given as 
     \begin{equation}
-        V(P) = \frac{q}{4\pi\e}\left( \frac{1}{r_1}-\frac{1}{r_2}\right) \approx \frac{q}{4\pi\e}\left(\frac{a\cos\theta}{r^2}\right),
+        V(P) = \frac{q}{4\pi\e}\left( \frac{1}{r_1}-\frac{1}{r_2}\right) \approx 
+        \frac{q}{4\pi\e}\left(\frac{a\cos\theta}{r^2}\right),
     \end{equation}
     where $r \approx r_1 \approx r_2$ is the distance from $P$ to the dipole, and $\theta$ is the angle between $\vec{p}$ and $u_r$ 
     (the unit vector pointing from the middle of the dipole towards $P$). 
-    If we define a coordinate system such that $\vec{p}$ lies on the $z$-axis, with the centre of the dipole at the origin, then this can be further simplified to
+    If we define a coordinate system such that $\vec{p}$ lies on the $z$-axis, 
+    with the centre of the dipole at the origin, then this can be further simplified to
     \begin{equation}
         \frac{\vec{p}\cdot \vec{u_r}}{4\pi\e r^2} = \frac{pz}{4\pi\e r^2},
     \end{equation}
@@ -114,7 +119,8 @@ The lectures and my notes are both in english, and as such this document will al
     
     The electric field produced by the dipole is then found by $\E = -\nabla V$:
     \begin{equation}
-        \E(x, y, z) = \frac{3p}{4\pi\e r^3}\left(\frac{zx}{r^2}\,\vec{u_x} + \frac{zy}{r^2}\,\vec{u_y} + \left( -\frac{1}{3} +\cos^2\theta\right)\,\vec{u_z}\right).
+        \E(x, y, z) = \frac{3p}{4\pi\e r^3}\left(\frac{zx}{r^2}\,\vec{u_x} + 
+        \frac{zy}{r^2}\,\vec{u_y} + \left( -\frac{1}{3} +\cos^2\theta\right)\,\vec{u_z}\right).
     \end{equation}
     Spherical coordinates are prettier: 
     \begin{equation}
@@ -172,9 +178,9 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{equation*}
             q = \iiint_\tau \rho d\tau = \rho4\pi R'^3,
         \end{equation*}
-        Where $R' = min(r, R)$. Combining the two yields
+        Where $R' = \text{min}(r, R)$. Combining the two yields
         \begin{equation}
-            \E = \frac{\rho min(r, R)^3}{3r^2\e}\,\vec{u_r}.
+            \E = \frac{\rho \text{min}(r, R)^3}{3r^2\e}\,\vec{u_r}.
         \end{equation}
         For $r < R$, this simplifies to
         \begin{equation}
@@ -268,11 +274,11 @@ The lectures and my notes are both in english, and as such this document will al
     
     Since $\Sigma h$ represent a volume, we define a density of energy: 
     \begin{equation}
-        \mu_e = \frac{1}{2}\e E^2, 
+        u_e = \frac{1}{2}\e E^2, 
     \end{equation}
     such that 
     \begin{equation}
-        U_e = \iiint_\tau \mu_e d\tau
+        U_e = \iiint_\tau u_e d\tau
     \end{equation}
     
 \subsection{Conductors}
@@ -382,9 +388,9 @@ The lectures and my notes are both in english, and as such this document will al
     \subsubsection{Generators}
         Let $\E^*$ be the electric field responsible for the potential difference between the poles of a voltage source, such that
         \begin{equation}
-            \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{circuit}\cdot \vec{dl} + \int_-^+(\E_{circuit} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \Epsilon
+            \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{circuit}\cdot \vec{dl} + \int_-^+(\E_{circuit} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \emf
         \end{equation}
-        where $\Epsilon$ is the \textit{electromotive force} (NOT a force, $\left[\Epsilon\right]$ = \si\volt)
+        where $\emf$ is the \textit{electromotive force} (NOT a force, $\left[\emf\right]$ = \si\volt)
         
         Real voltage sources have an internal resistance:
         \begin{equation}
@@ -400,9 +406,9 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         in a node.
         \begin{equation}
-            \sum_i R_iI_i = \sum_i \Epsilon_i
+            \sum_i R_iI_i = \sum_i \emf_i
         \end{equation}
-        in a mesh, where $\Epsilon$ are voltage sources. 
+        in a mesh, where $\emf$ are voltage sources. 
 
     \subsection{Capacitors}
     A capacitor is a configuration of two conductors resulting in total electrostatic induction. 
@@ -458,18 +464,18 @@ The lectures and my notes are both in english, and as such this document will al
         then the cylindrical capacitor is locally approximated by a parallel plate capacitor.
 
     \subsubsection{Charging and discarging}
-        If an ideal (internal resistance $r=0$) voltage source $\Epsilon$ is coupled in series with a resistor $R$ 
+        If an ideal (internal resistance $r=0$) voltage source $\emf$ is coupled in series with a resistor $R$ 
         and a capacitor $C$, where the capacitor charge is denoted $q$, then we get the following differential equation: 
         \begin{equation}
-            R\frac{dq}{dt} = \Epsilon - \frac{q}{C},
+            R\frac{dq}{dt} = \emf - \frac{q}{C},
         \end{equation}
         which is solved by
         \begin{equation}
-            q(t) = \Epsilon C \left(1-\exp{\frac{-t}{RC}}\right).
+            q(t) = \emf C \left(1-\exp{\frac{-t}{RC}}\right).
         \end{equation}
         The energy stored in the capacitor is 
         \begin{equation}
-            W_C = \frac{1}{2}C\Epsilon^2,
+            W_C = \frac{1}{2}C\emf^2,
         \end{equation}
         whereas the total energy "spent" by the circuit is \textit{twice as much}.
 
@@ -534,7 +540,7 @@ The lectures and my notes are both in english, and as such this document will al
         Where $\vec{u_n}$ is found by applying the right-hand-rule to the current circulation. 
         We define the \textit{magnetic dipole moment} as
         \begin{equation}
-            \vec{m} = I\sigma\vec{u_n}.
+            \vec{m} = I\Sigma\vec{u_n}.
         \end{equation}
         The magnetic dipole moment is analogous to the electric dipole moment: 
         \begin{align*}
@@ -546,22 +552,22 @@ The lectures and my notes are both in english, and as such this document will al
     
         The \textit{first Laplace elementary law} states the following:
         \begin{equation}
-            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{S}\times\vec{u}_r}{r^2},
+            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\vec{u}_r}{r^2},
         \end{equation}
-        relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{S}$.
+        relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
         $\mu_0 = 1.257\cdot 10^{-7}$\si{\henry\per\metre}(redefined in 2019, no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
         The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
 
         The first Laplace elementary law can be rewritten in terms of \j{} instead:
         \begin{equation}
-            d\B = \frac{mu_0}{4\pi}\cdot \frac{\j\times\vec{u}_r}{r^2}\,d\tau,
+            d\B = \frac{\mu_0}{4\pi}\cdot \frac{\j\times\vec{u}_r}{r^2}\,d\tau,
         \end{equation}
         where one now integrates over the volume $d\tau$ rather than the length of the conductor.
 
         If one considers a point charge with charge $q$ and velocity $\vec{v}$, 
         the following equation describes the magnetic field:
         \begin{equation}
-            \B = \frac{mu_0}{4\pi}\cdot q\frac{\vec{v}\times\vec{u}_r}{r^2}.
+            \B = \frac{\mu_0}{4\pi}\cdot q\frac{\vec{v}\times\vec{u}_r}{r^2}.
         \end{equation}
 
         This helps us relate the electric and magnetic field resulting from a point source to each other:
@@ -642,7 +648,7 @@ The lectures and my notes are both in english, and as such this document will al
             \end{equation}
             where $I_i$ is the current in circuit $i$, and where 
             \begin{equation}
-                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{S_2}\times\left(d\vec{S_1} \times \vec{u}_r\right).
+                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \vec{u}_r\right).
             \end{equation}
             $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
             This coefficient is not named in the lectures, and neither the shorthand notation of $G$.
@@ -664,7 +670,7 @@ The lectures and my notes are both in english, and as such this document will al
             \end{equation}
             where $M_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
             \begin{equation}
-                M_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{S_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
+                M_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
             \end{equation}
             where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
             (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $M$, as it is a constant and not relevant for the geometry.)
@@ -796,12 +802,83 @@ The lectures and my notes are both in english, and as such this document will al
         \subsubsection{Ferromagnetic materials}
             In ferromagnetic materials, each grain in the crystal has aligned $\vec{m}$ separately. 
             In an external \B-field, more and more grains align. 
-            Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H is NOT linear.
+            Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H{} is NOT linear.
 
             If the applied \H{} is increased, $\vec{M}$ will eventually reach \textit{saturation magnetisation}. 
             If \H{} is then decreased to zero, there will still be a \textit{residual magnetisation} $\vec{M} > 0$. 
             Similarly and equivalently for continuing the reduction of \H{} into high negative values, 
             a saturation magnetisation of equal magnitude as before will be reached.
 
+        
+\section{Time-variant fields}
+    \subsection{Magnetic field}
+        A concuctive mesh with resistance $R$ will, in the presence of an external magnetic field \B, 
+        have an induced current $I_i$ such that
+        \begin{equation}
+            \emf_\text{i} = RI_\text{i} = -\frac{\partial \Phi(\B)}{\partial t},
+        \end{equation}
+        where $\emf_\text{i}$ is the induced electromotive force, and $\Phi(\B)$ is the flux of \B{} through the mesh. 
+        Any change in the flux will result in an induced current, 
+        be it by rotating or stretching the mesh (changing the projected area),
+        moving the mesh or source, or change the field intensity (if the source has such properties).
 
+        Since an $\emf$ must be accompanied by an electric field, 
+        there will be an induced electric field $\E_\text{i}$ such that
+        \begin{equation}
+            \oint_\mathcal{L}\E_\text{i}\cdot d\vec{l} = -\frac{\partial \Phi(\B)}{\partial t},
+        \end{equation}
+        valid for \textit{any} line $\mathcal{L}$, regardless of path or medium. 
+        Therefore, this field is present in vacuum and requires no conductors.
+
+        Note that $\E_\text{i}$ is NOT conservative in general. The differential form of the equation is
+        \begin{equation}
+            \nabla \times \E_\text{i} = -\frac{\partial \Phi(\B)}{\partial t}.
+        \end{equation}
+        Note that this also holds in general, since $\nabla\times\E = 0$ for an electrostatic field \E.
+    \subsection{Examples of magnetically induced current}
+        \subsubsection{Rod on a rail}
+            Two conductive parallel rails, seperated by a distance $b$ and connected with a resistor $R$, stretch infinitley long, 
+            and is immersed in a static and uniform \B-field (i.e. constant in time and space). 
+            A conductive rod with resistance $r$ is placed between the rods at a distance $x_0$ from the resistor, 
+            connecting the rods and forming a mesh. The rod is then given a velocity $v$ along the rails, away from the resistor.
+            \B{} points parallel to the normal vector of the mesh. We assume zero friction. 
+            The flux of the magnetic field through the mesh is given by
+            \begin{equation}
+                \Phi(\B)(t) = Bb(vt+x_0) \rightarrow -\frac{\partial \Phi(\B)}{\partial t} = -Bbv.
+            \end{equation}
+            Therefore, the induced current in the mesh is
+            \begin{equation}
+                I_\text{i} = -\frac{Bbv}{R+r}.
+            \end{equation}
+            Since all the values are positive, the minus sign dictates the direction of the current. Applying the right hand rule,
+            the thumb should therefore point antiparallel to \B{}. 
+            (More rigorously, the flux was calculated with the assumption of a surface normal parallel to \B. 
+            The minus sign therefore flips the direction of current.)
+
+            This induced current creates an opposing force (opposite direction of $v$): 
+            \begin{equation}
+                \vec{F}_\text{i} = -\frac{B^2b^2}{R+r}\vec{v}.
+            \end{equation}
+            It is clear that, if no external force is applied, the rod will stop moving.
+
+        \subsubsection{Rotating mesh}
+            A rectangular mesh (resistance $R$) with area $\Sigma$ rotates along an axis along its surface with angular velocity $\omega$. 
+            It is immersed in a static, uniform \B-field (i.e. constant in time and space).
+            We get 
+            \begin{align}
+                \Phi(\B)(t) &= B\Sigma\cos (\omega t), \\
+                \emf_\text{i} &= \omega\Sigma B \sin (\omega t).
+            \end{align}
+            The instantaneous and average dissapated power is 
+            \begin{align}
+                P_\text{i} &= \frac{\omega^2 B^2 \Sigma^2}{R}\sin^2(\omega t),\\
+                \left<P_\text{i}\right> &= \frac{1}{T}\int_0^T P_\text{i}dt = \frac{\omega^2 B^2 \Sigma^2}{2R},
+            \end{align}
+            where $T = \frac{2\pi}{\omega}$ is the period of a turn.
+            Since power is dissapated, a torque is required to keep the mesh spinning: 
+            \begin{equation}
+                \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 \Sigma^2}{R}\sin^2(\omega t).
+            \end{equation}
+        
+        
 \end{document}
