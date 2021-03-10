@@ -24,6 +24,7 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
+
 %\renewcommand{\nabla}{\text{aruran}}
 
 \begin{document}
@@ -663,21 +664,21 @@ The lectures and my notes are both in english, and as such this document will al
             Note that $f$ is not a force, but a linear force density, an as such is measured in \si{\newton\per\metre}. 
             The total force between infinite wires would be infinite, and therefore uninteresting.
 
-        \subsubsection{Magnetic flux}
+        \subsubsection{Magnetic flux} \label{Magnetic flux}
             The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
             \begin{equation}
-                \Phi_{2,1} = I_1 \cdot M_{2,1},
+                \Phi_{2,1} = I_1 \cdot L_{2,1},
             \end{equation}
-            where $M_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
+            where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
             \begin{equation}
-                M_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
+                L_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
             \end{equation}
             where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
-            (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $M$, as it is a constant and not relevant for the geometry.)
+            (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $L$, as it is a constant and not relevant for the geometry.)
 
             It can be shown that 
             \begin{equation}
-                M_{2,1} = M_{1,2}.
+                L_{2,1} = L_{1,2}.
             \end{equation}
 
     \subsection{Theory behind magnetic materials}
@@ -697,7 +698,7 @@ The lectures and my notes are both in english, and as such this document will al
             Note the similarity to the polarisation vector $\p$.
 
             If many $\vec{m}$ are oriented in the same direction on a disc, 
-            there will appear to be a current $I_mag$ along the perimiter of the disc. 
+            there will appear to be a current $I_{mag}$ along the perimiter of the disc. 
             This is not an actual current, since there are no charges moving along the perimiter.
             Taking an infinitesimally thick disc, we have 
             \begin{equation}
@@ -811,7 +812,7 @@ The lectures and my notes are both in english, and as such this document will al
 
         
 \section{Time-variant fields}
-    \subsection{Magnetic field}
+    \subsection{Time-varying magnetic field}
         A concuctive mesh with resistance $R$ will, in the presence of an external magnetic field \B, 
         have an induced current $I_i$ such that
         \begin{equation}
@@ -880,5 +881,42 @@ The lectures and my notes are both in english, and as such this document will al
                 \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 \Sigma^2}{R}\sin^2(\omega t).
             \end{equation}
         
-        
+    \subsection{Induction}
+        \subsubsection{Self-induction}
+            A circuit with current induces a magnetic field. 
+            If the current varies, then the flux of the induced magnetic field through the circuit also varies. 
+            We get
+            \begin{equation}
+                \frac{\partial \Phi(\B)}{\partial t} = L_{1,1}\frac{\partial I}{\partial t} = -\emf_{\text{i}},
+            \end{equation}
+            where $L_{1,1}$ is the \textit{coefficient of self-inductance}. (see \ref{Magnetic flux} for mutual inductance)
+            
+        \subsubsection{RL-circuits}
+            The simplest RL-circuits consist of a source $\emf$, a resistor $R$, and a coil (solenoid) $L$.
+            Here, we add a switch as well.
+
+            Applying Kirchoff's first law, we arrive at the differential equation
+            \begin{equation}
+                \emf - RI = L_{1,1}\frac{\partial I}{\partial t},
+            \end{equation}
+            where $A$ is an integration constant and is decided by the initial conditions.
+
+            With initial conditions $t=0,\, I=0$, we get 
+            \begin{equation}
+                I(t) = \frac{\emf}{R}\left(1-e^{\frac{-L}{R}t}\right),
+            \end{equation}
+            i.e. closing the switch at t=0 results in an inverse exponential increase in current 
+            with an upper bound of $\frac{\emf}{R}$, i.e. conductor-like behaviour for $L$.
+
+            Consider initial conditions $t=0\, I = \frac{\emf}{R}$, i.e. we open the switch at $t=0$.
+            We now consider the switch as a resistor with $R' >> R$, since a spark will still allow current for a while.
+            \begin{equation}
+                I(t) = \frac{\emf}{R'}\left(1-e^{\frac{-L}{R+R'}t}\right) + \frac{\emf}{R} e^{\frac{-L}{R+R'}t},
+            \end{equation}
+            which is closely approximated (since $R+R' \approx R'$ and $R'^{-1} \approx 0$) by
+            \begin{equation}
+                I(t) \approx \frac{\emf}{R}e^{\frac{-L}{R'}t}.
+            \end{equation}
+            The resulting behaviour of the coil is then to keep the current flowing for a while, but the decay is exponential.
+            
 \end{document}
