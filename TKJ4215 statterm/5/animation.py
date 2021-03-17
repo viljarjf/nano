@@ -6,72 +6,6 @@ from matplotlib import animation
 from typing import List
 from scipy.optimize import fsolve
 from mpl_toolkits.mplot3d import Axes3D
-
-
-class Particle:
-    def __init__(self, x: float, y: float, z: float) -> None:
-        self.x = x
-        self.y = y
-        self.z = z
-    
-    def __str__(self):
-        return f"{self.x}, {self.y}, {self.z}"
-
-
-class System:
-
-    def __init__(self, particles: List[Particle], sigma: float, epsilon: float) -> None:
-        self.particles = particles
-
-        tmp = np.array([[p.x, p.y, p.z] for p in self.particles])
-        self.x = tmp[:,0]
-        self.y = tmp[:,1]
-        self.z = tmp[:,2]
-
-        self.n = len(particles)
-        self.s = sigma
-        self.e = epsilon
-        self.max_r = 3 # tested with eps = sig = 1
-
-    def generate_forces(self) -> np.array:
-        """Generate a list of force vectors corresponding to the particles in the system
-
-        Returns:
-            np.array: list of forces, (x, y, z)
-        """
-        #@numba.jit(nopython = True)
-        def get_r_arr(n, x, y, z) -> np.array:
-            """generate r matrix. 
-            first index: particle index 
-            second index: distance to particle at corresponding index
-
-            Returns:
-                np.array: shape (n x n), for n particles
-            """
-            r = np.zeros((n, n))
-            for i in range(n):
-                r[:, i] = ((x - x[i])**2 + (y - y[i])**2 + (y - y[i])**2)**0.5
-                r[i, i] = np.nan
-            return r
-        
-        #@numba.jit(nopython = True)
-        def _generate(_n, _x, _y, _z, _e, _s, _max_r):
-            f = np.zeros((3, _n, _n))
-            for i in range(_n):
-                f[:, i, :] = [
-                    6*(_s/ (_x[i] - _x))**7 - 12*(_s / (_x[i] - _x))**13,
-                    6*(_s/ (_y[i] - _y))**7 - 12*(_s / (_y[i] - _y))**13,
-                    6*(_s/ (_z[i] - _z))**7 - 12*(_s / (_z[i] - _z))**13
-                ]
-                f *= 4*_e
-            r = get_r_arr(_n, _x, _y, _z)
-            #print(r)
-            #print(f)
-            f[:, (r>_max_r)&np.isnan(r)] *= 0
-            f[np.isnan(f)] = 0
-            return np.sum(f, axis = 1), r
-        
-        return _generate(self.n, self.x, self.y, self.z, self.e, self.s, self.max_r)
                 
 
 class RungeKutta:
@@ -120,19 +54,6 @@ class RungeKutta:
         x_next = xn + h
         return x_next, y_next
 
-class RungeKutta_pair:
-    def __init__(self, c, a, b_1, b_2, p, is_explicit):
-        self.rk2 = RungeKutta(c, a, b_2, is_explicit = is_explicit)
-        self.b1 = b_1
-        self.b2 = b_2
-        self.p = p
-
-    def __call__(self, f, xn, yn, h):
-        x_next, y_next = self.rk2(f, xn, yn, h)
-        error_estimate = h*np.sum([(self.b2[i]-self.b1[i])*self.rk2.prev_k[i] for i in range(len(self.rk2.prev_k))], axis = 0)
-        error_estimate = np.linalg.norm(error_estimate)
-        return x_next, y_next, error_estimate, self.p
-
 
 def ode_solver(f, x0, xend, y0, h, method):
     '''
@@ -145,75 +66,37 @@ def ode_solver(f, x0, xend, y0, h, method):
     '''
     
     # Initializing:
-    y_num = np.array([y0])    # Array for the solution y 
-    x_num = np.array([x0])    # Array for the x-values
+    y_num = np.array([y0])
+    x_num = np.array([x0])
 
-    xn = x0                # Running values for x and y
+    xn = x0
     yn = np.array(y0) 
 
-    # Main loop
-    while xn < xend - 1.e-10:            # Buffer for truncation errors        
-        xn, yn = method(f, xn, yn, h)[:2]   # Do one step by the method of choice
-        # Extend the arrays for x and y
+    while xn < xend - 1.e-10: # Buffer for truncation errors        
+        xn, yn = method(f, xn, yn, h)
+
         y_num = np.concatenate((y_num, np.array([yn])))
         x_num = np.append(x_num,xn)
         
     return x_num, y_num
 
-def adaptive(f, x0, xend, y0, h0, pair, tol = 1.e-6):
-    '''
-    Adaptive solver for ODEs
-       y' = f(x,y), y(x0)=y0
-    
-    Input: the function f, x0, xend, and the initial value y0
-           intial stepsize h, the tolerance tol, 
-           and a function (method) implementing one step of a pair.
-    Output: Array with x- and y- values.
-    '''
-    
-    y_num = np.array([y0])    # Array for the solutions y
-    x_num = np.array([x0])    # Array for the x-values
 
-    xn = x0                # Running values for  x, y and the stepsize h
-    yn = np.array(y0) 
-    h = h0
-    Maxcall = 100000        # Maximum allowed calls of method
-    ncall = 0
-    
-    # Main loop
-    while xn < xend - 1.e-10:               # Buffer for truncation error
-        # Adjust the stepsize for the last step
-        if xn + h > xend:                   
-            h = xend - xn 
-        
-        # Perform one step with the chosen mehtod
-        x_try, y_try, error_estimate, p = pair(f, xn, yn, h)
-        ncall = ncall + 1
-        
-        if error_estimate <= tol:   
-            # Solution accepted, update x and y
-            xn = x_try    
-            yn = y_try
-            # Store the solutions 
-            y_num = np.concatenate((y_num, np.array([yn])))
-            x_num = np.append(x_num, xn)
+@numba.jit(nopython = True)
+def force(points: np.array, i: int)-> np.array:
+    """calculate the force on point[i] from all other points
 
-        # Adjust the stepsize
-        h *= 0.8*(tol/error_estimate)**(1/(p+1))
+    Args:
+        points (np.array): list of points, shape (n, 3)
+        i (int): index of point to calculate forces on
 
-        
-        if ncall > Maxcall:
-            print("max iterations reached")
-            break
-
-    return x_num, y_num
-
-def force(points, i):
+    Returns:
+        np.array: force vector, shape (3,)
+    """
     p = points[i]
-    points = np.delete(points, i, axis = 0)
+    points = np.delete(points, [3*i + j for j in range(3)]).reshape(points.shape[0] -1, 3)
 
-    epsilon = 1
-    sigma = 1
+    epsilon = 4
+    sigma = 0.7
     mass = 1
     epsilon_0 = 1
 
@@ -229,11 +112,9 @@ def force(points, i):
 
 
 def particle_func(t, r):
-    r2 = np.array([force(r[0], i) for i in range(r.shape[1])])
-
     return np.array([
         r[1],
-        r2
+        np.array([force(r[0], i) for i in range(r.shape[1])])
     ])
 
 n_particles = 5
@@ -242,16 +123,15 @@ init_speed = np.zeros((n_particles, 3))
 init_pos = np.random.rand(n_particles, 3)*4
 init = np.array([init_pos, init_speed])
 
-c_n = [0, 1/2, 3/4, 1]
-a_n = np.array([
+c = [0, 1/2, 3/4, 1]
+a = np.array([
     [0, 0, 0, 0],
     [1/2, 0, 0, 0],
     [0, 3/4, 0, 0],
     [2/9, 1/3, 4/9, 0]
     ])
-b_n_1 = [2/9, 1/3, 4/9, 0]
-b_n_2 = [7/24, 1/4, 1/3, 1/8]
-rkp = RungeKutta_pair(c_n, a_n, b_n_1, b_n_2, 3, is_explicit=True)
+b = [7/24, 1/4, 1/3, 1/8]
+rkp = RungeKutta(c, a, b, is_explicit=True)
 t, r = ode_solver(particle_func, 0, 5, init, 0.01, rkp)
 
 
