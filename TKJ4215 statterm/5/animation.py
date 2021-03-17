@@ -3,83 +3,9 @@ import numba
 import sympy
 from matplotlib import pyplot as plt
 from matplotlib import animation
-from typing import List
+from typing import List, Tuple
 from scipy.optimize import fsolve
 from mpl_toolkits.mplot3d import Axes3D
-                
-
-class RungeKutta:
-    def __init__(self, c, a, b, p=0, is_explicit = True):
-        self.a = np.array(a)
-        self.c = np.array(c)
-        self.b = np.array(b)
-        self.p = p
-        self.prev_k = None
-        self.is_explicit = is_explicit
-
-    def __call__(self, f, xn, yn, h):
-        k_shape = (len(self.c), *yn.shape)
-
-        def func(kn):
-            s = kn.shape
-            kn = kn.reshape(k_shape)
-            yf = list()
-            for i in range(len(kn)):
-                xl = xn + h*self.c[i]
-                l = list()
-                for j in range(len(self.c)):
-                    l.append(self.a[i, j]*kn[j])
-                yl = yn + h*np.sum(np.array(l), axis = 0)
-                val = f(xl, yl)
-                yf.append(val)
-            return (kn - np.array(yf)).reshape(s)
-        if not self.is_explicit:
-            if self.prev_k is None:
-                k = np.array(fsolve(func, np.ones(k_shape))).reshape(k_shape)
-            else:
-                k = np.array(fsolve(func, self.prev_k)).reshape(k_shape)
-        else:
-            k = [f(xn, yn)]
-            for i in range(1, len(self.c)):
-                tmp_x = xn + self.c[i]*h
-                tmp_y = h*np.sum([self.a[i, j]*k[j] for j in range(len(k))], axis = 0)
-                k.append(f(tmp_x, yn + tmp_y))
-            k = np.array(k)
-        self.prev_k = k
-        if len(k) == 1:
-            add = self.b[0]*k[0]
-        else:
-            add = np.sum([self.b[j]*k[j] for j in range(len(k))], axis = 0)
-        y_next = yn + h*add
-        x_next = xn + h
-        return x_next, y_next
-
-
-def ode_solver(f, x0, xend, y0, h, method):
-    '''
-    Generic solver for ODEs
-       y' = f(x,y), y(a)=y0
-    Input: f, the integration interval x0 and xend, 
-           the stepsize h and the method of choice.  
-      
-    Output: Arrays with the x- and the corresponding y-values. 
-    '''
-    
-    # Initializing:
-    y_num = np.array([y0])
-    x_num = np.array([x0])
-
-    xn = x0
-    yn = np.array(y0) 
-
-    while xn < xend - 1.e-10: # Buffer for truncation errors        
-        xn, yn = method(f, xn, yn, h)
-
-        y_num = np.concatenate((y_num, np.array([yn])))
-        x_num = np.append(x_num,xn)
-        
-    return x_num, y_num
-
 
 @numba.jit(nopython = True)
 def force(points: np.array, i: int)-> np.array:
@@ -108,14 +34,70 @@ def force(points: np.array, i: int)-> np.array:
         
         col_force = 0
         f += (LJ_force + col_force)*(d/r)
-    return f
+    return f.astype(np.float32)
 
 
-def particle_func(t, r):
-    return np.array([
-        r[1],
-        np.array([force(r[0], i) for i in range(r.shape[1])])
-    ])
+#@numba.jit(nopython = True)
+def ode_solver(x0: float, xend: float, y0: np.array, h: float) -> np.array:
+    """solve the following system of ODEs:
+
+    y_1' = y_2
+    y_2' = sum(force(y_1, i) for i in range(len(y_1)))
+
+    i.e. the force on each particle from all other particles.
+    y can have any shape
+
+    Args:
+        x0 (float): initial x-value
+        xend (float): final x-value
+        y0 (np.array): initial y-value(s)
+        h (float): step size
+
+    Returns:
+        np.array: y values for the solution
+    """
+
+    # Runge-Kutta setup
+    a = np.zeros((4, 4), dtype = np.float32)
+    # has to be done this way with 2D arrays, sadly
+    a[0] = [0, 0, 0, 0]
+    a[1] = [1/2, 0, 0, 0]
+    a[2] = [0, 3/4, 0, 0]
+    a[3] = [2/9, 1/3, 4/9, 0]
+    c = np.array([0, 1/2, 3/4, 1], dtype = np.float32)
+    b = np.array([7/24, 1/4, 1/3, 1/8], dtype = np.float32)
+
+    # Initializing:
+    iterations = int((xend - x0) / h)
+    y_num = np.zeros((iterations, *y0.shape), dtype=np.float32)
+    y_num[0] = y0
+    xn = x0
+    yn = y0.astype(np.float32)
+    
+
+    for n in range(1, iterations): # Buffer for truncation errors 
+        # The Runge-Kutta implementation is directly in the for loop, to make it work with jit
+        k = np.zeros((len(c), *yn.shape), dtype=np.float32)
+        k[0, 0] = yn[1]
+        for i in range(yn.shape[1]):
+            k[0, 1, i] = force(yn[0], i)
+        for i in range(1, len(c)):
+            tmp_y = yn
+            for j in range(k.shape[0]):
+                tmp_y += h*a[i,j]*k[j]
+            k[i, 0] = tmp_y[1]
+            for j in range(yn.shape[1]):
+                k[i, 1, j] = force(tmp_y[0], j)
+
+        add = 0
+        for i in range(k.shape[0]):
+            add += b[i]*k[i]
+        yn += h*add
+        xn += h
+
+        y_num[n] = yn
+        
+    return y_num
 
 
 def animate(data):
@@ -156,15 +138,6 @@ init_speed = np.zeros((n_particles, 3))
 init_pos = np.random.rand(n_particles, 3)*4
 init = np.array([init_pos, init_speed])
 
-c = [0, 1/2, 3/4, 1]
-a = np.array([
-    [0, 0, 0, 0],
-    [1/2, 0, 0, 0],
-    [0, 3/4, 0, 0],
-    [2/9, 1/3, 4/9, 0]
-    ])
-b = [7/24, 1/4, 1/3, 1/8]
-rkp = RungeKutta(c, a, b, is_explicit=True)
-t, r = ode_solver(particle_func, 0, 5, init, 0.01, rkp)
+r = ode_solver(0, 5, init, 0.001)
 
 animate(r[:, 0, :, :])
