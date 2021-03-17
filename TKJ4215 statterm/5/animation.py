@@ -117,6 +117,39 @@ def particle_func(t, r):
         np.array([force(r[0], i) for i in range(r.shape[1])])
     ])
 
+
+def animate(data):
+
+    def animate_scatters(iteration, data, scatters):
+        for i in range(data[0].shape[0]):
+            scatters[i]._offsets3d = (data[iteration][i,0:1], data[iteration][i,1:2], data[iteration][i,2:])
+        return scatters
+    
+    numDataPoints = max(data.shape)
+
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    
+    # initiate scatterplots
+    scatters = [ax.scatter(*data[0][i,:]) for i in range(data[0].shape[0])]
+    
+    ax.set_xlabel('X(t)')
+    ax.set_ylabel('Y(t)')
+    ax.set_zlabel('Z(t)')
+    
+    # Creating the Animation object
+    line_anime = animation.FuncAnimation(
+        fig, 
+        animate_scatters, 
+        frames=numDataPoints, 
+        fargs=(data,scatters), 
+        interval=1, 
+        blit=False
+        )
+    
+    plt.show()
+
+
 n_particles = 5
 np.random.seed(1)
 init_speed = np.zeros((n_particles, 3))
@@ -134,50 +167,4 @@ b = [7/24, 1/4, 1/3, 1/8]
 rkp = RungeKutta(c, a, b, is_explicit=True)
 t, r = ode_solver(particle_func, 0, 5, init, 0.01, rkp)
 
-
-def animate(data = None):
-    """data: shape (l, 3, n) for l lines, and n timesteps
-    """
-    def animate_scatters(iteration, data, scatters):
-        for i in range(data[0].shape[0]):
-            scatters[i]._offsets3d = (data[iteration][i,0:1], data[iteration][i,1:2], data[iteration][i,2:])
-        return scatters
-    
-    if data is None:
-        # THE DATA POINTS
-        z = np.arange(0,1,0.001)
-        x = np.cos(z*50)
-        y = np.sin(z*50)
-        dataSet = np.array([x, y, z])
-        dataSet2 = np.array([x, -y, 1-z])
-
-        dataSets = []
-        dataSets.append(dataSet)
-        dataSets.append(dataSet2)
-        data = np.array(dataSets)
-    numDataPoints = max(data.shape)
-    # GET SOME MATPLOTLIB OBJECTS
-    fig = plt.figure()
-    ax = Axes3D(fig)
-    
-    # NOTE: Can't pass empty arrays into 3d version of plot()
-    scatters = [ax.scatter(*data[0][i,:]) for i in range(data[0].shape[0])]
-    
-    # AXES PROPERTIES]
-    # ax.set_xlim3d([limit0, limit1])
-    ax.set_xlabel('X(t)')
-    ax.set_ylabel('Y(t)')
-    ax.set_zlabel('Z(t)')
-    
-    # Creating the Animation object
-    line_anime = animation.FuncAnimation(
-        fig, 
-        animate_scatters, 
-        frames=numDataPoints, 
-        fargs=(data,scatters), 
-        interval=1, 
-        blit=False
-        )
-    
-    plt.show()
 animate(r[:, 0, :, :])
