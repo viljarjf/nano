@@ -7,6 +7,10 @@ from typing import List, Tuple
 from scipy.optimize import fsolve
 from mpl_toolkits.mplot3d import Axes3D
 
+
+# TODO add constants up here
+
+
 @numba.jit(nopython = True)
 def force(points: np.array, i: int)-> np.array:
     """calculate the force on point[i] from all other points
@@ -50,7 +54,7 @@ def ode_solver(x0: float, xend: float, y0: np.array, h: float) -> np.array:
     Args:
         x0 (float): initial x-value
         xend (float): final x-value
-        y0 (np.array): initial y-value(s)
+        y0 (np.array): initial y-values
         h (float): step size
 
     Returns:
@@ -148,6 +152,6 @@ init_pos = np.random.rand(n_particles, 3)*4
 init_speed = np.zeros((n_particles, 3))
 init = np.array([init_pos, init_speed])
 
-r = ode_solver(0, 5, init, 0.001)
+r = ode_solver(0, 1, init, 0.001)
 
 animate(r[:, 0, :, :])
