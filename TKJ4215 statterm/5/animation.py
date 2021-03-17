@@ -21,8 +21,8 @@ def force(points: np.array, i: int)-> np.array:
     p = points[i]
     points = np.delete(points, [3*i + j for j in range(3)]).reshape(points.shape[0] -1, 3)
 
-    epsilon = 4
-    sigma = 0.7
+    epsilon = 40
+    sigma = 0.5
     mass = 1
     epsilon_0 = 1
 
@@ -37,7 +37,7 @@ def force(points: np.array, i: int)-> np.array:
     return f.astype(np.float32)
 
 
-#@numba.jit(nopython = True)
+@numba.jit(nopython = True)
 def ode_solver(x0: float, xend: float, y0: np.array, h: float) -> np.array:
     """solve the following system of ODEs:
 
@@ -89,10 +89,10 @@ def ode_solver(x0: float, xend: float, y0: np.array, h: float) -> np.array:
             for j in range(yn.shape[1]):
                 k[i, 1, j] = force(tmp_y[0], j)
 
-        add = 0
+        add = np.zeros(k.shape)
         for i in range(k.shape[0]):
-            add += b[i]*k[i]
-        yn += h*add
+            add[i]= b[i]*k[i]
+        yn += h*np.sum(add, axis = 0)
         xn += h
 
         y_num[n] = yn
@@ -131,11 +131,21 @@ def animate(data):
     
     plt.show()
 
+# compile stuff
+ode_solver(
+    0,
+    0.5,
+    np.array([
+        np.random.rand(3, 3)*4,
+        np.zeros((3, 3))
+    ]),
+    0.1
+)
 
-n_particles = 5
-np.random.seed(1)
-init_speed = np.zeros((n_particles, 3))
+n_particles = 50
+np.random.seed(42)
 init_pos = np.random.rand(n_particles, 3)*4
+init_speed = np.zeros((n_particles, 3))
 init = np.array([init_pos, init_speed])
 
 r = ode_solver(0, 5, init, 0.001)
