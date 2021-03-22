@@ -253,7 +253,7 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{tabular}{ c|c } 
         Polarisation & Displacement \\
         \hline
-         $\nabla \cdot \p = -\rho_{pol}$ & $\nabla \cdot \D = \rho_{free}$ \\[6px] 
+         $\nabla \cdot \p = -\rho_{pol}$ & $\nabla \cdot \D = \rho_{free}$ \\
          $\p \cdot \vec{u_n} = \sigma_p$ & $\D \cdot \vec{u_n} = \sigma_o$
         \end{tabular}
     \end{center}
@@ -556,7 +556,7 @@ The lectures and my notes are both in english, and as such this document will al
             d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\vec{u}_r}{r^2},
         \end{equation}
         relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
-        $\mu_0 = 1.257\cdot 10^{-7}$\si{\henry\per\metre}(redefined in 2019, no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
+        $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
         The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
 
         The first Laplace elementary law can be rewritten in terms of \j{} instead:
@@ -641,6 +641,52 @@ The lectures and my notes are both in english, and as such this document will al
             \nabla\times\B = \mu_0\j
         \end{equation}
     
+    \subsection{Magnetic flux} \label{Magnetic flux}
+        The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
+        \begin{equation}
+            \Phi_{2,1} = I_1 \cdot L_{2,1},
+        \end{equation}
+        where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
+        \begin{equation}
+            L_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
+        \end{equation}
+        where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
+        (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $L$, as it is a constant and not relevant for the geometry.)
+
+        It can be shown that 
+        \begin{equation}
+            L_{2,1} = L_{1,2}.
+        \end{equation}.
+    
+    \subsection{Magnetic energy}
+        The \textit{magnetic energy volume density} is given by
+        \begin{equation}
+            u_m = \frac{1}{2\mu_0\mu_r}B^2,
+        \end{equation}
+        valid point by point. 
+        For linear materials (\H{} is linear in \B, meaning this does NOT apply to ferromagnetics), we get another way to express this: 
+        \begin{equation}
+            u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu_0\mu_r\H^2,
+        \end{equation}
+        since $\B = \mu_0\H{}$. Integrating these over a volume yields the total magnetic energy inside the volume.
+        Another way to express the energy is by the induction coefficient (see \ref{Magnetic flux}):
+        \begin{equation}
+            U_m = \frac{1}{2}L_{1,1}I^2,
+        \end{equation}
+        where $L$ is the coefficient of mutual induction, and $I$ is the current flowing in the circuit.
+
+        For ferromagnetic materials, the energy can be found by
+        \begin{equation}
+            U_m = \oint \H \cdot d\B.
+        \end{equation}
+        The process of changing \B{} dissapates this energy as heat.
+
+        For a two-circuit system, the energy has contributions from mutual inductance as well: 
+        \begin{equation}
+            U_m = \sum_{i,j}\frac{1}{2}L_{i,j}I_iI_j = \frac{1}{2}L_1{I_1}^2 + \frac{1}{2}L_2{I_2}^2 + MI_1I_2,
+        \end{equation}
+        where, for simplicity, $L_1 = L_{1,1},\, L_2 = L_{2,2}$, and $M = L_{1,2}$.
+    
     \subsection{Magnetic interactions between circuits}
         \subsubsection{Force}
             It can be shown that the force acting upon a circuit $C_2$ from circuit $C_1$ is given by
@@ -663,23 +709,6 @@ The lectures and my notes are both in english, and as such this document will al
             \end{equation}
             Note that $f$ is not a force, but a linear force density, an as such is measured in \si{\newton\per\metre}. 
             The total force between infinite wires would be infinite, and therefore uninteresting.
-
-        \subsubsection{Magnetic flux} \label{Magnetic flux}
-            The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
-            \begin{equation}
-                \Phi_{2,1} = I_1 \cdot L_{2,1},
-            \end{equation}
-            where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
-            \begin{equation}
-                L_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
-            \end{equation}
-            where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
-            (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $L$, as it is a constant and not relevant for the geometry.)
-
-            It can be shown that 
-            \begin{equation}
-                L_{2,1} = L_{1,2}.
-            \end{equation}
 
     \subsection{Theory behind magnetic materials}
         By waving our hands, we realise that atoms behave as tiny current loops, and they therefore have magnetic dipole momentum.
@@ -732,7 +761,7 @@ The lectures and my notes are both in english, and as such this document will al
                 \begin{tabular}{ c|c } 
                 Magnetic & Dielectric \\
                 \hline
-                 $\vec{M}\times\vec{u}_n = \j_{s, m}$ & $\p \cdot \vec{u_n} = \sigma_p$ \\[6px] 
+                 $\vec{M}\times\vec{u}_n = \j_{s, m}$ & $\p \cdot \vec{u_n} = \sigma_p$ \\
                  $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
                 \end{tabular}
             \end{center}
