@@ -24,6 +24,8 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
+\let\tmp\hat
+\renewcommand{\hat}[1]{\vec{\tmp{#1}}}
 
 %\renewcommand{\nabla}{\text{aruran}}
 
@@ -49,33 +51,33 @@ The lectures and my notes are both in english, and as such this document will al
 \subsection{Electrostatic fields}
     The coloumb force experienced by a particle with charge $q'$ from a charge $q$ at a distance $r$ from each other is given by 
     \begin{equation}
-        \vec{F} = \frac{qq'}{4\pi\e r^2}\vec{u_r},
+        \vec{F} = \frac{qq'}{4\pi\e r^2}\hat{r},
     \end{equation}
-    where \e is the vacuum permitivity constant, and $\vec{u_r}$ is a unit vector pointing from $q$ to $q'$. 
+    where \e is the vacuum permitivity constant, and $\hat{r}$ is a unit vector pointing from $q$ to $q'$. 
     In SI units, $\e \approx \SI{8.854e-12}{\farad \per \metre}$.
     We define the electrical field experienced by a charge $q'$ resulting from the charge $q$ at a distance $r$ as follows:
     \begin{equation}
-        \E = \frac{\vec{F}}{q'} = \frac{q}{4\pi\e r^2}\vec{u_r}.
+        \E = \frac{\vec{F}}{q'} = \frac{q}{4\pi\e r^2}\hat{r}.
     \end{equation}
-    From the definition of $\vec{u_r}$'s direction, note that, for positive $q$, 
+    From the definition of $\hat{r}$'s direction, note that, for positive $q$, 
     \E{} points \textit{away} from the source, and opposite for negative $q$.
     
     For multiple charges, the superposition principle applies, i.e. 
     \begin{equation}
-        \E = \sum_i\vec{E_i} = \frac{1}{4\pi\e}\sum_i\frac{q_i}{{r_i}^2\vec{u_{ri}}}.
+        \E = \sum_i\vec{E_i} = \frac{1}{4\pi\e}\sum_i\frac{q_i}{{r_i}^2}\hat{r}_i.
     \end{equation}
     This can be generalised for continuous charges: 
     \begin{equation}
-        \E = \frac{1}{4\pi\e}\int_\mathcal{L}\,\frac{\lambda}{r^2}\,\vec{u_r}dl,
+        \E = \frac{1}{4\pi\e}\int_\mathcal{L}\,\frac{\lambda}{r^2}\,\hat{r}dl,
     \end{equation}
     where $\lambda$ is a linear charge distribution along the line $\mathcal{L}$. Similarly for surface- and volume-distributions: 
     \begin{equation}
-        \E = \frac{1}{4\pi\e}\iint_\Sigma\,\frac{\sigma}{r^2}\,\vec{u_r}d\Sigma,
+        \E = \frac{1}{4\pi\e}\iint_S\,\frac{\sigma}{r^2}\,\hat{r}dS,
     \end{equation}
     \begin{equation}
-        \E = \frac{1}{4\pi\e}\iiint_{\tau}\,\frac{\rho}{r^2}\,\vec{u_r}d\tau,
+        \E = \frac{1}{4\pi\e}\iiint_{\tau}\,\frac{\rho}{r^2}\,\hat{r}d\tau,
     \end{equation}
-    where $\Sigma$ is a surface with area charge density $\sigma$, and $\tau$ is a volume with charge density $\rho$.
+    where $S$ is a surface with area charge density $\sigma$, and $\tau$ is a volume with charge density $\rho$.
     
 \subsection{Potential}
     The potential energy of a charge $q'$ at a distance $r$ from a charge $q$ is given by
@@ -114,21 +116,21 @@ The lectures and my notes are both in english, and as such this document will al
     If we define a coordinate system such that $\vec{p}$ lies on the $z$-axis, 
     with the centre of the dipole at the origin, then this can be further simplified to
     \begin{equation}
-        \frac{\vec{p}\cdot \vec{u_r}}{4\pi\e r^2} = \frac{pz}{4\pi\e r^2},
+        \frac{\vec{p}\cdot \hat{r}}{4\pi\e r^2} = \frac{pz}{4\pi\e r^2},
     \end{equation}
     where the first expression holds in general, $p = |\vec{p}|$, and $z$ is the $z$-component of $P$.
     
     The electric field produced by the dipole is then found by $\E = -\nabla V$:
     \begin{equation}
-        \E(x, y, z) = \frac{3p}{4\pi\e r^3}\left(\frac{zx}{r^2}\,\vec{u_x} + 
-        \frac{zy}{r^2}\,\vec{u_y} + \left( -\frac{1}{3} +\cos^2\theta\right)\,\vec{u_z}\right).
+        \E(x, y, z) = \frac{3p}{4\pi\e r^3}\left(\frac{zx}{r^2}\,\hat{x} + 
+        \frac{zy}{r^2}\,\hat{y} + \left( -\frac{1}{3} +\cos^2\theta\right)\,\hat{z}\right).
     \end{equation}
     Spherical coordinates are prettier: 
     \begin{equation}
-        \E(r, \phi, \theta) = \frac{p}{4\pi\e r^2}\left(\frac{2\cos\theta}{r}\,\vec{u_r} + \sin\theta \, \vec{u_\theta}\right),
+        \E(r, \phi, \theta) = \frac{p}{4\pi\e r^2}\left(\frac{2\cos\theta}{r}\,\hat{r} + \sin\theta \, \hat{\theta}\right),
     \end{equation}
-    where $\theta$ is the angle between $\vec{p}$ and $\vec{u_r}$ (the polar angle), 
-    and $\vec{u_\theta}$ is orthogonal to $\vec{u_r}$ in the direction of increasing $\theta$ (at a constant azimuthal angle $\phi$). 
+    where $\theta$ is the angle between $\vec{p}$ and $\hat{r}$ (the polar angle), 
+    and $\hat{\theta}$ is orthogonal to $\hat{r}$ in the direction of increasing $\theta$ (at a constant azimuthal angle $\phi$). 
     Note the independence of $\phi$ due to radial symmetry along the $z$-axis. 
     
     A dipole $\vec{p}$ placed in an external uniform electric field $\E$ experiences a torque
@@ -146,10 +148,10 @@ The lectures and my notes are both in english, and as such this document will al
 
 \subsection{Gauss' law}
     \begin{equation}
-        \oiint_\Sigma \E\cdot\vec{u_n}d\Sigma = \frac{q}{\e}
+        \oiint_S \E\cdot\hat{n}dS = \frac{q}{\e}
     \end{equation}
-    holds for any closed surface $\Sigma$, for an arbitrary $\E$, 
-    where $q$ is the total charge confined inside $\Sigma$ and $\vec{u_n}$ is the unit normal of $\Sigma$. Equivalenty, 
+    holds for any closed surface $S$, for an arbitrary $\E$, 
+    where $q$ is the total charge confined inside $S$ and $\hat{n}$ is the unit normal of $S$. Equivalenty, 
     \begin{equation}
         \nabla \cdot \E = \frac{\rho}{\e}
     \end{equation}
@@ -158,22 +160,22 @@ The lectures and my notes are both in english, and as such this document will al
 \subsection{Common applications of Gauss' law}
     \subsubsection{Infinite plane}
         Take an infinite plane with surface charge density $\sigma$, 
-        and a closed cylinder surface $\Sigma$ with the circles equidistant and parallell to the plane. 
-        By symmetry, the electric field is orthogonal to the plane. Therefore, $\E\cdot\vec{u_n} \neq 0$ only at the circle surfaces. 
+        and a closed cylinder surface $S$ with the circles equidistant and parallell to the plane. 
+        By symmetry, the electric field is orthogonal to the plane. Therefore, $\E\cdot\hat{n} \neq 0$ only at the circle surfaces. 
         \begin{equation*}
-            \oiint_\Sigma \E\cdot\vec{u_n}d\Sigma = 2\iint_\beta \E\cdot\vec{u_n}d\Sigma,
+            \oiint_S \E\cdot\hat{n}dS = 2\iint_\beta \E\cdot\hat{n}dS,
         \end{equation*}
         where $\beta$ is the circle surfaces of the cylinder. Thus, the integral evaluates to $2E\beta$ where $E = |\E|$. 
-        Since the charge encompassed by $\Sigma$ is $\beta\sigma$, we get
+        Since the charge encompassed by $S$ is $\beta\sigma$, we get
         \begin{equation}
-            \E = \frac{\sigma}{2\e}\,\vec{u_n}
+            \E = \frac{\sigma}{2\e}\,\hat{n}
         \end{equation}
 
     \subsubsection{Sphere}
         Take a point $P$ at a distance $r$ from the center of a sphere with radius $R$ and volume charge density $\rho$. 
         By symmetry, $\E$ points radially outwards from the sphere. Let $E_r$ denote the radial component of $\E$. Then, 
         \begin{equation*}
-            \oiint_\Sigma \E\cdot\vec{u_n}d\Sigma = E_r4\pi\e r^2.
+            \oiint_S \E\cdot\hat{n}dS = E_r4\pi\e r^2.
         \end{equation*}
         Furthermore, if $\rho$ is constant, then
         \begin{equation*}
@@ -181,11 +183,11 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation*}
         Where $R' = \text{min}(r, R)$. Combining the two yields
         \begin{equation}
-            \E = \frac{\rho \text{min}(r, R)^3}{3r^2\e}\,\vec{u_r}.
+            \E = \frac{\rho \text{min}(r, R)^3}{3r^2\e}\,\hat{r}.
         \end{equation}
         For $r < R$, this simplifies to
         \begin{equation}
-            \E = \frac{\rho r}{3\e}\,\vec{u_r}.
+            \E = \frac{\rho r}{3\e}\,\hat{r}.
         \end{equation}
 
 \subsection{Dielectrics}    
@@ -224,7 +226,7 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         It can be shown that 
         \begin{equation}
-            \p = \sigma_p\,\vec{u_n} = \e \chi_e \E_{\epsilon_r}
+            \p = \sigma_p\,\hat{n} = \e \chi_e \E_{\epsilon_r}
         \end{equation}
         where $\E_{\epsilon_r}$ is the total field in the dielectric material.
         
@@ -254,7 +256,7 @@ The lectures and my notes are both in english, and as such this document will al
         Polarisation & Displacement \\
         \hline
          $\nabla \cdot \p = -\rho_{pol}$ & $\nabla \cdot \D = \rho_{free}$ \\
-         $\p \cdot \vec{u_n} = \sigma_p$ & $\D \cdot \vec{u_n} = \sigma_o$
+         $\p \cdot \hat{n} = \sigma_p$ & $\D \cdot \hat{n} = \sigma_o$
         \end{tabular}
     \end{center}
 
@@ -268,12 +270,12 @@ The lectures and my notes are both in english, and as such this document will al
 \subsection{Energy of an electric field}
     To charge a capacitor with capacitance $C$ with a charge $q$, a work is required. This is given as 
     \begin{equation}
-        W = \frac{q^2}{2C} = \frac{C(\Delta V)^2}{2} = \frac{q\Delta V}{2} = \frac{\e E^2\Sigma h}{2},
+        W = \frac{q^2}{2C} = \frac{C(\Delta V)^2}{2} = \frac{q\Delta V}{2} = \frac{\e E^2S h}{2},
     \end{equation}
-    where $\Sigma$ is the surface of the plates and $h$ is the separation distance. 
+    where $S$ is the surface of the plates and $h$ is the separation distance. 
     So long as the electrical field is correctly considered, this equation is valid in dielectrics as well.
     
-    Since $\Sigma h$ represent a volume, we define a density of energy: 
+    Since $S h$ represent a volume, we define a density of energy: 
     \begin{equation}
         u_e = \frac{1}{2}\e E^2, 
     \end{equation}
@@ -312,23 +314,23 @@ The lectures and my notes are both in english, and as such this document will al
 \subsection{Current}
     Current is the amount of charges moving through a conductor during a time period. 
     \subsubsection{Current density vector}
-        The amount charge moving through a surface $\Sigma$ during $\Delta t$ is given by
+        The amount charge moving through a surface $S$ during $\Delta t$ is given by
         \begin{equation}
-            dq = nq\vec{v}\cdot \vec{u_r}\,\Sigma \,\Delta t
+            dq = nq\vec{v}\cdot \hat{r}\,S \,\Delta t
         \end{equation}
         where $n$ is the volume density of charged particles (unit \si{\per\metre\cubed}), and $q$ is the charge of each particle.
         Therefore, the current is given by
         \begin{equation}
-            dI = \frac{dq}{\Delta t} = nq\vec{v}\cdot\vec{u_n}\,d\Sigma = \j\cdot\vec{u_n}\,d\Sigma
+            dI = \frac{dq}{\Delta t} = nq\vec{v}\cdot\hat{n}\, dS = \j\cdot\hat{n}\, dS
         \end{equation}
-        where the surface $d\Sigma$ goes towards zero, and $\j$ is the current density vector, i.e.
+        where the surface $dS$ goes towards zero, and $\j$ is the current density vector, i.e.
         \begin{equation}
             \j = nq\vec{v}.
         \end{equation}
         
-        Integrating over $\Sigma$ yields
+        Integrating over $S$ yields
         \begin{equation}
-            I = \iint_\Sigma \j\cdot\vec{u_n}d\Sigma.
+            I = \iint_S \j\cdot\hat{n}dS.
         \end{equation}
         Taking the divergence of $\j$, we get
         \begin{equation}
@@ -366,19 +368,19 @@ The lectures and my notes are both in english, and as such this document will al
         \end{align}
 
     \subsubsection{Ohm's law}
-        It can be shown that 
+        The potential difference $\Delta V$ over a conductor with resistance $R$ and current $I$ is
         \begin{equation}
-            \Delta V = \frac{Il\rho}{\Sigma} = IR,
+            \Delta V = IR
         \end{equation}
     
     \subsubsection{Resistance}
         The resistance of a conductor is given as
         \begin{equation}
-            R = \int_\mathcal{L} \frac{\rho}{\Sigma}\,dl,
+            R = \int_\mathcal{L} \frac{\rho}{S}\, dl,
         \end{equation}
         where $\rho$ is the resistivity, 
-        $\Sigma$ is the surface area of each infinitesimal slice of the conductor $\mathcal{L}$ along $dl$. 
-        Both $\rho$ and $\Sigma$ can change as a function of $l$, for example by changing the material and the girth of the conductor.
+        $S$ is the cross-sectional area of the conductor $\mathcal{L}$ along $dl$. 
+        Both $\rho$ and $S$ can change as a function of $l$, for example by changing the material and the girth of the conductor.
         
         Circuits with multiple resistors behave as follows: 
         \begin{align}
@@ -438,19 +440,19 @@ The lectures and my notes are both in english, and as such this document will al
         For a given geometry of the plates, with a surface charge density $\sigma$ on one plate and $-\sigma$ on the other, 
         the electric field between the plates is given as 
         \begin{equation}
-            \E = \frac{\sigma}{\e}\,\vec{u_n},
+            \E = \frac{\sigma}{\e}\,\hat{n},
         \end{equation}
-        where $\vec{u_n}$ is the normal vector of the positive plate towards the negative. This equation neglects border effects.
+        where $\hat{n}$ is the normal vector of the positive plate towards the negative. This equation neglects border effects.
         
         The field outside the plates is zero.
         
-        If the plates have an area $\Sigma$ and a separation distance $h << \sqrt{\Sigma}$, then the change in potential is
+        If the plates have an area $S$ and a separation distance $h << \sqrt{S}$, then the change in potential is
         \begin{equation}
             \Delta V = \frac{h\sigma}{\e}.
         \end{equation}
         Thus, the capacitance of a parallel plate capacitor is
         \begin{equation}
-            C = \frac{q}{|\Delta V|} = \frac{\sigma \Sigma}{\frac{h\sigma}{\e}} = \frac{\e \Sigma}{h}.
+            C = \frac{q}{|\Delta V|} = \frac{\sigma S}{\frac{h\sigma}{\e}} = \frac{\e S}{h}.
         \end{equation}
         Note the independence of $\sigma$, i.e. the capacitance is a geometry-based property.
 
@@ -519,11 +521,11 @@ The lectures and my notes are both in english, and as such this document will al
     \subsection{Force on currents}
         By the definition of \j, we get that $\j \times \B$ represents a force per volume. Therefore, 
         \begin{equation}
-            d\vec{F} = \Sigma dl \j \times \B, 
+            d\vec{F} = S dl \j \times \B, 
         \end{equation}
-        where $\Sigma dl$ is an infinitesimal volume along a conductor, resulting in 
+        where $S dl$ is an infinitesimal volume along a conductor, resulting in 
         \begin{equation}
-            \vec{F} = \int \Sigma \j \times \B dl = \int I d\vec{l} \times \B.
+            \vec{F} = \int S \j \times \B dl = \int I d\vec{l} \times \B.
         \end{equation}
         The differential form of this result is called \textit{the second Laplace elementary law}:
         \begin{equation}
@@ -534,14 +536,14 @@ The lectures and my notes are both in english, and as such this document will al
         
     \subsection{Magnetic dipole moment}
     
-        A mesh with a current $I$ and surface area $\Sigma$ immersed in a magnetic field experiences a torque:
+        A mesh with a current $I$ and surface area $S$ immersed in a magnetic field experiences a torque:
         \begin{equation}
-            \vec{\tau} = I\,\Sigma\,\vec{u_n}\times\B,
+            \vec{\tau} = I\,S\,\hat{n}\times\B,
         \end{equation}
-        Where $\vec{u_n}$ is found by applying the right-hand-rule to the current circulation. 
+        Where $\hat{n}$ is found by applying the right-hand-rule to the current circulation. 
         We define the \textit{magnetic dipole moment} as
         \begin{equation}
-            \vec{m} = I\Sigma\vec{u_n}.
+            \vec{m} = IS\hat{n}.
         \end{equation}
         The magnetic dipole moment is analogous to the electric dipole moment: 
         \begin{align*}
@@ -553,7 +555,7 @@ The lectures and my notes are both in english, and as such this document will al
     
         The \textit{first Laplace elementary law} states the following:
         \begin{equation}
-            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\vec{u}_r}{r^2},
+            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2},
         \end{equation}
         relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
         $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
@@ -561,14 +563,14 @@ The lectures and my notes are both in english, and as such this document will al
 
         The first Laplace elementary law can be rewritten in terms of \j{} instead:
         \begin{equation}
-            d\B = \frac{\mu_0}{4\pi}\cdot \frac{\j\times\vec{u}_r}{r^2}\,d\tau,
+            d\B = \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\,d\tau,
         \end{equation}
         where one now integrates over the volume $d\tau$ rather than the length of the conductor.
 
         If one considers a point charge with charge $q$ and velocity $\vec{v}$, 
         the following equation describes the magnetic field:
         \begin{equation}
-            \B = \frac{\mu_0}{4\pi}\cdot q\frac{\vec{v}\times\vec{u}_r}{r^2}.
+            \B = \frac{\mu_0}{4\pi}\cdot q\frac{\vec{v}\times\hat{r}}{r^2}.
         \end{equation}
 
         This helps us relate the electric and magnetic field resulting from a point source to each other:
@@ -587,10 +589,10 @@ The lectures and my notes are both in english, and as such this document will al
 
             Consider a point beside an infinite, straight conductive wire. Using the first Laplace elementary law, we get 
             \begin{equation}
-                \B = \frac{\mu_0 I}{2\pi R}\,\vec{u}_\phi,
+                \B = \frac{\mu_0 I}{2\pi R}\,\hat{\phi},
             \end{equation}
             where $R$ is the shortest distance to the conductor, 
-            and $\vec{u}_\phi$ is the  unit vector orthogonal to both $\vec{u}_r$ and the direction of current.
+            and $\hat{\phi}$ is the  unit vector orthogonal to both $\hat{r}$ and the direction of current.
             The sign is found by the right-hand rule, where the thumb should point along the current flow.
             
         \subsubsection{Closed circular loop}
@@ -602,7 +604,7 @@ The lectures and my notes are both in english, and as such this document will al
 
             The magnetic field is then given by
             \begin{equation}
-                \B = \frac{\mu_0 I R^2}{2 \left(x^2 + R^2\right)^\frac{3}{2}}\,\vec{u}_x.
+                \B = \frac{\mu_0 I R^2}{2 \left(x^2 + R^2\right)^\frac{3}{2}}\,\hat{x}.
             \end{equation}
             Note that the field in the centre of the conductive loop is
             \begin{equation}
@@ -648,9 +650,9 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
         \begin{equation}
-            L_{2,1} = \iint_{\Sigma_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \vec{u}_r \right)\cdot \vec{u}_n d\Sigma_2.
+            L_{2,1} = \iint_{S_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \hat{r} \right)\cdot \hat{n} dS_2.
         \end{equation}
-        where $\Sigma_i$ is the surface enclosed by $C_i$, and $\vec{S}_i$ is the path along $C_i$.
+        where $S_i$ is the surface enclosed by $C_i$, and $\vec{l}_i$ is the path along $C_i$.
         (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $L$, as it is a constant and not relevant for the geometry.)
 
         It can be shown that 
@@ -695,7 +697,7 @@ The lectures and my notes are both in english, and as such this document will al
             \end{equation}
             where $I_i$ is the current in circuit $i$, and where 
             \begin{equation}
-                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \vec{u}_r\right).
+                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \hat{r}\right).
             \end{equation}
             $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
             This coefficient is not named in the lectures, and neither the shorthand notation of $G$.
@@ -731,11 +733,11 @@ The lectures and my notes are both in english, and as such this document will al
             This is not an actual current, since there are no charges moving along the perimiter.
             Taking an infinitesimally thick disc, we have 
             \begin{equation}
-                \j_{s, m} = \vec{M}\times\vec{u}_n,
+                \j_{s, m} = \vec{M}\times\hat{n},
             \end{equation}
             where $\j_{s, m}$ is the current density on the \textbf{s}urface 
             (perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
-            resulting from the \textbf{m}agnets, and $\vec{u}_n$ is the unit vector orthogonal to the perimiter of the disc. 
+            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit vector orthogonal to the perimiter of the disc. 
 
             Generalising the disc to a cylinder with length $l$, we have the relation
             \begin{equation}
@@ -761,7 +763,7 @@ The lectures and my notes are both in english, and as such this document will al
                 \begin{tabular}{ c|c } 
                 Magnetic & Dielectric \\
                 \hline
-                 $\vec{M}\times\vec{u}_n = \j_{s, m}$ & $\p \cdot \vec{u_n} = \sigma_p$ \\
+                 $\vec{M}\times\hat{n} = \j_{s, m}$ & $\p \cdot \hat{n} = \sigma_p$ \\
                  $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
                 \end{tabular}
             \end{center}
@@ -892,22 +894,22 @@ The lectures and my notes are both in english, and as such this document will al
             It is clear that, if no external force is applied, the rod will stop moving.
 
         \subsubsection{Rotating mesh}
-            A rectangular mesh (resistance $R$) with area $\Sigma$ rotates along an axis along its surface with angular velocity $\omega$. 
+            A rectangular mesh (resistance $R$) with area $S$ rotates along an axis along its surface with angular velocity $\omega$. 
             It is immersed in a static, uniform \B-field (i.e. constant in time and space).
             We get 
             \begin{align}
-                \Phi(\B)(t) &= B\Sigma\cos (\omega t), \\
-                \emf_\text{i} &= \omega\Sigma B \sin (\omega t).
+                \Phi(\B)(t) &= BS\cos (\omega t), \\
+                \emf_\text{i} &= \omega S B \sin (\omega t).
             \end{align}
             The instantaneous and average dissapated power is 
             \begin{align}
-                P_\text{i} &= \frac{\omega^2 B^2 \Sigma^2}{R}\sin^2(\omega t),\\
-                \left<P_\text{i}\right> &= \frac{1}{T}\int_0^T P_\text{i}dt = \frac{\omega^2 B^2 \Sigma^2}{2R},
+                P_\text{i} &= \frac{\omega^2 B^2 S^2}{R}\sin^2(\omega t),\\
+                \left<P_\text{i}\right> &= \frac{1}{T}\int_0^T P_\text{i}dt = \frac{\omega^2 B^2 S^2}{2R},
             \end{align}
             where $T = \frac{2\pi}{\omega}$ is the period of a turn.
             Since power is dissapated, a torque is required to keep the mesh spinning: 
             \begin{equation}
-                \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 \Sigma^2}{R}\sin^2(\omega t).
+                \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 S^2}{R}\sin^2(\omega t).
             \end{equation}
         
     \subsection{Induction}

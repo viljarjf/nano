@@ -17,6 +17,7 @@ TKJ4215 statterm/Stirlings.txt
 *.txt
 *.mp4
 *.xdv
+*.fuse_hidden*
 
 # courses
 TFY4185*
