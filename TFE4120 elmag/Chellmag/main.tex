@@ -636,7 +636,7 @@ The lectures and my notes are both in english, and as such this document will al
     \subsection{Ampere's law}
         Ampere's law describes how the sum of currents enclosed in a loop relates to the magnetic field: 
         \begin{equation}
-            \oint_\mathcal{L}\B\cdot d\vec{l} = \mu_0 I_{enclosed},
+            \oint_\mathcal{L}\B\cdot d\vec{l} = \mu_0 I_{\text{enclosed}},
         \end{equation}
         or, in differential form: 
         \begin{equation}
@@ -867,6 +867,29 @@ The lectures and my notes are both in english, and as such this document will al
             \nabla \times \E_\text{i} = -\frac{\partial \B}{\partial t}.
         \end{equation}
         Note that this also holds in general, since $\nabla\times\E = 0$ for an electrostatic field \E.
+    
+    \subsection{Time-varying electric field}
+        A changing electrical field induces a \textit{displacement current} such that
+        \begin{equation}
+            \nabla \cdot \j_s = -\nabla\left(\e\frac{\partial\E}{\partial t}\right),
+        \end{equation}
+        where $\j_s$ is the \textit{displacement current density}. This is not a real current in the sense that charges are moving, 
+        but it behaves as a current density.
+
+        $\j_{\text{tot}} = \j_{\text{conduction}} + \j_s$ is always solenoidal. 
+
+        Note that 
+        \begin{equation*}
+            I_s = \Phi(\j_s) = \iint_S \e\frac{\partial\E}{\partial t}\cdot\hat{n}dS = \e\frac{\partial}{\partial t}\Phi_S(\E)
+        \end{equation*}
+
+        Inserting this into Ampere's law, we get 
+        \begin{align}
+            \oint_{\partial S}\B\cdot d\vec{l} &= \mu_0 I_{\text{enclosed}} + \mu_0\e\frac{\partial}{\partial t}\Phi_S\left(\E\right)\\
+            \nabla\times\B &= \mu_0\j_{\text{concuctive}} + \mu_0\e\frac{\partial\E}{\partial t},
+        \end{align}
+        where we often omit the subscript on $\j$, and $\partial S$ is the perimiter of the surface $S$.
+    
     \subsection{Examples of magnetically induced current}
         \subsubsection{Rod on a rail}
             Two conductive parallel rails, seperated by a distance $b$ and connected with a resistor $R$, stretch infinitley long, 
@@ -883,7 +906,7 @@ The lectures and my notes are both in english, and as such this document will al
                 I_\text{i} = -\frac{Bbv}{R+r}.
             \end{equation}
             Since all the values are positive, the minus sign dictates the direction of the current. Applying the right hand rule,
-            the thumb should therefore point antiparallel to \B{}. 
+            the thumb should therefore point antiparallel to \B. 
             (More rigorously, the flux was calculated with the assumption of a surface normal parallel to \B. 
             The minus sign therefore flips the direction of current.)
 
@@ -949,5 +972,75 @@ The lectures and my notes are both in english, and as such this document will al
                 I(t) \approx \frac{\emf}{R}e^{\frac{-L}{R'}t}.
             \end{equation}
             The resulting behaviour of the coil is then to keep the current flowing for a while, but the decay is exponential.
+
+        \subsubsection{RLC-circuits}
+            A system with a resistor with resistance $R$, a coil with coefficient of self induction $L$, and a capacitor with capacitance $C$, 
+            all in series, is described by the following differential equation: 
+            \begin{equation} \label{Current in RLC}
+                \frac{\partial^2}{\partial t^2}I + \frac{R}{L}\frac{\partial}{\partial t}I + \frac{1}{LC}I = 0.
+            \end{equation}
+            We define the \textit{damping coefficient} $\gamma$ and the \textit{eigen frequency} $\omega_0$ as follows:
+            \begin{align*}
+                \gamma &= \frac{R}{2L}\\
+                \omega_0 &= \sqrt{\frac{1}{LC}},
+            \end{align*}
+            yielding in the boring exponential solutions for $\gamma^2 \geq {\omega_0}^2$:
+            \begin{equation}
+                I(t) = e^{-\gamma t}\left(Ae^{\sqrt{\gamma^2 - {\omega_0}^2}t}+Be^{-\sqrt{\gamma^2 - {\omega_0}^2}t}\right),
+            \end{equation}
+            where $A$ and $B$ are integration coefficients. The system is more interesting for $\gamma^2 \leq {\omega_0}^2$,
+            where the complex exponential yields oscilating behaviour:
+            \begin{equation}
+                I(t) = e^{-\gamma t}\cdot A\sin\left(\omega t + \phi\right),
+            \end{equation}
+            where $A$ and $\phi$ are integration constants, and $\omega = \sqrt{\gamma^2 - {\omega_0}^2} > 0$.
+
+            With $R=0$, there will be no energy dissapated over the resistor, and we get 
+            \begin{equation*}
+                E = E_c + E_L = \frac{1}{2}C{V_c(t)}^2 + \frac{1}{2}L{I(t)}^2,
+            \end{equation*}
+            where the current $I$ and the potential difference between the capacitor plates $V_c$ are given by 
+            \begin{align*}
+                I(t) &= A\sin\left(\frac{1}{\sqrt{LC}}t + \phi\right) \\
+                V_c (t) &= \sqrt{\frac{L}{C}} \, A\cos\left(\frac{1}{\sqrt{LC}}t + \phi\right)
+            \end{align*}
+
+        \subsubsection{Permanent oscilations in RLC-circuits}
+
+            Adding an AC source $\emf(t) = \emf_0\cos\left(\omega t + \phi\right)$ to our RLC-circuit, where all components are in parallel, 
+            we get equation \ref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
             
+            We wave our hands, and get the following is a solution: 
+            \begin{equation}
+                I(t) = I_0 \cos\left(\omega t\right),
+            \end{equation}
+            where 
+            \begin{align*}
+                \phi &= \text{atan} \left(\frac{\omega L - \left(\omega C\right)^{-1}}{R}\right)\\
+                I_0 &= \frac{\emf_0}{\sqrt{R^2 + \left(\omega L - \left(\omega C\right)^{-1}\right)^2}},
+            \end{align*}
+            where $\phi$ is the phase of the AC source.
+
+            Plotting $I_0(\omega)$ yields a bell-curve. We define $\Delta\omega$ as the width of the curve at $I_0 = \frac{\emf_0}{\sqrt{2}R}$: 
+            \begin{align*}
+                \omega_1 &= \frac{-R}{2L} + \sqrt{\frac{R^2}{4L^2} + {\omega_0}^2}\\
+                \omega_2 &= \frac{R}{2L} + \sqrt{\frac{R^2}{4L^2} + {\omega_0}^2}\\
+                \Delta\omega &= \frac{R}{L},
+            \end{align*}
+            where $\omega_0 = \frac{1}{\sqrt{LC}}$.
+
+            Note that $\omega_1\omega_2={\omega_0}^2$, and $|\omega_1 - \omega_0| \neq |\omega_2 - \omega_0|$, i.e. the curve is asymmetric.
+
+            $\Delta\omega$ is used for the \textit{quality factor}:
+            \begin{equation}
+                Q = \frac{\omega_0}{\Delta\omega}.
+            \end{equation}
+
+            This is useful for sensors where the measurement is produced by a change in capacitance; 
+            if $Q$ is large then we get a narrow range of frequencies with substantial current, and a changed capacitance 
+            (resulting in a changed $\omega_0$) is easy to notice. 
+
+            A small $Q$, on the other hand, will result in a wide band of "accepted" frequencies, which can be useful in other circumstances.
+        
+        
 \end{document}
