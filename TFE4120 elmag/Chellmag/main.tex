@@ -10,6 +10,7 @@
 \usepackage[cmr]{emf}
 \usepackage{color}   
 \usepackage{hyperref}
+\usepackage[table]{xcolor}
 \hypersetup{
     colorlinks=true, 
     linktoc=all,     
@@ -75,57 +76,82 @@ This is not intended as learning material, bur rather as a collection of formula
 Error reporting to \textit{viljar@timini.no} is much appreciated. 
 A vector quantity without an arrow is the modulus of the corresponding vector, if not otherwise specified. 
 I might also have changed the vector notation from arrows to bold letters, without changing this disclaimer. 
+Vectors with hats are unit vectors.
 The lectures and my notes are both in english, and as such this document will also be in english.
 
 \tableofcontents
 
 
 \section{Main formulas}
-    \subsection{Maxwell's equations}
-        Differential form:
-        \begin{center}
-            \begin{tabular}{c|c}
-                \rule[-3ex]{0pt}{0pt}
-                $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
-                $\displaystyle\nabla\cdot\B = 0$ \\
-                \hline
-                \rule{0pt}{4ex}
-                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
-                $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$
+    \begin{center}
+        \begin{tabular}{c|c}
+            \rowcolor{gray!25} Maxwell's, differential form & \\
+            \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
+                    $\displaystyle\nabla\cdot\B = 0$ \\
+                    \hline
+                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
+                    $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$ \\
+            \hline
+            \rowcolor{gray!25} Maxwell's, integral form & \\
+            \hline
+                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
+                    $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
+                    \hline
+                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
+                    $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$ \\
+            \hline
+            \rowcolor{gray!25} Coulomb field & \\
+            \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\E(r, \phi, \theta) = \frac{q}{4\pi\e r^2}\hat{r}$ & \\
+            \hline
+            \rowcolor{gray!25} Laplace's elementary laws & \\
+            \hline
+                    \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
+                    $
+                        \begin{aligned}
+                            d\B &= \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\, d\tau \\
+                            \rule{0pt}{4ex}
+                                &= \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2}
+                        \end{aligned}
+                    $
+                    &
+                    \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
+                    $
+                        \begin{aligned}
+                            d\vec{F} &= S dl \j \times \B \\
+                            \rule{0pt}{4ex}
+                                    &= I\vec{dl} \times \B
+                        \end{aligned}
+                    $
             \end{tabular}
         \end{center}
-
-        Integral form: 
-        \begin{center}
-            \begin{tabular}{c|c}
-                \rule[-3ex]{0pt}{0pt}
-                $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
-                $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
-                \hline
-                \rule{0pt}{4ex}
-                $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
-                $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$
-            \end{tabular}            
-        \end{center}
-
-        Symbols:
-        \begin{itemize}
-            \setlength\itemsep{.1em}
-            \item \E: electric field 
-            \item $\rho$: volume charge density
-            \item \e: vacuum permitivity constant
-            \item \B: magnetic field
-            \item $\mu_0$: magnetic permeability constant
-            \item \j: current density vector
-            \item $T$: arbitrary closed volume
-            \item \item $d\tau$: infinitesimal volume
-            \item $\partial T$: surface of an arbitrary closed volume $T$
-            \item $d\vec{S}$: unit normal vector of an infinitesimal surface $dS$
-            \item $d\vec{l}$: unit vector parallel to an infinitesimal length $dl$
-            \item $S$: arbitrary closed surface
-            \item $\partial S$: perimiter of an arbitrary closed surface $S$
-        \end{itemize}
-
+    \subsection{Symbol explanation}
+    \begin{itemize}
+        \setlength\itemsep{.1em}
+        \item \E: electric field 
+        \item $\rho$: volume charge density
+        \item \e: vacuum permitivity constant
+        \item \B: magnetic field
+        \item $\mu_0$: magnetic permeability constant
+        \item \j: current density vector
+        \item $T$: arbitrary closed volume
+        \item $d\tau$: infinitesimal volume
+        \item $\partial T$: surface of an arbitrary closed volume $T$
+        \item $d\vec{S}$: unit normal vector of an infinitesimal surface $dS$
+        \item $d\vec{l}$: unit vector parallel to an infinitesimal length $dl$
+        \item $S$: arbitrary closed surface
+        \item $\partial S$: perimiter of an arbitrary closed surface $S$
+        \item $r$, $\phi$, $\theta$: spherical coordinates
+        \item $q$: charge of a point charge at $r=0$
+        \item $Sdl$: transectional area $S$ of a conductor multiplied by an infinitesimal width $dl$
+        \item $I$: current along a conductor $d\vec{l}$
+    \end{itemize}
 
 \section{Electrostatics}
 \subsection{Electrostatic fields}
@@ -312,19 +338,19 @@ The lectures and my notes are both in english, and as such this document will al
         
         Applying the divergence theorem, we get
         \begin{equation}
-            \nabla \cdot \p = - \rho_{pol}
+            \nabla \cdot \p = - \rho_{\text{pol}}
         \end{equation}
-        where $\rho_{pol}$ is the volume charge distribution of the polarisation charges.
+        where $\rho_{\text{pol}}$ is the volume charge distribution of the polarisation charges.
 
 \subsection{Displacement field}
     From Gauss' law, we have 
     \begin{equation*}
-        \nabla \cdot E = \frac{\rho_{free} + \rho_{pol}}{\e},
+        \nabla \cdot E = \frac{\rho_{\text{free}} + \rho_{\text{pol}}}{\e},
     \end{equation*}
     where we have separated the charge density distributions for the free charges and the polarisation charges. 
     Combining this with the divergence of the polarisation vector, we get 
     \begin{equation*}
-        \nabla \cdot \left(\e\E + \p\right) = \rho_{free}.
+        \nabla \cdot \left(\e\E + \p\right) = \rho_{\text{free}}.
     \end{equation*}
     We therefore define the \textit{displacement field} as follows:
     \begin{equation}
@@ -335,8 +361,8 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{tabular}{ c|c } 
         Polarisation & Displacement \\
         \hline
-         $\nabla \cdot \p = -\rho_{pol}$ & $\nabla \cdot \D = \rho_{free}$ \\
-         $\p \cdot \hat{n} = \sigma_p$ & $\D \cdot \hat{n} = \sigma_o$
+         $\nabla \cdot \p = -\rho_{\text{pol}}$ & $\nabla \cdot \D = \rho_{\text{free}}$ \\
+         $\p \cdot \hat{n} = \sigma_p$ & $\D \cdot \hat{n} = \sigma_p$
         \end{tabular}
     \end{center}
 
@@ -417,7 +443,7 @@ The lectures and my notes are both in english, and as such this document will al
             \nabla \cdot \j = \frac{d\rho}{dt}
         \end{equation}
         where $\rho$ is the volume charge distribution.
-        In stationary conditions ($\j_{in} = \j_{out}$, this is equal to 0. 
+        In stationary conditions ($\j_{\text{in}} = \j_{\text{out}}$, this is equal to 0. 
     
         In an external field, charges propagate in a conductor with a \textit{drift velocity} of
         \begin{equation}
@@ -464,14 +490,14 @@ The lectures and my notes are both in english, and as such this document will al
         
         Circuits with multiple resistors behave as follows: 
         \begin{align}
-            R_{tot} &= \sum_i R_i\quad \text{(series)} \\
-            \frac{1}{R_{tot}} &= \sum_i \frac{1}{R_i} \quad\text{(parallel)}
+            R_{\text{tot}} &= \sum_i R_i\quad \text{(series)} \\
+            \frac{1}{R_{\text{tot}}} &= \sum_i \frac{1}{R_i} \quad\text{(parallel)}
         \end{align}
         
     \subsubsection{Generators}
         Let $\E^*$ be the electric field responsible for the potential difference between the poles of a voltage source, such that
         \begin{equation}
-            \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{circuit}\cdot \vec{dl} + \int_-^+(\E_{circuit} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \emf
+            \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{\text{circuit}}\cdot \vec{dl} + \int_-^+(\E_{\text{circuit}} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \emf
         \end{equation}
         where $\emf$ is the \textit{electromotive force} (NOT a force, $\left[\emf\right]$ = \si\volt)
         
@@ -810,7 +836,7 @@ The lectures and my notes are both in english, and as such this document will al
             Note the similarity to the polarisation vector $\p$.
 
             If many $\vec{m}$ are oriented in the same direction on a disc, 
-            there will appear to be a current $I_{mag}$ along the perimiter of the disc. 
+            there will appear to be a current $I_{\text{mag}}$ along the perimiter of the disc. 
             This is not an actual current, since there are no charges moving along the perimiter.
             Taking an infinitesimally thin disc, we have 
             \begin{equation}
@@ -822,14 +848,14 @@ The lectures and my notes are both in english, and as such this document will al
 
             Generalising the disc to a cylinder with length $l$, we have the relation
             \begin{equation}
-                I_{mag} = \int \j_{s, m}\cdot d\vec{l}.
+                I_{\text{mag}} = \int \j_{s, m}\cdot d\vec{l}.
             \end{equation}
 
         \subsubsection{Ampere's law for magnetic materials}
             \begin{equation}
-                \oint_\mathcal{L}\vec{M}\cdot d\vec{l} = I_{mag},
+                \oint_\mathcal{L}\vec{M}\cdot d\vec{l} = I_{\text{mag}},
             \end{equation}
-            where $\mathcal{L}$ is an arbitrary closed path encompassing $I_{mag}$ magnetisation current. 
+            where $\mathcal{L}$ is an arbitrary closed path encompassing $I_{\text{mag}}$ magnetisation current. 
             Rewriting to a differential form yields
             \begin{equation}
                 \nabla \times \vec{M} = \j_m,
@@ -851,7 +877,7 @@ The lectures and my notes are both in english, and as such this document will al
     \subsection{Magnetising field}
         By a similar argument as with \D, combining the general Ampere's law with the one for magnetic materials, we get
         \begin{equation*}
-            \oint_\mathcal{L}\left(\frac{\B}{\mu_0}-\vec{M}\right)d\vec{l} = I_{encl},
+            \oint_\mathcal{L}\left(\frac{\B}{\mu_0}-\vec{M}\right)d\vec{l} = I_{\text{encl}},
         \end{equation*}
         and as such we define the \textit{magnetising field} as 
         \begin{equation}
@@ -862,7 +888,7 @@ The lectures and my notes are both in english, and as such this document will al
         (names which might be interpreted as scalar fields).
 
         \begin{equation}
-            \oint_\mathcal{L}\H = I_{encl},
+            \oint_\mathcal{L}\H = I_{\text{encl}},
         \end{equation}
         and 
         \begin{equation}
@@ -1184,7 +1210,7 @@ The lectures and my notes are both in english, and as such this document will al
         \subsubsection{Energy of an electromagnetic wave}
             Summing the electric and magnetic components yields the following energy density: 
             \begin{equation}
-                u_{em} = \e E^2 = \frac{1}{\mu_0}\, B^2.
+                u_{\text{em}} = \e E^2 = \frac{1}{\mu_0}\, B^2.
             \end{equation}
         
         \subsubsection{Pointing vector}
