@@ -2,8 +2,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{siunitx}
 \usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{fourier}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\usepackage{fourier}
 \usepackage{esvect}
 \usepackage{esint}
 \usepackage[cmr]{emf}
@@ -17,6 +18,7 @@
 
 \title{Formelsamling TFE4120 Elektromagnetisme}
 
+\makeatletter
 %\renewcommand{\vec}{\vv}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \newcommand{\E}{\ensuremath{\vec{E}}}
@@ -26,10 +28,38 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
+% pasta from https://tex.stackexchange.com/questions/459167/typesetting-dalembertian-symbol?rq=1
+\newcommand{\dalambert}{\mathop{\mathpalette\dalembertian@\relax}}
+\newcommand{\dalembertian@}[2]{%
+  \begingroup
+  \sbox\z@{$\m@th#1\square$}%
+  \dimen0=\fontdimen8
+    \ifx#1\displaystyle\textfont\else
+    \ifx#1\textstyle\textfont\else
+    \ifx#1\scriptstyle\scriptfont\else
+    \scriptscriptfont\fi\fi\fi3
+  \makebox[\wd\z@]{%
+    \hbox to \ht\z@{%
+      \vrule width \dimen0
+      \kern-\dimen0
+      \vbox to \ht\z@{
+        \hrule height \dimen0 width \ht\z@
+        \vss
+        \hrule height 2\dimen0
+      }%
+      \kern-2.5\dimen0
+      \vrule width 2.5\dimen0
+    }%
+  }%
+  \endgroup
+}
+
 \let\tmp\hat
 \renewcommand{\hat}[1]{\vec{\tmp{#1}}}
 
 %\renewcommand{\nabla}{\text{aruran}}
+
+\makeatother
 
 \begin{document}
 
@@ -48,6 +78,54 @@ I might also have changed the vector notation from arrows to bold letters, witho
 The lectures and my notes are both in english, and as such this document will also be in english.
 
 \tableofcontents
+
+
+\section{Main formulas}
+    \subsection{Maxwell's equations}
+        Differential form:
+        \begin{center}
+            \begin{tabular}{c|c}
+                \rule[-3ex]{0pt}{0pt}
+                $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
+                $\displaystyle\nabla\cdot\B = 0$ \\
+                \hline
+                \rule{0pt}{4ex}
+                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
+                $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$
+            \end{tabular}
+        \end{center}
+
+        Integral form: 
+        \begin{center}
+            \begin{tabular}{c|c}
+                \rule[-3ex]{0pt}{0pt}
+                $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
+                $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
+                \hline
+                \rule{0pt}{4ex}
+                $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
+                $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$
+            \end{tabular}            
+        \end{center}
+
+        Symbols:
+        \begin{itemize}
+            \setlength\itemsep{.1em}
+            \item \E: electric field 
+            \item $\rho$: volume charge density
+            \item \e: vacuum permitivity constant
+            \item \B: magnetic field
+            \item $\mu_0$: magnetic permeability constant
+            \item \j: current density vector
+            \item $T$: arbitrary closed volume
+            \item \item $d\tau$: infinitesimal volume
+            \item $\partial T$: surface of an arbitrary closed volume $T$
+            \item $d\vec{S}$: unit normal vector of an infinitesimal surface $dS$
+            \item $d\vec{l}$: unit vector parallel to an infinitesimal length $dl$
+            \item $S$: arbitrary closed surface
+            \item $\partial S$: perimiter of an arbitrary closed surface $S$
+        \end{itemize}
+
 
 \section{Electrostatics}
 \subsection{Electrostatic fields}
@@ -560,7 +638,8 @@ The lectures and my notes are both in english, and as such this document will al
             d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2},
         \end{equation}
         relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
-        $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
+        $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, 
+        no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
         The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
 
         The first Laplace elementary law can be rewritten in terms of \j{} instead:
@@ -1065,7 +1144,7 @@ The lectures and my notes are both in english, and as such this document will al
                 \vec{A}' &= \vec{A} + \nabla S \\
                 V' &= V - \frac{\partial S}{\partial t}
             \end{align*}
-            where $S:\, \mathbb{R}^4 \rightarrow \mathbb{R}$ is a scalar function with both a spatial- and a time-parameter.
+            where $S$ is a scalar function with both a spatial- and a time-parameter.
             Applying this mathematical feature is called a \textit{Gauge transform}.
         \subsubsection{Arriving at the wave equation}
             Inserting $V$ and $\vec{A}$ into Maxwell's equations, we get the following: 
@@ -1078,14 +1157,14 @@ The lectures and my notes are both in english, and as such this document will al
 
             We use the shorthand notation of the \textit{d'Alembertian}: 
             \begin{equation*}
-                \square = \nabla^2 - \frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+                \dalambert = \nabla^2 - \frac{1}{c^2}\frac{\partial^2}{\partial t^2}
             \end{equation*}
 
             and arrive at
             \begin{center}
                 \begin{tabular}{ c|c }
-                    $\square V = 0$&$ \square\,\E = 0$\\
-                    $\square\,\vec{A} = 0 $&$\square\,\B = 0$
+                    $\dalambert V = 0$&$ \dalambert\,\E = 0$\\
+                    $\dalambert\,\vec{A} = 0 $&$\dalambert\,\B = 0$
                 \end{tabular}
             \end{center}
         \subsubsection{Solution to the wave equation}
