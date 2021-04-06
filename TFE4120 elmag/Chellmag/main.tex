@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{siunitx}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{fourier}
 \usepackage{esvect}
 \usepackage{esint}
 \usepackage[cmr]{emf}
@@ -666,7 +668,7 @@ The lectures and my notes are both in english, and as such this document will al
             u_m = \frac{1}{2\mu_0\mu_r}B^2,
         \end{equation}
         valid point by point. 
-        For linear materials (\H{} is linear in \B, meaning this does NOT apply to ferromagnetics), we get another way to express this: 
+        For linear materials (meaning \H{} is linear in \B, this does NOT apply to ferromagnetic materials), we get another way to express this: 
         \begin{equation}
             u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu_0\mu_r\H^2,
         \end{equation}
@@ -704,7 +706,7 @@ The lectures and my notes are both in english, and as such this document will al
             $r$ is the pointwise distance between the circuits. By Newton's third law of motion, 
             $F_{2,1} = -F_{1,2}$, and as such $G_{2,1} = - G_{1,2}$.
 
-            A simple example would be two parallel infinite wires with currents $I_1$ and $I_2$, 
+            A geometrically simple example would be two parallel infinite wires with currents $I_1$ and $I_2$, 
             separated by a distance $r$. The linear force density is then
             \begin{equation}
                 f = \frac{\mu_0 I_1 I_2}{2\pi r}.
@@ -731,19 +733,18 @@ The lectures and my notes are both in english, and as such this document will al
             If many $\vec{m}$ are oriented in the same direction on a disc, 
             there will appear to be a current $I_{mag}$ along the perimiter of the disc. 
             This is not an actual current, since there are no charges moving along the perimiter.
-            Taking an infinitesimally thick disc, we have 
+            Taking an infinitesimally thin disc, we have 
             \begin{equation}
                 \j_{s, m} = \vec{M}\times\hat{n},
             \end{equation}
             where $\j_{s, m}$ is the current density on the \textbf{s}urface 
             (perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
-            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit vector orthogonal to the perimiter of the disc. 
+            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector of the perimiter of the disc. 
 
             Generalising the disc to a cylinder with length $l$, we have the relation
             \begin{equation}
-                I_{mag} = Ml = j_{s, m}l,
+                I_{mag} = \int \j_{s, m}\cdot d\vec{l}.
             \end{equation}
-            a result of Ampere's law for magnetic materials given a uniform $\vec{M}$.
 
         \subsubsection{Ampere's law for magnetic materials}
             \begin{equation}
@@ -1010,7 +1011,7 @@ The lectures and my notes are both in english, and as such this document will al
             Adding an AC source $\emf(t) = \emf_0\cos\left(\omega t + \phi\right)$ to our RLC-circuit, where all components are in parallel, 
             we get equation \ref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
             
-            We wave our hands, and get the following is a solution: 
+            We wave our hands, and get the following as a solution: 
             \begin{equation}
                 I(t) = I_0 \cos\left(\omega t\right),
             \end{equation}
@@ -1042,5 +1043,75 @@ The lectures and my notes are both in english, and as such this document will al
 
             A small $Q$, on the other hand, will result in a wide band of "accepted" frequencies, which can be useful in other circumstances.
         
+            What size ranges is considered "small" and "large" was not discussed during lectures. 
+    \subsection{Electromagnetic waves}
+        \subsubsection{Magnetic vector potential}
+            Since \B{} is solenoidal, it can be written as the curl of another vector field. 
+            
+            Let $\vec{A}$ be a vector field, such that
+            \begin{equation}
+                \nabla \times \vec{A} = \B.
+            \end{equation}
+            $\vec{A}$ is not a physical field, but it is a helpful mathematical tool. 
+
+            Manipulating Maxwell's equations, we arrive at 
+            \begin{equation}
+                \E = -\nabla V - \frac{\partial \vec{A}}{\partial t}.
+            \end{equation}
+            
+            $\vec{A}$ can be changed by adding the gradient of any arbitrary scalar function, 
+            however, to keep the measurable fields \B{} and \E{} unchanged, one also needs to change $V$ correspondingly:
+            \begin{align*}
+                \vec{A}' &= \vec{A} + \nabla S \\
+                V' &= V - \frac{\partial S}{\partial t}
+            \end{align*}
+            where $S:\, \mathbb{R}^4 \rightarrow \mathbb{R}$ is a scalar function with both a spatial- and a time-parameter.
+            Applying this mathematical feature is called a \textit{Gauge transform}.
+        \subsubsection{Arriving at the wave equation}
+            Inserting $V$ and $\vec{A}$ into Maxwell's equations, we get the following: 
+            \begin{align*}
+                \nabla^2V - \e\mu_0\frac{\partial^2V}{\partial t^2} &= \frac{-\rho}{\e}\\
+                \nabla^2\vec{A} - \e\mu_0\frac{\partial^2\vec{A}}{\partial t^2} &= \mu_0\j,
+            \end{align*}
+            which is clearly the wave equation if there are no sources present ($\rho = \j = 0)$, 
+            where the velocity of propagation is $c$ ($\e\mu_0 = c^{-2}$).
+
+            We use the shorthand notation of the \textit{d'Alembertian}: 
+            \begin{equation*}
+                \square = \nabla^2 - \frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+            \end{equation*}
+
+            and arrive at
+            \begin{center}
+                \begin{tabular}{ c|c }
+                    $\square V = 0$&$ \square\,\E = 0$\\
+                    $\square\,\vec{A} = 0 $&$\square\,\B = 0$
+                \end{tabular}
+            \end{center}
+        \subsubsection{Solution to the wave equation}
+            The solution  can be written as
+            \begin{equation*}
+                f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t\right),
+            \end{equation*}
+            where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave "number", pointing in the direction of travel, 
+            and $\omega = 2\pi\nu$ is the angular frequency. $\lambda$ is the wavelength and $\nu$ is the frequency, such that
+            $\lambda\nu = c$.
+
+            Both \E, \B{} and $\vec{k}$ are orthogonal, i.e. electromagnetic waves are transverse. Also note that 
+            \begin{equation}
+                E = cB
+            \end{equation}
+
+        \subsubsection{Energy of an electromagnetic wave}
+            Summing the electric and magnetic components yields the following energy density: 
+            \begin{equation}
+                u_{em} = \e E^2 = \frac{1}{\mu_0}\, B^2.
+            \end{equation}
         
+        \subsubsection{Pointing vector}
+            The Pointing vector describes the power of an electromagnetic wave per area:
+            \begin{equation}
+                \vec{S} = \frac{1}{\mu_0}\,\E\times\B
+            \end{equation}
+
 \end{document}
