@@ -11,6 +11,7 @@
 \usepackage[table]{xcolor}
 \usepackage{bm}
 \usepackage{titlesec}
+\usepackage{longtable}
 \newcommand{\sectionbreak}{\clearpage} % new page for each new section
 \hypersetup{
     colorlinks=true, 
@@ -85,66 +86,108 @@ The lectures and my notes are both in english, and as such this document will al
 
 
 \section{Main formulas}
-    \begin{center}
-        \begin{tabular}{c|c}
-            \hline
-            \rowcolor{gray!25} Maxwell's, differential form & \\
-            \hline
-                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
-                    $\displaystyle\nabla\cdot\B = 0$ \\
-                    \hline
-                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
-                    $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$ \\
-            \hline
-            \rowcolor{gray!25} Maxwell's, integral form & \\
-            \hline
-                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
-                    $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
-                    \hline
-                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
-                    $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$ \\
-            \hline
-            \rowcolor{gray!25} Coulomb field & \\
-            \hline
-                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                $\displaystyle\E(r, \phi, \theta) = \frac{q}{4\pi\e r^2}\hat{r}$ & \\
-            \hline
-            \rowcolor{gray!25} Laplace's elementary laws & \\
-            \hline
-                    \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
-                    $
-                        \begin{aligned}
-                            d\B &= \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\, d\tau \\
-                            \rule{0pt}{4ex}
-                                &= \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2}
-                        \end{aligned}
-                    $
-                    &
-                    \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
-                    $
-                        \begin{aligned}
-                            d\vec{F} &= S dl \j \times \B \\
-                            \rule{0pt}{4ex}
-                                    &= I\vec{dl} \times \B
-                        \end{aligned}
-                    $ \\
-            \hline
-            \rowcolor{gray!25} Energy density & \\
-            \hline
+    \begin{longtable}[c]{c|c} 
+        \caption{A selection of useful results\label{formulas}}    
+        \endfirsthead
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{ Maxwell's, differential form}\\
+        \hline
             \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle u_\text{e} = \frac{1}{2}\,\e E^2$ & 
-                    $\displaystyle u_\text{em} = \e E^2$ \\
-                    \hline
-                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                    $\displaystyle u_\text{m} = \frac{1}{2\mu_0}\, B^2$ &
-                    $\displaystyle u_\text{em} = \frac{1}{\mu_0}\, B^2$ \\
-            \end{tabular}
-        \end{center}
+                $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
+                $\displaystyle\nabla\cdot\B = 0$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
+                $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{ Maxwell's, integral form} \\
+        \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
+                $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
+                $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Coulomb field} \\
+        \hline
+            \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+            $\displaystyle\E(r, \phi, \theta) = \frac{q}{4\pi\e r^2}\hat{r}$ & \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Laplace's elementary laws} \\
+        \hline
+                \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
+                $
+                    \begin{aligned}
+                        d\B &= \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\, d\tau \\
+                        \rule{0pt}{4ex}
+                            &= \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2}
+                    \end{aligned}
+                $
+                &
+                \rule[-7ex]{0pt}{0pt}\rule{0pt}{8ex}
+                $
+                    \begin{aligned}
+                        d\vec{F} &= S dl \j \times \B \\
+                        \rule{0pt}{4ex}
+                                &= I\vec{dl} \times \B
+                    \end{aligned}
+                $ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Energy density } \\ 
+        \hline
+        \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle u_\text{e} = \frac{1}{2}\,\e E^2$ & 
+                $\displaystyle u_\text{em} = \e E^2$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle u_\text{m} = \frac{1}{2\mu_0}\, B^2$ &
+                $\displaystyle u_\text{em} = \frac{1}{\mu_0}\, B^2$ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Current density} \\
+        \hline
+        \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\j = \j_\text{f} + \j_\text{p} + \j_\text{m}$ & 
+                $\j_\text{f} = \nabla \times\H$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle \j_\text{p} = \frac{\partial}{\partial t}\,\p$ & 
+                $\j_\text{m} = \nabla\times\vec{M}$ \\
+        \hline\pagebreak\hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Polarisation and displacement field (stationary)} \\
+        \hline
+        \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\nabla \cdot \p = -\rho_{\text{p}}$ & 
+                $\nabla \cdot \D = \rho_{\text{f}}$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\p \cdot \hat{n} = \sigma_\text{p}$ & 
+                $\D \cdot \hat{n} = \sigma_\text{f}$ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Magnetisation and magnetising field (stationary)} \\ 
+        \hline
+        \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\nabla \times \vec{M} = \j_\text{m}$ & 
+                $\nabla \times \H = \j_\text{f}$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\vec{M} \times \hat{n} = \j_\text{s,m}$ & 
+                $\H \cdot \hat{n} = \j_\text{s,f}$ \\
+        \hline
+        \rowcolor{gray!25}\multicolumn{2}{c}{Maxwell's, differential form, free} \\
+        \hline
+            \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\nabla\cdot\D = \rho_\text{f}$ & 
+                $\displaystyle\nabla\cdot\B = 0$ \\
+                \hline
+                \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
+                $\displaystyle\nabla\times\H = \j_\text{f} + \frac{\partial\D}{\partial t}$ \\
+        \hline
+    \end{longtable}
     \subsection{Symbol explanation}
+    In order of apperance in table \ref{formulas}:  
     \begin{itemize}
         \setlength\itemsep{.1em}
         \item \E: electric field 
@@ -165,6 +208,15 @@ The lectures and my notes are both in english, and as such this document will al
         \item $Sdl$: transectional area $S$ of a conductor multiplied by an infinitesimal width $dl$
         \item $I$: current along a conductor $d\vec{l}$
         \item $u_\text{e, m, em}$: volume density of energy, for electric fields, magnetic fields, and electromagnetic radiation respectively
+        \item \p: polarisation vector
+        \item \D: Displacement field
+        \item $\sigma$: surface charge density
+        \item $\vec{M}$: magnetisation vector
+        \item \H: magnetising field
+        \item subscript m: magnetic
+        \item subscript p: polarised
+        \item subscript f: free 
+        \item subscript s: surface
     \end{itemize}
 
 \section{Electrostatics}
