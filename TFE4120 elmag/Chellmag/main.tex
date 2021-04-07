@@ -3,14 +3,15 @@
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage{amsfonts}
-%\usepackage{fourier}
 \usepackage{esvect}
 \usepackage{esint}
 \usepackage[cmr]{emf}
 \usepackage{color}   
 \usepackage{hyperref}
 \usepackage[table]{xcolor}
+\usepackage{bm}
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage} % new page for each new section
 \hypersetup{
     colorlinks=true, 
     linktoc=all,     
@@ -21,7 +22,7 @@
 
 \makeatletter
 %\renewcommand{\vec}{\vv}
-\renewcommand{\vec}[1]{\mathbf{#1}}
+\renewcommand{\vec}[1]{\bm{#1}}
 \newcommand{\E}{\ensuremath{\vec{E}}}
 \newcommand{\e}{\ensuremath{\epsilon_0}}
 \newcommand{\p}{\ensuremath{\vec{\underline{p}}}}
@@ -29,6 +30,7 @@
 \renewcommand{\j}{\ensuremath{\vec{j}}}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
+
 % pasta from https://tex.stackexchange.com/questions/459167/typesetting-dalembertian-symbol?rq=1
 \newcommand{\dalambert}{\mathop{\mathpalette\dalembertian@\relax}}
 \newcommand{\dalembertian@}[2]{%
@@ -85,6 +87,7 @@ The lectures and my notes are both in english, and as such this document will al
 \section{Main formulas}
     \begin{center}
         \begin{tabular}{c|c}
+            \hline
             \rowcolor{gray!25} Maxwell's, differential form & \\
             \hline
                 \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
@@ -128,7 +131,17 @@ The lectures and my notes are both in english, and as such this document will al
                             \rule{0pt}{4ex}
                                     &= I\vec{dl} \times \B
                         \end{aligned}
-                    $
+                    $ \\
+            \hline
+            \rowcolor{gray!25} Energy density & \\
+            \hline
+            \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle u_\text{e} = \frac{1}{2}\,\e E^2$ & 
+                    $\displaystyle u_\text{em} = \e E^2$ \\
+                    \hline
+                    \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
+                    $\displaystyle u_\text{m} = \frac{1}{2\mu_0}\, B^2$ &
+                    $\displaystyle u_\text{em} = \frac{1}{\mu_0}\, B^2$ \\
             \end{tabular}
         \end{center}
     \subsection{Symbol explanation}
@@ -151,6 +164,7 @@ The lectures and my notes are both in english, and as such this document will al
         \item $q$: charge of a point charge at $r=0$
         \item $Sdl$: transectional area $S$ of a conductor multiplied by an infinitesimal width $dl$
         \item $I$: current along a conductor $d\vec{l}$
+        \item $u_\text{e, m, em}$: volume density of energy, for electric fields, magnetic fields, and electromagnetic radiation respectively
     \end{itemize}
 
 \section{Electrostatics}
@@ -211,8 +225,8 @@ The lectures and my notes are both in english, and as such this document will al
     \end{equation}
     where $\vec{a}$ is the vector from the negative  to the positive charge. 
     
-    In most cases, the distances $r_1$ and $r_2$ to each of the charges are much larger than $a$. 
-    Therefore, for a point $P$, the potential is given as 
+    In most cases, the distances $r_1$ and $r_2$ from an arbitrary point $P$ to each of the charges are much larger than $a$. 
+    Therefore, the potential is given as 
     \begin{equation}
         V(P) = \frac{q}{4\pi\e}\left( \frac{1}{r_1}-\frac{1}{r_2}\right) \approx 
         \frac{q}{4\pi\e}\left(\frac{a\cos\theta}{r^2}\right),
@@ -238,6 +252,8 @@ The lectures and my notes are both in english, and as such this document will al
     where $\theta$ is the angle between $\vec{p}$ and $\hat{r}$ (the polar angle), 
     and $\hat{\theta}$ is orthogonal to $\hat{r}$ in the direction of increasing $\theta$ (at a constant azimuthal angle $\phi$). 
     Note the independence of $\phi$ due to radial symmetry along the $z$-axis. 
+    Also note how $\theta$ and $\phi$ are switched compared to the notation used in TMA4105. 
+    This is done here to stay consistent with the notation in this course.
     
     A dipole $\vec{p}$ placed in an external uniform electric field $\E$ experiences a torque
     \begin{equation}
@@ -443,7 +459,7 @@ The lectures and my notes are both in english, and as such this document will al
             \nabla \cdot \j = \frac{d\rho}{dt}
         \end{equation}
         where $\rho$ is the volume charge distribution.
-        In stationary conditions ($\j_{\text{in}} = \j_{\text{out}}$, this is equal to 0. 
+        In stationary conditions ($\j_{\text{in}} = \j_{\text{out}}$), this is equal to 0. 
     
         In an external field, charges propagate in a conductor with a \textit{drift velocity} of
         \begin{equation}
@@ -466,18 +482,13 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         where $n$ is the density of charges, $q$ is the charge of a single charge, 
         $\tau$ is the mean time between the charges colliding in the conductor, and $m$ is the mass of each charge. 
+        Although they use the same symbol, conductivity and resistivity are NOT to be confused with surface and volume charge distributions.
         
         We have the relations 
         \begin{align}
             \j &= \sigma \E \\
             \E &= \rho \j.
         \end{align}
-
-    \subsubsection{Ohm's law}
-        The potential difference $\Delta V$ over a conductor with resistance $R$ and current $I$ is
-        \begin{equation}
-            \Delta V = IR
-        \end{equation}
     
     \subsubsection{Resistance}
         The resistance of a conductor is given as
@@ -494,6 +505,12 @@ The lectures and my notes are both in english, and as such this document will al
             \frac{1}{R_{\text{tot}}} &= \sum_i \frac{1}{R_i} \quad\text{(parallel)}
         \end{align}
         
+    \subsubsection{Ohm's law}
+        The potential difference $\Delta V$ over a conductor with resistance $R$ and current $I$ is
+        \begin{equation}
+            \Delta V = IR
+        \end{equation}
+        
     \subsubsection{Generators}
         Let $\E^*$ be the electric field responsible for the potential difference between the poles of a voltage source, such that
         \begin{equation}
@@ -507,9 +524,8 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         
     \subsubsection{Kirchoff's laws}
-        Both laws presented are direction-dependent, 
-        but the choice of direction will not affect the absolute value of the answer 
-        (so long as the chosen direction is correctly considered for each component). 
+        Both laws presented are direction-dependent, meaning that the chosen direction will dictate the sign of the answer. 
+        The result is the same regardless of the chosen direction, so long as it is used consistently (including for interpreting the result).
         \begin{equation}
             \sum_i I_i = 0
         \end{equation}
@@ -521,8 +537,9 @@ The lectures and my notes are both in english, and as such this document will al
 
     \subsection{Capacitors}
     A capacitor is a configuration of two conductors resulting in total electrostatic induction. 
-    The most common configuration in practice is a parallel plate configuration, 
-    such that their area is significantly larger than the separation distance and we can neglect border effects.
+    The most common configuration is  two parallel plates.
+    For most all calculations, we assume the plates to be infinitely large, such that there are no border effects. 
+    This approximation is sufficiently good when the separation distance between the plates is significantly smaller than their area.
     
     We define capacitance as follows:
     \begin{equation}
@@ -629,9 +646,9 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{equation}
             d\vec{F} = S dl \j \times \B, 
         \end{equation}
-        where $S dl$ is an infinitesimal volume along a conductor, resulting in 
+        where $S dl$ is an infinitesimal volume along a conductor $\mathcal{L}$, resulting in 
         \begin{equation}
-            \vec{F} = \int S \j \times \B dl = \int I d\vec{l} \times \B.
+            \vec{F} = \int_\mathcal{L} S \j \times \B dl = \int_\mathcal{L} I d\vec{l} \times \B.
         \end{equation}
         The differential form of this result is called \textit{the second Laplace elementary law}:
         \begin{equation}
@@ -646,7 +663,7 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{equation}
             \vec{\tau} = I\,S\,\hat{n}\times\B,
         \end{equation}
-        Where $\hat{n}$ is found by applying the right-hand-rule to the current circulation. 
+        Where $\hat{n}$ is the normal vector of $S$. Its direction is found by applying the right-hand-rule to the current circulation. 
         We define the \textit{magnetic dipole moment} as
         \begin{equation}
             \vec{m} = IS\hat{n}.
@@ -747,9 +764,10 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         or, in differential form: 
         \begin{equation}
-            \nabla\times\B = \mu_0\j
+            \nabla\times\B = \mu_0\j.
         \end{equation}
-    
+        This holds for stationary conditions, non-stationary conditions is discussed in chapter \ref{Time-varying electric field}. 
+
     \subsection{Magnetic flux} \label{Magnetic flux}
         The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
         \begin{equation}
@@ -760,7 +778,6 @@ The lectures and my notes are both in english, and as such this document will al
             L_{2,1} = \iint_{S_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \hat{r} \right)\cdot \hat{n} dS_2.
         \end{equation}
         where $S_i$ is the surface enclosed by $C_i$, and $\vec{l}_i$ is the path along $C_i$.
-        (I'm not sure if $\frac{\mu_0}{4\pi}$ should be included in $L$, as it is a constant and not relevant for the geometry.)
 
         It can be shown that 
         \begin{equation}
@@ -770,19 +787,19 @@ The lectures and my notes are both in english, and as such this document will al
     \subsection{Magnetic energy}
         The \textit{magnetic energy volume density} is given by
         \begin{equation}
-            u_m = \frac{1}{2\mu_0\mu_r}B^2,
+            u_m = \frac{1}{2}\mu\B^2,
         \end{equation}
-        valid point by point. 
+        valid point by point, where $\mu = \mu_0 \mu_r $. 
         For linear materials (meaning \H{} is linear in \B, this does NOT apply to ferromagnetic materials), we get another way to express this: 
         \begin{equation}
-            u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu_0\mu_r\H^2,
+            u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu\H^2,
         \end{equation}
-        since $\B = \mu_0\H{}$. Integrating these over a volume yields the total magnetic energy inside the volume.
+        since $\B = \mu\H{}$. Integrating these over a volume yields the total magnetic energy inside the volume.
         Another way to express the energy is by the induction coefficient (see \ref{Magnetic flux}):
         \begin{equation}
             U_m = \frac{1}{2}L_{1,1}I^2,
         \end{equation}
-        where $L$ is the coefficient of mutual induction, and $I$ is the current flowing in the circuit.
+        where $L$ is the coefficient of self induction, and $I$ is the current flowing in the circuit.
 
         For ferromagnetic materials, the energy can be found by
         \begin{equation}
@@ -807,7 +824,7 @@ The lectures and my notes are both in english, and as such this document will al
                 G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \hat{r}\right).
             \end{equation}
             $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
-            This coefficient is not named in the lectures, and neither the shorthand notation of $G$.
+            (This coefficient is not named in the lectures, and neither the shorthand notation of $G$, so it will not be found in the notes).
             $r$ is the pointwise distance between the circuits. By Newton's third law of motion, 
             $F_{2,1} = -F_{1,2}$, and as such $G_{2,1} = - G_{1,2}$.
 
@@ -825,7 +842,7 @@ The lectures and my notes are both in english, and as such this document will al
         \begin{equation*}
             \left<\vec{m}\right> = 0
         \end{equation*}
-        in most materials, since each $\vec{m}$ point in a random direction. 
+        in most materials, since the direction is uniformly distributed. 
 
         \subsubsection{Magnetisation vector}
             We define the \textit{magnetisation vector} as follows:
@@ -843,8 +860,8 @@ The lectures and my notes are both in english, and as such this document will al
                 \j_{s, m} = \vec{M}\times\hat{n},
             \end{equation}
             where $\j_{s, m}$ is the current density on the \textbf{s}urface 
-            (perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
-            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector of the perimiter of the disc. 
+            (which is the perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
+            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector along the perimiter of the disc. 
 
             Generalising the disc to a cylinder with length $l$, we have the relation
             \begin{equation}
@@ -939,13 +956,13 @@ The lectures and my notes are both in english, and as such this document will al
         
         \subsubsection{Ferromagnetic materials}
             In ferromagnetic materials, each grain in the crystal has aligned $\vec{m}$ separately. 
-            In an external \B-field, more and more grains align. 
+            In the presence an external \B-field, more and more grains align. 
             Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H{} is NOT linear.
 
             If the applied \H{} is increased, $\vec{M}$ will eventually reach \textit{saturation magnetisation}. 
             If \H{} is then decreased to zero, there will still be a \textit{residual magnetisation} $\vec{M} > 0$. 
             Similarly and equivalently for continuing the reduction of \H{} into high negative values, 
-            a saturation magnetisation of equal magnitude as before will be reached.
+            a saturation magnetisation of equal magnitude as before (but opposite direction, since $\vec{M}$ aligns with \H) will be reached.
 
         
 \section{Time-variant fields}
@@ -974,7 +991,7 @@ The lectures and my notes are both in english, and as such this document will al
         \end{equation}
         Note that this also holds in general, since $\nabla\times\E = 0$ for an electrostatic field \E.
     
-    \subsection{Time-varying electric field}
+    \subsection{Time-varying electric field} \label{Time-varying electric field}
         A changing electrical field induces a \textit{displacement current} such that
         \begin{equation}
             \nabla \cdot \j_s = -\nabla\left(\e\frac{\partial\E}{\partial t}\right),
@@ -1059,13 +1076,13 @@ The lectures and my notes are both in english, and as such this document will al
             \begin{equation}
                 \emf - RI = L_{1,1}\frac{\partial I}{\partial t},
             \end{equation}
-            where $A$ is an integration constant and is decided by the initial conditions.
+            where $A$ is an integration constant and is determined by the initial conditions.
 
             With initial conditions $t=0,\, I=0$, we get 
             \begin{equation}
                 I(t) = \frac{\emf}{R}\left(1-e^{\frac{-L}{R}t}\right),
             \end{equation}
-            i.e. closing the switch at t=0 results in an inverse exponential increase in current 
+            i.e. closing the switch at $t=0$ results in an inverse exponential increase in current 
             with an upper bound of $\frac{\emf}{R}$, i.e. conductor-like behaviour for $L$.
 
             Consider initial conditions $t=0\, I = \frac{\emf}{R}$, i.e. we open the switch at $t=0$.
@@ -1148,7 +1165,8 @@ The lectures and my notes are both in english, and as such this document will al
 
             A small $Q$, on the other hand, will result in a wide band of "accepted" frequencies, which can be useful in other circumstances.
         
-            What size ranges is considered "small" and "large" was not discussed during lectures. 
+            Which size ranges are considered "small" and "large" was not discussed during lectures. 
+
     \subsection{Electromagnetic waves}
         \subsubsection{Magnetic vector potential}
             Since \B{} is solenoidal, it can be written as the curl of another vector field. 
