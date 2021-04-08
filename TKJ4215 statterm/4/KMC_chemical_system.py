@@ -51,16 +51,20 @@ class Reaction:
             kinetic_forward (float): rate coefficient for the forward reaction
             kinetic_reverse (float): rate coefficient for the backwards reaction
         """
-        self.__reactants = reactants
-        self.__products = products
-        self.__k_f = kinetic_forward
-        self.__k_r = kinetic_reverse
+        self._reactants = reactants
+        self._products = products
+        self._k_f = kinetic_forward
+        self._k_r = kinetic_reverse
     
     def get_k_f(self) -> float:
-        return self.__k_f
+        return self._k_f
     
     def get_k_r(self) -> float:
-        return self.__k_r
+        return self._k_r
+    
+    def get_K(self) -> float:
+        return self._k_f / self._k_r
+
 
     def get_reactants(self) -> List[Substance]:
         """return a copy of the reactants
@@ -68,7 +72,7 @@ class Reaction:
         Returns:
             List[str]
         """
-        return self.__reactants.copy()
+        return self._reactants.copy()
     
 
     def get_products(self) -> List[Substance]:
@@ -77,7 +81,7 @@ class Reaction:
         Returns:
             List[str]
         """
-        return self.__products.copy()
+        return self._products.copy()
     
 
     def get_substances(self) -> List[Substance]:
@@ -98,7 +102,7 @@ class Reaction:
         Returns:
             bool
         """
-        return substance in self.__reactants
+        return substance in self._reactants
 
 
     def is_product(self, substance: Substance) -> bool:
@@ -110,17 +114,19 @@ class Reaction:
         Returns:
             bool
         """
-        return substance in self.__products
+        return substance in self._products
+
 
     def __eq__(self, other):
-        return self.get_substances() == other.get_substances() and self.__k_r == other.__k_r and self.__k_f == other.__k_f
+        return self.get_substances() == other.get_substances() and self._k_r == other._k_r and self._k_f == other._k_f
+
 
     def __str__(self):
         res = ""
-        for s in self.__reactants:
+        for s in self._reactants:
             res += str(s) + " + "
         res =  res[:-2] + "<=> "
-        for s in self.__products:
+        for s in self._products:
             res += str(s) + " + "
         return res[:-3]
 
@@ -143,9 +149,9 @@ class System:
         Args:
             volume (float, optional ): The volume of the system. Defaults to 1
         """
-        self.__V = volume
-        self.__reactions = list()
-        self.__substances = dict() # {Substance: int}
+        self._V = volume
+        self._reactions = list()
+        self._substances = dict() # {Substance: int}
         
     
     def get_state(self) -> Dict[Substance, int]:
@@ -154,11 +160,17 @@ class System:
         Returns:
             Dict[Substance, int]: dictionary where the key of a substance returns the amount of that substance
         """
-        return self.__substances.copy()
+        return self._substances.copy()
 
     
-    def get_reactions(self):
-        return self.__reactions.copy()
+    def get_reactions(self) -> List[Reaction]:
+        """returns a copy of the reactions
+
+        Returns:
+            List[Reaction]
+        """
+        return self._reactions.copy()
+
 
     def add_reaction(self, reaction: Reaction) -> None:
         """add a reaction to the system
@@ -169,13 +181,14 @@ class System:
         Raises:
             KeyError: if the reaction is already in the system
         """
-        if reaction not in self.__reactions:
-            self.__reactions.append(reaction)
+        if reaction not in self._reactions:
+            self._reactions.append(reaction)
             for substance in reaction.get_substances():
-                if substance not in self.__substances.keys():
-                    self.__substances[substance] = 0
+                if substance not in self._substances.keys():
+                    self._substances[substance] = 0
         else:
             raise KeyError("Reaction already in the system")
+
 
     def set_amount(self, substance: str, amount: int) -> None:
         """set the amount of a substance in the system
@@ -188,7 +201,7 @@ class System:
             KeyError: if the substance is not in the system
         """
         try:
-            self.__substances[substance] = amount
+            self._substances[substance] = amount
         except KeyError:
             raise KeyError("Substance not in system")
     
@@ -206,12 +219,12 @@ class System:
             float
         """
 
-        if reaction not in self.__reactions:
+        if reaction not in self._reactions:
             raise KeyError("Reaction not part of system")
 
         res = reaction.get_k_f()
         for reactant in reaction.get_reactants():
-            res *= self.__substances[reactant] / self.__V
+            res *= self._substances[reactant] / self._V
         return res
     
 
@@ -227,13 +240,14 @@ class System:
         Returns:
             float
         """
-        if reaction not in self.__reactions:
+        if reaction not in self._reactions:
             raise KeyError("Reaction not part of system")
 
         res = reaction.get_k_r()
         for product in reaction.get_products():
-            res *= self.__substances[product] / self.__V
+            res *= self._substances[product] / self._V
         return res
+
 
     def _get_forward_probability(self, reaction: Reaction) -> float:
         """get the probability of a reaction happening
@@ -272,23 +286,23 @@ class System:
         update the system state by comparing the random number with reaction probabilities
 
         returns:
-            np.array: timestep until next reaction, same indices as self.__reactions
+            np.array: timestep until next reaction, same indices as self._reactions
         """
         random_num = uniform(0,1)
         
         # first, get all directions of reactions
-        signs = [1 if random_num < self._get_forward_probability(reaction) else -1 for reaction in self.__reactions]
+        signs = [1 if random_num < self._get_forward_probability(reaction) else -1 for reaction in self._reactions]
 
         # then, update the amounts. Done separately to calculate each probability for the same particle amounts
-        for i, reaction in enumerate(self.__reactions):
+        for i, reaction in enumerate(self._reactions):
             sign = signs[i]
             for reactant in reaction.get_reactants():
-                self.__substances[reactant] -= reactant.amount * sign
+                self._substances[reactant] -= reactant.amount * sign
             for product in reaction.get_products():
-                self.__substances[product] += product.amount * sign
+                self._substances[product] += product.amount * sign
 
         log_p = np.log(random_num)
-        return np.array([-log_p / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction)) for reaction in self.__reactions])
+        return np.array([-log_p / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction)) for reaction in self._reactions])
     
 
     def _update_single(self, reaction: Reaction) -> float:
@@ -305,16 +319,52 @@ class System:
         """
         random_num = uniform(0,1)
 
-        if reaction not in self.__reactions:
+        if reaction not in self._reactions:
             raise KeyError("Reaction not part of system")
         
         sign = 1 if random_num < self._get_forward_probability(reaction) else -1
         for reactant in reaction.get_reactants():
-            self.__substances[reactant] -= reactant.amount * sign
+            self._substances[reactant] -= reactant.amount * sign
         for product in reaction.get_products():
-            self.__substances[product] += product.amount * sign
+            self._substances[product] += product.amount * sign
 
         return -np.log(random_num) / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction))
+
+    def _is_equilibrium(self, verbose: bool = False) -> bool:
+        """returns True if the system is in equilibrium
+
+        Returns:
+            bool
+        """
+        # max error allowed, as a ratio
+        max_error = 0.01
+        Qs = []
+        for reaction in self._reactions:
+            reactants = reaction.get_reactants()
+            products = reaction.get_products()
+
+            Q_num = 1
+            for substance in products:
+                Q_num *= (self._substances[substance] / self._V) ** substance.amount
+
+            Q_den = 1
+            for substance in reactants:
+                Q_den *= (self._substances[substance] / self._V) ** substance.amount
+            
+            if Q_den == 0:
+                continue
+
+            Q = Q_num / Q_den
+            K = reaction.get_K()
+            
+            print(Q, K, abs(1 - Q / K)) if verbose else None
+            Qs.append(Q)
+
+        for Q in Qs:
+            if abs(1 - Q / K) > max_error:
+                return False
+
+        return True
 
 
     def calculate(self, save_timestep: float, end_time: float) -> Union[Dict[Substance, List[int]], np.array]:
@@ -324,9 +374,10 @@ class System:
         time = 0
         update_times = self._update_all()
         
+        iters = 0
         # main loop
         while time < end_time:
-
+            iters += 1
             # find the time to wait
             min_idle = min(update_times)
 
@@ -334,24 +385,32 @@ class System:
             i = update_times.tolist().index(min_idle)
 
             # do the reaction
-            add_time = self._update_single(self.__reactions[i])
+            add_time = self._update_single(self._reactions[i])
 
             # update the times
             update_times -= min_idle
             update_times[i] += add_time
             time += min_idle
-
+            print(max(update_times))
             # check if we should save the state
             if (time - timesteps[-1]) >= save_timestep:
                 data.append(self.get_state())
                 timesteps = np.append(timesteps, [time])
+
+            if self._is_equilibrium():
+                print(f"Equilibrium reached at time = {time}, which is {round(100*time/end_time, 1)}% of the requested timeframe")
+                data.append(self.get_state())
+                timesteps = np.append(timesteps, [time])
+                break
         
         # reformat the data, to be a dict: {Substance: list(amounts)}
         reformat = {}
         for substance in data[0].keys():
             reformat[substance] = [d[substance] for d in data]
 
+        print(iters, "iterations")
         return reformat, timesteps
+
 
     @staticmethod
     def plot_data(data: Dict[Substance, List[int]], timesteps: np.array) -> None:
@@ -360,6 +419,7 @@ class System:
             plt.plot(timesteps, data[substance])
             legend.append(substance.name)
         plt.xlabel("Time")
+        plt.xscale("log")
         plt.ylabel("Amount")
         plt.legend(legend)
         plt.show()
@@ -374,21 +434,28 @@ B = Substance("B")
 C = Substance("C")
 D = Substance("D")
 
-reac1 = Reaction([A, B], [2*C], kinetic_forward=1, kinetic_reverse=0.01)
+reac1 = Reaction([A, B], [C], kinetic_forward=1, kinetic_reverse=0.01)
 print(reac1)
 
-reac2 = Reaction([C, D], [2*A], kinetic_forward=1, kinetic_reverse= 1)
+reac2 = Reaction([C, D], [A], kinetic_forward=1, kinetic_reverse= 0.1)
 print(reac2)
 
-sys = System(volume=1)
+simple_reac = Reaction([A], [B], 1, 0.51)
+
+sys = System()
 sys.add_reaction(reac1)
 sys.add_reaction(reac2)
+sys.add_reaction(simple_reac)
 sys.set_amount(A, 1000)
-sys.set_amount(B, 1000)
+sys.set_amount(B, 500)
 # C is at 0, as is default
 sys.set_amount(D, 1000)
 
+data, timesteps = sys.calculate(save_timestep= 0.00001, end_time=15)
+avg_data = {}
+for substance in data.keys():
+            tmp = np.array(data[substance])
+            avg_data[substance] = [np.average(tmp[max(0, i-5):min(i+5, len(tmp))]) for i in range(len(tmp))]
 
-data, timesteps = sys.calculate(save_timestep= 0.0001, end_time=0.03)
 
-sys.plot_data(data, timesteps)
+sys.plot_data(avg_data, timesteps)
