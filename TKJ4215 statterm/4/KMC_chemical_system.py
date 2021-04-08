@@ -281,12 +281,9 @@ class System:
         return 1 - self._get_forward_probability(reaction)
     
 
-    def _update_all(self) -> np.array:
+    def _update_all(self) -> None:
         """
         update the system state by comparing the random number with reaction probabilities
-
-        returns:
-            np.array: timestep until next reaction, same indices as self._reactions
         """
         random_num = uniform(0,1)
         
@@ -301,18 +298,12 @@ class System:
             for product in reaction.get_products():
                 self._substances[product] += product.amount * sign
 
-        log_p = np.log(random_num)
-        return np.array([-log_p / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction)) for reaction in self._reactions])
-    
 
-    def _update_single(self, reaction: Reaction) -> float:
+    def _update_single(self, reaction: Reaction) -> None:
         """update the system state by comparing the random number with the reaction probability
 
         Args:
             reaction (Reaction): reaction to calculate for
-
-        Returns:
-            float: time until next reaction
 
         Raises:
             KeyError: if reaction is not in the system
@@ -328,9 +319,8 @@ class System:
         for product in reaction.get_products():
             self._substances[product] += product.amount * sign
 
-        return -np.log(random_num) / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction))
 
-    def _is_equilibrium(self, verbose: bool = False) -> bool:
+    def _is_equilibrium(self) -> bool:
         """returns True if the system is in equilibrium
 
         Returns:
@@ -338,7 +328,7 @@ class System:
         """
         # max error allowed, as a ratio
         max_error = 0.01
-        Qs = []
+
         for reaction in self._reactions:
             reactants = reaction.get_reactants()
             products = reaction.get_products()
@@ -357,10 +347,6 @@ class System:
             Q = Q_num / Q_den
             K = reaction.get_K()
             
-            print(Q, K, abs(1 - Q / K)) if verbose else None
-            Qs.append(Q)
-
-        for Q in Qs:
             if abs(1 - Q / K) > max_error:
                 return False
 
@@ -368,11 +354,31 @@ class System:
 
 
     def calculate(self, save_timestep: float, end_time: float) -> Union[Dict[Substance, List[int]], np.array]:
+        """Calculates the system's behaviour over time
+
+        Args:
+            save_timestep (float): How often the system's state should be saved
+            end_time (float): When, at the latest, the execution should finish. 
+            Breaks early if equilibrium is reached. This is alerted in the console.
+
+        Returns:
+            Union[Dict[Substance, List[int]], np.array]: data, timesteps. 
+            data is a dict, where the keys are substances, and the values are lists of particle-amounts.
+            timesteps is a numpy array with corresponding time-values.
+        """
         # setup
         data = [self.get_state()]
         timesteps = np.array([0])
         time = 0
-        update_times = self._update_all()
+        self._update_all()
+
+        # calculate expected time until next reaction:
+        # - log(random) / (sum of reaction rates (both f and r))
+        def update_update_times():
+            return  np.array([-np.log(uniform(0,1)) / (self._get_forward_rate(reaction) + self._get_reverse_rate(reaction)) for reaction in self._reactions])
+
+        update_times = update_update_times()
+    
         
         iters = 0
         # main loop
@@ -385,13 +391,17 @@ class System:
             i = update_times.tolist().index(min_idle)
 
             # do the reaction
-            add_time = self._update_single(self._reactions[i])
+            self._update_single(self._reactions[i])
+
+            # update update times
+            update_times = update_update_times()
+            add_time = update_times[i]
 
             # update the times
             update_times -= min_idle
             update_times[i] += add_time
             time += min_idle
-            print(max(update_times))
+            #print(max(update_times))
             # check if we should save the state
             if (time - timesteps[-1]) >= save_timestep:
                 data.append(self.get_state())
@@ -408,7 +418,7 @@ class System:
         for substance in data[0].keys():
             reformat[substance] = [d[substance] for d in data]
 
-        print(iters, "iterations")
+        print("Used", iters, "iterations")
         return reformat, timesteps
 
 
@@ -429,33 +439,40 @@ class System:
 ##      Here we define our specific system      ##
 ##################################################
 
+# define our substances
 A = Substance("A")
 B = Substance("B")
 C = Substance("C")
 D = Substance("D")
 
+# define the reactions
 reac1 = Reaction([A, B], [C], kinetic_forward=1, kinetic_reverse=0.01)
 print(reac1)
 
 reac2 = Reaction([C, D], [A], kinetic_forward=1, kinetic_reverse= 0.1)
 print(reac2)
 
-simple_reac = Reaction([A], [B], 1, 0.51)
+simple_reac = Reaction([A], [B], 1, 1)
+print(simple_reac)
 
+# put the reactions in a system
 sys = System()
 sys.add_reaction(reac1)
 sys.add_reaction(reac2)
 sys.add_reaction(simple_reac)
-sys.set_amount(A, 1000)
-sys.set_amount(B, 500)
+sys.set_amount(A, 10000)
+sys.set_amount(B, 5000)
 # C is at 0, as is default
-sys.set_amount(D, 1000)
+sys.set_amount(D, 10000)
 
+# calculate the behaviour
 data, timesteps = sys.calculate(save_timestep= 0.00001, end_time=15)
+
+# optionally average out the data, removes ugly fluctuations
 avg_data = {}
 for substance in data.keys():
             tmp = np.array(data[substance])
             avg_data[substance] = [np.average(tmp[max(0, i-5):min(i+5, len(tmp))]) for i in range(len(tmp))]
 
-
-sys.plot_data(avg_data, timesteps)
+# finally, plot the result
+sys.plot_data(data, timesteps)
