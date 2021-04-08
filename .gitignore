@@ -14,6 +14,8 @@ TKJ4215 statterm/Stirlings.txt
 *.png
 *MakeFile
 *.synctex.gz
+*.txt
+*.mp4
 
 # courses
 TFY4185*
@@ -29,4 +31,3 @@ __pycache__
 TDT4102 C++/TDT4102_Windows(5)
 
 
-*.txt
