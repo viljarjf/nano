@@ -393,15 +393,14 @@ class System:
             # do the reaction
             self._update_single(self._reactions[i])
 
-            # update update times
-            update_times = update_update_times()
-            add_time = update_times[i]
+            
 
             # update the times
-            update_times -= min_idle
-            update_times[i] += add_time
             time += min_idle
-            #print(max(update_times))
+
+            # update update times
+            update_times = update_update_times()
+
             # check if we should save the state
             if (time - timesteps[-1]) >= save_timestep:
                 data.append(self.get_state())
@@ -439,40 +438,42 @@ class System:
 ##      Here we define our specific system      ##
 ##################################################
 
-# define our substances
-A = Substance("A")
-B = Substance("B")
-C = Substance("C")
-D = Substance("D")
+if __name__ == "__main__":
+    
+    # define our substances
+    A = Substance("A")
+    B = Substance("B")
+    C = Substance("C")
+    D = Substance("D")
 
-# define the reactions
-reac1 = Reaction([A, B], [C], kinetic_forward=1, kinetic_reverse=0.01)
-print(reac1)
+    # define the reactions
+    reac1 = Reaction([A, B], [2*C], kinetic_forward=1, kinetic_reverse=0.01)
+    print(reac1)
 
-reac2 = Reaction([C, D], [A], kinetic_forward=1, kinetic_reverse= 0.1)
-print(reac2)
+    reac2 = Reaction([C, D], [A], kinetic_forward=1, kinetic_reverse= 0.1)
+    print(reac2)
 
-simple_reac = Reaction([A], [B], 1, 1)
-print(simple_reac)
+    simple_reac = Reaction([A], [B], 1, 1)
+    print(simple_reac)
 
-# put the reactions in a system
-sys = System()
-sys.add_reaction(reac1)
-sys.add_reaction(reac2)
-sys.add_reaction(simple_reac)
-sys.set_amount(A, 10000)
-sys.set_amount(B, 5000)
-# C is at 0, as is default
-sys.set_amount(D, 10000)
+    # put the reactions in a system
+    sys = System()
+    sys.add_reaction(reac1)
+    sys.add_reaction(reac2)
+    sys.add_reaction(simple_reac)
+    sys.set_amount(A, 4000)
+    sys.set_amount(B, 2000)
+    sys.set_amount(C, 5)
+    sys.set_amount(D, 1337)
 
-# calculate the behaviour
-data, timesteps = sys.calculate(save_timestep= 0.00001, end_time=15)
+    # calculate the behaviour
+    data, timesteps = sys.calculate(save_timestep= 0.00001, end_time=150)
 
-# optionally average out the data, removes ugly fluctuations
-avg_data = {}
-for substance in data.keys():
-            tmp = np.array(data[substance])
-            avg_data[substance] = [np.average(tmp[max(0, i-5):min(i+5, len(tmp))]) for i in range(len(tmp))]
+    # optionally average out the data, removes ugly fluctuations
+    avg_data = {}
+    for substance in data.keys():
+                tmp = np.array(data[substance])
+                avg_data[substance] = [np.average(tmp[max(0, i-5):min(i+5, len(tmp))]) for i in range(len(tmp))]
 
-# finally, plot the result
-sys.plot_data(data, timesteps)
+    # finally, plot the result
+    sys.plot_data(data, timesteps)
