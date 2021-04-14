@@ -6,17 +6,14 @@ TDT4102 C++/Øvinger/øving 0/main.exe
 TDT4102 C++/Øvinger/øving 0/main.obj
 TFY4115 fysikk 1/Fysikklab.xlsx
 TKJ4215 statterm/m_AB.pkl
-TKJ4215 statterm/Stirlings.txt
 
 # filetypes
 *.pdf
 *.zip
 *.png
 *MakeFile
-*.synctex.gz
 *.txt
 *.mp4
-*.xdv
 *.fuse_hidden*
 
 # courses

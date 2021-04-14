@@ -1,0 +1,37 @@
+{
+    "python.pythonPath": "C:\\Python\\3.9\\python.exe",
+    "latex-workshop.latex.tools": [
+
+        {
+            "name": "latexmk build",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "--output-directory=.build",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk cleanup",
+            "command": "move",
+            "args": [
+                ".build\\*.pdf",
+                "."
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk custom",
+            "tools": [
+                "latexmk build",
+                "latexmk cleanup"
+            ]
+        }
+    ]
+}
