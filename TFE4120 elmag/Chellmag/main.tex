@@ -603,7 +603,7 @@ The lectures and my notes are both in english, and as such this document will al
     \begin{equation}
         C = \frac{q}{\Delta V}
     \end{equation}
-    where $q$ is the total charge of the capacitor and $\delta V$ is the difference in potential between the conductors.
+    where $q$ is the total charge of the capacitor and $\Delta V$ is the difference in potential between the conductors.
     
     Capacitance is measured in farad [F].
     
@@ -1289,10 +1289,20 @@ The lectures and my notes are both in english, and as such this document will al
                 u_{\text{em}} = \e E^2 = \frac{1}{\mu_0}\, B^2.
             \end{equation}
         
-        \subsubsection{Pointing vector}
+        \subsubsection{Poynting vector}
             The Pointing vector describes the power of an electromagnetic wave per area:
             \begin{equation}
                 \vec{S} = \frac{1}{\mu_0}\,\E\times\B
             \end{equation}
+        
 
+    \begin{align*}
+        S &= \iint_S dxdy \\
+        &= \iint_S rdrd\theta \\
+        &= \iint_S r(z)dzd\theta \\
+        &= \iint_S \sqrt(2z) dzd\theta \\
+        &= \int_0^{2\pi}\int_0^1\sqrt(2z) dzd\theta \\
+        &= SPOILER \\
+        &= \frac{4\pi\sqrt(2)}{3}
+    \end{align*}
 \end{document}
