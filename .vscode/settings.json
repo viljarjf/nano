@@ -17,9 +17,9 @@
         },
         {
             "name": "latexmk cleanup",
-            "command": "move",
+            "command": "mv",
             "args": [
-                ".build\\*.pdf",
+                ".build/%DOCFILE%.pdf",
                 "."
             ],
             "env": {}
