@@ -2,6 +2,7 @@ import sys, pygame
 from numpy.random import randint
 import numpy as np
 import numba
+from matplotlib import pyplot as plt
 
 from reaction_system import Substance, Reaction, System
 from typing import Any, Tuple
@@ -40,6 +41,8 @@ class AnimatedSystem(System):
         self._OFF_COLOR = rgb_to_int(0, 0, 0)
 
         self._radius = 10
+
+        self._entropy_arr = np.zeros((10000), dtype = np.float32)
         
         # second, compile the numba functions 
         @numba.jit(numba.int32[:,:](numba.int32[:,:]), nopython = True)
@@ -93,7 +96,7 @@ class AnimatedSystem(System):
             np.random.shuffle(iter2)
 
             # iterate over all particles
-            for i in iter1:
+            for i in iter1: 
                 for j in iter2:
                     if arr[i,j] == in_1:
                         # if a lattice point is occupied, check a random direction
@@ -191,13 +194,41 @@ class AnimatedSystem(System):
                                     
             return arr
 
+        # entropy
+        @numba.jit(numba.float64(numba.int32[:,:]), nopython = True)
+        def entropy(arr) -> float:
+            black = 0
+            arr_copy = arr.copy()
+            x_arr = arr_copy[0, :]
+            for y in range(arr.shape[0]):
+                x_arr |= arr_copy[y, :]
+            x_max = np.max(np.nonzero(x_arr)[0])
+            x_min = np.min(np.nonzero(x_arr)[0])
+
+            y_arr = arr_copy[:, 0]
+            for x in range(arr.shape[1]):
+                y_arr |= arr_copy[:, x]
+            y_max = np.max(np.nonzero(y_arr.flatten())[0])
+            y_min = np.min(np.nonzero(y_arr.flatten())[0])
+
+            x_diff = x_max - x_min
+            y_diff = y_max - y_min
+
+            M = y_diff*x_diff
+            N = np.count_nonzero(arr != black)
+
+            # use stirling's
+            return M*np.log(M) - M -(N*np.log(N) - N + (M-N)*np.log(M-N) -(M-N))
+
         # compile
         a = inert(np.zeros(self._SIZE, dtype = np.int32))
         a = react(a, 1, 2, 0.5, 3, 4)
+        a = entropy(np.zeros((3,3), dtype = np.int32)+1)
         del a
 
         self._update_array_inert = inert
         self._update_array_reaction = react
+        self._calculate_entropy = entropy
 
         # last, run the parent constructor
         v = height * width
@@ -267,14 +298,20 @@ class AnimatedSystem(System):
         
 
     def animate(self):
-        """Start the animation. This is a while-loop, and will not stop unless the window is closed
+        """Start the animation. This is a while-loop, and will not stop unless the window is closed.
+
+        An entropy-plot (first 10k steps) is shown when the window is closed.
         """
         pygame.init()
         self._SCREEN = pygame.display.set_mode(self._SIZE)
         draw = True
+        i = 0
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: 
+                    self._entropy_arr = self._entropy_arr[self._entropy_arr > 0]
+                    plt.plot(np.arange(len(self._entropy_arr)), self._entropy_arr)
+                    plt.show()
                     sys.exit()   
 
                 elif event.type == pygame.KEYDOWN:
@@ -309,7 +346,7 @@ class AnimatedSystem(System):
                 arr = pygame.surfarray.array2d(self._SCREEN)
                 # first move the particles
                 arr = self._update_array_inert(arr)
-
+                
                 # then do the reactions
                 for reaction in self._reactions:
                     # use the private variable for speed
@@ -325,6 +362,11 @@ class AnimatedSystem(System):
                         None if d is self.VOID_SUBSTANCE else rgb_to_int(*d.color)
                     )
 
+                # calculate local entropy
+                if np.count_nonzero(arr != 0) and i < 10000:
+                    self._entropy_arr[i] = self._calculate_entropy(arr)
+                    i += 1
+                
                 pygame.surfarray.blit_array(self._SCREEN, arr)
 
                 # update particle amounts
