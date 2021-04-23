@@ -1,10 +1,8 @@
 import numpy as np
 import numba
-import sympy
 from matplotlib import pyplot as plt
 from matplotlib import animation
 from typing import List, Tuple
-from scipy.optimize import fsolve
 from mpl_toolkits.mplot3d import Axes3D
 
 
@@ -29,15 +27,18 @@ def force(points: np.array, i: int)-> np.array:
     sigma = 0.5
     mass = 1
     epsilon_0 = 1
+    q = 1
+    G = 1
 
     f = np.array([.0, .0, .0])
     for _p in points:
         d = _p - p 
         r = np.linalg.norm(d)
-        LJ_force = 24*epsilon/mass*((sigma/r)**7 - 2*(sigma/r)**13)
-        
+        #LJ_force = 24*epsilon/mass*((sigma/r)**7 - 2*(sigma/r)**13)
+        LJ_force = 0
         col_force = 0
-        f += (LJ_force + col_force)*(d/r)
+        gravity = G*mass / r**2
+        f += (LJ_force + col_force + gravity)*(d/r)
     return f.astype(np.float32)
 
 
@@ -100,6 +101,7 @@ def ode_solver(x0: float, xend: float, y0: np.array, h: float) -> np.array:
         xn += h
 
         y_num[n] = yn
+        print(f"\r{n/iterations*100}%", end = "\r")
         
     return y_num
 
@@ -124,16 +126,18 @@ def animate(data):
     ax.set_zlabel('Z(t)')
     
     # Creating the Animation object
-    line_anime = animation.FuncAnimation(
+    anime = animation.FuncAnimation(
         fig, 
         animate_scatters, 
         frames=numDataPoints, 
         fargs=(data,scatters), 
-        interval=1, 
+        interval=1000//60, 
         blit=False
         )
     
-    plt.show()
+    writer = animation.FFMpegWriter(fps = 60)
+    
+    anime.save('gravity.mp4', writer=writer)
 
 # compile stuff
 ode_solver(
@@ -146,12 +150,15 @@ ode_solver(
     0.1
 )
 
-n_particles = 50
+n_particles = 5000
 np.random.seed(42)
-init_pos = np.random.rand(n_particles, 3)*4
-init_speed = np.zeros((n_particles, 3))
+init_pos = np.random.rand(n_particles, 3)*60
+init_speed = np.random.rand(n_particles, 3)#np.zeros((n_particles, 3))
 init = np.array([init_pos, init_speed])
 
+print("Creating data...")
 r = ode_solver(0, 1, init, 0.001)
-
-animate(r[:, 0, :, :])
+print("Data created")
+print("Saving video...")
+animate(r[::10, 0, :, :])
+print("Video created")

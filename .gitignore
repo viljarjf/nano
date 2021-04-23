@@ -15,6 +15,9 @@ TKJ4215 statterm/m_AB.pkl
 *.txt
 *.mp4
 *.fuse_hidden*
+*.synctex.gz
+*.txt
+*.mp4
 
 # courses
 TFY4185*
