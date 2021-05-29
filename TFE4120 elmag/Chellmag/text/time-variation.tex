@@ -46,7 +46,7 @@
     where we often omit the subscript on $\j$, and $\partial S$ is the perimiter of the surface $S$.
 
 \subsection{Examples of magnetically induced current}
-    \subsubsection{Rod on a rail}
+    \subsubsection*{Rod on a rail}
         Two conductive parallel rails, seperated by a distance $b$ and connected with a resistor $R$, stretch infinitley long, 
         and is immersed in a static and uniform \B-field (i.e. constant in time and space). 
         A conductive rod with resistance $r$ is placed between the rods at a distance $x_0$ from the resistor, 
@@ -71,7 +71,7 @@
         \end{equation}
         It is clear that, if no external force is applied, the rod will stop moving.
 
-    \subsubsection{Rotating mesh}
+    \subsubsection*{Rotating mesh}
         A rectangular mesh (resistance $R$) with area $S$ rotates along an axis along its surface with angular velocity $\omega$. 
         It is immersed in a static, uniform \B-field (i.e. constant in time and space).
         We get 
@@ -90,7 +90,7 @@
             \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 S^2}{R}\sin^2(\omega t).
         \end{equation}
     
-    \subsubsection{Self-induction}
+    \subsubsection*{Self-induction}
         A circuit with current induces a magnetic field. 
         If the current varies, then the flux of the induced magnetic field through the circuit also varies. 
         We get
@@ -162,7 +162,7 @@
     \subsubsection{Permanent oscilations in RLC-circuits}
 
         Adding an AC source $\emf(t) = \emf_0\cos\left(\omega t + \phi\right)$ to our RLC-circuit, where all components are in parallel, 
-        we get equation \ref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
+        we get equation \eqref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
         
         We wave our hands, and get the following as a solution: 
         \begin{equation}
@@ -170,7 +170,7 @@
         \end{equation}
         where 
         \begin{align*}
-            \phi &= \text{atan} \left(\frac{\omega L - \left(\omega C\right)^{-1}}{R}\right)\\
+            \phi &= \text{arctan} \left(\frac{\omega L - \left(\omega C\right)^{-1}}{R}\right)\\
             I_0 &= \frac{\emf_0}{\sqrt{R^2 + \left(\omega L - \left(\omega C\right)^{-1}\right)^2}},
         \end{align*}
         where $\phi$ is the phase of the AC source.
@@ -221,7 +221,7 @@
         \end{align*}
         where $S$ is a scalar function with both a spatial- and a time-parameter.
         Applying this mathematical feature is called a \textit{Gauge transform}.
-    \subsubsection{Arriving at the wave equation}
+    \subsubsection*{Arriving at the wave equation}
         Inserting $V$ and $\vec{A}$ into Maxwell's equations, we get the following: 
         \begin{align*}
             \nabla^2V - \e\mu_0\frac{\partial^2V}{\partial t^2} &= \frac{-\rho}{\e}\\
@@ -281,7 +281,7 @@
     Most non-electrical light-sources produce \textit{unpolarised light}, which, contrary to what the name suggests, 
     contains both linearly and eliptically polarised light in somewhat equal proportions. 
 
-    \subsubsection{Linearly polarised electromagnetic waves}
+    \subsubsection*{Linearly polarised electromagnetic waves}
         Both fields of the electromagnetic waves only oscilate in one direction,
         i.e. if the wave propagates in the $z$-direction, 
         then the phase difference between the $x$- and $y$-component of each field is zero.
@@ -295,7 +295,7 @@
         $\omega$ is the angular frequency, 
         and $\phi$ is an arbitrary initial phaseshift which is usually set to 0.
 
-    \subsubsection{Eliptically polarised electromagnetic waves}
+    \subsubsection*{Eliptically polarised electromagnetic waves}
         Eliptically polarised waves propagating in the $z$-direction can be mathematically described by
         \begin{equation}
             \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi_x \right)\hat{x} +
@@ -311,20 +311,20 @@
         as compared to the linear behaviour of the linearly polarised counterpart.
 
         Note that, if $E_{0x} = E_{0y}$, (and $\phi_x = \phi_y + \frac{\pi}{2}$, which is true for this course)
-            then the wave is circularly polarised.
+        then the elipse becomes a circle, and the wave is \textit{circularly polarised}.
 
         Applying the right hand rule, 
         one can determine if the polarised wave is a right-hand or left-hand circularly polarised.
 
 \subsection{The electromagnetic spectrum}
-    The following table shows some basic info for the different classifications of electromagnetic waves.
+    The following table shows some basic information for the different classifications of electromagnetic waves.
     \begin{longtable}[c]{@{}c|c@{}} 
         \caption{The electromagnetic spectrum}    
         \endfirsthead
         \hline
         \multirow{2}{*}{$\displaystyle\lambda < \SI{0.1}{\angstrom}$}
          & Gamma radiation. \\
-         &"You become Hulk" - Emiliano Descorvi.\\
+         &"You become Hulk" - Emiliano Descorvi, 2021.\\
         \hline    
         \multirow{3}{*}{$\displaystyle\lambda < \SI{10}{\angstrom}$}
          & X-rays. \\
@@ -367,20 +367,22 @@
     \end{align}
     which are solved by 
     \begin{align} 
-        V(\vec{r}, t) &= \frac{1}{4\pi\e} \iiint_\tau \frac{\rho\left(\vec{r'}, t'\right)}{|\vec{r} - \vec{r'}|}d\tau \\
-        \vec{A}(\vec{r}, t) &= \frac{\mu_0}{4\pi} \iiint_\tau \frac{\j\left(\vec{r'}, t'\right)}{|\vec{r} - \vec{r'}|}d\tau,
-        \label{retarded potentials}
+        \label{retarded potentials 1}
+        V(\vec{r}, t) &= \frac{1}{4\pi\e} \iiint_\tau \frac{\rho\left(\vec{r'}, t_r\right)}{|\vec{r} - \vec{r'}|}d\tau \\
+        \vec{A}(\vec{r}, t) &= \frac{\mu_0}{4\pi} \iiint_\tau \frac{\j\left(\vec{r'}, t_r\right)}{|\vec{r} - \vec{r'}|}d\tau,
+        \label{retarded potentials 2}
     \end{align}
     where $\tau$ is the volume where $\rho$ and \j{} are defined, 
     and we integrate over all points $\vec{r'}$ in $\tau$.
-    $t' = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the \textit{retarded time}. 
+    $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the \textit{retarded time}. 
     The notion of retarded time is to take the propagation speed into account.
 
 \subsection{Dipoles as electromagnetic wave sources}
     In this chapter, an example of retarded potentials is discussed. 
 
+    \subsubsection*{Introduction}
     If a charge $-q_0$ is placed at the origin of a refrence frame, 
-    and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\omega t \hat{z}$, 
+    and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\left(\omega t\right) \hat{z}$, 
     then this is an oscilating dipole with dipole momentum 
     $\vec{p}\left(t\right) = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
 
@@ -389,7 +391,8 @@
         I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\cos\left(\omega t\right).
     \end{equation*}
     
-    Dimensional analysis of equation \ref{retarded potentials}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
+    \subsubsection*{Finding the retarded potentials}
+    Dimensional analysis of equation \eqref{retarded potentials 2}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
     somehow leads to 
     \begin{equation}
         \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t'\right),
@@ -398,23 +401,51 @@
 
     The potential is found by applying the Lorenz Gauge again:
     \begin{equation}
-        V(\vec{r}, t) =
-        \left(\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right)
-        \frac{p\left(t'\right)}{4\pi\e},
+        V(\vec{r}, t) = \frac{1}{4\pi\e}
+        \left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right]
+        p\left(t'\right),
     \end{equation}
-    where $p = |\vec{p}|$ and $r = |\vec{r}|$.
+    where $p = |\vec{p}|$ and $r = |\vec{r}|$. The expression in brackets is an operator, working on $p$.
 
+    \subsubsection*{Arriving at the electromagnetic fields}
     We can now find \B{} and \E, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
-    \begin{align}
+    \begin{align*}
         E_r &= \frac{2\cos\theta}{4\pi\e r}\left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
                 \eval{p\left(t\right)}_{t=t'}\\
         E_\phi &= 0 \\
         E_\theta &= \frac{\sin\theta}{4\pi\e r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} 
                 + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
                 \eval{p\left(t\right)}_{t=t'}\\
+        &\\
         B_r &= 0 \\
-        B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} + \frac{1}{r^2}\right]
+        B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\frac{1}{c}\frac{\partial^2}{\partial t^2} + \frac{1}{r}\frac{\partial}{\partial t}\right]
             \eval{p\left(t\right)}_{t=t'}\\
         B_\theta &= 0,
-    \end{align}
-    where we still have $p = |\vec{p}|$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. The expressions in brackets are operators, working in $p(t)$.
+    \end{align*}
+    where we still have $p = |\vec{p}| = p_0\sin\left(\omega t\right)$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. 
+    The expressions in brackets are operators, working on $p(t)$.
+
+    As a sidenote, if we apply the relations $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$
+    directly to the general solutions found in equations \eqref{retarded potentials 1} and \eqref{retarded potentials 2}, we arrive at 
+    \textit{Jefimenko's equations}:
+    \begin{align*}
+        \E\left(\vec{r}, t\right) &= \frac{1}{4\pi\e}\iiint_\tau \left[
+            \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3}\rho\left(\vec{r'}, t_r\right)
+            + \frac{\vec{r} - \vec{r'}}{c|\vec{r} - \vec{r'}|^2}\frac{\partial}{\partial t}\rho\left(\vec{r'}, t_r\right)
+            - \frac{1}{c^2|\vec{r} - \vec{r'}|} \frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+            \right]d\tau \\
+        \B\left(\vec{r}, t\right) &= -\frac{\mu_0}{4\pi} \iiint_\tau \left[
+            \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3} \times \j\left(\vec{r'}, t_r\right)
+            + \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^2} \times \frac{1}{c}\frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+            \right]d\tau,
+    \end{align*}
+    where $\rho$ and \j{} are arbitrary charge- and current density distributions, 
+    $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the retarded time,
+    $\tau$ is the volume where $\rho$ and \j{} are defined, 
+    and we integrate over all points $\vec{r'}$ in $\tau$. 
+    Please excuse the width of the equation for \E{}.
+
+    These relations describe the electromagnetic fields for any arbitrary charge- and current density distributions, 
+    taking the non-instantaneous propagation into account,
+    and as such are very powerful if we are able to evaluate the integrals.
+    
