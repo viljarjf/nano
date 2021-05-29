@@ -1,5 +1,3 @@
-     
-\section{Time-variant fields}
 \subsection{Time-varying magnetic field}
     A concuctive mesh with resistance $R$ will, in the presence of an external magnetic field \B, 
     have an induced current $I_i$ such that
@@ -92,7 +90,6 @@
             \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 S^2}{R}\sin^2(\omega t).
         \end{equation}
     
-\subsection{Induction}
     \subsubsection{Self-induction}
         A circuit with current induces a magnetic field. 
         If the current varies, then the flux of the induced magnetic field through the circuit also varies. 
@@ -101,7 +98,7 @@
             \frac{\partial \Phi(\B)}{\partial t} = L_{1,1}\frac{\partial I}{\partial t} = -\emf_{\text{i}},
         \end{equation}
         where $L_{1,1}$ is the \textit{coefficient of self-inductance}. (see \ref{Magnetic flux} for mutual inductance)
-        
+\subsection{Transient circuits}
     \subsubsection{RL-circuits}
         The simplest RL-circuits consist of a source $\emf$, a resistor $R$, and a coil (solenoid) $L$.
         Here, we add a switch as well.
@@ -231,7 +228,7 @@
             \nabla^2\vec{A} - \e\mu_0\frac{\partial^2\vec{A}}{\partial t^2} &= \mu_0\j,
         \end{align*}
         which is clearly the wave equation if there are no sources present ($\rho = \j = 0)$, 
-        where the velocity of propagation is $c$ ($\e\mu_0 = c^{-2}$).
+        where the velocity of propagation is $c$ (since $\e\mu_0 = c^{-2}$).
 
         We use the shorthand notation of the \textit{d'Alembertian}: 
         \begin{equation*}
@@ -270,53 +267,54 @@
         \begin{equation}
             \vec{S} = \frac{1}{\mu_0}\,\E\times\B.
         \end{equation}
+        $\vec{S}$ is measured in \si{\joule\per\second\metre\squared}.
         The average length of $\vec{S}$ can be found by multiple methods:
         \begin{equation}
             \left<|\vec{S}|\right> = \frac{1}{T}\int_T Sdt = \frac{1}{2}\e c\E^2 = \frac{1}{2\mu_0}c\B^2
         \end{equation}
     
-    \subsection{Polarisation}
-        There are two types of polarisation discussed in the lectures: linear and eliptical.
-        By convention, the polarisation refers to the electric field, 
-        but the magnetic field, being orthogonal, will behave similarly.
+\subsection{Polarisation of electromagnetic waves}
+    There are two types of polarisation discussed in the lectures: linear and eliptical.
+    By convention, the polarisation refers to the electric field, 
+    but the magnetic field, being orthogonal, will behave similarly.
+    
+    Most non-electrical light-sources produce \textit{unpolarised light}, which, contrary to what the name suggests, 
+    contains both linearly and eliptically polarised light in somewhat equal proportions. 
+
+    \subsubsection{Linearly polarised electromagnetic waves}
+        Both fields of the electromagnetic waves only oscilate in one direction,
+        i.e. if the wave propagates in the $z$-direction, 
+        then the phase difference between the $x$- and $y$-component of each field is zero.
+        Mathematically, the wave can be written as
+        \begin{equation}
+            \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi\right)\hat{x} +
+            E_{0y}\sin\left(kz - \omega t + \phi\right)\hat{y},
+        \end{equation}
+        where $E_{0x,y}$ are the decomposed amplitude of the wave, 
+        $k$ is the wave vector (one-dimensional in this case), 
+        $\omega$ is the angular frequency, 
+        and $\phi$ is an arbitrary initial phaseshift which is usually set to 0.
+
+    \subsubsection{Eliptically polarised electromagnetic waves}
+        Eliptically polarised waves propagating in the $z$-direction can be mathematically described by
+        \begin{equation}
+            \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi_x \right)\hat{x} +
+            E_{0y}\sin\left(kz - \omega t + \phi_y \right)\hat{y},
+        \end{equation}
+        where $E_{0x,y}$ are the decomposed amplitude of the wave, 
+        $k$ is the wave vector (one-dimensional in this case), 
+        $\omega$ is the angular frequency, 
+        and $\phi$ is an arbitrary initial phaseshift. 
+        In this course, only $\phi_x = \frac{\pi}{2}$ and $\phi_y = 0$ is discussed.
         
-        Most non-electrical light-sources produce \textit{unpolarised light}, which, contrary to what the name suggests, 
-        contains both linearly and eliptically polarised light in somewhat equal proportions. 
+        The phase difference of the two components yield a helical behavior, 
+        as compared to the linear behaviour of the linearly polarised counterpart.
 
-        \subsubsection{Linearly polarised electromagnetic waves}
-            Both fields of the electromagnetic waves only oscilate in one direction,
-            i.e. if the wave propagates in the $z$-direction, 
-            then the phase difference between the $x$- and $y$-component of each field is zero.
-            Mathematically, the wave can be written as
-            \begin{equation}
-                \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi\right)\hat{x} +
-                E_{0y}\sin\left(kz - \omega t + \phi\right)\hat{y},
-            \end{equation}
-            where $E_{0x,y}$ are the decomposed amplitude of the wave, 
-            $k$ is the wave vector (one-dimensional in this case), 
-            $\omega$ is the angular frequency, 
-            and $\phi$ is an arbitrary initial phaseshift which is usually set to 0.
+        Note that, if $E_{0x} = E_{0y}$, (and $\phi_x = \phi_y + \frac{\pi}{2}$, which is true for this course)
+            then the wave is circularly polarised.
 
-        \subsubsection{Eliptically polarised electromagnetic waves}
-            Eliptically polarised waves propagating in the $z$-direction can be mathematically described by
-            \begin{equation}
-                \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi_x \right)\hat{x} +
-                E_{0y}\sin\left(kz - \omega t + \phi_y \right)\hat{y},
-            \end{equation}
-            where $E_{0x,y}$ are the decomposed amplitude of the wave, 
-            $k$ is the wave vector (one-dimensional in this case), 
-            $\omega$ is the angular frequency, 
-            and $\phi$ is an arbitrary initial phaseshift. 
-            In this course, only $\phi_x = \frac{\pi}{2}$ and $\phi_y = 0$ is discussed.
-            
-            The phase difference of the two components yield a helical behavior, 
-            as compared to the linear behaviour of the linearly polarised counterpart.
-
-            Note that, if $E_{0x} = E_{0y}$, (and $\phi_x = \phi_y + \frac{\pi}{2}$, which is true for this course)
-             then the wave is circularly polarised.
-
-            Applying the right hand rule, 
-            one can determine if the polarised wave is a right-hand or left-hand circularly polarised.
+        Applying the right hand rule, 
+        one can determine if the polarised wave is a right-hand or left-hand circularly polarised.
 
 \subsection{The electromagnetic spectrum}
     The following table shows some basic info for the different classifications of electromagnetic waves.
@@ -357,48 +355,66 @@
         \hline
     \end{longtable}
 
+\subsection{Retarded potentials}
+    Retarded potentials are the $\vec{A}$- and $V$-fields generated by a time-varying current (or charge distrubution) in the past, 
+    since the fields propagate with the speed of light and not instantly. 
+    
+    By applying the \textit{Lorenz Gauge} $\nabla\cdot\vec{A} + \e\mu_0\frac{\partial V}{\partial t} = 0$, 
+    Maxwell's equations for potentials become
+    \begin{align}
+        \dalambert V &= \frac{\rho\left(\vec{r}, t\right)}{\e} \\
+        \dalambert \vec{A} &= \mu_0 \j\left(\vec{r}, t\right),
+    \end{align}
+    which are solved by 
+    \begin{align} 
+        V(\vec{r}, t) &= \frac{1}{4\pi\e} \iiint_\tau \frac{\rho\left(\vec{r'}, t'\right)}{|\vec{r} - \vec{r'}|}d\tau \\
+        \vec{A}(\vec{r}, t) &= \frac{\mu_0}{4\pi} \iiint_\tau \frac{\j\left(\vec{r'}, t'\right)}{|\vec{r} - \vec{r'}|}d\tau,
+        \label{retarded potentials}
+    \end{align}
+    where $\tau$ is the volume where $\rho$ and \j{} are defined, 
+    and we integrate over all points $\vec{r'}$ in $\tau$.
+    $t' = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the \textit{retarded time}. 
+    The notion of retarded time is to take the propagation speed into account.
+
 \subsection{Dipoles as electromagnetic wave sources}
+    In this chapter, an example of retarded potentials is discussed. 
+
     If a charge $-q_0$ is placed at the origin of a refrence frame, 
     and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\omega t \hat{z}$, 
     then this is an oscilating dipole with dipole momentum 
-    $\vec{p} = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
+    $\vec{p}\left(t\right) = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
 
-    This configutarion is implactical, but a conductor with an oscilating current behaves similarly:
+    This configutarion is implactical, but a conductor with an oscilating current behaves similarly, since
     \begin{equation*}
-        I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\sin\left(\omega t\right)
+        I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\cos\left(\omega t\right).
     \end{equation*}
-
-    Note that the oscilations propagate with speed $c$, and as such the electrical field in a point is offset in time compared to the origin.
     
-    Applying the Lorentz Gauge $\nabla\cdot\vec{A} = -\e\mu_0\frac{\partial V}{\partial t}$, we arrive at the general solution of $\dalambert\vec{A} = 0$:
+    Dimensional analysis of equation \ref{retarded potentials}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
+    somehow leads to 
     \begin{equation}
-        \vec{A}\left(\vec{r}, t\right) =  
-        \frac{\mu_0}{4\pi}\iiint_\tau \frac{\j\left(t - \frac{|\vec{r} - \vec{r}'|}{c}\right)}{|\vec{r} - \vec{r}'|}d\tau,
-    \end{equation}
-    where $\tau$ is a volume, and $\vec{r}'$ is the vector to each point in the volume.
-    Dimensional analysis (and the simplification $\vec{r} - \vec{r}' \approx \vec{r}$) leads us to 
-    \begin{equation}
-        \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t - \frac{{r}}{c}\right).
+        \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t'\right),
     \end{equation} 
+    where $t' = t - \frac{{r}}{c}$ is a simplified retarded time ($r = |\vec{r}|$).
 
-    The potential is found by the Lorentz Gauge:
+    The potential is found by applying the Lorenz Gauge again:
     \begin{equation}
         V(\vec{r}, t) =
         \left(\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right)
-        \frac{p\left(t - \frac{{r}}{c}\right)}{4\pi\e},
+        \frac{p\left(t'\right)}{4\pi\e},
     \end{equation}
     where $p = |\vec{p}|$ and $r = |\vec{r}|$.
 
-    Finding \B{} and \E{} is now easy, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
+    We can now find \B{} and \E, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
     \begin{align}
-        E_r &= \frac{2\cos\theta}{4\pi\e r}\left(\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right)
-                \vec{p}\left(t - \frac{{r}}{c}\right)\\
+        E_r &= \frac{2\cos\theta}{4\pi\e r}\left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                \eval{p\left(t\right)}_{t=t'}\\
         E_\phi &= 0 \\
-        E_\theta &= \frac{\sin\theta}{4\pi\e r}\left(\e\mu_0\frac{\partial^2}{\partial t^2} 
-                + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right)
-                \vec{p}\left(t - \frac{{r}}{c}\right)\\
+        E_\theta &= \frac{\sin\theta}{4\pi\e r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} 
+                + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                \eval{p\left(t\right)}_{t=t'}\\
         B_r &= 0 \\
-        B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left(\e\mu_0\frac{\partial^2}{\partial t^2} + \frac{1}{r^2}\right)
-                \vec{p}\left(t - \frac{{r}}{c}\right)\\
-        B_\theta &= 0
+        B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} + \frac{1}{r^2}\right]
+            \eval{p\left(t\right)}_{t=t'}\\
+        B_\theta &= 0,
     \end{align}
+    where we still have $p = |\vec{p}|$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. The expressions in brackets are operators, working in $p(t)$.

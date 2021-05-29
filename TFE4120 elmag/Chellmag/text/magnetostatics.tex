@@ -1,358 +1,356 @@
-\section{Magnetostatics}
-    \subsection{Magnetic field}
-        In this course, we call the \B-field the \textit{magnetic field}. \B{} is measured in tesla (\si\tesla).
-        
-        The magnetic field has no divergence, i.e.
-        \begin{equation}
-            \nabla \cdot \B = 0.
-        \end{equation}
-        A charge $q$ moving in a magnetic field with (non-relativistic) velocity $\vec{v}$ experiences a force as follows: 
-        \begin{equation}
-            \vec{F} = q\vec{v}\times \B.
-        \end{equation}
-        If the field is uniform (same direction and magnitude everywhere) and the velocity is orthogonal to the field, 
-        then the charge will move in a circular path with radius
-        \begin{equation}
-            r = \frac{mv}{qB}
-        \end{equation}
-        where $m$ is the mass of the charge, $v$ is the velocity, $q$ is the charge, 
-        and $B$ is the magnitude of the uniform magnetic field.
-        
-        This holds in general for the orthogonal component of the velocity, 
-        whereas the parallel component is unaffected by the presence of the magnetic field. 
-        Therefore, if the velocity is neither parallel nor orthogonal to the magnetic field, 
-        the resulting motion is a spiral with constant velocity, pitch and radius.
-        
-    \subsection{Mass spectroscopy}
-        One can find the ratio of charge per mass for ionised particles by accelerating them with a parallel plate capacitor 
-        before introducing a uniform magnetic field orthogonal to the direction of velocity. 
-        One can then measure the distance between the entry and exit points.
-        
-        \begin{equation}
-            \frac{q}{m} = \frac{2 \Delta V}{B^2 r^2}
-        \end{equation}
-        where $q$ and $m$ is the charge and mass of the particle, $B$ is the magnitude of the (uniform) magnetic field, 
-        and $r$ is the measured radius of the circular motion (half of the measured distance between the entry and exit points).
-        
-    \subsection{Force on currents}
-        By the definition of \j, we get that $\j \times \B$ represents a force per volume. Therefore, 
-        \begin{equation}
-            d\vec{F} = S dl \j \times \B, 
-        \end{equation}
-        where $S dl$ is an infinitesimal volume along a conductor $\mathcal{L}$, resulting in 
-        \begin{equation}
-            \vec{F} = \int_\mathcal{L} S \j \times \B dl = \int_\mathcal{L} I d\vec{l} \times \B.
-        \end{equation}
-        The differential form of this result is called \textit{the second Laplace elementary law}:
-        \begin{equation}
-            d\vec{F} = I\vec{dl} \times \B,
-        \end{equation}
-        where $\vec{F}$ is the force on an infinitesimal length $\vec{dl}$ along a conductor with current $I$ 
-        immersed in a magnetic field $\B$.
-        
-    \subsection{Magnetic dipole moment}
+\subsection{Magnetic field}
+    In this course, we call the \B-field the \textit{magnetic field}. \B{} is measured in tesla (\si\tesla).
     
-        A mesh with a current $I$ and surface area $S$ immersed in a magnetic field experiences a torque:
-        \begin{equation}
-            \vec{\tau} = I\,S\,\hat{n}\times\B,
-        \end{equation}
-        Where $\hat{n}$ is the normal vector of $S$. Its direction is found by applying the right-hand-rule to the current circulation. 
-        We define the \textit{magnetic dipole moment} as
-        \begin{equation}
-            \vec{m} = IS\hat{n}.
-        \end{equation}
-        The magnetic dipole moment is analogous to the electric dipole moment: 
-        \begin{align*}
-            \vec{\tau} &= \vec{m} \times \B\\
-            \vec{\tau} &= \vec{p} \times \E
-        \end{align*}
+    The magnetic field has no divergence, i.e.
+    \begin{equation}
+        \nabla \cdot \B = 0.
+    \end{equation}
+    A charge $q$ moving in a magnetic field with (non-relativistic) velocity $\vec{v}$ experiences a force as follows: 
+    \begin{equation}
+        \vec{F} = q\vec{v}\times \B.
+    \end{equation}
+    If the field is uniform (same direction and magnitude everywhere) and the velocity is orthogonal to the field, 
+    then the charge will move in a circular path with radius
+    \begin{equation}
+        r = \frac{mv}{qB}
+    \end{equation}
+    where $m$ is the mass of the charge, $v$ is the velocity, $q$ is the charge, 
+    and $B$ is the magnitude of the uniform magnetic field.
     
-    \subsection{Currents as magnetic field sources}
+    This holds in general for the orthogonal component of the velocity, 
+    whereas the parallel component is unaffected by the presence of the magnetic field. 
+    Therefore, if the velocity is neither parallel nor orthogonal to the magnetic field, 
+    the resulting motion is a spiral with constant velocity, pitch and radius.
     
-        The \textit{first Laplace elementary law} states the following:
+\subsection{Mass spectroscopy}
+    One can find the ratio of charge per mass for ionised particles by accelerating them with a parallel plate capacitor 
+    before introducing a uniform magnetic field orthogonal to the direction of velocity. 
+    One can then measure the distance between the entry and exit points.
+    
+    \begin{equation}
+        \frac{q}{m} = \frac{2 \Delta V}{B^2 r^2}
+    \end{equation}
+    where $q$ and $m$ is the charge and mass of the particle, $B$ is the magnitude of the (uniform) magnetic field, 
+    and $r$ is the measured radius of the circular motion (half of the measured distance between the entry and exit points).
+    
+\subsection{Force on currents}
+    By the definition of \j, we get that $\j \times \B$ represents a force per volume. Therefore, 
+    \begin{equation}
+        d\vec{F} = S dl \j \times \B, 
+    \end{equation}
+    where $S dl$ is an infinitesimal volume along a conductor $\mathcal{L}$, resulting in 
+    \begin{equation}
+        \vec{F} = \int_\mathcal{L} S \j \times \B dl = \int_\mathcal{L} I d\vec{l} \times \B.
+    \end{equation}
+    The differential form of this result is called \textit{the second Laplace elementary law}:
+    \begin{equation}
+        d\vec{F} = I\vec{dl} \times \B,
+    \end{equation}
+    where $\vec{F}$ is the force on an infinitesimal length $\vec{dl}$ along a conductor with current $I$ 
+    immersed in a magnetic field $\B$.
+    
+\subsection{Magnetic dipole moment}
+
+    A mesh with a current $I$ and surface area $S$ immersed in a magnetic field experiences a torque:
+    \begin{equation}
+        \vec{\tau} = I\,S\,\hat{n}\times\B,
+    \end{equation}
+    Where $\hat{n}$ is the normal vector of $S$. Its direction is found by applying the right-hand-rule to the current circulation. 
+    We define the \textit{magnetic dipole moment} as
+    \begin{equation}
+        \vec{m} = IS\hat{n}.
+    \end{equation}
+    The magnetic dipole moment is analogous to the electric dipole moment: 
+    \begin{align*}
+        \vec{\tau} &= \vec{m} \times \B\\
+        \vec{\tau} &= \vec{p} \times \E
+    \end{align*}
+
+\subsection{Currents as magnetic field sources}
+
+    The \textit{first Laplace elementary law} states the following:
+    \begin{equation}
+        d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2},
+    \end{equation}
+    relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
+    $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, 
+    no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
+    The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
+
+    The first Laplace elementary law can be rewritten in terms of \j{} instead:
+    \begin{equation}
+        d\B = \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\,d\tau,
+    \end{equation}
+    where one now integrates over the volume $d\tau$ rather than the length of the conductor.
+
+    If one considers a point charge with charge $q$ and velocity $\vec{v}$, 
+    the following equation describes the magnetic field:
+    \begin{equation}
+        \B = \frac{\mu_0}{4\pi}\cdot q\frac{\vec{v}\times\hat{r}}{r^2}.
+    \end{equation}
+
+    This helps us relate the electric and magnetic field resulting from a point source to each other:
+    \begin{equation}
+        \B = \e \mu_0 \cdot\vec{v}\times\E,
+    \end{equation}
+    which holds for non-relativistic velocities. Intrestingly,
+    \begin{equation}
+        \e\mu_0 = \frac{1}{c^2},
+    \end{equation}
+    where $c = 299792458$ \si{\metre\per\second} is the speed of light in vacuum. 
+
+\subsection{Common examples of magnetic field sources}
+    \subsubsection{Straight linear conductor}
+        This relation is sometimes called the \textit{Biot-Savart law}.
+
+        Consider a point beside an infinite, straight conductive wire. Using the first Laplace elementary law, we get 
         \begin{equation}
-            d\B = \frac{\mu_0}{4\pi}\cdot I\frac{d\vec{l}\times\hat{r}}{r^2},
+            \B = \frac{\mu_0 I}{2\pi R}\,\hat{\phi},
         \end{equation}
-        relating the magnetic field in a point at a distance $r$ from a current $I$ flowing along $d\vec{l}$.
-        $\mu_0 = 1.257\cdot 10^{-6}$\si{\henry\per\metre}(redefined in 2019, 
-        no longer \textit{defined} as $4\pi\cdot10^{-7}$ but still very close) is the \textit{magnetic permeability}. 
-        The integral of this equation is sometimes called the \textit{Ampere-Laplace law}.
-
-        The first Laplace elementary law can be rewritten in terms of \j{} instead:
-        \begin{equation}
-            d\B = \frac{\mu_0}{4\pi}\cdot \frac{\j\times\hat{r}}{r^2}\,d\tau,
-        \end{equation}
-        where one now integrates over the volume $d\tau$ rather than the length of the conductor.
-
-        If one considers a point charge with charge $q$ and velocity $\vec{v}$, 
-        the following equation describes the magnetic field:
-        \begin{equation}
-            \B = \frac{\mu_0}{4\pi}\cdot q\frac{\vec{v}\times\hat{r}}{r^2}.
-        \end{equation}
-
-        This helps us relate the electric and magnetic field resulting from a point source to each other:
-        \begin{equation}
-            \B = \e \mu_0 \cdot\vec{v}\times\E,
-        \end{equation}
-        which holds for non-relativistic velocities. Intrestingly,
-        \begin{equation}
-            \e\mu_0 = \frac{1}{c^2},
-        \end{equation}
-        where $c = 299792458$ \si{\metre\per\second} is the speed of light in vacuum. 
-
-    \subsection{Common examples of magnetic field sources}
-        \subsubsection{Straight linear conductor}
-            This relation is sometimes called the \textit{Biot-Savart law}.
-
-            Consider a point beside an infinite, straight conductive wire. Using the first Laplace elementary law, we get 
-            \begin{equation}
-                \B = \frac{\mu_0 I}{2\pi R}\,\hat{\phi},
-            \end{equation}
-            where $R$ is the shortest distance to the conductor, 
-            and $\hat{\phi}$ is the  unit vector orthogonal to both $\hat{r}$ and the direction of current.
-            The sign is found by the right-hand rule, where the thumb should point along the current flow.
-            
-        \subsubsection{Closed circular loop}
-            For simplicities sake, consider a point \textit{along the axis} of a circular conductive wire with radius $R$, 
-            such that the distance along the axis to the point is $x$, 
-            and the distance from the point to the actual conductor is $r$ 
-            (this is constant regardless of where on the conductor this is measured, due to the symmetry).
-            The conductor has a current flowing through it, such that the positive $x$-direction follows the right-hand rule. 
-
-            The magnetic field is then given by
-            \begin{equation}
-                \B = \frac{\mu_0 I R^2}{2 \left(x^2 + R^2\right)^\frac{3}{2}}\,\hat{x}.
-            \end{equation}
-            Note that the field in the centre of the conductive loop is
-            \begin{equation}
-                \B = \frac{\mu_0 I}{2R}.
-            \end{equation}
+        where $R$ is the shortest distance to the conductor, 
+        and $\hat{\phi}$ is the  unit vector orthogonal to both $\hat{r}$ and the direction of current.
+        The sign is found by the right-hand rule, where the thumb should point along the current flow.
         
-        \subsubsection{Linear solenoid}
-            A solenoid is a stack of equidistant circular loops of conductive wire, each having the same dimensions and current. 
-            This configuration is impossible to achieve physically, but is closely approximated by a coil. 
+    \subsubsection{Closed circular loop}
+        For simplicities sake, consider a point \textit{along the axis} of a circular conductive wire with radius $R$, 
+        such that the distance along the axis to the point is $x$, 
+        and the distance from the point to the actual conductor is $r$ 
+        (this is constant regardless of where on the conductor this is measured, due to the symmetry).
+        The conductor has a current flowing through it, such that the positive $x$-direction follows the right-hand rule. 
 
-            Consider a point inside a solenoid with linear loop density $n$, radius $R$, and current $I$. 
-            The resulting magnetic field \textit{inside} the solenoid is given by
-            \begin{equation}
-                d\B = \frac{\mu_0 I n}{2}\sin\theta d\theta,
-            \end{equation}
-            where $\theta$ is the angle between the axis of the solenoid and the vector to each point on the solenoid along its axis.
-            Performing the integration yields
-            \begin{equation}
-                \B = \frac{\mu_0 In}{2}\left(\cos\theta_0 - \cos\theta_1\right),
-            \end{equation}
-            where the angles represent the angles from the axis to the first and last point of the solenoid, respectively. 
-
-            If the solenoid is infinite, we get
-            \begin{equation}
-                \B = \mu_0 In,
-            \end{equation}
-            which is usually used as an approximation inside finite solenoids as well.
+        The magnetic field is then given by
+        \begin{equation}
+            \B = \frac{\mu_0 I R^2}{2 \left(x^2 + R^2\right)^\frac{3}{2}}\,\hat{x}.
+        \end{equation}
+        Note that the field in the centre of the conductive loop is
+        \begin{equation}
+            \B = \frac{\mu_0 I}{2R}.
+        \end{equation}
     
-    \subsection{Ampere's law}
-        Ampere's law describes how the sum of currents enclosed in a loop relates to the magnetic field: 
-        \begin{equation}
-            \oint_\mathcal{L}\B\cdot d\vec{l} = \mu_0 I_{\text{enclosed}},
-        \end{equation}
-        or, in differential form: 
-        \begin{equation}
-            \nabla\times\B = \mu_0\j.
-        \end{equation}
-        This holds for stationary conditions, non-stationary conditions is discussed in chapter \ref{Time-varying electric field}. 
+    \subsubsection{Linear solenoid}
+        A solenoid is a stack of equidistant circular loops of conductive wire, each having the same dimensions and current. 
+        This configuration is impossible to achieve physically, but is closely approximated by a coil. 
 
-    \subsection{Magnetic flux} \label{Magnetic flux}
-        The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
+        Consider a point inside a solenoid with linear loop density $n$, radius $R$, and current $I$. 
+        The resulting magnetic field \textit{inside} the solenoid is given by
         \begin{equation}
-            \Phi_{2,1} = I_1 \cdot L_{2,1},
+            d\B = \frac{\mu_0 I n}{2}\sin\theta d\theta,
         \end{equation}
-        where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
+        where $\theta$ is the angle between the axis of the solenoid and the vector to each point on the solenoid along its axis.
+        Performing the integration yields
         \begin{equation}
-            L_{2,1} = \iint_{S_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \hat{r} \right)\cdot \hat{n} dS_2.
+            \B = \frac{\mu_0 In}{2}\left(\cos\theta_0 - \cos\theta_1\right),
         \end{equation}
-        where $S_i$ is the surface enclosed by $C_i$, and $\vec{l}_i$ is the path along $C_i$.
+        where the angles represent the angles from the axis to the first and last point of the solenoid, respectively. 
 
-        It can be shown that 
+        If the solenoid is infinite, we get
         \begin{equation}
-            L_{2,1} = L_{1,2}.
-        \end{equation}.
+            \B = \mu_0 In,
+        \end{equation}
+        which is usually used as an approximation inside finite solenoids as well.
+
+\subsection{Ampere's law}
+    Ampere's law describes how the sum of currents enclosed in a loop relates to the magnetic field: 
+    \begin{equation}
+        \oint_\mathcal{L}\B\cdot d\vec{l} = \mu_0 I_{\text{enclosed}},
+    \end{equation}
+    or, in differential form: 
+    \begin{equation}
+        \nabla\times\B = \mu_0\j.
+    \end{equation}
+    This holds for stationary conditions, non-stationary conditions is discussed in chapter \ref{Time-varying electric field}. 
+
+\subsection{Magnetic flux} \label{Magnetic flux}
+    The flux of \B{} through a circuit $C_2$ where circuit $C_1$ is the source of \B{} is given by
+    \begin{equation}
+        \Phi_{2,1} = I_1 \cdot L_{2,1},
+    \end{equation}
+    where $L_{2,1}$ is the \textit{coefficient of mutual induction}, and is a geometric property given by
+    \begin{equation}
+        L_{2,1} = \iint_{S_2} \left(\oint_{C_1}\frac{\mu_0}{4\pi r^2}\,d\vec{l_1}\times \hat{r} \right)\cdot \hat{n} dS_2.
+    \end{equation}
+    where $S_i$ is the surface enclosed by $C_i$, and $\vec{l}_i$ is the path along $C_i$.
+
+    It can be shown that 
+    \begin{equation}
+        L_{2,1} = L_{1,2}.
+    \end{equation}.
+
+\subsection{Magnetic energy}
+    The \textit{magnetic energy volume density} is given by
+    \begin{equation}
+        u_m = \frac{1}{2\mu}\B^2,
+    \end{equation}
+    valid point by point, where $\mu = \mu_0 \mu_r $. 
+    For linear materials (meaning \H{} is linear in \B, this does NOT apply to ferromagnetic materials), we get another way to express this: 
+    \begin{equation}
+        u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu\H^2,
+    \end{equation}
+    since $\B = \mu\H{}$. Integrating these over a volume yields the total magnetic energy inside the volume.
+    Another way to express the energy is by the induction coefficient (see \ref{Magnetic flux}):
+    \begin{equation}
+        U_m = \frac{1}{2}L_{1,1}I^2,
+    \end{equation}
+    where $L$ is the coefficient of self induction, and $I$ is the current flowing in the circuit.
+
+    For ferromagnetic materials, the energy can be found by
+    \begin{equation}
+        U_m = \oint \H \cdot d\B.
+    \end{equation}
+    The process of changing \B{} dissapates this energy as heat.
+
+    For a two-circuit system, the energy has contributions from mutual inductance as well: 
+    \begin{equation}
+        U_m = \sum_{i,j}\frac{1}{2}L_{i,j}I_iI_j = \frac{1}{2}L_1{I_1}^2 + \frac{1}{2}L_2{I_2}^2 + MI_1I_2,
+    \end{equation}
+    where, for simplicity, $L_1 = L_{1,1},\, L_2 = L_{2,2}$, and $M = L_{1,2}$.
+
+\subsection{Magnetic force between circuits}
+    It can be shown that the force acting upon a circuit $C_2$ from circuit $C_1$ is given by
+    \begin{equation}
+        \vec{F}_{2,1} = \frac{\mu_0}{4\pi}\cdot I_1 I_2 \cdot G_{2,1},
+    \end{equation}
+    where $I_i$ is the current in circuit $i$, and where 
+    \begin{equation}
+        G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \hat{r}\right).
+    \end{equation}
+    $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
+    (This coefficient is not named in the lectures, and neither the shorthand notation of $G$, so it will not be found in the notes).
+    $r$ is the pointwise distance between the circuits. By Newton's third law of motion, 
+    $F_{2,1} = -F_{1,2}$, and as such $G_{2,1} = - G_{1,2}$.
+
+    A geometrically simple example would be two parallel infinite wires with currents $I_1$ and $I_2$, 
+    separated by a distance $r$. The linear force density is then
+    \begin{equation}
+        f = \frac{\mu_0 I_1 I_2}{2\pi r}.
+    \end{equation}
+    Note that $f$ is not a force, but a linear force density, an as such is measured in \si{\newton\per\metre}. 
+    The total force between infinite wires would be infinite, and therefore uninteresting.
+
+\subsection{Theory behind magnetic materials}
+    By waving our hands, we realise that atoms behave as tiny current loops, and they therefore have magnetic dipole momentum.
+    However, 
+    \begin{equation*}
+        \left<\vec{m}\right> = 0
+    \end{equation*}
+    in most materials, since the direction is uniformly distributed. 
+
+    \subsubsection{Magnetisation vector}
+        We define the \textit{magnetisation vector} as follows:
+        \begin{equation}
+            \vec{M} = n\left<\vec{m}\right>
+        \end{equation}
+        where $n$ is the volume density of current loops, and $\vec{m}$ is the magnetic dipole momentum of the loops. 
+        Note the similarity to the polarisation vector $\p$.
+
+        If many $\vec{m}$ are oriented in the same direction on a disc, 
+        there will appear to be a current $I_{\text{mag}}$ along the perimiter of the disc. 
+        This is not an actual current, since there are no charges moving along the perimiter.
+        Taking an infinitesimally thin disc, we have 
+        \begin{equation}
+            \j_{s, m} = \vec{M}\times\hat{n},
+        \end{equation}
+        where $\j_{s, m}$ is the current density on the \textbf{s}urface 
+        (which is the perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
+        resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector along the perimiter of the disc. 
+
+        Generalising the disc to a cylinder with length $l$, we have the relation
+        \begin{equation}
+            I_{\text{mag}} = \int \j_{s, m}\cdot d\vec{l}.
+        \end{equation}
+
+    \subsubsection{Ampere's law for magnetic materials}
+        \begin{equation}
+            \oint_\mathcal{L}\vec{M}\cdot d\vec{l} = I_{\text{mag}},
+        \end{equation}
+        where $\mathcal{L}$ is an arbitrary closed path encompassing $I_{\text{mag}}$ magnetisation current. 
+        Rewriting to a differential form yields
+        \begin{equation}
+            \nabla \times \vec{M} = \j_m,
+        \end{equation}
+        where $\j_m$ is a surface density of magnetisation current. 
+        If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$. 
+        This does NOT imply $\j_{s, m} = 0$, since the latter is a linear density whereas $\j_m$ is a suface density.
+
+        The following table compares magnetisation to polatisation.
+        \begin{center}
+            \begin{tabular}{ c|c } 
+            Magnetic & Dielectric \\
+            \hline
+                $\vec{M}\times\hat{n} = \j_{s, m}$ & $\p \cdot \hat{n} = \sigma_p$ \\
+                $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
+            \end{tabular}
+        \end{center}
+
+\subsection{Magnetising field}
+    By a similar argument as with \D, combining the general Ampere's law with the one for magnetic materials, we get
+    \begin{equation*}
+        \oint_\mathcal{L}\left(\frac{\B}{\mu_0}-\vec{M}\right)d\vec{l} = I_{\text{encl}},
+    \end{equation*}
+    and as such we define the \textit{magnetising field} as 
+    \begin{equation}
+        \H = \frac{\B}{\mu_0}-\vec{M}.
+    \end{equation}
+    Note that the name of \H{} can vary in litterature; some call it the magnetic field 
+    (the name we gave \B), and some call it the magnetic field intensity or amplitude 
+    (names which might be interpreted as scalar fields).
+
+    \begin{equation}
+        \oint_\mathcal{L}\H = I_{\text{encl}},
+    \end{equation}
+    and 
+    \begin{equation}
+        \nabla\times\H = \j.
+    \end{equation}
     
-    \subsection{Magnetic energy}
-        The \textit{magnetic energy volume density} is given by
-        \begin{equation}
-            u_m = \frac{1}{2\mu}\B^2,
-        \end{equation}
-        valid point by point, where $\mu = \mu_0 \mu_r $. 
-        For linear materials (meaning \H{} is linear in \B, this does NOT apply to ferromagnetic materials), we get another way to express this: 
-        \begin{equation}
-            u_m = \frac{1}{2}\B\cdot\H = \frac{1}{2}\mu\H^2,
-        \end{equation}
-        since $\B = \mu\H{}$. Integrating these over a volume yields the total magnetic energy inside the volume.
-        Another way to express the energy is by the induction coefficient (see \ref{Magnetic flux}):
-        \begin{equation}
-            U_m = \frac{1}{2}L_{1,1}I^2,
-        \end{equation}
-        where $L$ is the coefficient of self induction, and $I$ is the current flowing in the circuit.
+    \subsubsection{Continuity conditions}
+        It can be shown that:
+        \begin{itemize}
+            \item The normal component of the \B-field is conserved over an interface
+            \item The tangential component of the \H-field is conserved over an interface
+        \end{itemize}
 
-        For ferromagnetic materials, the energy can be found by
-        \begin{equation}
-            U_m = \oint \H \cdot d\B.
-        \end{equation}
-        The process of changing \B{} dissapates this energy as heat.
+\subsection{Real magnetic materials}
+    \subsubsection{Paramagnetic materials}
+        Examples: Al, Pt, W, Ti.
 
-        For a two-circuit system, the energy has contributions from mutual inductance as well: 
+        $\left<m\right>=0$ if $\B_{\text{ext}} = 0$. Else, 
         \begin{equation}
-            U_m = \sum_{i,j}\frac{1}{2}L_{i,j}I_iI_j = \frac{1}{2}L_1{I_1}^2 + \frac{1}{2}L_2{I_2}^2 + MI_1I_2,
+            \vec{M} = \chi_m\H,
         \end{equation}
-        where, for simplicity, $L_1 = L_{1,1},\, L_2 = L_{2,2}$, and $M = L_{1,2}$.
+        where $\chi_m$ is the magnetic suceptability of the material. 
+        It usually ranges around $10^{-6}$ to $10^{-3}$, and is always positive (since $\vec{M} || \H$).
+
+        Curie's law states that 
+        \begin{equation}
+            \chi_m = \frac{C}{T}, 
+        \end{equation}
+        where $C$ is a material-dependent constant. Note that this makes $\vec{M}$ larger for lower temperatures.
+
+    \subsubsection{Diamagnetic materials}
+        Examples: $\text{H}_2$, $\text{N}_2$, Na, Cu, Hg. The common trait is an unpaired electron in the molecular orbitals.
+        
+        These materials do NOT have a microscopic dipole momentum $\vec{m}$. Still, since electrons are moving, 
+        an external magnetic field will affect the material similarly to paramagnetic materials:
+        \begin{equation}
+            \vec{M} = \chi_m\H,
+        \end{equation}
+        where the magnetic suceptability $\chi_m$ ranges from around $10^{-9}$ to $10^{-5}$. 
+        For diamagnetic materials, $\chi_m < 0$ and $\vec{M}$ is antiparallel to \H. 
+        This effect is present in ALL materials (as all materials have moving electrons), but is usually negligable.
     
-    \subsection{Magnetic interactions between circuits}
-        \subsubsection{Force}
-            It can be shown that the force acting upon a circuit $C_2$ from circuit $C_1$ is given by
-            \begin{equation}
-                \vec{F}_{2,1} = \frac{\mu_0}{4\pi}\cdot I_1 I_2 \cdot G_{2,1},
-            \end{equation}
-            where $I_i$ is the current in circuit $i$, and where 
-            \begin{equation}
-                G_{2,1} = \oint_{C_2} \oint_{C_1} \frac{1}{r^2}\,d\vec{l_2}\times\left(d\vec{l_1} \times \hat{r}\right).
-            \end{equation}
-            $G_{2,1}$ is a coefficient that only dependent on the geometry of the circuits. 
-            (This coefficient is not named in the lectures, and neither the shorthand notation of $G$, so it will not be found in the notes).
-            $r$ is the pointwise distance between the circuits. By Newton's third law of motion, 
-            $F_{2,1} = -F_{1,2}$, and as such $G_{2,1} = - G_{1,2}$.
+    For both para- and diamagnetic materials, we can write
+    \begin{equation}
+        \B = \mu_0 \mu_r \H,
+    \end{equation}
+    where $\mu_r = 1+\chi_m$ is the relative magnetic permeability of the material.
+    
+    \subsubsection{Ferromagnetic materials}
+        In ferromagnetic materials, each grain in the crystal has aligned $\vec{m}$ separately. 
+        In the presence an external \B-field, more and more grains align. 
+        Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H{} is NOT linear.
 
-            A geometrically simple example would be two parallel infinite wires with currents $I_1$ and $I_2$, 
-            separated by a distance $r$. The linear force density is then
-            \begin{equation}
-                f = \frac{\mu_0 I_1 I_2}{2\pi r}.
-            \end{equation}
-            Note that $f$ is not a force, but a linear force density, an as such is measured in \si{\newton\per\metre}. 
-            The total force between infinite wires would be infinite, and therefore uninteresting.
-
-    \subsection{Theory behind magnetic materials}
-        By waving our hands, we realise that atoms behave as tiny current loops, and they therefore have magnetic dipole momentum.
-        However, 
-        \begin{equation*}
-            \left<\vec{m}\right> = 0
-        \end{equation*}
-        in most materials, since the direction is uniformly distributed. 
-
-        \subsubsection{Magnetisation vector}
-            We define the \textit{magnetisation vector} as follows:
-            \begin{equation}
-                \vec{M} = n\left<\vec{m}\right>
-            \end{equation}
-            where $n$ is the volume density of current loops, and $\vec{m}$ is the magnetic dipole momentum of the loops. 
-            Note the similarity to the polarisation vector $\p$.
-
-            If many $\vec{m}$ are oriented in the same direction on a disc, 
-            there will appear to be a current $I_{\text{mag}}$ along the perimiter of the disc. 
-            This is not an actual current, since there are no charges moving along the perimiter.
-            Taking an infinitesimally thin disc, we have 
-            \begin{equation}
-                \j_{s, m} = \vec{M}\times\hat{n},
-            \end{equation}
-            where $\j_{s, m}$ is the current density on the \textbf{s}urface 
-            (which is the perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
-            resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector along the perimiter of the disc. 
-
-            Generalising the disc to a cylinder with length $l$, we have the relation
-            \begin{equation}
-                I_{\text{mag}} = \int \j_{s, m}\cdot d\vec{l}.
-            \end{equation}
-
-        \subsubsection{Ampere's law for magnetic materials}
-            \begin{equation}
-                \oint_\mathcal{L}\vec{M}\cdot d\vec{l} = I_{\text{mag}},
-            \end{equation}
-            where $\mathcal{L}$ is an arbitrary closed path encompassing $I_{\text{mag}}$ magnetisation current. 
-            Rewriting to a differential form yields
-            \begin{equation}
-                \nabla \times \vec{M} = \j_m,
-            \end{equation}
-            where $\j_m$ is a surface density of magnetisation current. 
-            If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$. 
-            This does NOT imply $\j_{s, m} = 0$, since the latter is a linear density whereas $\j_m$ is a suface density.
-
-            The following table compares magnetisation to polatisation.
-            \begin{center}
-                \begin{tabular}{ c|c } 
-                Magnetic & Dielectric \\
-                \hline
-                 $\vec{M}\times\hat{n} = \j_{s, m}$ & $\p \cdot \hat{n} = \sigma_p$ \\
-                 $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
-                \end{tabular}
-            \end{center}
-
-    \subsection{Magnetising field}
-        By a similar argument as with \D, combining the general Ampere's law with the one for magnetic materials, we get
-        \begin{equation*}
-            \oint_\mathcal{L}\left(\frac{\B}{\mu_0}-\vec{M}\right)d\vec{l} = I_{\text{encl}},
-        \end{equation*}
-        and as such we define the \textit{magnetising field} as 
-        \begin{equation}
-            \H = \frac{\B}{\mu_0}-\vec{M}.
-        \end{equation}
-        Note that the name of \H{} can vary in litterature; some call it the magnetic field 
-        (the name we gave \B), and some call it the magnetic field intensity or amplitude 
-        (names which might be interpreted as scalar fields).
-
-        \begin{equation}
-            \oint_\mathcal{L}\H = I_{\text{encl}},
-        \end{equation}
-        and 
-        \begin{equation}
-            \nabla\times\H = \j.
-        \end{equation}
-        
-        \subsubsection{Continuity conditions}
-            It can be shown that:
-            \begin{itemize}
-                \item The normal component of the \B-field is conserved over an interface
-                \item The tangential component of the \H-field is conserved over an interface
-            \end{itemize}
-
-    \subsection{Real magnetic materials}
-        \subsubsection{Paramagnetic materials}
-            Examples: Al, Pt, W, Ti.
-
-            $\left<m\right>=0$ if $\B_{\text{ext}} = 0$. Else, 
-            \begin{equation}
-                \vec{M} = \chi_m\H,
-            \end{equation}
-            where $\chi_m$ is the magnetic suceptability of the material. 
-            It usually ranges around $10^{-6}$ to $10^{-3}$, and is always positive (since $\vec{M} || \H$).
-
-            Curie's law states that 
-            \begin{equation}
-                \chi_m = \frac{C}{T}, 
-            \end{equation}
-            where $C$ is a material-dependent constant. Note that this makes $\vec{M}$ larger for lower temperatures.
-
-        \subsubsection{Diamagnetic materials}
-            Examples: $\text{H}_2$, $\text{N}_2$, Na, Cu, Hg. The common trait is an unpaired electron in the molecular orbitals.
-            
-            These materials do NOT have a microscopic dipole momentum $\vec{m}$. Still, since electrons are moving, 
-            an external magnetic field will affect the material similarly to paramagnetic materials:
-            \begin{equation}
-                \vec{M} = \chi_m\H,
-            \end{equation}
-            where the magnetic suceptability $\chi_m$ ranges from around $10^{-9}$ to $10^{-5}$. 
-            For diamagnetic materials, $\chi_m < 0$ and $\vec{M}$ is antiparallel to \H. 
-            This effect is present in ALL materials (as all materials have moving electrons), but is usually negligable.
-        
-        For both para- and diamagnetic materials, we can write
-        \begin{equation}
-            \B = \mu_0 \mu_r \H,
-        \end{equation}
-        where $\mu_r = 1+\chi_m$ is the relative magnetic permeability of the material.
-        
-        \subsubsection{Ferromagnetic materials}
-            In ferromagnetic materials, each grain in the crystal has aligned $\vec{m}$ separately. 
-            In the presence an external \B-field, more and more grains align. 
-            Unlike para- and diamagnetic materials, the relationship between $\vec{M}$ and \H{} is NOT linear.
-
-            If the applied \H{} is increased, $\vec{M}$ will eventually reach \textit{saturation magnetisation}. 
-            If \H{} is then decreased to zero, there will still be a \textit{residual magnetisation} $\vec{M} > 0$. 
-            Similarly and equivalently for continuing the reduction of \H{} into high negative values, 
-            a saturation magnetisation of equal magnitude as before (but opposite direction, since $\vec{M}$ aligns with \H) will be reached.
+        If the applied \H{} is increased, $\vec{M}$ will eventually reach \textit{saturation magnetisation}. 
+        If \H{} is then decreased to zero, there will still be a \textit{residual magnetisation} $\vec{M} > 0$. 
+        Similarly and equivalently for continuing the reduction of \H{} into high negative values, 
+        a saturation magnetisation of equal magnitude as before (but opposite direction, since $\vec{M}$ aligns with \H) will be reached.

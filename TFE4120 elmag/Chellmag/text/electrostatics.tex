@@ -1,4 +1,3 @@
-\section{Electrostatics}
 \subsection{Electrostatic fields}
     The coloumb force experienced by a particle with charge $q'$ from a charge $q$ at a distance $r$ from each other is given by 
     \begin{equation}
@@ -166,28 +165,28 @@
     \end{equation}
     $\sigma_p$ is called the \textit{polarisation charge density}.
     
-    \subsubsection{Polarisation vector}
-        The induced field opposing an imposed field in a dielectric is the result of the microscopic structure of the material, 
-        where each infinitesimal volume $\Delta \tau$ has an infinitesimal dipole momentum $\vec{\Delta p}$. 
-        The total dipole momentum of the dielectric is then 
-        \begin{equation}
-            \vec{p} = N\left< \vec{p} \right>
-        \end{equation}
-        Where $N\Delta \tau$ is the total volume of the dielectric. We define the \textit{polarisation vector} as follows:
-        \begin{equation}
-            \p = \frac{\vec{\Delta p}}{\Delta \tau}.
-        \end{equation}
-        It can be shown that 
-        \begin{equation}
-            \p = \sigma_p\,\hat{n} = \e \chi_e \E_{\epsilon_r}
-        \end{equation}
-        where $\E_{\epsilon_r}$ is the total field in the dielectric material.
-        
-        Applying the divergence theorem, we get
-        \begin{equation}
-            \nabla \cdot \p = - \rho_{\text{pol}}
-        \end{equation}
-        where $\rho_{\text{pol}}$ is the volume charge distribution of the polarisation charges.
+\subsection{Polarisation vector}
+    The induced field opposing an imposed field in a dielectric is the result of the microscopic structure of the material, 
+    where each infinitesimal volume $\Delta \tau$ has an infinitesimal dipole momentum $\vec{\Delta p}$. 
+    The total dipole momentum of the dielectric is then 
+    \begin{equation}
+        \vec{p} = N\left< \vec{p} \right>
+    \end{equation}
+    Where $N\Delta \tau$ is the total volume of the dielectric. We define the \textit{polarisation vector} as follows:
+    \begin{equation}
+        \p = \frac{\vec{\Delta p}}{\Delta \tau}.
+    \end{equation}
+    It can be shown that 
+    \begin{equation}
+        \p = \sigma_p\,\hat{n} = \e \chi_e \E_{\epsilon_r}
+    \end{equation}
+    where $\E_{\epsilon_r}$ is the total field in the dielectric material.
+    
+    Applying the divergence theorem, we get
+    \begin{equation}
+        \nabla \cdot \p = - \rho_{\text{pol}}
+    \end{equation}
+    where $\rho_{\text{pol}}$ is the volume charge distribution of the polarisation charges.
 
 \subsection{Displacement field}
     From Gauss' law, we have 
@@ -366,29 +365,30 @@
         \end{equation}
         in a mesh, where $\emf$ are voltage sources. 
 
-    \subsection{Capacitors}
-    A capacitor is a configuration of two conductors resulting in total electrostatic induction. 
-    The most common configuration is  two parallel plates.
-    For most all calculations, we assume the plates to be infinitely large, such that there are no border effects. 
-    This approximation is sufficiently good when the separation distance between the plates is significantly smaller than their area.
-    
-    We define capacitance as follows:
-    \begin{equation}
-        C = \frac{q}{\Delta V}
-    \end{equation}
-    where $q$ is the total charge of the capacitor and $\Delta V$ is the difference in potential between the conductors.
-    
-    Capacitance is measured in farad [F].
-    
-    Real capacitors are usually in a parallel plate configuration such that the plates are wound around each other in a spiral, 
-    to increase the surface area while keeping the footprint of the component small.
-    
-    The capacitance of a capacitor with a dielectric material between the conductors is given by
-    \begin{equation}
-        C = \epsilon_rC_0
-    \end{equation}
-    where $\epsilon_r$ is the relative dielectric constant and $C_0$ is the theoretical capacitance 
-    if the dielectric material had been vacuum. Since $\epsilon_r > 1$, the capacitance increases.
+\subsection{Capacitors}
+    \subsubsection{Definitions and basic properties}
+        A capacitor is a configuration of two conductors resulting in total electrostatic induction. 
+        The most common configuration is  two parallel plates.
+        For most all calculations, we assume the plates to be infinitely large, such that there are no border effects. 
+        This approximation is sufficiently good when the separation distance between the plates is significantly smaller than their area.
+        
+        We define capacitance as follows:
+        \begin{equation}
+            C = \frac{q}{\Delta V}
+        \end{equation}
+        where $q$ is the total charge of the capacitor and $\Delta V$ is the difference in potential between the conductors.
+        
+        Capacitance is measured in farad [F].
+        
+        Real capacitors are usually in a parallel plate configuration such that the plates are wound around each other in a spiral, 
+        to increase the surface area while keeping the footprint of the component small.
+        
+        The capacitance of a capacitor with a dielectric material between the conductors is given by
+        \begin{equation}
+            C = \epsilon_rC_0
+        \end{equation}
+        where $\epsilon_r$ is the relative dielectric constant and $C_0$ is the theoretical capacitance 
+        if the dielectric material had been vacuum. Since $\epsilon_r > 1$, the capacitance increases.
     
     \subsubsection{Parallel plate capacitors}
         For a given geometry of the plates, with a surface charge density $\sigma$ on one plate and $-\sigma$ on the other, 
