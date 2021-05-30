@@ -22,6 +22,7 @@
     \end{equation}
     where $\lambda$ is a linear charge distribution along the line $\mathcal{L}$. Similarly for surface- and volume-distributions: 
     \begin{equation}
+        \label{surface density integral}
         \E = \frac{1}{4\pi\e}\iint_S\,\frac{\sigma}{r^2}\,\hat{r}dS,
     \end{equation}
     \begin{equation}
@@ -172,12 +173,13 @@
     \begin{equation}
         \vec{p} = N\left< \vec{p} \right>
     \end{equation}
-    Where $N\Delta \tau$ is the total volume of the dielectric. We define the \textit{polarisation vector} as follows:
+    Where $N\cdot\Delta\tau$ is the total volume of the dielectric. We define the \textit{polarisation vector} as follows:
     \begin{equation}
         \p = \frac{\vec{\Delta p}}{\Delta \tau}.
     \end{equation}
     It can be shown that 
     \begin{equation}
+        \label{P as surface density}
         \p = \sigma_p\,\hat{n} = \e \chi_e \E_{\epsilon_r}
     \end{equation}
     where $\E_{\epsilon_r}$ is the total field in the dielectric material.
@@ -187,6 +189,40 @@
         \nabla \cdot \p = - \rho_{\text{pol}}
     \end{equation}
     where $\rho_{\text{pol}}$ is the volume charge distribution of the polarisation charges.
+
+    \subsubsection*{Microscopic motivation}
+        Let $\E^*$ be the field "felt" by a single molecule, meaning the neighbouring molecules contribute 
+        (as opposed to the macro-case, where the neighbours cancel out in the bulk). We then have
+        \begin{equation}
+            \label{polarisability}
+            \p = n\left<\vec{p}\right> = n\alpha\E^*,
+        \end{equation}
+        where $\alpha$ is a proportionality constant named \textit{polarisability}, with units \si{\per\metre\cubed}. 
+        A large polarisability then means that a molecule exerts a larger dipole momentum for a given electric field strength. 
+
+        To get any useful mathematics out of this, imagine a infinitesimal spherical cavity in a dielectric. 
+        $\E^*$ is clearly then the sum of $\E_{\epsilon_r}$ 
+        and all infinitesimal contibutions due to the surface charge density $\sigma_p^*$ on the sphere ($\E_\text{int}$). 
+        Due to $\E_{\epsilon_r}$, $\sigma_p^*$ is not uniform, since the molecules tend to align with the applied electric field. 
+        The configuration is symmetric in the polar angle, depending only on the azimuthal angle $\theta$. 
+        By combining equation \eqref{surface density integral} and the first half of equation \eqref{P as surface density}, we arrive at
+        \begin{equation}
+            \E_\text{int} = \iint \frac{dq}{4\pi\e} 
+            = \int_0^{2\pi}\int_0^\pi\frac{|\p |}{4\pi\e}\cos^2\theta\sin\theta d\theta d\phi = \frac{|\p |}{3\e}.
+        \end{equation}
+        Inserting this into equation \eqref{polarisability}, and combining it with the second half of equation \eqref{P as surface density}, 
+        we arrive at the \textit{Claussius- Mossotti formula}:
+        \begin{equation}
+            \frac{n\alpha}{3} = \frac{\chi_e}{\epsilon_r +2}, 
+        \end{equation}
+        where $n$ is the volume density of infinitesimal dipoles (molecules), $\alpha$ is the polarisability, 
+        and $\epsilon_r$ is the relative permitivity of the dielectric material. 
+
+        For low density materials like gases, $n << 1$, and we get the approximations
+        \begin{align}
+            \E^* &= \E \\
+            \chi_e &= n\alpha.
+        \end{align}
 
 \subsection{Displacement field}
     From Gauss' law, we have 

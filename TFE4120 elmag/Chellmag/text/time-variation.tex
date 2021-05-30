@@ -381,71 +381,124 @@
     In this chapter, an example of retarded potentials is discussed. 
 
     \subsubsection*{Introduction}
-    If a charge $-q_0$ is placed at the origin of a refrence frame, 
-    and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\left(\omega t\right) \hat{z}$, 
-    then this is an oscilating dipole with dipole momentum 
-    $\vec{p}\left(t\right) = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
+        If a charge $-q_0$ is placed at the origin of a refrence frame, 
+        and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\left(\omega t\right) \hat{z}$, 
+        then this is an oscilating dipole with dipole momentum 
+        $\vec{p}\left(t\right) = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
 
-    This configutarion is implactical, but a conductor with an oscilating current behaves similarly, since
-    \begin{equation*}
-        I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\cos\left(\omega t\right).
-    \end{equation*}
+        This configutarion is implactical, but a conductor with an oscilating current behaves similarly, since
+        \begin{equation*}
+            I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\cos\left(\omega t\right).
+        \end{equation*}
     
     \subsubsection*{Finding the retarded potentials}
-    Dimensional analysis of equation \eqref{retarded potentials 2}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
-    somehow leads to 
-    \begin{equation}
-        \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t'\right),
-    \end{equation} 
-    where $t' = t - \frac{{r}}{c}$ is a simplified retarded time ($r = |\vec{r}|$).
+        Dimensional analysis of equation \eqref{retarded potentials 2}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
+        somehow leads to 
+        \begin{equation}
+            \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t'\right),
+        \end{equation} 
+        where $t' = t - \frac{{r}}{c}$ is a simplified retarded time ($r = |\vec{r}|$).
 
-    The potential is found by applying the Lorenz Gauge again:
-    \begin{equation}
-        V(\vec{r}, t) = \frac{1}{4\pi\e}
-        \left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right]
-        p\left(t'\right),
-    \end{equation}
-    where $p = |\vec{p}|$ and $r = |\vec{r}|$. The expression in brackets is an operator, working on $p$.
+        The potential is found by applying the Lorenz Gauge again:
+        \begin{equation}
+            V(\vec{r}, t) = \frac{1}{4\pi\e}
+            \left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right]
+            p\left(t'\right),
+        \end{equation}
+        where $p = |\vec{p}|$ and $r = |\vec{r}|$. The expression in brackets is an operator, working on $p$.
 
     \subsubsection*{Arriving at the electromagnetic fields}
-    We can now find \B{} and \E, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
-    \begin{align*}
-        E_r &= \frac{2\cos\theta}{4\pi\e r}\left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+        We can now find \B{} and \E, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
+        \begin{align*}
+            E_r &= \frac{2\cos\theta}{4\pi\e r}\left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                    \eval{p\left(t\right)}_{t=t'}\\
+            E_\phi &= 0 \\
+            E_\theta &= \frac{\sin\theta}{4\pi\e r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} 
+                    + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                    \eval{p\left(t\right)}_{t=t'}\\
+            &\\
+            B_r &= 0 \\
+            B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\frac{1}{c}\frac{\partial^2}{\partial t^2} + \frac{1}{r}\frac{\partial}{\partial t}\right]
                 \eval{p\left(t\right)}_{t=t'}\\
-        E_\phi &= 0 \\
-        E_\theta &= \frac{\sin\theta}{4\pi\e r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} 
-                + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
-                \eval{p\left(t\right)}_{t=t'}\\
-        &\\
-        B_r &= 0 \\
-        B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\frac{1}{c}\frac{\partial^2}{\partial t^2} + \frac{1}{r}\frac{\partial}{\partial t}\right]
-            \eval{p\left(t\right)}_{t=t'}\\
-        B_\theta &= 0,
-    \end{align*}
-    where we still have $p = |\vec{p}| = p_0\sin\left(\omega t\right)$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. 
-    The expressions in brackets are operators, working on $p(t)$.
+            B_\theta &= 0,
+        \end{align*}
+        where we still have $p = |\vec{p}| = p_0\sin\left(\omega t\right)$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. 
+        The expressions in brackets are operators, working on $p(t)$. Note that $\theta$ is the azimuthal angle, and $\phi$ is the polar angle
+        ($\theta \in [0, \pi]$, $\phi \in [0, 2\pi)$).
 
-    As a sidenote, if we apply the relations $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$
-    directly to the general solutions found in equations \eqref{retarded potentials 1} and \eqref{retarded potentials 2}, we arrive at 
-    \textit{Jefimenko's equations}:
-    \begin{align*}
-        \E\left(\vec{r}, t\right) &= \frac{1}{4\pi\e}\iiint_\tau \left[
-            \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3}\rho\left(\vec{r'}, t_r\right)
-            + \frac{\vec{r} - \vec{r'}}{c|\vec{r} - \vec{r'}|^2}\frac{\partial}{\partial t}\rho\left(\vec{r'}, t_r\right)
-            - \frac{1}{c^2|\vec{r} - \vec{r'}|} \frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
-            \right]d\tau \\
-        \B\left(\vec{r}, t\right) &= -\frac{\mu_0}{4\pi} \iiint_\tau \left[
-            \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3} \times \j\left(\vec{r'}, t_r\right)
-            + \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^2} \times \frac{1}{c}\frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
-            \right]d\tau,
-    \end{align*}
-    where $\rho$ and \j{} are arbitrary charge- and current density distributions, 
-    $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the retarded time,
-    $\tau$ is the volume where $\rho$ and \j{} are defined, 
-    and we integrate over all points $\vec{r'}$ in $\tau$. 
-    Please excuse the width of the equation for \E{}.
+        For large $r$, the $r^{-2}$-terms vanish, leaving us with 
+        \begin{align*}
+            E_r &= 0\\
+            E_\phi &= 0 \\
+            E_\theta &= \frac{\sin\theta}{4\pi\e r c^2}\eval{\frac{\partial^2}{\partial t^2} p\left(t\right)}_{t=t'}\\
+            &\\
+            B_r &= 0 \\
+            B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r c^2}\eval{\frac{\partial^2}{\partial t^2} p\left(t\right)}_{t=t'}\\
+            B_\theta &= 0,
+        \end{align*}
+        i.e. we have a spherical wave propagating in the $\hat{r}$-direction. 
 
-    These relations describe the electromagnetic fields for any arbitrary charge- and current density distributions, 
-    taking the non-instantaneous propagation into account,
-    and as such are very powerful if we are able to evaluate the integrals.
+    \subsubsection*{Jefimenko's equations (NOT part of the curriculum)}
+        As a sidenote, if we apply the relations $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$
+        directly to the general solutions found in equations \eqref{retarded potentials 1} and \eqref{retarded potentials 2}, we arrive at 
+        \textit{Jefimenko's equations}:
+        \begin{align*}
+            \E\left(\vec{r}, t\right) &= \frac{1}{4\pi\e}\iiint_\tau \left[
+                \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3}\rho\left(\vec{r'}, t_r\right)
+                + \frac{\vec{r} - \vec{r'}}{c|\vec{r} - \vec{r'}|^2}\frac{\partial}{\partial t}\rho\left(\vec{r'}, t_r\right)
+                - \frac{1}{c^2|\vec{r} - \vec{r'}|} \frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+                \right]d\tau \\
+            \B\left(\vec{r}, t\right) &= -\frac{\mu_0}{4\pi} \iiint_\tau \left[
+                \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3} \times \j\left(\vec{r'}, t_r\right)
+                + \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^2} \times \frac{1}{c}\frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+                \right]d\tau,
+        \end{align*}
+        where $\rho$ and \j{} are arbitrary charge- and current density distributions, 
+        $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the retarded time,
+        $\tau$ is the volume where $\rho$ and \j{} are defined, 
+        and we integrate over all points $\vec{r'}$ in $\tau$. 
+        Please excuse the width of the equation for \E{}.
+
+        These relations describe the electromagnetic fields for any arbitrary charge- and current density distributions, 
+        taking the non-instantaneous propagation into account,
+        and as such are very powerful if we are able to evaluate the integrals.
     
+    \subsubsection*{Pointing vector and power}
+        From our previous simplification, we get
+        \begin{equation}
+            \vec{S} = \frac{1}{\mu_0}\E\times\B = \frac{p^2\omega^2\sin^2\theta}{16\pi^2\e r^2 c^3}\hat{r},
+        \end{equation}
+        where the time-dependence is hidden in $p = p_0\sin\left(\omega\left(t - \frac{r}{c}\right)\right)$.
+    
+        The intensity is given as 
+        \begin{equation}
+            I = \left<\vec{S}\right> = \frac{p_0^2\omega^2\sin^2\theta}{32\pi^2\e r^2 c^3},
+        \end{equation}
+        since $\left<p^2\right> = \frac{1}{2}p_0^2$, and as such the intensity only depends on the $\theta$-coordinate. 
+        Therefore, the flux of power through a sphere of any radius around the source is equal, as expected from conservation laws. 
+
+        Finding the power propagating through a sphere $S$ around the dipole, we need to perform the integral 
+        \begin{equation*}
+            \iint_S \frac{p_0^2\omega^2}{32\pi^2\e c^3} \frac{\sin^2\theta}{r^2} dS = \iint_S I_0\frac{\sin^2\theta}{r^2} dS,
+        \end{equation*}
+        where the substitution of $dS = r^2\sin\theta d\phi d\theta$ yields 
+        \begin{equation}
+            P = \frac{p_0^2\omega^2}{12\pi\e c^3} = \frac{8\pi}{3}I_0,
+        \end{equation}
+        where $p_0$ is the amplitude of the dipole moment, and $\omega$ is the angular frequency of the dipole's oscilations.
+
+        A unit analysis leads us into the \textit{Larmor formula}:
+        \begin{equation}
+            P = \frac{q^2a^2}{6\pi\e c^3},
+        \end{equation}
+        where $a$ is the acceleration of a charge $q$. This formula is only valid for non-relativistic speeds. 
+        The Larmor formula predicts a constant power loss of any accelerating charge, radiating the energy away as electromagnetic waves.
+
+\subsection{Diffusion of radiation}
+    Here, a simple model for matter-electromagnetic wave-interractions is discussed. 
+
+    For a diluted dielectric medium, e.g. a gas of dielectric particles, the dipole momentum of each particle is 
+    \begin{equation}
+        \vec{p} = \e\alpha\E,
+    \end{equation}
+    where $\alpha$ is the polarisability of the medium, and \E{} is the field produced by an incoming electromagnetic wave. 
