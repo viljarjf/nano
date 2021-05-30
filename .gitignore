@@ -6,13 +6,15 @@ TDT4102 C++/Øvinger/øving 0/main.exe
 TDT4102 C++/Øvinger/øving 0/main.obj
 TFY4115 fysikk 1/Fysikklab.xlsx
 TKJ4215 statterm/m_AB.pkl
-TKJ4215 statterm/Stirlings.txt
 
 # filetypes
 *.pdf
 *.zip
 *.png
 *MakeFile
+*.txt
+*.mp4
+*.fuse_hidden*
 *.synctex.gz
 *.txt
 *.mp4
@@ -29,5 +31,4 @@ __pycache__
 *debug/
 *release/
 TDT4102 C++/TDT4102_Windows(5)
-
 
