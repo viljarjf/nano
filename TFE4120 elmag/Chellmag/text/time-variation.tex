@@ -495,10 +495,136 @@
         The Larmor formula predicts a constant power loss of any accelerating charge, radiating the energy away as electromagnetic waves.
 
 \subsection{Diffusion of radiation}
-    Here, a simple model for matter-electromagnetic wave-interractions is discussed. 
 
     For a diluted dielectric medium, e.g. a gas of dielectric particles, the dipole momentum of each particle is 
     \begin{equation}
         \vec{p} = \e\alpha\E,
     \end{equation}
-    where $\alpha$ is the polarisability of the medium, and \E{} is the field produced by an incoming electromagnetic wave. 
+    where $\alpha$ is the polarisability of the medium, discussed in chapter \ref{Polarisation vector}, 
+    and \E{} is the field produced by an incoming electromagnetic wave. 
+
+    Since \E{} varies with time, $\vec{p}$ will as well, and as such power will be dissapated: 
+    \begin{equation}
+        P = \frac{4}{3}\pi\e\frac{\alpha^2 E_0^2}{\lambda^4},
+    \end{equation}
+    where $\lambda$ is the wavelength of the \textit{incoming} electromagnetic radiation. 
+    This means that lower wavelengths are more scattered than higher wavelengths. 
+    A very visible example of this is the blue colour of the sky.
+
+\subsection{Propagation of EM waves in a medium}
+    Here, a simple model for matter-electromagnetic wave-interractions is discussed. 
+
+    Assume a dielectric material consists of elementary constituents, 
+    each behaving like a damped oscilator oscilating along the $z$-axis.
+    We formulate Newton's second law of motion as a differential equation: 
+    \begin{equation*}
+        -\frac{qE}{m} = \frac{d^2z}{dt^2} + \gamma\frac{dz}{dt} + \omega_0^2z,
+    \end{equation*}
+    where $-q$ is the charge of the particle, $m$ is the mass, $E$ is the magnitude of the electric field, 
+    $\gamma$ is a damping factor, taking all contributions proportional to the velocity into account, 
+    and $\omega_0^2 = \frac{k}{m}$ is the eigenfrequency of the oscilator ($k$ is the spring coefficient).
+
+    Using complex wave notation for the electric field of the electromagnetic wave, 
+    i.e. $\E = \Re\left[\E_0 e^{i\omega t}\right]$, we can write the solution as 
+    \begin{equation}
+        z(t) = \Re\left[\frac{-qE_0}{m\left(\omega_0^2 - \omega^2-i\gamma\omega\right)}e^{i\omega t}\right].
+    \end{equation}
+    We can now multiply by $q$ to get the dipole momentum, and further insert that into equation \eqref{polarisability} to arrive at
+    \begin{equation}
+        \alpha(\omega) = \frac{q^2}{\e m\left(\omega_0^2 - \omega^2 - i\gamma\omega\right)},
+    \end{equation}
+    i.e. the polarisability is frequency-dependent. Note that the polarisability can be complex, due to the $i\gamma\omega$-term.
+
+    We can now find the polarisation vector, by using equation \eqref{polarisability} again: 
+    \begin{equation}
+        \p = \Re\left[\frac{nq^2}{\e m\left(\omega_0^2 - \omega^2 - i\gamma\omega\right)}\E_0e^{i\omega t}\right].
+    \end{equation}
+    Since $\alpha$ can be complex, \p{} and \E{} might be out of phase.
+
+    This result can be further combined with equation \eqref{P as surface density}, yielding
+    \begin{equation}
+        \epsilon_r(\omega) = 1 + n\alpha(\omega),
+    \end{equation}
+    i.e. the relative dielectric constant is frequency-dependent and complex. 
+
+\subsection{Refractive index}
+
+    In a dielectric, the electric field is different than in a vacuum, and Maxwell's equations have an $\epsilon_r$ accompanying each \e. 
+    The wave solution for these equations predict a propagation velocity of $v^{-2} = \e\mu_0\epsilon_r$, which is lower than $c$. 
+    
+    We define the \textit{refractive index} $n$ as follows: 
+    \begin{equation}
+        n(\omega) = \frac{c}{v(\omega)} = \Re\left[\sqrt{\epsilon_r(\omega)}\right],
+    \end{equation}
+    where $c$ is the speed of light, $v$ is the phase velocity
+    in a medium with relative dielectric coefficient $\epsilon_r$. Note that $n \geq 1$.
+
+    A material with refractive index $n > 1$ will have different wave parameters than if the same wave was propagating in vacuum: 
+    \begin{align*}
+        v &= \frac{c}{n} \\
+        \lambda &= \frac{\lambda_0}{n} \\
+        \nu &= \frac{v}{\lambda} = \frac{c}{\lambda_0} = \nu \\
+        k &= nk_0,
+    \end{align*}
+    where a subscript $0$ denotes the relevant property in vacuum. $\nu = \frac{\omega}{2\pi}$ is frequency, and unchanged.
+
+    So far, we have only discussed $n=\Re\left[\sqrt{\epsilon_r}\right]$, instead of the more general $\underline{n} = \sqrt{\epsilon_r}$.
+    For the rest of the discussion, splitting the complex refractive index $\underline{n}$ into its real and imaginary parts is useful: 
+    \begin{align}
+        n = \Re\underline{n} &= 1 + \frac{n'q^2}{2\e m} \frac{\omega_0^2 - \omega^2}{\left(\omega_0^2 - \omega^2\right)+\gamma^2m^2} \\
+        \kappa = \Im\underline{n} &= \frac{n'q^2}{2\e m} \frac{\gamma\omega}{\left(\omega_0^2 - \omega^2\right)+\gamma^2m^2},
+    \end{align}
+    where $n'$ is the density of elementary constituents (usually just $n$, marked here to differentiate it from refractive index),
+    $q$ is the charge of the dipole each elementary constituent consists of, 
+    $m$ is the mass of the atom/ molecule that makes up the dipole, 
+    $\omega_0$ is the eigenfrequency of each constituent (it is assumed all constituents are the same, and therefore have the same $\omega_0$),
+    $\omega$ is the angular frequency of the wave, 
+    and $\gamma$ is a dissipative term arising from our simple damped oscilations model.
+    The usefulness of this notation is mostly to describe attenuation: 
+    \begin{align*}
+        \E(z, t) &= \Re\left[\E_0 e^{i\left(\underline{k}z - \omega t\right)}\right] \\
+        &= \Re\left[\E_0 e^{i\left(\underline{n}k_0z - \omega t\right)}\right] \\
+        &= e^{-\kappa kz}\cdot\Re\left[\E_0 e^{i\left(nk_0z - \omega t\right)}\right], \numberthis \\
+    \end{align*}
+    i.e. we get an exponential decay in amplitude over distance. 
+
+    The example used in the lectures was not of the electric field, but the intensity, which is proportional to the square amplitude of the fields: 
+    \begin{equation}
+        I = I_0 e^{-\beta z},
+    \end{equation}
+    where $\beta$ is the \textit{absorption coefficient} defined as
+    \begin{equation}
+        \beta = \frac{2\omega\kappa}{c} = 2\kappa k.
+    \end{equation}
+
+\subsection{Refraction and reflection}
+
+    A monochromatic plane wave (i.e. a wave with a single frequency, and not a wave packet) 
+    encountering an interface between two materials with different (purely real) refractive indices, will, in general, both reflect and refract. 
+    The reflected wave will have the same angle $\theta_r$ with the normal to the interface as the angle $\theta_i$ the incident wave had, 
+    but the transmitted (refracted) wave will have a new angle $\theta_t$. 
+
+    The angles belonging to the same dielectric are the same since the phase of the radiation, 
+    $|\vec{k}|\cdot\sin\theta$, must be equal for both waves. 
+
+    A similar argument holds for the transmitted wave, and properly incorporating the refractive indices into $\vec{k}$ leads us into
+    \textit{Snell's law}:
+    \begin{equation}
+        n_i\sin\theta_i = n_t\sin\theta_t.
+    \end{equation}
+
+    In general, the normal component of $\vec{k}$ is conserved over interfaces.
+
+    \subsubsection*{Total internal reflection}
+        If the angle between a transmitted electromagnetic wave and the normal of a dielectric interface is greater than or equal to $\frac{\pi}{2}$, 
+        then we get a phenomenon known as \textit{total internal reflection} (TIR for short). 
+        Expressed algebraically, $\theta_t \geq \frac{\pi}{2}$.
+        If this condition is fulfilled, no power is transmitted into the other medium, and all radiation stays in its original medium.
+
+        The \textit{critical angle} is given by Snell's law
+        \begin{equation}
+            \theta_c = \text{arcsin}\frac{n_2}{n_1},
+        \end{equation}
+        where $n_1$ is the refractive index of the material of the incident wave, and $n_2$ is the refractive index of the material of the transmitted wave.
+        If the angle the incident wave makes with the normal of the interface is greater than the critical angle, then we get TIR. 
+        Algebraically, we get TIR if $\theta_i \geq \theta_c$. 

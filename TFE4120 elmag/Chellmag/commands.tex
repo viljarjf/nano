@@ -11,6 +11,9 @@
 \renewcommand{\H}{\ensuremath{\vec{H}}}
 \renewcommand{\phi}{\varphi}
 
+% add equation numbering to align*
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
 % pasta from https://tex.stackexchange.com/questions/459167/typesetting-dalembertian-symbol?rq=1
 \newcommand{\dalambert}{\mathop{\mathpalette\dalembertian@\relax}}
 \newcommand{\dalembertian@}[2]{%
