@@ -48,7 +48,7 @@
 
     Note that $\nabla V = -\E$, meaning $\E$ is conservative. Therefore, 
     \begin{equation}
-        U = \int_\mathcal{L}\,\E\cdot d\vec{l} = q'[V(B) - V(A)] = U(B) - U(A)
+        U = q'\int_\mathcal{L}\,\E\cdot d\vec{l} = q'[V(B) - V(A)] = U(B) - U(A)
     \end{equation}
     for any line $\mathcal{L}$ connecting point $A$ to $B$.
 
@@ -84,11 +84,9 @@
     \begin{equation}
         \E(r, \phi, \theta) = \frac{p}{4\pi\e r^2}\left(\frac{2\cos\theta}{r}\,\hat{r} + \sin\theta \, \hat{\theta}\right),
     \end{equation}
-    where $\theta$ is the angle between $\vec{p}$ and $\hat{r}$ (the polar angle), 
-    and $\hat{\theta}$ is orthogonal to $\hat{r}$ in the direction of increasing $\theta$ (at a constant azimuthal angle $\phi$). 
+    where the angles $\theta$ and $\phi$ are given according to the standard ISO convention, 
+    opposite to how the angles in spherical coordinates are usually presented in mathematics.
     Note the independence of $\phi$ due to radial symmetry along the $z$-axis. 
-    Also note how $\theta$ and $\phi$ are switched compared to the notation used in TMA4105. 
-    This is done here to stay consistent with the notation in this course.
     
     A dipole $\vec{p}$ placed in an external uniform electric field $\E$ experiences a torque
     \begin{equation}
@@ -98,10 +96,14 @@
     \begin{equation}
         U = -\vec{p}\cdot \E
     \end{equation}
-    for any external field $\E$. This also gives the relation 
-    \begin{equation}
-        \vec{F} = \nabla\left(\vec{p}\cdot\E\right).
-    \end{equation}
+    for any external field $\E$. This also gives the relations 
+    \begin{align}
+        \vec{F} &= \nabla\left(\vec{p}\cdot\E\right) \\
+        &= (\vec{p}\cdot\nabla)\E.
+    \end{align}
+    Note that this is NOT a mathematical identity, these expressions happen to be equal since the separation distance in the dipole is (infinitely) small.
+    (The derivation for the final expression is different from just using the nabla operator on the potential, but I included it here since the result is the same.)
+
 
 \subsection{Gauss' law}
     \begin{equation}
