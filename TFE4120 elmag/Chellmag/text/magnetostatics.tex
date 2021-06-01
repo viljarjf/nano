@@ -255,15 +255,15 @@
         This is not an actual current, since there are no charges moving along the perimiter.
         Taking an infinitesimally thin disc, we have 
         \begin{equation}
-            \j_{s, m} = \vec{M}\times\hat{n},
+            \vec{K}_{m} = \vec{M}\times\hat{n},
         \end{equation}
-        where $\j_{s, m}$ is the current density on the \textbf{s}urface 
+        where $\vec{K}_m$ is the current density on the surface 
         (which is the perimiter, the disc has no surface area on its edge due to beind infinitely thin) 
-        resulting from the \textbf{m}agnets, and $\hat{n}$ is the unit normal vector along the perimiter of the disc. 
+        resulting from the magnets, and $\hat{n}$ is the unit normal vector along the perimiter of the disc. 
 
         Generalising the disc to a cylinder with length $l$, we have the relation
         \begin{equation}
-            I_{\text{mag}} = \int \j_{s, m}\cdot d\vec{l}.
+            I_{\text{mag}} = \int \vec{K}_m\cdot d\vec{l}.
         \end{equation}
 
     \subsubsection{Ampere's law for magnetic materials}
@@ -276,15 +276,14 @@
             \nabla \times \vec{M} = \j_m,
         \end{equation}
         where $\j_m$ is a surface density of magnetisation current. 
-        If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$. 
-        This does NOT imply $\j_{s, m} = 0$, since the latter is a linear density whereas $\j_m$ is a suface density.
+        If $\vec{M}$ is uniform (and therefore irrotational), $\j_m = 0$.
 
         The following table compares magnetisation to polatisation.
         \begin{center}
             \begin{tabular}{ c|c } 
             Magnetic & Dielectric \\
             \hline
-                $\vec{M}\times\hat{n} = \j_{s, m}$ & $\p \cdot \hat{n} = \sigma_p$ \\
+                $\vec{M}\times\hat{n} = \vec{K}_m$ & $\p \cdot \hat{n} = \sigma_p$ \\
                 $\nabla \times \vec{M} = \j_m,$ & $\nabla \cdot \p = -\rho_p$
             \end{tabular}
         \end{center}
@@ -382,7 +381,7 @@
             $\displaystyle\oiint_S \j\cdot d\vec{S} = 0$ \eqref{div j}\\
 
             \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-            $\displaystyle\Phi \defeq \iint_S \B\cdot d\vec{S}$  & 
+            \Large$\Phi$ \normalsize$\displaystyle\defeq \iint_S \B\cdot d\vec{S}$  & 
             $\displaystyle I = \iint_S \j\cdot d\vec{S}$ \eqref{integrate j equals I} \\
 
             \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
