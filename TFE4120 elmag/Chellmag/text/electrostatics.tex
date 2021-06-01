@@ -324,10 +324,12 @@
         
         Integrating over $S$ yields
         \begin{equation}
+            \label{integrate j equals I}
             I = \iint_S \j\cdot d\vec{S}.
         \end{equation}
         Taking the divergence of $\j$, we get
         \begin{equation}
+            \label{div j}
             \nabla \cdot \j = \frac{d\rho}{dt}
         \end{equation}
         where $\rho$ is the volume charge distribution.
@@ -358,6 +360,7 @@
         
         We have the relations 
         \begin{align}
+            \label{j eq sigma E}
             \j &= \sigma \E \\
             \E &= \rho \j.
         \end{align}
@@ -386,6 +389,7 @@
     \subsubsection{Generators}
         Let $\E^*$ be the electric field responsible for the potential difference between the poles of a voltage source, such that
         \begin{equation}
+            \label{emf}
             \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{\text{circuit}}\cdot \vec{dl} + \int_-^+(\E_{\text{circuit}} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \emf
         \end{equation}
         where $\emf$ is the \textit{electromotive force} (NOT a force, $\left[\emf\right]$ = \si\volt)
@@ -470,10 +474,10 @@
         \end{equation}
         which is solved by
         \begin{equation}
-            q(t) = \emf C \left(1-\exp{\frac{-t}{RC}}\right).
+            q(t) = \emf C \left(1-\exp\left(\frac{-t}{RC}\right)\right).
         \end{equation}
         The energy stored in the capacitor is 
         \begin{equation}
             W_C = \frac{1}{2}C\emf^2,
         \end{equation}
-        whereas the total energy "spent" by the circuit is \textit{twice as much}.
+        whereas the total energy "spent" by the circuit to achieve this is \textit{twice as much}.
