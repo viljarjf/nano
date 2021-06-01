@@ -235,7 +235,7 @@
             \nabla^2\vec{A} - \e\mu_0\frac{\partial^2\vec{A}}{\partial t^2} &= \mu_0\j,
             \label{Maxwells for potentials 2}
         \end{align}
-        which is clearly the wave equation if there are no sources present ($\rho = \j = 0)$, 
+        which is clearly the wave equation if there are no sources present ($\rho = |\j| = 0)$, 
         where the velocity of propagation is $c$ (since $\e\mu_0 = c^{-2}$).
 
         We use the shorthand notation of the \textit{d'Alembertian}: 
@@ -253,11 +253,17 @@
     \subsubsection{Solution to the wave equation}
         The solution  can be written as
         \begin{equation*}
-            f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t\right),
+            f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right),
         \end{equation*}
-        where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave "number", pointing in the direction of travel, 
-        and $\omega = 2\pi\nu$ is the angular frequency. $\lambda$ is the wavelength and $\nu$ is the frequency, such that
+        where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave vector pointing in the direction of travel, 
+        $\omega = 2\pi\nu$ is the angular frequency, and $\phi$ is an initial phase shift. 
+        $\lambda$ is the wavelength and $\nu$ is the frequency, such that
         $\lambda\nu = c$.
+
+        Another way to write the solution is with complex notation: 
+        \begin{equation*}
+            f(\vec{r}, t) = \Re\left[Ae^{i\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right)}\right].
+        \end{equation*}
 
         Both \E, \B{} and $\vec{k}$ are orthogonal, i.e. electromagnetic waves are transverse. Also note that 
         \begin{equation}
