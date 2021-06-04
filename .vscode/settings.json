@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Python\\3.9\\python.exe",
+    "python.pythonPath": "/bin/python3.9",
     "latex-workshop.latex.tools": [
 
         {
