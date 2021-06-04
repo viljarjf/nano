@@ -7,20 +7,20 @@
         \hline
             \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
                 $\displaystyle\nabla\cdot\E = \frac{\rho}{\e}$ & 
-                $\displaystyle\nabla\cdot\B = 0$ \\
+                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ \\
                 \hline
                 \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                $\displaystyle\nabla\times\E = -\frac{\partial\B}{\partial t}$ & 
+                $\displaystyle\nabla\cdot\B = 0$ & 
                 $\displaystyle\nabla\times\B = \mu_0\j + \e\mu_0\frac{\partial\E}{\partial t}$ \\
         \hline
         \rowcolor{gray!25}\multicolumn{2}{c}{ Maxwell's, integral form} \\
         \hline
                 \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
                 $\displaystyle\oiint_{\partial T} \E\cdot d\vec{S} = \iiint_{T}\frac{\rho}{\e}d\tau$ & 
-                $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ \\
+                $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ \\
                 \hline
                 \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                $\displaystyle\oint_{\partial S}\E\cdot d\vec{l} = -\frac{\partial}{\partial t} \iint_S \B\cdot d\vec{S}$ & 
+                $\displaystyle\oiint_{\partial T} \B\cdot d\vec{S} = 0$ & 
                 $\displaystyle\oint_{\partial S}\B\cdot d\vec{l} = \mu_0\iint_S\j\cdot d\vec{S} + \e\mu_0\frac{\partial}{\partial t}\iint_S\E\cdot d\vec{S}$ \\
         \hline
         \rowcolor{gray!25}\multicolumn{2}{c}{Coulomb field} \\
@@ -85,8 +85,8 @@
                 $\nabla \times \H = \j_\text{f}$ \\
                 \hline
                 \rule[-3ex]{0pt}{0pt}\rule{0pt}{4ex}
-                $\vec{M} \times \hat{n} = \j_\text{s,m}$ & 
-                $\H \cdot \hat{n} = \j_\text{s,f}$ \\
+                $\vec{M} \times \hat{n} = \vec{K}_\text{m}$ & 
+                $\H \times \hat{n} = \vec{K}_\text{f}$ \\
         \hline
         \rowcolor{gray!25}\multicolumn{2}{c}{Displacement and magnetising field definitions} \\ 
         \hline
@@ -109,31 +109,33 @@
     In order of apperance in table \ref{formulas}:  
     \begin{itemize}
         \setlength\itemsep{.1em}
-        \item \E: electric field 
-        \item $\rho$: volume charge density
-        \item \e: vacuum permitivity constant
-        \item \B: magnetic field
-        \item $\mu_0$: magnetic permeability constant
-        \item \j: current density vector
-        \item $T$: arbitrary closed volume
-        \item $d\tau$: infinitesimal volume
-        \item $\partial T$: surface of an arbitrary closed volume $T$
+        \item \E: electric field, units \si{\volt\per\metre} = \si{\newton\per\coulomb}
+        \item $\rho$: volume charge density, units \si{\coulomb\per\metre\cubed}
+        \item \e: vacuum permitivity constant, units \si{\farad\per\metre} = \si{\coulomb\squared\per\newton\per\metre\squared}
+        \item \B: magnetic field, units \si{\tesla}
+        \item $\mu_0$: magnetic permeability constant, units \si{\henry\per\metre} = \si{\newton\per\ampere\squared\per\metre}
+        \item \j: current density vector, units \si{\ampere\per\metre\cubed}
+        \item $T$: arbitrary closed volume, units \si{\metre\cubed}
+        \item $d\tau$: infinitesimal volume, units \si{\metre\cubed}
+        \item $\partial T$: surface of an arbitrary closed volume $T$, units \si{\metre\squared}
         \item $d\vec{S}$: unit normal vector of an infinitesimal surface $dS$
         \item $d\vec{l}$: unit vector parallel to an infinitesimal length $dl$
-        \item $S$: arbitrary closed surface
-        \item $\partial S$: perimiter of an arbitrary closed surface $S$
+        \item $S$: arbitrary closed surface, units \si{\metre\cubed}
+        \item $\partial S$: perimiter of an arbitrary closed surface $S$, units \si{\metre}
         \item $r$, $\phi$, $\theta$: spherical coordinates
-        \item $q$: charge of a point charge at $r=0$
-        \item $Sdl$: transectional area $S$ of a conductor multiplied by an infinitesimal width $dl$
-        \item $I$: current along a conductor $d\vec{l}$
-        \item $u_\text{e, m, em}$: volume density of energy, for electric fields, magnetic fields, and electromagnetic radiation respectively
-        \item \p: polarisation vector
-        \item \D: Displacement field
-        \item $\sigma$: surface charge density
-        \item $\vec{M}$: magnetisation vector
-        \item \H: magnetising field
+        \item $q$: charge of a point charge at $r=0$, units \si{\coulomb}
+        \item $Sdl$: transectional area $S$ of a conductor multiplied by an infinitesimal width $dl$, units \si{\metre\cubed}
+        \item $I$: current along a conductor $d\vec{l}$, units \si{\ampere}
+        \item $u_\text{e, m, em}$: volume density of energy, 
+        for electric fields, magnetic fields, and electromagnetic radiation respectively, units \si{\joule\per\metre\cubed}
+        \item \p: polarisation vector, units \si{\coulomb\metre}
+        \item \D: Displacement field, units \si{\coulomb\per\metre\squared}
+        \item $\sigma$: surface charge density, units \si{\coulomb\per\metre\squared}
+        \item $\vec{M}$: magnetisation vector, units \si{\ampere\per\metre}
+        \item \H: magnetising field, units \si{\ampere\per\metre}
+        \item $\vec{K}$: Surface current density, units \si{\ampere\per\metre}
         \item subscript m: magnetic
         \item subscript p: polarised
         \item subscript f: free 
-        \item subscript s: surface
+        
     \end{itemize}

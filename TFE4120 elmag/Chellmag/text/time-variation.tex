@@ -54,7 +54,7 @@
         \B{} points parallel to the normal vector of the mesh. We assume zero friction. 
         The flux of the magnetic field through the mesh is given by
         \begin{equation}
-            \Phi(\B)(t) = Bb(vt+x_0) \rightarrow -\frac{\partial \Phi(\B)}{\partial t} = -Bbv.
+            \Phi(\B, t) = Bb(vt+x_0) \implies -\frac{\partial \Phi(\B, t)}{\partial t} = -Bbv.
         \end{equation}
         Therefore, the induced current in the mesh is
         \begin{equation}
@@ -107,6 +107,10 @@
         \begin{equation}
             \emf - RI = L_{1,1}\frac{\partial I}{\partial t},
         \end{equation}
+        solved by
+        \begin{equation}
+            \emf - RI = Ae^{\frac{-R}{L}t}
+        \end{equation}
         where $A$ is an integration constant and is determined by the initial conditions.
 
         With initial conditions $t=0,\, I=0$, we get 
@@ -126,6 +130,16 @@
             I(t) \approx \frac{\emf}{R}e^{\frac{-L}{R'}t}.
         \end{equation}
         The resulting behaviour of the coil is then to keep the current flowing for a while, but the decay is exponential.
+    \subsubsection{Transformers}
+        \label{transformers}
+        Transformers, as the name suggests, transforms electric currents and voltages. 
+        If a circuit $C_1$ with a coil $L_1$ is magnetically connected with another coil $L_2$ in another circuit $C_2$, 
+        such that the geometry inside the coils is identical, then we get the following relation: 
+        \begin{align}
+            V_2 &= \frac{L_{1,2}}{L_{2,2}}\emf_1 \\
+            \frac{L_{1,2}}{L_{1,1}} &= \frac{N_2}{N_1},
+        \end{align}
+        where $N_i$ is the amount of loops in coil $i$ (valid since the geometries are identical).
 
     \subsubsection{RLC-circuits}
         A system with a resistor with resistance $R$, a coil with coefficient of self induction $L$, and a capacitor with capacitance $C$, 
@@ -159,7 +173,7 @@
             V_c (t) &= \sqrt{\frac{L}{C}} \, A\cos\left(\frac{1}{\sqrt{LC}}t + \phi\right)
         \end{align*}
 
-    \subsubsection{Permanent oscilations in RLC-circuits}
+    \subsubsection*{Permanent oscilations in RLC-circuits}
 
         Adding an AC source $\emf(t) = \emf_0\cos\left(\omega t + \phi\right)$ to our RLC-circuit, where all components are in parallel, 
         we get equation \eqref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
@@ -221,13 +235,17 @@
         \end{align*}
         where $S$ is a scalar function with both a spatial- and a time-parameter.
         Applying this mathematical feature is called a \textit{Gauge transform}.
+
     \subsubsection*{Arriving at the wave equation}
-        Inserting $V$ and $\vec{A}$ into Maxwell's equations, we get the following: 
-        \begin{align*}
+        By applying the \textit{Lorenz Gauge} $\nabla\cdot\vec{A} + \e\mu_0\frac{\partial V}{\partial t} = 0$, 
+        Maxwell's equations for potentials become 
+        \begin{align}
+            \label{Maxwells for potentials 1}
             \nabla^2V - \e\mu_0\frac{\partial^2V}{\partial t^2} &= \frac{-\rho}{\e}\\
             \nabla^2\vec{A} - \e\mu_0\frac{\partial^2\vec{A}}{\partial t^2} &= \mu_0\j,
-        \end{align*}
-        which is clearly the wave equation if there are no sources present ($\rho = \j = 0)$, 
+            \label{Maxwells for potentials 2}
+        \end{align}
+        which is clearly the wave equation if there are no sources present ($\rho = |\j| = 0)$, 
         where the velocity of propagation is $c$ (since $\e\mu_0 = c^{-2}$).
 
         We use the shorthand notation of the \textit{d'Alembertian}: 
@@ -245,11 +263,17 @@
     \subsubsection{Solution to the wave equation}
         The solution  can be written as
         \begin{equation*}
-            f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t\right),
+            f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right),
         \end{equation*}
-        where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave "number", pointing in the direction of travel, 
-        and $\omega = 2\pi\nu$ is the angular frequency. $\lambda$ is the wavelength and $\nu$ is the frequency, such that
+        where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave vector pointing in the direction of travel, 
+        $\omega = 2\pi\nu$ is the angular frequency, and $\phi$ is an initial phase shift. 
+        $\lambda$ is the wavelength and $\nu$ is the frequency, such that
         $\lambda\nu = c$.
+
+        Another way to write the solution is with complex notation: 
+        \begin{equation*}
+            f(\vec{r}, t) = \Re\left[Ae^{i\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right)}\right].
+        \end{equation*}
 
         Both \E, \B{} and $\vec{k}$ are orthogonal, i.e. electromagnetic waves are transverse. Also note that 
         \begin{equation}
@@ -351,7 +375,7 @@
         \hline
         \multirow{2}{*}{else}
          & Radiowaves. \\
-         & These can have an arbitrarily long wavelength.\\
+         & These can have an arbitrarily long wavelengths.\\
         \hline
     \end{longtable}
 
@@ -359,13 +383,8 @@
     Retarded potentials are the $\vec{A}$- and $V$-fields generated by a time-varying current (or charge distrubution) in the past, 
     since the fields propagate with the speed of light and not instantly. 
     
-    By applying the \textit{Lorenz Gauge} $\nabla\cdot\vec{A} + \e\mu_0\frac{\partial V}{\partial t} = 0$, 
-    Maxwell's equations for potentials become
-    \begin{align}
-        \dalambert V &= \frac{\rho\left(\vec{r}, t\right)}{\e} \\
-        \dalambert \vec{A} &= \mu_0 \j\left(\vec{r}, t\right),
-    \end{align}
-    which are solved by 
+    We examine the general equations \eqref{Maxwells for potentials 1} and \eqref{Maxwells for potentials 2}, this time with $\rho \neq 0$ and $\j \neq \vec{0}$.
+    These are solved by 
     \begin{align} 
         \label{retarded potentials 1}
         V(\vec{r}, t) &= \frac{1}{4\pi\e} \iiint_\tau \frac{\rho\left(\vec{r'}, t_r\right)}{|\vec{r} - \vec{r'}|}d\tau \\
@@ -464,7 +483,7 @@
         and as such are very powerful if we are able to evaluate the integrals.
     
     \subsubsection*{Pointing vector and power}
-        From our previous simplification, we get
+        From our previous approximation, valid for large $r$, we get
         \begin{equation}
             \vec{S} = \frac{1}{\mu_0}\E\times\B = \frac{p^2\omega^2\sin^2\theta}{16\pi^2\e r^2 c^3}\hat{r},
         \end{equation}
@@ -474,8 +493,9 @@
         \begin{equation}
             I = \left<\vec{S}\right> = \frac{p_0^2\omega^2\sin^2\theta}{32\pi^2\e r^2 c^3},
         \end{equation}
-        since $\left<p^2\right> = \frac{1}{2}p_0^2$, and as such the intensity only depends on the $\theta$-coordinate. 
-        Therefore, the flux of power through a sphere of any radius around the source is equal, as expected from conservation laws. 
+        since $\left<p^2\right> = \frac{1}{2}p_0^2$, and no other terms depend on time. 
+
+        The resulting field will look similar to a doughnut, with $0$ intensity directly parallel to the dipole, and maximum intensity orthogonal to it.
 
         Finding the power propagating through a sphere $S$ around the dipole, we need to perform the integral 
         \begin{equation*}
@@ -486,6 +506,8 @@
             P = \frac{p_0^2\omega^2}{12\pi\e c^3} = \frac{8\pi}{3}I_0,
         \end{equation}
         where $p_0$ is the amplitude of the dipole moment, and $\omega$ is the angular frequency of the dipole's oscilations.
+        Note the independence of any coordinate terms, i.e. the power flux through a sphere of any radius centered on the dipole will be equal, 
+        as expected due to conservation laws.
 
         A unit analysis leads us into the \textit{Larmor formula}:
         \begin{equation}
@@ -621,7 +643,7 @@
         Expressed algebraically, $\theta_t \geq \frac{\pi}{2}$.
         If this condition is fulfilled, no power is transmitted into the other medium, and all radiation stays in its original medium.
 
-        The \textit{critical angle} is given by Snell's law
+        The \textit{critical angle} is found by Snell's law:
         \begin{equation}
             \theta_c = \text{arcsin}\frac{n_2}{n_1},
         \end{equation}

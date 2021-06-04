@@ -1,6 +1,10 @@
 \makeatletter
 %\renewcommand{\vec}{\vv}
-\renewcommand{\vec}[1]{\bm{#1}}
+\renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+\renewcommand{\phi}{\varphi}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+
+% vector shortcuts
 \newcommand{\E}{\ensuremath{\vec{E}}}
 \renewcommand{\epsilon}{\varepsilon}
 \newcommand{\e}{\ensuremath{\epsilon_0}}
@@ -9,7 +13,6 @@
 \renewcommand{\j}{\ensuremath{\vec{J}}}
 \newcommand{\B}{\ensuremath{\vec{B}}}
 \renewcommand{\H}{\ensuremath{\vec{H}}}
-\renewcommand{\phi}{\varphi}
 
 % add equation numbering to align*
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}

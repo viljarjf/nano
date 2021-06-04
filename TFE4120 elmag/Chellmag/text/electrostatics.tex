@@ -42,9 +42,13 @@
     \begin{equation}
         V = \frac{U}{q'} = \frac{q}{4\pi\e r}.
     \end{equation}
+    
+    The superposition principle applies for $V$, and as such one can integrate $dV = \frac{dq}{4\pi\e r}$ over a charge distribution to get $V$, 
+    if one can relate $dq$ to $r$.
+
     Note that $\nabla V = -\E$, meaning $\E$ is conservative. Therefore, 
     \begin{equation}
-        U = \int_\mathcal{L}\,\E\cdot d\vec{l} = q'[V(B) - V(A)] = U(B) - U(A)
+        U = q'\int_\mathcal{L}\,\E\cdot d\vec{l} = q'[V(B) - V(A)] = U(B) - U(A)
     \end{equation}
     for any line $\mathcal{L}$ connecting point $A$ to $B$.
 
@@ -80,11 +84,9 @@
     \begin{equation}
         \E(r, \phi, \theta) = \frac{p}{4\pi\e r^2}\left(\frac{2\cos\theta}{r}\,\hat{r} + \sin\theta \, \hat{\theta}\right),
     \end{equation}
-    where $\theta$ is the angle between $\vec{p}$ and $\hat{r}$ (the polar angle), 
-    and $\hat{\theta}$ is orthogonal to $\hat{r}$ in the direction of increasing $\theta$ (at a constant azimuthal angle $\phi$). 
+    where the angles $\theta$ and $\phi$ are given according to the standard ISO convention, 
+    opposite to how the angles in spherical coordinates are usually presented in mathematics.
     Note the independence of $\phi$ due to radial symmetry along the $z$-axis. 
-    Also note how $\theta$ and $\phi$ are switched compared to the notation used in TMA4105. 
-    This is done here to stay consistent with the notation in this course.
     
     A dipole $\vec{p}$ placed in an external uniform electric field $\E$ experiences a torque
     \begin{equation}
@@ -94,10 +96,14 @@
     \begin{equation}
         U = -\vec{p}\cdot \E
     \end{equation}
-    for any external field $\E$. This also gives the relation 
-    \begin{equation}
-        \vec{F} = \nabla\left(\vec{p}\cdot\E\right).
-    \end{equation}
+    for any external field $\E$. This also gives the relations 
+    \begin{align}
+        \vec{F} &= \nabla\left(\vec{p}\cdot\E\right) \\
+        &= (\vec{p}\cdot\nabla)\E.
+    \end{align}
+    Note that this is NOT a mathematical identity, these expressions happen to be equal since the separation distance in the dipole is (infinitely) small.
+    (The derivation for the final expression is different from just using the nabla operator on the potential, but I included it here since the result is the same.x    )
+
 
 \subsection{Gauss' law}
     \begin{equation}
@@ -136,11 +142,21 @@
         \end{equation*}
         Where $R' = \text{min}(r, R)$. Combining the two yields
         \begin{equation}
-            \E = \frac{\rho \text{min}(r, R)^3}{3r^2\e}\,\hat{r}.
+            \E = 
+            \begin{cases}
+                \frac{\rho r}{3\e}\,\hat{r} & r \leq R \\
+                \rule[-1.5ex]{0pt}{0pt}\rule{0pt}{4ex}
+                \frac{\rho R^3}{3r^2\e}\,\hat{r} & r > R
+            \end{cases}
         \end{equation}
-        For $r < R$, this simplifies to
+
+        As a sidenote, the potential at a point $P$ at a distance $r$ from the center of a charged spherical shell with radius $R$ is simply
         \begin{equation}
-            \E = \frac{\rho r}{3\e}\,\hat{r}.
+            V(r) = 
+            \begin{cases}
+                \frac{q}{4\pi\e R} & r \leq R \\
+                \frac{q}{4\pi\e r} & r > R
+            \end{cases}
         \end{equation}
 
 \subsection{Dielectrics}    
@@ -162,7 +178,7 @@
     
     A parallel plate capacitor with surface charge density $\sigma_0$ induces a surface charge density $\sigma_p$ of opposite sign on both sides. 
     \begin{equation}
-        \sigma_p = \frac{\e -1}{\epsilon_r}\,\sigma_0.
+        \sigma_p = \frac{\epsilon_r -1}{\epsilon_r}\,\sigma_0.
     \end{equation}
     $\sigma_p$ is called the \textit{polarisation charge density}.
     
@@ -197,7 +213,7 @@
             \label{polarisability}
             \p = n\left<\vec{p}\right> = n\alpha\E^*,
         \end{equation}
-        where $\alpha$ is a proportionality constant named \textit{polarisability}, with units \si{\per\metre\cubed}. 
+        where $\alpha$ is a proportionality constant named \textit{polarisability}, with units \si{\coulomb\metre\squared\per\volt}. 
         A large polarisability then means that a molecule exerts a larger dipole momentum for a given electric field strength. 
 
         To get any useful mathematics out of this, imagine a infinitesimal spherical cavity in a dielectric. 
@@ -213,7 +229,7 @@
         Inserting this into equation \eqref{polarisability}, and combining it with the second half of equation \eqref{P as surface density}, 
         we arrive at the \textit{Claussius- Mossotti formula}:
         \begin{equation}
-            \frac{n\alpha}{3} = \frac{\chi_e}{\epsilon_r +2}, 
+            \frac{n\alpha}{3} = \frac{\epsilon_r-1}{\epsilon_r +2}, 
         \end{equation}
         where $n$ is the volume density of infinitesimal dipoles (molecules), $\alpha$ is the polarisability, 
         and $\epsilon_r$ is the relative permitivity of the dielectric material. 
@@ -284,20 +300,18 @@
         Conductors have zero electric field inside the bulk, 
         since any charges that can move will (almost) instantly move according to the external field, counteracting it. 
         
-        When a charge $q$ is imposed on a conductor, the charges will lie on the surface bu the same argument. 
+        When a charge $q$ is imposed on a conductor, the charges will lie on the surface by the same argument. 
         Similarly, the electric field must be (locally) equal in magnitude (and normal to the surface). 
         This makes the surface of a conductor isopotential, which is also valid for conductors without an imposed charge. 
 
     \subsubsection{Total electrostatic induction}
-        Total or complete electrostatic induction is when all field lines of an electric field pass through a conductor.
+        Total or complete electrostatic induction is when the value of the induced charge on a conductor 
+        equals the value of the charge that caused the induction. 
         
-        An example is a point source inside a spherical conductor shell. 
-        By the "rule" (my explanation is fairly hand-wavy, resulting in the quotation marks here. 
-        The reader may rest assured that the result is provably true) of zero net electric field inside a conductor, 
-        the induced electric field on the inner surface of the sphere shell is equal to the field from the source. 
-        By conservation of charge in the conductor, 
-        the corresponding induced field on the outside is equal to the field that would have been there if the conductive shell was removed. 
-        This is a general property of complete electrostatic induction. 
+        An example is a conductive sphere around a point-like charge. The induced charge equals the charge of the source, 
+        and for an external observer it is impossible to discern between a charged sphere and a neutral sphere with a charge inside.
+
+        Another example is capacitors (chapter \ref{capacitors}).
   
 \subsection{Current}
     Current is the amount of charges moving through a conductor during a time period. 
@@ -318,10 +332,12 @@
         
         Integrating over $S$ yields
         \begin{equation}
+            \label{integrate j equals I}
             I = \iint_S \j\cdot d\vec{S}.
         \end{equation}
         Taking the divergence of $\j$, we get
         \begin{equation}
+            \label{div j}
             \nabla \cdot \j = \frac{d\rho}{dt}
         \end{equation}
         where $\rho$ is the volume charge distribution.
@@ -352,6 +368,7 @@
         
         We have the relations 
         \begin{align}
+            \label{j eq sigma E}
             \j &= \sigma \E \\
             \E &= \rho \j.
         \end{align}
@@ -380,6 +397,7 @@
     \subsubsection{Generators}
         Let $\E^*$ be the electric field responsible for the potential difference between the poles of a voltage source, such that
         \begin{equation}
+            \label{emf}
             \oint_\mathcal{L} \E\cdot \vec{dl} = \int_+^-\E_{\text{circuit}}\cdot \vec{dl} + \int_-^+(\E_{\text{circuit}} + \E^*)\cdot \vec{dl} = \int_-^+\E^*\cdot \vec{dl} = \emf
         \end{equation}
         where $\emf$ is the \textit{electromotive force} (NOT a force, $\left[\emf\right]$ = \si\volt)
@@ -402,6 +420,7 @@
         in a mesh, where $\emf$ are voltage sources. 
 
 \subsection{Capacitors}
+    \label{capacitors}
     \subsubsection{Definitions and basic properties}
         A capacitor is a configuration of two conductors resulting in total electrostatic induction. 
         The most common configuration is  two parallel plates.
@@ -464,10 +483,10 @@
         \end{equation}
         which is solved by
         \begin{equation}
-            q(t) = \emf C \left(1-\exp{\frac{-t}{RC}}\right).
+            q(t) = \emf C \left(1-\exp\left(\frac{-t}{RC}\right)\right).
         \end{equation}
         The energy stored in the capacitor is 
         \begin{equation}
             W_C = \frac{1}{2}C\emf^2,
         \end{equation}
-        whereas the total energy "spent" by the circuit is \textit{twice as much}.
+        whereas the total energy "spent" by the circuit to achieve this is \textit{twice as much}.
