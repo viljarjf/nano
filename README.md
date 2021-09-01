@@ -48,3 +48,11 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 
 - python exercises in statistical thermodynamics. Some memey one-liners, some fairly optimised code for simulating different microsystems
 
+### TBT4170 Bioteknologi
+
+- Latex document of exam notes, made the day before the exam, so don't use them as a source
+
+# 5th semester
+### TMT4320 Nanomaterialer
+
+- Exercises in nanomaterials with python and latex 
