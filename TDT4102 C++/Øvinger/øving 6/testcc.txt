@@ -1,3 +1,0 @@
-TMA4100 | Mattematikk 1
-TMT4102 | C++
-TMT4105 | Mattematikk 2
