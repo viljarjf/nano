@@ -4,8 +4,49 @@
 
 \begin{document}
 
+\input{preamble}
 
-    Test
+\section{Task 1}
 
+    For subtasks a to d, see \autoref{fig:cube size surface energy}.
+
+    The main approximations in this task are ignoring cube-cube interractions, 
+    which might prove substantial experimentally.
+
+    \begin{figure}[bh]
+        \includegraphics[width=10cm]{figs/Energy_of_1g_NaCl_as_a_function_of_cube_size.png}
+
+        \caption{The energy as a function of cube size is 
+        illustrated with 1g of NaCl. 
+        The total energy is comparable to the fusion enthalpy at 
+        around 1 nm sidelength. 
+        As such, the melting point of nanoparticles should be 
+        \textit{lower} than in bulk}
+        \label{fig:cube size surface energy}
+    \end{figure}
+
+    The ratio of surface- and bulk atoms can be seen in \autoref{fig:bulk surface ratio}.
+
+    The smallest possible configuration with atoms that are technically in the bulk
+    would be a particle consisting of 13 atoms, where 12 are on the surface, 
+    all "touching" the single bulk atom. 
+    However, the apparrent continuity of rational numbers is 
+    broken long before this, and there should be gaps in the graph
+    where there are no possible configurations with the calculated ratio.
+    Additionally, the point at which the core of the particle stops
+    exhibiting bulk behavior probably occurs at an earlier stage. 
+    Finally, the simplification used for calculating the amount of
+    surface atoms stops being valid at very small radii. 
+    None of these points give a precise radius for which the model
+    "stops making sense", so the simplest answer to the task is $a = 4r_{\text{Pd}}$.
+
+    \begin{figure}[h]
+        \includegraphics[width=10cm]{figs/Ratio_of_surface_and_bulk_atoms.png}
+
+        \caption{The ratio of particles on the surface of a nanoparticle
+        to the particles in the bulk, as a function of the nanoparticle radius.
+        }
+        \label{fig:bulk surface ratio}
+    \end{figure}
 
 \end{document}
