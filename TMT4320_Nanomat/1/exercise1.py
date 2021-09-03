@@ -76,11 +76,6 @@ def fusion_enthalpy(a: Any) -> np.ndarray:
     return np.ones(DRAW_STEPS) * STD_ENTAHLPY_NACL / MM_NACL
 
 def sphere_surface_to_bulk_ratio(r: float | np.ndarray) -> float | np.ndarray:
-    
-    
-
-    
-
     vol = 4/3*np.pi*r**3
     mass = vol * RHO_PD # g
     n_atoms = np.rint(mass / MM_PD * MOL)

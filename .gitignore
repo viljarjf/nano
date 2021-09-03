@@ -1,11 +1,11 @@
 ﻿# single files
-TDT4102 C++/TDT4102aud2(no)_56391916_1587561584716/TDT4102aud2(no)/informasjon.pdf
-TDT4110 ITGK/Øvinger/_Oving1.py
-TDT4110 ITGK/Øvinger/aefisjnte.py
-TDT4102 C++/Øvinger/øving 0/main.exe
-TDT4102 C++/Øvinger/øving 0/main.obj
-TFY4115 fysikk 1/Fysikklab.xlsx
-TKJ4215 statterm/m_AB.pkl
+TDT4102_C++/TDT4102aud2(no)_56391916_1587561584716/TDT4102aud2(no)/informasjon.pdf
+TDT4110_ITGK/Øvinger/_Oving1.py
+TDT4110_ITGK/Øvinger/aefisjnte.py
+TDT4102_C++/Øvinger/øving 0/main.exe
+TDT4102_C++/Øvinger/øving 0/main.obj
+TFY4115_fysikk 1/Fysikklab.xlsx
+TKJ4215_statterm/m_AB.pkl
 
 # filetypes
 *.pdf
@@ -30,5 +30,5 @@ __pycache__
 *.build
 *debug/
 *release/
-TDT4102 C++/TDT4102_Windows(5)
+TDT4102_C++/TDT4102_Windows(5)
 
