@@ -1,0 +1,4 @@
+from math import log, factorial
+import matplotlib.pyplot as plt
+from time import time
+[(lambda l, s : [print(s.join([" "*(l-len(k)) + k for k in ["n", "Exact solution", "Stirling", "Absolute error", "Relative error", "Seconds used"]]))] + [(lambda t, ex, st, i: print(s.join(["%14d","%14.4f","%14.4f","%14.4f","%14.4f","%14.4f"]) % (i, ex, st, ex - st, (1 - st/ex), [factorial(i), time() - t][1])))(time(), sum(log(j) for j in range(1, i)), i*log(i) - i, i) for i in [5*8**x +10 for x in range(7)]])(14, " "*6)] + [(lambda l, u : [plt.plot(range(l, u, l), [u*log(u) - n*log(n) - (u-n)*log(u-n) for n in range(int(l), int(u), int(l))]), plt.title("$\\frac{S}{k_b}$"+f" as a function of the number of particles\nin a system with {float(u):.1e} lattice points"), plt.ylabel("$\\frac{S}{k_b}$"), plt.xlabel("n"), plt.show()])(int(1.e5), int(1.e10))]

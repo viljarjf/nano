@@ -1,0 +1,652 @@
+\subsection{Time-varying magnetic field}
+    A concuctive mesh with resistance $R$ will, in the presence of an external magnetic field \B, 
+    have an induced current $I_i$ such that
+    \begin{equation}
+        \emf_\text{i} = RI_\text{i} = -\frac{\partial \Phi(\B)}{\partial t},
+    \end{equation}
+    where $\emf_\text{i}$ is the induced electromotive force, and $\Phi(\B)$ is the flux of \B{} through the mesh. 
+    Any change in the flux will result in an induced current, 
+    be it by rotating or stretching the mesh (changing the projected area),
+    moving the mesh or source, or change the field intensity (if the source has such properties).
+
+    Since an $\emf$ must be accompanied by an electric field, 
+    there will be an induced electric field $\E_\text{i}$ such that
+    \begin{equation}
+        \oint_\mathcal{L}\E_\text{i}\cdot d\vec{l} = -\frac{\partial \Phi(\B)}{\partial t},
+    \end{equation}
+    valid for \textit{any} line $\mathcal{L}$, regardless of path or medium. 
+    Therefore, this field is present in vacuum and requires no conductors.
+
+    Note that $\E_\text{i}$ is NOT conservative in general. The differential form of the equation is
+    \begin{equation}
+        \nabla \times \E_\text{i} = -\frac{\partial \B}{\partial t}.
+    \end{equation}
+    Note that this also holds in general, since $\nabla\times\E = 0$ for an electrostatic field \E.
+
+\subsection{Time-varying electric field} \label{Time-varying electric field}
+    A changing electrical field induces a \textit{displacement current} such that
+    \begin{equation}
+        \nabla \cdot \j_s = -\nabla\left(\e\frac{\partial\E}{\partial t}\right),
+    \end{equation}
+    where $\j_s$ is the \textit{displacement current density}. This is not a real current in the sense that charges are moving, 
+    but it behaves as a current density.
+
+    $\j_{\text{tot}} = \j_{\text{conduction}} + \j_s$ is always solenoidal. 
+
+    Note that 
+    \begin{equation*}
+        I_s = \Phi(\j_s) = \iint_S \e\frac{\partial\E}{\partial t}\cdot d\vec{S} = \e\frac{\partial}{\partial t}\Phi_S(\E)
+    \end{equation*}
+
+    Inserting this into Ampere's law, we get 
+    \begin{align}
+        \oint_{\partial S}\B\cdot d\vec{l} &= \mu_0 I_{\text{enclosed}} + \mu_0\e\frac{\partial}{\partial t}\Phi_S\left(\E\right)\\
+        \nabla\times\B &= \mu_0\j_{\text{concuctive}} + \mu_0\e\frac{\partial\E}{\partial t},
+    \end{align}
+    where we often omit the subscript on $\j$, and $\partial S$ is the perimiter of the surface $S$.
+
+\subsection{Examples of magnetically induced current}
+    \subsubsection*{Rod on a rail}
+        Two conductive parallel rails, seperated by a distance $b$ and connected with a resistor $R$, stretch infinitley long, 
+        and is immersed in a static and uniform \B-field (i.e. constant in time and space). 
+        A conductive rod with resistance $r$ is placed between the rods at a distance $x_0$ from the resistor, 
+        connecting the rods and forming a mesh. The rod is then given a velocity $v$ along the rails, away from the resistor.
+        \B{} points parallel to the normal vector of the mesh. We assume zero friction. 
+        The flux of the magnetic field through the mesh is given by
+        \begin{equation}
+            \Phi(\B, t) = Bb(vt+x_0) \implies -\frac{\partial \Phi(\B, t)}{\partial t} = -Bbv.
+        \end{equation}
+        Therefore, the induced current in the mesh is
+        \begin{equation}
+            I_\text{i} = -\frac{Bbv}{R+r}.
+        \end{equation}
+        Since all the values are positive, the minus sign dictates the direction of the current. Applying the right hand rule,
+        the thumb should therefore point antiparallel to \B. 
+        (More rigorously, the flux was calculated with the assumption of a surface normal parallel to \B. 
+        The minus sign therefore flips the direction of current.)
+
+        This induced current creates an opposing force (opposite direction of $v$): 
+        \begin{equation}
+            \vec{F}_\text{i} = -\frac{B^2b^2}{R+r}\vec{v}.
+        \end{equation}
+        It is clear that, if no external force is applied, the rod will stop moving.
+
+    \subsubsection*{Rotating mesh}
+        A rectangular mesh (resistance $R$) with area $S$ rotates along an axis along its surface with angular velocity $\omega$. 
+        It is immersed in a static, uniform \B-field (i.e. constant in time and space).
+        We get 
+        \begin{align}
+            \Phi(\B)(t) &= BS\cos (\omega t), \\
+            \emf_\text{i} &= \omega S B \sin (\omega t).
+        \end{align}
+        The instantaneous and average dissapated power is 
+        \begin{align}
+            P_\text{i} &= \frac{\omega^2 B^2 S^2}{R}\sin^2(\omega t),\\
+            \left<P_\text{i}\right> &= \frac{1}{T}\int_0^T P_\text{i}dt = \frac{\omega^2 B^2 S^2}{2R},
+        \end{align}
+        where $T = \frac{2\pi}{\omega}$ is the period of a turn.
+        Since power is dissapated, a torque is required to keep the mesh spinning: 
+        \begin{equation}
+            \vec{\tau}_\text{ext} = \vec{m}\times\B = \frac{\omega B^2 S^2}{R}\sin^2(\omega t).
+        \end{equation}
+    
+    \subsubsection*{Self-induction}
+        A circuit with current induces a magnetic field. 
+        If the current varies, then the flux of the induced magnetic field through the circuit also varies. 
+        We get
+        \begin{equation}
+            \frac{\partial \Phi(\B)}{\partial t} = L_{1,1}\frac{\partial I}{\partial t} = -\emf_{\text{i}},
+        \end{equation}
+        where $L_{1,1}$ is the \textit{coefficient of self-inductance}. (see \ref{Magnetic flux} for mutual inductance)
+\subsection{Transient circuits}
+    \subsubsection{RL-circuits}
+        The simplest RL-circuits consist of a source $\emf$, a resistor $R$, and a coil (solenoid) $L$.
+        Here, we add a switch as well.
+
+        Applying Kirchoff's first law, we arrive at the differential equation
+        \begin{equation}
+            \emf - RI = L_{1,1}\frac{\partial I}{\partial t},
+        \end{equation}
+        solved by
+        \begin{equation}
+            \emf - RI = Ae^{\frac{-R}{L}t}
+        \end{equation}
+        where $A$ is an integration constant and is determined by the initial conditions.
+
+        With initial conditions $t=0,\, I=0$, we get 
+        \begin{equation}
+            I(t) = \frac{\emf}{R}\left(1-e^{\frac{-L}{R}t}\right),
+        \end{equation}
+        i.e. closing the switch at $t=0$ results in an inverse exponential increase in current 
+        with an upper bound of $\frac{\emf}{R}$, i.e. conductor-like behaviour for $L$.
+
+        Consider initial conditions $t=0\, I = \frac{\emf}{R}$, i.e. we open the switch at $t=0$.
+        We now consider the switch as a resistor with $R' >> R$, since a spark will still allow current for a while.
+        \begin{equation}
+            I(t) = \frac{\emf}{R'}\left(1-e^{\frac{-L}{R+R'}t}\right) + \frac{\emf}{R} e^{\frac{-L}{R+R'}t},
+        \end{equation}
+        which is closely approximated (since $R+R' \approx R'$ and $R'^{-1} \approx 0$) by
+        \begin{equation}
+            I(t) \approx \frac{\emf}{R}e^{\frac{-L}{R'}t}.
+        \end{equation}
+        The resulting behaviour of the coil is then to keep the current flowing for a while, but the decay is exponential.
+    \subsubsection{Transformers}
+        \label{transformers}
+        Transformers, as the name suggests, transforms electric currents and voltages. 
+        If a circuit $C_1$ with a coil $L_1$ is magnetically connected with another coil $L_2$ in another circuit $C_2$, 
+        such that the geometry inside the coils is identical, then we get the following relation: 
+        \begin{align}
+            V_2 &= \frac{L_{1,2}}{L_{2,2}}\emf_1 \\
+            \frac{L_{1,2}}{L_{1,1}} &= \frac{N_2}{N_1},
+        \end{align}
+        where $N_i$ is the amount of loops in coil $i$ (valid since the geometries are identical).
+
+    \subsubsection{RLC-circuits}
+        A system with a resistor with resistance $R$, a coil with coefficient of self induction $L$, and a capacitor with capacitance $C$, 
+        all in series, is described by the following differential equation: 
+        \begin{equation} \label{Current in RLC}
+            \frac{\partial^2}{\partial t^2}I + \frac{R}{L}\frac{\partial}{\partial t}I + \frac{1}{LC}I = 0.
+        \end{equation}
+        We define the \textit{damping coefficient} $\gamma$ and the \textit{eigen frequency} $\omega_0$ as follows:
+        \begin{align*}
+            \gamma &= \frac{R}{2L}\\
+            \omega_0 &= \sqrt{\frac{1}{LC}},
+        \end{align*}
+        yielding in the boring exponential solutions for $\gamma^2 \geq {\omega_0}^2$:
+        \begin{equation}
+            I(t) = e^{-\gamma t}\left(Ae^{\sqrt{\gamma^2 - {\omega_0}^2}t}+Be^{-\sqrt{\gamma^2 - {\omega_0}^2}t}\right),
+        \end{equation}
+        where $A$ and $B$ are integration coefficients. The system is more interesting for $\gamma^2 \leq {\omega_0}^2$,
+        where the complex exponential yields oscilating behaviour:
+        \begin{equation}
+            I(t) = e^{-\gamma t}\cdot A\sin\left(\omega t + \phi\right),
+        \end{equation}
+        where $A$ and $\phi$ are integration constants, and $\omega = \sqrt{\gamma^2 - {\omega_0}^2} > 0$.
+
+        With $R=0$, there will be no energy dissapated over the resistor, and we get 
+        \begin{equation*}
+            E = E_c + E_L = \frac{1}{2}C{V_c(t)}^2 + \frac{1}{2}L{I(t)}^2,
+        \end{equation*}
+        where the current $I$ and the potential difference between the capacitor plates $V_c$ are given by 
+        \begin{align*}
+            I(t) &= A\sin\left(\frac{1}{\sqrt{LC}}t + \phi\right) \\
+            V_c (t) &= \sqrt{\frac{L}{C}} \, A\cos\left(\frac{1}{\sqrt{LC}}t + \phi\right)
+        \end{align*}
+
+    \subsubsection*{Permanent oscilations in RLC-circuits}
+
+        Adding an AC source $\emf(t) = \emf_0\cos\left(\omega t + \phi\right)$ to our RLC-circuit, where all components are in parallel, 
+        we get equation \eqref{Current in RLC} equal to $\frac{-\omega\emf_0}{L}\sin\left(\omega t + \phi\right)$.
+        
+        We wave our hands, and get the following as a solution: 
+        \begin{equation}
+            I(t) = I_0 \cos\left(\omega t\right),
+        \end{equation}
+        where 
+        \begin{align*}
+            \phi &= \text{arctan} \left(\frac{\omega L - \left(\omega C\right)^{-1}}{R}\right)\\
+            I_0 &= \frac{\emf_0}{\sqrt{R^2 + \left(\omega L - \left(\omega C\right)^{-1}\right)^2}},
+        \end{align*}
+        where $\phi$ is the phase of the AC source.
+
+        Plotting $I_0(\omega)$ (usually) yields a bell-curve. We define $\Delta\omega$ as the width of the curve at $I_0 = \frac{\emf_0}{\sqrt{2}R}$: 
+        \begin{align*}
+            \omega_1 &= \frac{-R}{2L} + \sqrt{\frac{R^2}{4L^2} + {\omega_0}^2}\\
+            \omega_2 &= \frac{R}{2L} + \sqrt{\frac{R^2}{4L^2} + {\omega_0}^2}\\
+            \Delta\omega &= \frac{R}{L},
+        \end{align*}
+        where $\omega_0 = \frac{1}{\sqrt{LC}}$.
+
+        Note that $\omega_1\omega_2={\omega_0}^2$, and $|\omega_1 - \omega_0| \neq |\omega_2 - \omega_0|$, i.e. the curve is asymmetric.
+
+        $\Delta\omega$ is used for the \textit{quality factor}:
+        \begin{equation}
+            Q = \frac{\omega_0}{\Delta\omega}.
+        \end{equation}
+
+        This is useful for sensors where the measurement is produced by a change in capacitance; 
+        if $Q$ is large then we get a narrow range of frequencies with substantial current, and a changed capacitance 
+        (resulting in a changed $\omega_0$) is easy to notice. 
+
+        A small $Q$, on the other hand, will result in a wide band of "accepted" frequencies, which can be useful in other circumstances.
+    
+        Which size ranges are considered "small" and "large" was not discussed during lectures. 
+
+\subsection{Electromagnetic waves}
+    \subsubsection{Magnetic vector potential}
+        Since \B{} is solenoidal, it can be written as the curl of another vector field. 
+        
+        Let $\vec{A}$ be a vector field, such that
+        \begin{equation}
+            \nabla \times \vec{A} = \B.
+        \end{equation}
+        $\vec{A}$ is not a physical field, but it is a helpful mathematical tool. 
+
+        Manipulating Maxwell's equations, we arrive at 
+        \begin{equation}
+            \E = -\nabla V - \frac{\partial \vec{A}}{\partial t}.
+        \end{equation}
+        
+        $\vec{A}$ can be changed by adding the gradient of any arbitrary scalar function, 
+        however, to keep the measurable fields \B{} and \E{} unchanged, one also needs to change $V$ correspondingly:
+        \begin{align*}
+            \vec{A}' &= \vec{A} + \nabla S \\
+            V' &= V - \frac{\partial S}{\partial t}
+        \end{align*}
+        where $S$ is a scalar function with both a spatial- and a time-parameter.
+        Applying this mathematical feature is called a \textit{Gauge transform}.
+
+    \subsubsection*{Arriving at the wave equation}
+        By applying the \textit{Lorenz Gauge} $\nabla\cdot\vec{A} + \e\mu_0\frac{\partial V}{\partial t} = 0$, 
+        Maxwell's equations for potentials become 
+        \begin{align}
+            \label{Maxwells for potentials 1}
+            \nabla^2V - \e\mu_0\frac{\partial^2V}{\partial t^2} &= \frac{-\rho}{\e}\\
+            \nabla^2\vec{A} - \e\mu_0\frac{\partial^2\vec{A}}{\partial t^2} &= \mu_0\j,
+            \label{Maxwells for potentials 2}
+        \end{align}
+        which is clearly the wave equation if there are no sources present ($\rho = |\j| = 0)$, 
+        where the velocity of propagation is $c$ (since $\e\mu_0 = c^{-2}$).
+
+        We use the shorthand notation of the \textit{d'Alembertian}: 
+        \begin{equation*}
+            \dalambert = \nabla^2 - \frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+        \end{equation*}
+
+        and arrive at
+        \begin{center}
+            \begin{tabular}{ c|c }
+                $\dalambert V = 0$&$ \dalambert\,\E = 0$\\
+                $\dalambert\,\vec{A} = 0 $&$\dalambert\,\B = 0$
+            \end{tabular}
+        \end{center}
+    \subsubsection{Solution to the wave equation}
+        The solution  can be written as
+        \begin{equation*}
+            f(\vec{r}, t) = A\sin\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right),
+        \end{equation*}
+        where $A$ is the amplitude, $|\vec{k}| = \frac{2\pi}{\lambda}$ is the wave vector pointing in the direction of travel, 
+        $\omega = 2\pi\nu$ is the angular frequency, and $\phi$ is an initial phase shift. 
+        $\lambda$ is the wavelength and $\nu$ is the frequency, such that
+        $\lambda\nu = c$.
+
+        Another way to write the solution is with complex notation: 
+        \begin{equation*}
+            f(\vec{r}, t) = \Re\left[Ae^{i\left(\vec{k}\cdot\vec{r} - \omega t + \phi\right)}\right].
+        \end{equation*}
+
+        Both \E, \B{} and $\vec{k}$ are orthogonal, i.e. electromagnetic waves are transverse. Also note that 
+        \begin{equation}
+            E = cB
+        \end{equation}
+
+    \subsubsection{Energy of an electromagnetic wave}
+        Summing the electric and magnetic components yields the following energy density: 
+        \begin{equation}
+            u_{\text{em}} = \e E^2 = \frac{1}{\mu_0}\, B^2.
+        \end{equation}
+    
+    \subsubsection{Poynting vector}
+        The Poynting vector describes the power of an electromagnetic wave per area:
+        \begin{equation}
+            \vec{S} = \frac{1}{\mu_0}\,\E\times\B.
+        \end{equation}
+        $\vec{S}$ is measured in \si{\joule\per\second\metre\squared}.
+        The average length of $\vec{S}$ can be found by multiple methods:
+        \begin{equation}
+            \left<|\vec{S}|\right> = \frac{1}{T}\int_T Sdt = \frac{1}{2}\e c\E^2 = \frac{1}{2\mu_0}c\B^2
+        \end{equation}
+    
+\subsection{Polarisation of electromagnetic waves}
+    There are two types of polarisation discussed in the lectures: linear and eliptical.
+    By convention, the polarisation refers to the electric field, 
+    but the magnetic field, being orthogonal, will behave similarly.
+    
+    Most non-electrical light-sources produce \textit{unpolarised light}, which, contrary to what the name suggests, 
+    contains both linearly and eliptically polarised light in somewhat equal proportions. 
+
+    \subsubsection*{Linearly polarised electromagnetic waves}
+        Both fields of the electromagnetic waves only oscilate in one direction,
+        i.e. if the wave propagates in the $z$-direction, 
+        then the phase difference between the $x$- and $y$-component of each field is zero.
+        Mathematically, the wave can be written as
+        \begin{equation}
+            \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi\right)\hat{x} +
+            E_{0y}\sin\left(kz - \omega t + \phi\right)\hat{y},
+        \end{equation}
+        where $E_{0x,y}$ are the decomposed amplitude of the wave, 
+        $k$ is the wave vector (one-dimensional in this case), 
+        $\omega$ is the angular frequency, 
+        and $\phi$ is an arbitrary initial phaseshift which is usually set to 0.
+
+    \subsubsection*{Eliptically polarised electromagnetic waves}
+        Eliptically polarised waves propagating in the $z$-direction can be mathematically described by
+        \begin{equation}
+            \E(z, t) = E_{0x}\sin\left(kz - \omega t + \phi_x \right)\hat{x} +
+            E_{0y}\sin\left(kz - \omega t + \phi_y \right)\hat{y},
+        \end{equation}
+        where $E_{0x,y}$ are the decomposed amplitude of the wave, 
+        $k$ is the wave vector (one-dimensional in this case), 
+        $\omega$ is the angular frequency, 
+        and $\phi$ is an arbitrary initial phaseshift. 
+        In this course, only $\phi_x = \frac{\pi}{2}$ and $\phi_y = 0$ is discussed.
+        
+        The phase difference of the two components yield a helical behavior, 
+        as compared to the linear behaviour of the linearly polarised counterpart.
+
+        Note that, if $E_{0x} = E_{0y}$, (and $\phi_x = \phi_y + \frac{\pi}{2}$, which is true for this course)
+        then the elipse becomes a circle, and the wave is \textit{circularly polarised}.
+
+        Applying the right hand rule, 
+        one can determine if the polarised wave is a right-hand or left-hand circularly polarised.
+
+\subsection{The electromagnetic spectrum}
+    The following table shows some basic information for the different classifications of electromagnetic waves.
+    \begin{longtable}[c]{@{}c|c@{}} 
+        \caption{The electromagnetic spectrum}    
+        \endfirsthead
+        \hline
+        \multirow{2}{*}{$\displaystyle\lambda < \SI{0.1}{\angstrom}$}
+         & Gamma radiation. \\
+         &"You become Hulk" - Emiliano Descorvi, 2021.\\
+        \hline    
+        \multirow{3}{*}{$\displaystyle\lambda < \SI{10}{\angstrom}$}
+         & X-rays. \\
+         & Two types: soft and hard, hard being the more energetic. \\
+         & Usually the result of the deexitisation of a radioactive nucleide. \\
+        \hline
+        \multirow{3}{*}{$\displaystyle\lambda < \SI{400}{\nano\metre}$}
+         & Ultraviolet radiation. \\
+         & Three types: A, B, and C, C being the more energetic. \\
+         & Usually the result of the deexitisation of an electron.\\
+        \hline
+        \multirow{2}{*}{$\displaystyle\lambda < \SI{700}{\nano\metre}$}
+         & Visible light. The wavelength limit is approximate, \\
+         & as the visible spectrum varies for different people.\\
+        \hline
+        \multirow{3}{*}{$\displaystyle\lambda < \SI{1}{\milli\metre}$}
+         & Infrared radiation. \\
+         & Three types: near, mid, and far, near being the more energetic. \\
+         & Usually caused by molecular vibrations.\\
+        \hline
+        \multirow{2}{*}{$\displaystyle\lambda < \SI{100}{\milli\metre}$}
+         & Microwaves.\\
+         & Not actually micro-scale.\\
+        \hline
+        \multirow{2}{*}{else}
+         & Radiowaves. \\
+         & These can have an arbitrarily long wavelengths.\\
+        \hline
+    \end{longtable}
+
+\subsection{Retarded potentials}
+    Retarded potentials are the $\vec{A}$- and $V$-fields generated by a time-varying current (or charge distrubution) in the past, 
+    since the fields propagate with the speed of light and not instantly. 
+    
+    We examine the general equations \eqref{Maxwells for potentials 1} and \eqref{Maxwells for potentials 2}, this time with $\rho \neq 0$ and $\j \neq \vec{0}$.
+    These are solved by 
+    \begin{align} 
+        \label{retarded potentials 1}
+        V(\vec{r}, t) &= \frac{1}{4\pi\e} \iiint_\tau \frac{\rho\left(\vec{r'}, t_r\right)}{|\vec{r} - \vec{r'}|}d\tau \\
+        \vec{A}(\vec{r}, t) &= \frac{\mu_0}{4\pi} \iiint_\tau \frac{\j\left(\vec{r'}, t_r\right)}{|\vec{r} - \vec{r'}|}d\tau,
+        \label{retarded potentials 2}
+    \end{align}
+    where $\tau$ is the volume where $\rho$ and \j{} are defined, 
+    and we integrate over all points $\vec{r'}$ in $\tau$.
+    $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the \textit{retarded time}. 
+    The notion of retarded time is to take the propagation speed into account.
+
+\subsection{Dipoles as electromagnetic wave sources}
+    In this chapter, an example of retarded potentials is discussed. 
+
+    \subsubsection*{Introduction}
+        If a charge $-q_0$ is placed at the origin of a refrence frame, 
+        and a charge $q$ moves such that $\vec{r}(t) = z_0 \sin\left(\omega t\right) \hat{z}$, 
+        then this is an oscilating dipole with dipole momentum 
+        $\vec{p}\left(t\right) = q_0 z_0 \sin\left(\omega t\right)\hat{z} = p_0 \sin\left(\omega t\right)\hat{z}$.
+
+        This configutarion is implactical, but a conductor with an oscilating current behaves similarly, since
+        \begin{equation*}
+            I(t) = \frac{\partial q}{\partial t} = \frac{1}{z_0} \frac{\partial p}{\partial t} = \frac{p_0}{z_0}\omega\cos\left(\omega t\right).
+        \end{equation*}
+    
+    \subsubsection*{Finding the retarded potentials}
+        Dimensional analysis of equation \eqref{retarded potentials 2}, along with the simplification $\vec{r} - \vec{r}' \approx \vec{r}$, 
+        somehow leads to 
+        \begin{equation}
+            \vec{A}\left(\vec{r}, t\right) = \frac{\mu_0}{4\pi r} \frac{\partial }{\partial t}\vec{p}\left(t'\right),
+        \end{equation} 
+        where $t' = t - \frac{{r}}{c}$ is a simplified retarded time ($r = |\vec{r}|$).
+
+        The potential is found by applying the Lorenz Gauge again:
+        \begin{equation}
+            V(\vec{r}, t) = \frac{1}{4\pi\e}
+            \left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2} \right]
+            p\left(t'\right),
+        \end{equation}
+        where $p = |\vec{p}|$ and $r = |\vec{r}|$. The expression in brackets is an operator, working on $p$.
+
+    \subsubsection*{Arriving at the electromagnetic fields}
+        We can now find \B{} and \E, since $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$:
+        \begin{align*}
+            E_r &= \frac{2\cos\theta}{4\pi\e r}\left[\frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                    \eval{p\left(t\right)}_{t=t'}\\
+            E_\phi &= 0 \\
+            E_\theta &= \frac{\sin\theta}{4\pi\e r}\left[\e\mu_0\frac{\partial^2}{\partial t^2} 
+                    + \frac{1}{cr}\frac{\partial}{\partial t} + \frac{1}{r^2}\right]
+                    \eval{p\left(t\right)}_{t=t'}\\
+            &\\
+            B_r &= 0 \\
+            B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r}\left[\frac{1}{c}\frac{\partial^2}{\partial t^2} + \frac{1}{r}\frac{\partial}{\partial t}\right]
+                \eval{p\left(t\right)}_{t=t'}\\
+            B_\theta &= 0,
+        \end{align*}
+        where we still have $p = |\vec{p}| = p_0\sin\left(\omega t\right)$, $r = |\vec{r}|$, and $t' = t - \frac{{r}}{c}$. 
+        The expressions in brackets are operators, working on $p(t)$. Note that $\theta$ is the azimuthal angle, and $\phi$ is the polar angle
+        ($\theta \in [0, \pi]$, $\phi \in [0, 2\pi)$).
+
+        For large $r$, the $r^{-2}$-terms vanish, leaving us with 
+        \begin{align*}
+            E_r &= 0\\
+            E_\phi &= 0 \\
+            E_\theta &= \frac{\sin\theta}{4\pi\e r c^2}\eval{\frac{\partial^2}{\partial t^2} p\left(t\right)}_{t=t'}\\
+            &\\
+            B_r &= 0 \\
+            B_\phi &= \frac{\mu_0 \sin\theta}{4\pi r c^2}\eval{\frac{\partial^2}{\partial t^2} p\left(t\right)}_{t=t'}\\
+            B_\theta &= 0,
+        \end{align*}
+        i.e. we have a spherical wave propagating in the $\hat{r}$-direction. 
+
+    \subsubsection*{Jefimenko's equations (NOT part of the curriculum)}
+        As a sidenote, if we apply the relations $\B = \nabla\times\vec{A}$ and $\E = -\nabla V - \frac{\partial\vec{A}}{\partial t}$
+        directly to the general solutions found in equations \eqref{retarded potentials 1} and \eqref{retarded potentials 2}, we arrive at 
+        \textit{Jefimenko's equations}:
+        \begin{align*}
+            \E\left(\vec{r}, t\right) &= \frac{1}{4\pi\e}\iiint_\tau \left[
+                \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3}\rho\left(\vec{r'}, t_r\right)
+                + \frac{\vec{r} - \vec{r'}}{c|\vec{r} - \vec{r'}|^2}\frac{\partial}{\partial t}\rho\left(\vec{r'}, t_r\right)
+                - \frac{1}{c^2|\vec{r} - \vec{r'}|} \frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+                \right]d\tau \\
+            \B\left(\vec{r}, t\right) &= -\frac{\mu_0}{4\pi} \iiint_\tau \left[
+                \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^3} \times \j\left(\vec{r'}, t_r\right)
+                + \frac{\vec{r} - \vec{r'}}{|\vec{r} - \vec{r'}|^2} \times \frac{1}{c}\frac{\partial}{\partial t}\j\left(\vec{r'}, t_r\right)
+                \right]d\tau,
+        \end{align*}
+        where $\rho$ and \j{} are arbitrary charge- and current density distributions, 
+        $t_r = t - \frac{|\vec{r} - \vec{r'}|}{c}$ is the retarded time,
+        $\tau$ is the volume where $\rho$ and \j{} are defined, 
+        and we integrate over all points $\vec{r'}$ in $\tau$. 
+        Please excuse the width of the equation for \E{}.
+
+        These relations describe the electromagnetic fields for any arbitrary charge- and current density distributions, 
+        taking the non-instantaneous propagation into account,
+        and as such are very powerful if we are able to evaluate the integrals.
+    
+    \subsubsection*{Pointing vector and power}
+        From our previous approximation, valid for large $r$, we get
+        \begin{equation}
+            \vec{S} = \frac{1}{\mu_0}\E\times\B = \frac{p^2\omega^2\sin^2\theta}{16\pi^2\e r^2 c^3}\hat{r},
+        \end{equation}
+        where the time-dependence is hidden in $p = p_0\sin\left(\omega\left(t - \frac{r}{c}\right)\right)$.
+    
+        The intensity is given as 
+        \begin{equation}
+            I = \left<\vec{S}\right> = \frac{p_0^2\omega^2\sin^2\theta}{32\pi^2\e r^2 c^3},
+        \end{equation}
+        since $\left<p^2\right> = \frac{1}{2}p_0^2$, and no other terms depend on time. 
+
+        The resulting field will look similar to a doughnut, with $0$ intensity directly parallel to the dipole, and maximum intensity orthogonal to it.
+
+        Finding the power propagating through a sphere $S$ around the dipole, we need to perform the integral 
+        \begin{equation*}
+            \iint_S \frac{p_0^2\omega^2}{32\pi^2\e c^3} \frac{\sin^2\theta}{r^2} dS = \iint_S I_0\frac{\sin^2\theta}{r^2} dS,
+        \end{equation*}
+        where the substitution of $dS = r^2\sin\theta d\phi d\theta$ yields 
+        \begin{equation}
+            P = \frac{p_0^2\omega^2}{12\pi\e c^3} = \frac{8\pi}{3}I_0,
+        \end{equation}
+        where $p_0$ is the amplitude of the dipole moment, and $\omega$ is the angular frequency of the dipole's oscilations.
+        Note the independence of any coordinate terms, i.e. the power flux through a sphere of any radius centered on the dipole will be equal, 
+        as expected due to conservation laws.
+
+        A unit analysis leads us into the \textit{Larmor formula}:
+        \begin{equation}
+            P = \frac{q^2a^2}{6\pi\e c^3},
+        \end{equation}
+        where $a$ is the acceleration of a charge $q$. This formula is only valid for non-relativistic speeds. 
+        The Larmor formula predicts a constant power loss of any accelerating charge, radiating the energy away as electromagnetic waves.
+
+\subsection{Diffusion of radiation}
+
+    For a diluted dielectric medium, e.g. a gas of dielectric particles, the dipole momentum of each particle is 
+    \begin{equation}
+        \vec{p} = \e\alpha\E,
+    \end{equation}
+    where $\alpha$ is the polarisability of the medium, discussed in chapter \ref{Polarisation vector}, 
+    and \E{} is the field produced by an incoming electromagnetic wave. 
+
+    Since \E{} varies with time, $\vec{p}$ will as well, and as such power will be dissapated: 
+    \begin{equation}
+        P = \frac{4}{3}\pi\e\frac{\alpha^2 E_0^2}{\lambda^4},
+    \end{equation}
+    where $\lambda$ is the wavelength of the \textit{incoming} electromagnetic radiation. 
+    This means that lower wavelengths are more scattered than higher wavelengths. 
+    A very visible example of this is the blue colour of the sky.
+
+\subsection{Propagation of EM waves in a medium}
+    Here, a simple model for matter-electromagnetic wave-interractions is discussed. 
+
+    Assume a dielectric material consists of elementary constituents, 
+    each behaving like a damped oscilator oscilating along the $z$-axis.
+    We formulate Newton's second law of motion as a differential equation: 
+    \begin{equation*}
+        -\frac{qE}{m} = \frac{d^2z}{dt^2} + \gamma\frac{dz}{dt} + \omega_0^2z,
+    \end{equation*}
+    where $-q$ is the charge of the particle, $m$ is the mass, $E$ is the magnitude of the electric field, 
+    $\gamma$ is a damping factor, taking all contributions proportional to the velocity into account, 
+    and $\omega_0^2 = \frac{k}{m}$ is the eigenfrequency of the oscilator ($k$ is the spring coefficient).
+
+    Using complex wave notation for the electric field of the electromagnetic wave, 
+    i.e. $\E = \Re\left[\E_0 e^{i\omega t}\right]$, we can write the solution as 
+    \begin{equation}
+        z(t) = \Re\left[\frac{-qE_0}{m\left(\omega_0^2 - \omega^2-i\gamma\omega\right)}e^{i\omega t}\right].
+    \end{equation}
+    We can now multiply by $q$ to get the dipole momentum, and further insert that into equation \eqref{polarisability} to arrive at
+    \begin{equation}
+        \alpha(\omega) = \frac{q^2}{\e m\left(\omega_0^2 - \omega^2 - i\gamma\omega\right)},
+    \end{equation}
+    i.e. the polarisability is frequency-dependent. Note that the polarisability can be complex, due to the $i\gamma\omega$-term.
+
+    We can now find the polarisation vector, by using equation \eqref{polarisability} again: 
+    \begin{equation}
+        \p = \Re\left[\frac{nq^2}{\e m\left(\omega_0^2 - \omega^2 - i\gamma\omega\right)}\E_0e^{i\omega t}\right].
+    \end{equation}
+    Since $\alpha$ can be complex, \p{} and \E{} might be out of phase.
+
+    This result can be further combined with equation \eqref{P as surface density}, yielding
+    \begin{equation}
+        \epsilon_r(\omega) = 1 + n\alpha(\omega),
+    \end{equation}
+    i.e. the relative dielectric constant is frequency-dependent and complex. 
+
+\subsection{Refractive index}
+
+    In a dielectric, the electric field is different than in a vacuum, and Maxwell's equations have an $\epsilon_r$ accompanying each \e. 
+    The wave solution for these equations predict a propagation velocity of $v^{-2} = \e\mu_0\epsilon_r$, which is lower than $c$. 
+    
+    We define the \textit{refractive index} $n$ as follows: 
+    \begin{equation}
+        n(\omega) = \frac{c}{v(\omega)} = \Re\left[\sqrt{\epsilon_r(\omega)}\right],
+    \end{equation}
+    where $c$ is the speed of light, $v$ is the phase velocity
+    in a medium with relative dielectric coefficient $\epsilon_r$. Note that $n \geq 1$.
+
+    A material with refractive index $n > 1$ will have different wave parameters than if the same wave was propagating in vacuum: 
+    \begin{align*}
+        v &= \frac{c}{n} \\
+        \lambda &= \frac{\lambda_0}{n} \\
+        \nu &= \frac{v}{\lambda} = \frac{c}{\lambda_0} = \nu \\
+        k &= nk_0,
+    \end{align*}
+    where a subscript $0$ denotes the relevant property in vacuum. $\nu = \frac{\omega}{2\pi}$ is frequency, and unchanged.
+
+    So far, we have only discussed $n=\Re\left[\sqrt{\epsilon_r}\right]$, instead of the more general $\underline{n} = \sqrt{\epsilon_r}$.
+    For the rest of the discussion, splitting the complex refractive index $\underline{n}$ into its real and imaginary parts is useful: 
+    \begin{align}
+        n = \Re\underline{n} &= 1 + \frac{n'q^2}{2\e m} \frac{\omega_0^2 - \omega^2}{\left(\omega_0^2 - \omega^2\right)+\gamma^2m^2} \\
+        \kappa = \Im\underline{n} &= \frac{n'q^2}{2\e m} \frac{\gamma\omega}{\left(\omega_0^2 - \omega^2\right)+\gamma^2m^2},
+    \end{align}
+    where $n'$ is the density of elementary constituents (usually just $n$, marked here to differentiate it from refractive index),
+    $q$ is the charge of the dipole each elementary constituent consists of, 
+    $m$ is the mass of the atom/ molecule that makes up the dipole, 
+    $\omega_0$ is the eigenfrequency of each constituent (it is assumed all constituents are the same, and therefore have the same $\omega_0$),
+    $\omega$ is the angular frequency of the wave, 
+    and $\gamma$ is a dissipative term arising from our simple damped oscilations model.
+    The usefulness of this notation is mostly to describe attenuation: 
+    \begin{align*}
+        \E(z, t) &= \Re\left[\E_0 e^{i\left(\underline{k}z - \omega t\right)}\right] \\
+        &= \Re\left[\E_0 e^{i\left(\underline{n}k_0z - \omega t\right)}\right] \\
+        &= e^{-\kappa kz}\cdot\Re\left[\E_0 e^{i\left(nk_0z - \omega t\right)}\right], \numberthis \\
+    \end{align*}
+    i.e. we get an exponential decay in amplitude over distance. 
+
+    The example used in the lectures was not of the electric field, but the intensity, which is proportional to the square amplitude of the fields: 
+    \begin{equation}
+        I = I_0 e^{-\beta z},
+    \end{equation}
+    where $\beta$ is the \textit{absorption coefficient} defined as
+    \begin{equation}
+        \beta = \frac{2\omega\kappa}{c} = 2\kappa k.
+    \end{equation}
+
+\subsection{Refraction and reflection}
+
+    A monochromatic plane wave (i.e. a wave with a single frequency, and not a wave packet) 
+    encountering an interface between two materials with different (purely real) refractive indices, will, in general, both reflect and refract. 
+    The reflected wave will have the same angle $\theta_r$ with the normal to the interface as the angle $\theta_i$ the incident wave had, 
+    but the transmitted (refracted) wave will have a new angle $\theta_t$. 
+
+    The angles belonging to the same dielectric are the same since the phase of the radiation, 
+    $|\vec{k}|\cdot\sin\theta$, must be equal for both waves. 
+
+    A similar argument holds for the transmitted wave, and properly incorporating the refractive indices into $\vec{k}$ leads us into
+    \textit{Snell's law}:
+    \begin{equation}
+        n_i\sin\theta_i = n_t\sin\theta_t.
+    \end{equation}
+
+    In general, the normal component of $\vec{k}$ is conserved over interfaces.
+
+    \subsubsection*{Total internal reflection}
+        If the angle between a transmitted electromagnetic wave and the normal of a dielectric interface is greater than or equal to $\frac{\pi}{2}$, 
+        then we get a phenomenon known as \textit{total internal reflection} (TIR for short). 
+        Expressed algebraically, $\theta_t \geq \frac{\pi}{2}$.
+        If this condition is fulfilled, no power is transmitted into the other medium, and all radiation stays in its original medium.
+
+        The \textit{critical angle} is found by Snell's law:
+        \begin{equation}
+            \theta_c = \text{arcsin}\frac{n_2}{n_1},
+        \end{equation}
+        where $n_1$ is the refractive index of the material of the incident wave, and $n_2$ is the refractive index of the material of the transmitted wave.
+        If the angle the incident wave makes with the normal of the interface is greater than the critical angle, then we get TIR. 
+        Algebraically, we get TIR if $\theta_i \geq \theta_c$. 

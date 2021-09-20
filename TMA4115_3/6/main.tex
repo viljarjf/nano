@@ -1,0 +1,246 @@
+\documentclass[11pt, a4paper, norsk]{NTNUoving}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+
+\ovingnr{6}    % Nummer på innlevering
+\semester{Våren 2020}
+\fag{TMA 4115} %4105 er matte 2, 4115 er matte 3
+\institutt{Institutt for matematiske fag}
+
+\newenvironment{pkt}{\begin{punkt}}{\end{punkt}}
+
+\newenvironment{matrise}[1][c]
+{
+\left[\begin{array}{#1}
+}
+{    
+\end{array}\right]           
+}
+
+\newenvironment{indreprod}{
+    \langle
+}{
+\rangle}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\P}{\mathcal{P}}
+
+\begin{document}
+%#################################################
+%Dette er for enkel copy-pasting
+\ifx
+%-------------------------
+\begin{oppgave}
+    \begin{punkt}
+        \begin{align*}
+        
+        
+        \end{align*}
+    \end{punkt}
+\end{oppgave}
+%-------------------------
+\begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (-5.9,-5.9) grid (5.9,5.9);
+        \draw (-6,0) -- (6,0);
+        \draw (0,-6) -- (0,6);
+        \draw[->] (-6,0) -- (6,0); 
+        \draw[->] (0,-6) -- (0,6);
+        \draw (0, 6.2) node {y};
+        \draw (6.2, 0) node {x};
+\end{tikzpicture}
+\fi
+
+%Her begynner dokumentet
+%#####################################
+\begin{oppgave}
+    \begin{pkt}
+    
+        Den transponerte av venstresiden er $$\begin{matrise}[ccc]
+            2 & -3 & -1 \\1 & 1 & 1 
+        \end{matrise}$$
+        Ganger vi den med begge sider får vi $$\begin{matrise}[cc|c]
+            14 & -2 & 3\\ -2 & 3 & -2
+        \end{matrise} \sim \begin{matrise}[cc|c]
+            14 & -2 & 3\\ 0 & 19 & -11
+        \end{matrise} \sim \begin{matrise}[cc|c]
+            14 & 0 & \frac{35}{19}\\ 0 & 1 & -\frac{11}{19}
+        \end{matrise} \sim \begin{matrise}[cc|c]
+            1 & 0 & \frac{5}{38}\\ 0 & 1 & -\frac{11}{19}
+        \end{matrise}$$
+        Minste kvadraters metode gir dermed $\frac{1}{38}\begin{matrise}
+        5  \\ -22 
+        \end{matrise}$
+    \end{pkt}
+    \begin{pkt}
+        Den adjungerte av venstresiden er $$\begin{matrise}[cccc]
+            0 & -i & 0 & 0 \\ 1 & -i & -i & -i \\ 1 & -1 & 0 & 1 
+        \end{matrise}$$
+        Ganger vi den med begge sider får vi 
+        \begin{align*}
+        &\begin{matrise}[ccc|c]
+            1 & 1 & i & 1-i \\ 1 & 4 & 1 & 3-3i \\ -i & 1 & 3 & 1-2i
+        \end{matrise} \sim \begin{matrise}[ccc|c]
+            1 & 1 & i & 1-i \\ 0 & 3 & 1-i & 2-2i \\ 0 & 1+i & 2 & 2-i
+        \end{matrise} \sim \begin{matrise}[ccc|c]
+            1 & 1 & i & 1-i \\ 0 & 3 & 1-i & 2-2i \\ 0 & 0 & \frac{4}{3} & \frac{2}{3}-i
+        \end{matrise} \\ \sim& \begin{matrise}[ccc|c]
+            1 & 1 & i & 1-i \\ 0 & 3 & 0 & \frac{9-3i}{4} \\ 0 & 0 & 1 & \frac{2-3i}{4}
+        \end{matrise} \sim \begin{matrise}[ccc|c]
+            1 & 1 & i & 1-i \\ 0 & 1 & 0 & \frac{3-i}{4} \\ 0 & 0 & 1 & \frac{2-3i}{4}
+        \end{matrise} \sim \begin{matrise}[ccc|c]
+            1 & 0 & 0 & \frac{-2-5i}{4} \\ 0 & 1 & 0 & \frac{3-i}{4} \\ 0 & 0 & 1 & \frac{2-3i}{4}
+        \end{matrise}
+        \end{align*}
+        Minste kvadraters metode gir dermed $\frac{1}{4}\begin{matrise}[c]
+        -2-5i \\ 3-i \\ 2-3i
+        \end{matrise}$
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    \begin{pkt}
+        $f(x)=ax^4+bx^3+cx^2+dx+e$
+        \begin{align*}
+            \begin{matrise}[ccccc|c]
+                0 & 0 & 0 & 0 & 1 & 1\\
+                1 & 1 & 1 & 1 & 1 & 2\\
+                16 & 8 & 4 & 2 & 1 & 3\\
+                81 & 27 & 9 & 3 & 1 & 5\\
+                256 & 64 & 16 & 4 & 1 & 7
+            \end{matrise}
+        \end{align*}
+        Denne løser jeg ikke for hånd. Løsningen er $$\begin{matrise}
+        a\\b\\c\\d\\e
+        \end{matrise}=\frac{1}{12}\begin{matrise}
+        -1\\ 8 \\ -17 \\ 22 \\ 12
+        \end{matrise}$$
+    \end{pkt}
+    \begin{pkt}
+    Totalmatrisen vi skal bruke minste kvadraters metode på er følgende:
+        \begin{align*}
+            \begin{matrise}[ccc|c]
+                 0 & 0 & 1 & 1\\
+                 1 & 1 & 1 & 2\\
+                 4 & 2 & 1 & 3\\
+                 9 & 3 & 1 & 5\\
+                 16 & 4 & 1 & 7
+            \end{matrise}
+        \end{align*}
+        Den transponerte av venstresiden er 
+        \begin{align*}
+            \begin{matrise}[ccccc]
+                 0 & 1 & 4 & 9 & 16\\
+                 0 & 1 & 2 & 3 & 4\\
+                 1 & 1 & 1 & 1 & 1
+            \end{matrise}
+        \end{align*}
+        Ganger vi denne med begge sider får vi
+        \begin{align*}
+            \begin{matrise}[ccc|c]
+                354 & 100 & 30 & 171 \\
+                100 & 30 & 10 & 51 \\
+                30 & 10 & 5 & 18
+            \end{matrise}
+        \end{align*}
+        Denne gidder jeg heller ikke gausseliminere for hånd. Løsningen er $$\begin{matrise}
+        a\\b\\c
+        \end{matrise} = \begin{matrise}
+        \frac{3}{14} \\ \frac{9}{14} \\ \frac{36}{35}
+        \end{matrise}$$
+    \end{pkt}
+\end{oppgave}
+\begin{oppgave}
+    \begin{pkt}
+        \begin{align*}
+            \begin{matrise}[cc]
+                -0.2 & 0.5 \\ 0.2 & -0.5
+            \end{matrise} \sim \begin{matrise}[cc]
+                -2 & 05 \\ 0 & 0
+            \end{matrise} 
+        \end{align*}
+        Det gir at likevektsvektoren er $\frac{1}{7}\begin{matrise}
+        5\\2
+        \end{matrise}$
+    \end{pkt}
+    \begin{pkt}
+        \begin{align*}
+            &\begin{matrise}[ccc]
+                -0.3 & 0.2 & 0.2 \\ 0 & -0.8 & 0.4 \\ 0.3 & 0.6 & -0.6
+            \end{matrise} \sim \begin{matrise}[ccc]
+                -3 & 2 & 2 \\ 0 & -8 & 4 \\ 0 & 8 & -4
+            \end{matrise} \sim \begin{matrise}[ccc]
+                -3 & 2 & 2 \\ 0 & -2 & 1 \\ 0 & 0 & 0
+            \end{matrise}\\ \sim& \begin{matrise}[ccc]
+                -3 & 0 & 3 \\ 0 & -2 & 1 \\ 0 & 0 & 0
+            \end{matrise} \sim \begin{matrise}[ccc]
+                -1 & 0 & 1 \\ 0 & -2 & 1 \\ 0 & 0 & 0
+            \end{matrise}
+        \end{align*}
+        Det gir at likevektsvektoren er $\frac{1}{5}\begin{matrise}
+        2\\1\\2
+        \end{matrise}$
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    \begin{pkt}
+    Ja
+    \end{pkt}
+    \begin{pkt}
+        Her blir $a_{1\,2}=0$ for $A^n\,\forall\, n\geq 1$, så den er ikke regulær.
+    \end{pkt}
+\end{oppgave}
+
+\begin{oppgave}
+    Den stokastiske matrisen for systemet er slik: 
+    \begin{align*}
+        \begin{matrise}[ccc]
+            0.7 & 0.1 & 0.1\\
+            0.2 & 0.8 & 0.2 \\
+            0.1 & 0.1 & 0.7
+        \end{matrise}
+    \end{align*}
+    Den stabile tilstanden er gitt ved likevektsvektoren.
+    \begin{align*}
+        &\begin{matrise}[ccc]
+            -0.3 & 0.1 & 0.1\\
+            0.2 & -0.2 & 0.2 \\
+            0.1 & 0.1 & -0.3
+        \end{matrise} \sim \begin{matrise}[ccc]
+            -3 & 1 & 1\\
+            0 & -4 & 8 \\
+            0 & 4 & -8
+        \end{matrise} \sim \begin{matrise}[ccc]
+            -3 & 1 & 1\\
+            0 & -1 & 2 \\
+            0 & 0 & 0
+        \end{matrise}\\ \sim& \begin{matrise}[ccc]
+            -3 & 0 & 3\\
+            0 & -1 & 2 \\
+            0 & 0 & 0
+        \end{matrise} \sim \begin{matrise}[ccc]
+            -1 & 0 & 1\\
+            0 & -1 & 2 \\
+            0 & 0 & 0
+        \end{matrise}
+    \end{align*}
+    Det gir at likevektsvektoren er $\frac{1}{4}\begin{matrise}
+    1\\2\\1
+    \end{matrise}$. Det er dermed best å smøre for temperaturer rundt 0, siden det er 50\% sannsynlighet for det, og 25\% for de to andre.
+\end{oppgave}
+
+\begin{oppgave}
+    Alle regulære stokastiske matriser har alltid en og bare en likevektsvektor. Men hvis det skal vises: 
+    \begin{align*}
+        \begin{matrise}[cc]
+            1-a-1 & b\\a & 1-b-1
+        \end{matrise} \sim \begin{matrise}[cc]
+            -a & b\\0&0
+        \end{matrise}
+    \end{align*}
+    Som gir den unike likevektsvektoren $\begin{matrise}
+    b \\ a
+    \end{matrise}$
+\end{oppgave}
+\end{document}
