@@ -56,3 +56,7 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 ### TMT4320 Nanomaterialer
 
 - Exercises in nanomaterials with python and latex 
+
+### TDT4120 Algoritmer og datastrukturer
+
+- The programming part of exercises in algorithms and data structures
