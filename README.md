@@ -63,4 +63,4 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 
 ### TFY4335 Bionanovitenskap
 
-- Exercises in nano life science, python and latex
+- Exercises in nano life science, with python and latex
