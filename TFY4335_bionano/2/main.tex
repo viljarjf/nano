@@ -1,0 +1,49 @@
+\input{setup}
+
+\title{Exercise 2, Nano Life Science}
+\author{Viljar Femoen}
+\input{commands}
+
+\begin{document}
+\maketitle
+\section*{Task 1}
+
+% One can trivially show that the given equation is indeed a solution to the PDE, by performing the derivations. 
+% fuck you
+\begin{align*}
+    \pde{c}{t} &= D\pde[2]{c}{x} \\
+    \pde{\tilde{c}}{t} &= -Dk^2\tilde{c} \\
+    \tilde{c} &= \tilde{c}_0(k)e^{-Dk^2t} \\
+    c &= \frac{1}{\sqrt{4\pi Dt}}\left(e^{-\frac{x^2}{4Dt}} * c_0(x)\right)
+\end{align*}
+for an arbitrary initial concentration profile $c_0$. Performing the convolution for 
+\begin{equation*}
+    c_0(x) = \begin{cases}
+        c_0 & x = 0 \\ 
+        0 & \text{else}
+    \end{cases}
+\end{equation*}
+yields
+\begin{equation*}
+    c(x, t) = \frac{c_0}{\sqrt{4\pi Dt}}e^{-\frac{x^2}{4Dt}},
+\end{equation*}
+which was to be demonstrated.
+
+For $c_0(x) = c\left(1-\theta(x)\right)$, where $\theta$ is the Heaviside function, computing the convolution yields
+\begin{align*}
+    c(x, t) &= \frac{1}{\sqrt{4\pi Dt}}\left(e^{-\frac{x^2}{4Dt}} * c_0(x)\right) \\
+    &= \frac{1}{\sqrt{4\pi Dt}}\left(\int_{-\infty}^\infty ce^{-\frac{\xi^2}{4Dt}}\left(1-\theta(x-\xi)\right)\text{d}\xi\right) \\
+    &= \frac{c}{\sqrt{4\pi Dt}}\left(\int_{-\infty}^\infty e^{-\frac{\xi^2}{4Dt}}d\xi - \int_{-\infty}^x e^{-\frac{\xi^2}{4Dt}}\text{d}\xi\right) \\
+    &= \frac{c}{\sqrt{4\pi Dt}}\left(\int_{x}^\infty e^{-\frac{\xi^2}{4Dt}}d\xi\right) \\
+    &= \frac{c}{\sqrt{4\pi Dt}}\left(\left[\frac{\sqrt{4\pi Dt}}{2}\cdot\text{erf}(\frac{\xi}{\sqrt{4Dt}})\right]_x^\infty\right) \\
+    &= \frac{c}{2}\left(1 - \text{erf}\left(\frac{x}{\sqrt{4Dt}}\right)\right),
+\end{align*}
+which was to be demonstrated.
+
+\section*{Task 2}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = \textwidth]{figs/Concentration_profiles.png}
+\end{figure}
+
+\end{document}
