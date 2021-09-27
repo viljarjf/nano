@@ -60,3 +60,7 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 ### TDT4120 Algoritmer og datastrukturer
 
 - The programming part of exercises in algorithms and data structures
+
+### TFY4335 Bionanovitenskap
+
+- Exercises in nano life science, python and latex
