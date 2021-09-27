@@ -4,8 +4,77 @@
 
 \begin{document}
 
+\input{preamble}
 
-    Test
+\subsection*{Task 1}
 
+    For subtasks a to d, see \autoref{fig:cube size surface energy}.
 
+    The main approximations in this task are ignoring cube-cube interractions, 
+    which might prove substantial experimentally.
+
+    \begin{figure}[bh]
+        \includegraphics[width=10cm]{figs/Energy_of_1g_NaCl_as_a_function_of_cube_size.png}
+
+        \caption{The energy as a function of cube size is 
+        illustrated with 1g of NaCl. 
+        The total energy is comparable to the fusion enthalpy at 
+        around 1 nm sidelength. 
+        As such, the melting point of nanoparticles should be 
+        \textit{lower} than in bulk}
+        \label{fig:cube size surface energy}
+    \end{figure}
+
+    The ratio of surface- and bulk atoms can be seen in \autoref{fig:bulk surface ratio}.
+
+    The smallest possible configuration with atoms that are technically in the bulk
+    would be a particle consisting of 13 atoms, where 12 are on the surface, 
+    all "touching" the single bulk atom. 
+    However, the apparrent continuity of rational numbers is 
+    broken long before this, and there should be gaps in the graph
+    where there are no possible configurations with the calculated ratio.
+    Additionally, the point at which the core of the particle stops
+    exhibiting bulk behavior probably occurs at an earlier stage. 
+    Finally, the simplification used for calculating the amount of
+    surface atoms stops being valid at very small radii. 
+    None of these points give a precise radius for which the model
+    "stops making sense", so the simplest answer to the task is $a = 4r_{\text{Pd}}$.
+
+    \begin{figure}[h]
+        \includegraphics[width=10cm]{figs/Ratio_of_surface_and_bulk_atoms.png}
+
+        \caption{The ratio of particles on the surface of a nanoparticle
+        to the particles in the bulk, as a function of the nanoparticle radius.
+        To be clear, the ratio is $\frac{n_\text{surface}}{n_\text{bulk}}$, 
+        and not $\frac{n_\text{surface}}{n_\text{total}}$.
+        }
+        \label{fig:bulk surface ratio}
+    \end{figure}
+
+    The exact ratio can be calculated from the geometry in the given Table 1,
+    and yields the following expression:
+    $$
+    r(n) = \frac{30n^2 + 6}{10n^3 -15n^2 + 11n -3},
+    $$
+    where $n$ is the number of layers. 
+    This is plotted in \autoref{fig:bulk surface ratio}, 
+    modelling the radius of the tetradecahedrons as 
+    $r = r_\text{Pd}\left(2n + 1\right)$.
+
+    At $r = 3\si{\nano\metre}$, around a quarter of 
+    all the atoms in the particle are on the surface, which I
+    would consider significant. If the interpretation instead should
+    be "siginificant \textit{number} of atoms, then the 200-odd atoms at 
+    $n = 5$ should suffice as significant, in my opinion.
+
+\subsection*{Task 2}
+    The lattice parameter tends to get reduced at smaller nanoparticle
+    sizes. 
+
+    With a fixed surface area, one simpe way to reduce the surface
+    energy is to change the solvent to one with more favourable 
+    interractions with the particles. Additionally, some surface 
+    geometries are less energetically favourable than others, 
+    even with constant surface area. 
+    
 \end{document}
