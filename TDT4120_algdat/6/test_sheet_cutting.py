@@ -5,31 +5,35 @@
 def sheet_cutting(w, h, p):
 
     cache = {}
-    def local(w, h):
+    def local(width: int, height: int) -> int:
         # base case
-        if w == 0 or h == 0:
+        if width == 0 or height == 0:
             return 0
 
         # cache
-        if cache.get((w, h)) is not None:
-            return cache[(w, h)]
+        if cache.get((width, height)) is not None:
+            return cache[(width, height)]
 
         # recursion loop
         m = -1
-        for i in range(1, w+1):
-            for j in range(1, h+1):
+        for i in range(1, width+1):
+            for j in range(1, height+1):
                 cur = p[(i, j)]
 
                 # find best option for the rest of the "rectangle"
-                wide = local(w, h - j) + local(w - i, j)
-                tall = local(i, h - j) + local(w - i, h)
-                max_rest = max(wide, tall)
+                wide = local(width, height - j) + local(width - i, j)
+                tall = local(i, height - j) + local(width- i, height)
 
                 # update highest found price
-                m = max(m, cur + max_rest)
+                m = max(m, cur + wide, cur + tall)
 
-        cache[(w, h)] = m
+        cache[(width, height)] = m
+        cache[(height, width)] = m
         return m
+
+    #for w_i in range(1, w+1):
+    #    for h_i in range(1, h+1):
+    #        local(w_i, h_i)
     return local(w, h)
 
 
@@ -134,15 +138,19 @@ tests = [
 
 failed = False
 
-for prices, width, height, solution in tests:
-    student_answer = sheet_cutting(width, height, prices)
-    if student_answer != solution:
-        failed = True
-        print(
-            "Feilet for testen w={:} h={:} ".format(width, height)
-            + "p={:}, resulterte i ".format(prices)
-            + "svaret {:} i stedet for {:}.".format(student_answer, solution)
-        )
+import time
+start = time.time()
+for _ in range(1000):
+    for prices, width, height, solution in tests:
+        student_answer = sheet_cutting(width, height, prices)
+        if student_answer != solution:
+            failed = True
+            print(
+                "Feilet for testen w={:} h={:} ".format(width, height)
+                + "p={:}, resulterte i ".format(prices)
+                + "svaret {:} i stedet for {:}.".format(student_answer, solution)
+            )
+print(time.time() - start)
 
 if not failed:
     print("Koden din fungerte for alle eksempeltestene.")
