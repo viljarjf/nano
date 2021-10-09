@@ -4,13 +4,33 @@
 
 def sheet_cutting(w, h, p):
 
-    if w == 0 or h == 0:
-        return 0
-    m = -1
-    for i in range(w):
-        for j in range(h):
-            wide = sheet_cutting(w, h - j, p) + sheet_cutting(w - i, j, p)
-            tall = sheet_cutting(i, h - j, p) + sheet_cutting(w - i, h, p)
+    cache = {}
+    def local(w, h):
+        # base case
+        if w == 0 or h == 0:
+            return 0
+
+        # cache
+        if cache.get((w, h)) is not None:
+            return cache[(w, h)]
+
+        # recursion loop
+        m = -1
+        for i in range(1, w+1):
+            for j in range(1, h+1):
+                cur = p[(i, j)]
+
+                # find best option for the rest of the "rectangle"
+                wide = local(w, h - j) + local(w - i, j)
+                tall = local(i, h - j) + local(w - i, h)
+                max_rest = max(wide, tall)
+
+                # update highest found price
+                m = max(m, cur + max_rest)
+
+        cache[(w, h)] = m
+        return m
+    return local(w, h)
 
 
 
@@ -51,7 +71,7 @@ tests = [
          (5, 8): 45, (8, 5): 45, (6, 6): 35, (6, 7): 44, (7, 6): 44,
          (6, 8): 50, (8, 6): 50, (7, 7): 1, (7, 8): 41, (8, 7): 41, (8, 8): 5},
         8, 8, 91,
-    )
+    ),
     (
         {(1, 1): 1, (1, 2): 0, (2, 1): 0, (1, 3): 0, (3, 1): 0, (1, 4): 4,
          (4, 1): 4, (1, 5): 0, (5, 1): 0, (1, 6): 0, (6, 1): 0, (1, 7): 0,
