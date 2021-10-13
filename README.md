@@ -55,7 +55,7 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 # 5th semester
 ### TMT4320 Nanomaterialer
 
-- Exercises in nanomaterials with python and latex 
+- Exercises in nanomaterials with python and latex. Did not finish
 
 ### TDT4120 Algoritmer og datastrukturer
 
@@ -64,3 +64,7 @@ I've improved by the time TKJ4215 statterm comes around, although some exercises
 ### TFY4335 Bionanovitenskap
 
 - Exercises in nano life science, with python and latex
+
+### TFY4330 Nanoverktøy
+
+- Data analysis of different microscopes in nano tools
