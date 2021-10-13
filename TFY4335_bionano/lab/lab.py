@@ -1,4 +1,6 @@
+from typing import Callable
 from scipy.special import erf
+import scipy.integrate
 import numpy as np
 import numpy.ma as ma
 from matplotlib import pyplot as plt
@@ -104,48 +106,82 @@ def get_D(D_0: float = None, rel_error: float = None) -> float:
         rel_error = 10**-4
     Dn = D_next(D_0)
     D = D_0
+    n = 0
     while abs(1 - Dn / D) > rel_error:
+        e = np.log(abs(1-D/Dn))
+        print(f"D{n} = {D:.5g}, {e = :.4g}")
+        n += 1
         D, Dn = D_next(Dn), D
-
+    e = abs(1-D/Dn)
+    print(f"D{n} = {D:.2g}, {e = :.2g}")
     return D
+
+def find_error(real: list[int], model: Callable[[float], float]) -> float:
+    """integrate the square difference"""
+    def real_func(y):
+        j = -y/METERS_PER_PIXEL + 1 + MAX_Y/2
+        j_int = int(j)
+        j_float = j - j_int
+        return (real[j_int] - real[j_int - 1]) * j_float + real[j_int - 1]
+
+    return scipy.integrate.quad(lambda y: (real_func(y) - model(y))**2, y_j(MAX_Y), y_j(0))
+
+
 
 def main():
 
     D = get_D()
-    r = 2.08 * 10**-19 / D
-    print(f"{D = :.2g}, {r = :-2g}")
-    
-    # 1e-16 til 1e-14: jo mindre jo bedre
-    # 1e-8 til 1.1e-8: krysser ordentlig rundt 1.2
+    #r = 2.08 * 10**-19 / D
+    #print(f"{D = :.2g}, {r = :.2g}")
+    """
     x = np.logspace(-14, -6, 1000, base = 10)
     y = eq11(x)
     plt.plot(x, y)
     plt.xlabel("D ($\\frac{m^2}{s}$)")
-    plt.ylabel("Derivative of sum of sqared errors")
+    plt.ylabel("f(D)")
     plt.xscale("log")
     plt.title("Plot of equation 11")
     plt.show()
-
+    """
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)
     x1, x2, x3, x4 = 20, 200, 500, 900
     y = [i for i in range(MAX_Y)]
-    y_cont = np.linspace(0, MAX_Y, 1000)
-
-    ax1.plot(y, [A_ij(x1, j) for j in y])
-    ax1.plot(y_cont, est(D, x1, y_cont))
-    ax1.set_title(f"A: x = {round(x_i(20)*10**6)}µm (20 px)")
-
-    ax2.plot(y, [A_ij(x2, j) for j in y])
-    ax2.plot(y_cont, est(D, x2, y_cont))
-    ax2.set_title(f"B: x = {round(x_i(200)*10**6)}µm (200 px)")
+    y_plot = [y_j(j) for j in y]
+    y_c = np.linspace(0, MAX_Y, 1000)
+    y_plot_c = y_cont(y_c)
     
-    ax3.plot(y, [A_ij(x3, j) for j in y])
-    ax3.plot(y_cont, est(D, x3, y_cont))
-    ax3.set_title(f"C: x = {round(x_i(500)*10**6)}µm (500 px)")
 
-    ax4.plot(y, [A_ij(x4, j) for j in y])
-    ax4.plot(y_cont, est(D, x4, y_cont))
+    ax1.plot(y_plot, [A_ij(x1, j) for j in y])
+    ax1.plot(y_plot_c, est(D, x1, y_c))
+    ax1.set_title(f"A: x = {round(x_i(20)*10**6)}µm (20 px)")
+    ax1.set_xlabel("y (m)")
+    ax1.set_ylabel("Intensity")
+    I, e = find_error([A_ij(x1, j) for j in y], lambda y: est(D, x1, y))
+    ax1.text(x = y_j(40), y = 0.5, s = f"E: {I :.3g}$\pm0$")
+
+    ax2.plot(y_plot, [A_ij(x2, j) for j in y])
+    ax2.plot(y_plot_c, est(D, x2, y_c))
+    ax2.set_title(f"B: x = {round(x_i(200)*10**6)}µm (200 px)")
+    ax2.set_xlabel("y (m)")
+    ax2.set_ylabel("Intensity")
+    I, e = find_error([A_ij(x2, j) for j in y], lambda y: est(D, x2, y))
+    ax2.text(x = y_j(40), y = 0.5, s = f"E: {I :.3g}$\pm0$")
+    
+    ax3.plot(y_plot, [A_ij(x3, j) for j in y])
+    ax3.plot(y_plot_c, est(D, x3, y_c))
+    ax3.set_title(f"C: x = {round(x_i(500)*10**6)}µm (500 px)")
+    ax3.set_xlabel("y (m)")
+    ax3.set_ylabel("Intensity")
+    I, e = find_error([A_ij(x3, j) for j in y], lambda y: est(D, x3, y))
+    ax3.text(x = y_j(40), y = 0.5, s = f"E: {I :.3g}$\pm0$")
+
+    ax4.plot(y_plot, [A_ij(x4, j) for j in y])
+    ax4.plot(y_plot_c, est(D, x4, y_c))
     ax4.set_title(f"D: x = {round(x_i(900)*10**6)}µm (900 px)")
+    ax4.set_xlabel("y (m)")
+    ax4.set_ylabel("Intensity")
+    I, e = find_error([A_ij(x4, j) for j in y], lambda y: est(D, x4, y))
+    ax4.text(x = y_j(40), y = 0.5, s = f"E: {I :.3g}$\pm0$")
 
     plt.legend(["Data", "Model"])
     fig.suptitle("Comparing model values to data at different points along the channel")
