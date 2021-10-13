@@ -19,7 +19,7 @@ class Point:
             raise IndexError("Value out of range")
 
 
-def readfile(filename: str) -> list[str]:
+def readfile(filename: str) -> list[Point, float]:
     """read the file, and output the trajectory data. 
     Each element in the list is on the following format: 
     (list[Point], float)
@@ -65,16 +65,21 @@ def main():
         curdir = os.path.dirname(__file__)
         data = readfile(os.path.join(curdir, f"Traj_DF_40x_7.5fps_{fileext}.txt"))
         ms = []
+        Ds = []
         for path, size in data:
             if size > 6:
-                ms.append(get_ms(path) / 2 * 7.5/size)
+                ms.append(get_ms(path))
+                Ds.append(ms[-1] / 2 * 7.5/size)
         ms = np.array(ms)
-        log_ms = np.log(ms)
-        D = np.exp(np.mean(log_ms))
-        D_var = np.exp(np.log(D) + np.std(log_ms)) - np.exp(np.log(D) - np.std(log_ms))
+        Ds = np.array(Ds)
+        log_Ds = np.log(Ds)
+        mu = np.mean(log_Ds)
+        sigma = np.std(log_Ds)
+        D = np.exp(mu + 0.5*sigma**2)
+        D_var = (np.exp(sigma**2)-1)*np.exp(2*mu + sigma**2)**0.5
         r = 2.08 * 10**-19 / D
-        r_var = 2.08 * 10**-19 / D_var
-        print(f"{fileext}: {D = :.2g} ± {D_var :.2g}\n    {r = :.2g} ± {r_var :.2g}\n")
+        r_var = 2.08 * 10**-19 / (np.exp(sigma**2)-1)*np.exp(-2*mu + sigma**2)**0.5
+        print(f"{fileext} & {len(ms)} & {np.mean(ms)*10**12 :.2g} $\pm$ {np.std(ms)*10**12 :.2g} & {D :.2g} $\pm$ {D_var :.2g} & {r*10**6 :.2g} $\pm$ {r_var*10**6 :.2g} \\\\")
 
 if __name__ == "__main__":
     main()
