@@ -1,0 +1,106 @@
+\input{setup}
+
+\title{Exercise 3, Nano Life Science}
+\author{Viljar Femoen}
+\input{commands}
+
+\begin{document}
+\maketitle
+\section*{Task 1}
+
+The Navier-Stokes equation states 
+\begin{equation*}
+    \pde{\vec{v}}{t} + \left(\vec{v} \cdot \nabla\right)\vec{v} = - \frac{1}{\rho}\nabla p + \frac{\eta}{\rho}\nabla^2\vec{v}.
+\end{equation*}
+
+In our case, $\vec{v} = v\hat{z}$, and we have cylindrical symmetry, meaning $\left(\vec{v} \cdot \nabla\right)\vec{v} =  0.$
+Furthermore, $\nabla p = \frac{\Delta p}{l}\hat{z}$, and we assume steady-state, i.e. $\pde{v}{t} = 0$, which means we can write the above equation as
+\begin{equation*}
+    \nabla^2\vec{v} = \frac{\Delta p}{l\eta}\hat{z}.
+\end{equation*}
+
+With cylindrical coordinates, the left-hand-side evaluates to
+
+\begin{equation*}
+    \nabla^2 v_z\hat{z} = \frac{1}{r}\pde{}{r}\left(r\pde{v_z}{r}\right)\hat{z}. 
+\end{equation*}
+
+Using the chain rule, we arrive at the following ODE:
+
+\begin{equation*}
+    \pde[2]{v_z}{r} + \frac{1}{r}\pde{v_z}{r} = \frac{\Delta p}{l\eta}.
+\end{equation*}
+
+Laplace transforming this, we arrive at 
+
+\begin{equation*}
+    -\frac{d}{ds}\left(s^2\tilde{v}_z - sv_z(0) + \pde{v_z}{r}_{r = 0}\right) + s\tilde{v}_z - v_z(0) = \frac{\Delta p}{l\eta s^2}.
+\end{equation*}
+
+We have the no-slip condition, i.e. $v_z(0) = 0$, and as such the above equation becomes
+
+\begin{align*}
+    \tilde{v}_z + s\ode{\tilde{v}_z}{s} &= -\frac{\Delta p}{l\eta s^3} \\
+    \ode{}{s}\left(s\tilde{v}_z\right) &= -\frac{\Delta p}{l\eta s^3} \\
+    s\tilde{v}_z &= c_1 - \frac{\Delta p}{2l\eta s^2} \\
+    \tilde{v}_z &= \frac{c_1}{s} - \frac{\Delta p}{2l\eta s^3},
+\end{align*}
+for an arbitrary real constant $c_1$. Inverse laplace transforming back to real space, we arrive at
+
+\begin{equation*}
+    v_z(r) = c_1 - \frac{\Delta pr^2}{4l\eta}.
+\end{equation*}
+
+Re-applying the no-slip condition, we get the following equation for $c_1$:
+
+\begin{equation*}
+    0 = c_1 - \frac{\Delta p\left(\frac{d}{2}\right)^2}{4l\eta},
+\end{equation*}
+which finally lets us write
+\begin{equation*}
+    v_z(r) = \frac{\Delta p}{4l\eta}\left(\frac{d^2}{4} - r^2\right).
+\end{equation*}
+
+$\left<v\right>_r$ is given by
+
+\begin{equation*}
+    \int_{-\infty}^\infty rv_z(r)dr = \frac{\Delta p}{4l\eta}\int_0^\frac{d}{2} r\left(\frac{d^2}{4} - r^2\right)dr = \frac{\Delta p d^4}{256l\eta}.
+\end{equation*}
+
+The maximum velocity, $v_\text{max} = v(r = 0) = \frac{\Delta p d^2}{16l\eta}$, is a factor $\frac{d^2}{16}$ away from the average. 
+Therefore, the smaller the channel, the smaller the relative difference between the max and the average will be.
+
+The volumetric flow rate is given by
+
+\begin{equation*}
+    Q = \iint v dA = \int_0^{2\pi}\int_0^\frac{d}{2} v rdrd\theta 
+    = \frac{\Delta p}{4l\eta}\int_0^{2\pi} \int_0^\frac{d}{2} r\left(\frac{d^2}{4} - r^2\right)drd\theta 
+    = \frac{\pi\Delta p d^4}{128l\eta},
+\end{equation*}
+which was to be shown. 
+
+\section*{Task 2}
+
+We know
+
+To compute $\left<x^2\right>$, one needs to evaluate the integral
+
+\begin{equation*}
+    \int_{-\infty}^\infty x^2 p(x) dx = \int_{-\infty}^\infty x^2 e^{-\beta k\frac{x^2}{2}} dx = \sqrt{\frac{2\pi}{k^3\beta^3}},
+\end{equation*}
+
+and normalize, i.e. divide by 
+
+\begin{equation*}
+    \int_{-\infty}^\infty p(x) dx = \sqrt{\frac{2\pi}{k\beta}}.
+\end{equation*}
+
+$p(x)$ is the probability of finding a particle at position $x$, and is given by the Bolzmann distribution: $e^{-\beta U(x)}$.
+
+Rearranging, we get
+
+\begin{eqnarray}
+    k = \frac{k_bT}{\left<x^2\right>},
+\end{eqnarray}
+which was to be shown.
+\end{document}
