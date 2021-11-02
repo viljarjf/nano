@@ -8,8 +8,8 @@ import os
 from PIL import Image
 
 METERS_PER_PIXEL = (500*10**-6) / 210.5
-a = 75*10**-6*500*10**-6
-q = 4/3*10**-9
+a = 3/4*(75*500)*10**-12
+q = 8/3*10**-9
 DATA_SHAPE = (40, 929)
 MAX_Y = 40
 MAX_X = 929
@@ -70,7 +70,7 @@ def eq_11_ij(D: float, i: int, j: int) -> float:
     sqrt = lambda x: x**0.5
     pi = np.pi
     A = A_ij(i,j)
-    factor = -8*a*q*x*y / (sqrt(pi) *sqrt(q / (D *a *x))* (4*D *a *x)**2)
+    factor = y / sqrt(x) #-8*a*q*x*y / (sqrt(pi) *sqrt(q / (D *a *x))* (4*D *a *x)**2)
     exponent = np.exp(-(1 / 2 *y *sqrt(q / (D *a* x)))**2)
     error = -1 / 2* (-erf(1 / 2 *y *sqrt(q / (D *a *x))) + 1) + A
     return factor*exponent*error
@@ -144,11 +144,11 @@ def scipy_minimize(D_0) -> float:
 def main():
     #"""
     #print(scipy_minimize(10**-10))
-    D = get_D(10**-10, 0)
+    D = get_D(10**-9)
     r = 2.08 * 10**-19 / D
     print(f"{D = :.2g}, {r = :.2g}")
     #"""
-    x = np.logspace(-15, -2, 1000, base = 10)
+    x = np.logspace(-11, -9, 1000, base = 10)
     y = eq11(x)
     plt.plot(x, y)
     plt.xlabel("D ($\\frac{m^2}{s}$)")
