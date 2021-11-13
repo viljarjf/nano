@@ -1,3 +1,5 @@
+"""Analyze data from videos of particle movement"""
+
 import os
 from dataclasses import dataclass
 import numpy as np
@@ -86,7 +88,7 @@ def main():
         "A": [100, 80, 3300],
         "B": [359, 800, 13000]
         }
-        
+
     curdir = os.path.dirname(__file__)
     for l in "AB":
         plt.figure()

@@ -1,3 +1,5 @@
+"""Analyze image of diffusion in microfluidic channel"""
+
 from typing import Callable
 from scipy.special import erf
 from scipy import integrate, optimize
