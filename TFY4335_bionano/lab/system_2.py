@@ -7,8 +7,6 @@ from matplotlib import pyplot as plt
 import os
 from PIL import Image
 
-#import matplotlib
-#matplotlib.rcParams['text.usetex'] = True
 
 METERS_PER_PIXEL = (500*10**-6) / 210.5
 a = 3/4*(75*500)*10**-12
@@ -16,6 +14,7 @@ q = 8/3*10**-9
 DATA_SHAPE = (40, 929)
 MAX_Y = 40
 MAX_X = 929
+
 
 def get_data() -> np.ndarray:
     """Open the image file, convert to grayscale, normalize and return the arr"""
@@ -51,20 +50,26 @@ def get_data() -> np.ndarray:
     #Image.fromarray(masked*255).show()
     return masked
 
+
 def x_i(i: int) -> float:
     return (i+1)*METERS_PER_PIXEL
+
 
 def x_cont(i: float) -> float:
     return (i+1)*METERS_PER_PIXEL
 
+
 def y_j(j: int) -> float:
     return (MAX_Y/2 - j+1 ) *METERS_PER_PIXEL
-    
+
+
 def y_cont(j: float) -> float:
     return (MAX_Y/2 - j+1 )*METERS_PER_PIXEL
 
+
 def A_ij(i: int, j: int, A: ma.MaskedArray = get_data()) -> float:
     return A[j,i]
+
 
 def eq_11_ij(D: float, i: int, j: int) -> float:
     """Calculate each element in the sum"""
@@ -78,6 +83,7 @@ def eq_11_ij(D: float, i: int, j: int) -> float:
     error = -1 / 2* (-erf(1 / 2 *y *sqrt(q / (D *a *x))) + 1) + A
     return factor*exponent*error
 
+
 def eq11(D: float, x: int = None) -> float:
     """Sum over i and j"""
     if x is None:
@@ -90,30 +96,24 @@ def eq11(D: float, x: int = None) -> float:
             res += eq_11_ij(D, i, j)
     return res
 
+
 def est_ij(D, i, j):
     """Calculate A based on the actual equation"""
     arg = y_cont(j + 1)*(q / (4*D*a*x_cont(i)))**0.5
     e = 1 - erf(arg)
     return 0.5*(e)
 
-def optimize_this(D: float) -> float:
-    """Sum over i and j"""
-    res = 0
-    for j in range(12, DATA_SHAPE[0]-12):
-        for i in range(DATA_SHAPE[1]):
-            if A_ij(i,j) == ma.masked:
-                continue
-            res += (est_ij(D, i, j) - eq_11_ij(D, i, j))**2
-    return res
 
 def d_eq11(D: float, i) -> float:
     """Numerical derivation"""
     dD = 10**-17
     return (eq11(D+dD, i) - eq11(D, i))/dD
 
+
 def D_next(D_n, i):
     """Newton's method"""
     return D_n - eq11(D_n, i) / d_eq11(D_n, i)
+
 
 def get_D(D_0: float = None, rel_error: float = None, i = None) -> float:
     """Calculate D with Newton's method"""
@@ -125,13 +125,14 @@ def get_D(D_0: float = None, rel_error: float = None, i = None) -> float:
     D = D_0
     n = 0
     while abs(1 - Dn / D) > rel_error:
-        #e = abs(1-D/Dn)
-        #print(f"{n} & {D :.4g} & {e :.4g} \\\\")
+        e = abs(1-D/Dn)
+        print(f"{n} & {D :.4g} & {e :.4g} \\\\")
         n += 1
         D, Dn = D_next(Dn, i), D
     e = abs(1-D/Dn)
     print(f"{n} & {D :.4g} & {e :.4g} \\\\")
     return D
+
 
 def find_error(real: list[int], model: Callable[[float], float]) -> float:
     """integrate the square difference"""
@@ -143,8 +144,6 @@ def find_error(real: list[int], model: Callable[[float], float]) -> float:
 
     return integrate.quad(lambda y: (real_func(y) - model(y))**2, y_j(MAX_Y), y_j(0))
 
-def scipy_minimize(D_0) -> float:
-    return optimize.minimize(optimize_this, D_0)
 
 def main():
     """
@@ -162,7 +161,6 @@ def main():
     print(np.mean(D[~np.isnan(D)]))
     print(np.std(D[~np.isnan(D)]))
     #"""
-    #print(scipy_minimize(10**-10))
     D = get_D(10**-9)
     r = 2.08 * 10**-19 / D
     print(f"{D = :.2g}, {r = :.2g}")
