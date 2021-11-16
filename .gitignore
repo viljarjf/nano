@@ -9,6 +9,7 @@
 *.synctex.gz
 *.txt
 *.mp4
+*.csv
 
 # courses
 TFY4185*
@@ -21,4 +22,3 @@ __pycache__
 *.build
 *debug/
 *release/
-

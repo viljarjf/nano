@@ -65,7 +65,7 @@ def get_D(data: list[Point]) -> tuple[float, float]:
     for p in data:
         dx = (p[0] - p0[0])*METERS_PER_PIXEL
         dy = (p[1] - p0[1])*METERS_PER_PIXEL
-        D = (dx**2 + dy**2)/2*FPS
+        D = (dx**2 + dy**2)/4*FPS
         Ds.append(D)
         p0 = p
     
@@ -85,8 +85,8 @@ def main():
 
     # ylims for each subplot
     lims = {
-        "A": [100, 80, 3300],
-        "B": [359, 800, 13000]
+        "A": [130, 40, 3300],
+        "B": [470, 340, 13000]
         }
 
     curdir = os.path.dirname(__file__)

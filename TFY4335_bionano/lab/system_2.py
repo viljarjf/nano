@@ -163,13 +163,14 @@ def main():
     print(np.mean(D[~np.isnan(D)]))
     print(np.std(D[~np.isnan(D)]))
     #"""
+    
     D = get_D(10**-9)
     r = 2.08 * 10**-19 / D
     print(f"{D = :.2g}, {r = :.2g}")
-    """
-    x = np.logspace(-11, -9, 1000, base = 10)
+    #"""
+    x = np.logspace(-13, -6, 1000, base = 10)
     y = eq11(x)
-    plt.plot(10**12*x, y)
+    plt.plot(x, y)
     plt.xlabel("D ($\\frac{µm^2}{s}$)")
     plt.ylabel("f(D)")
     plt.xscale("log")
