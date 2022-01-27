@@ -12,7 +12,7 @@ def generate_next_level(corners: np.ndarray) -> np.ndarray:
         np.ndarray: 2 by 8n matrix
     """
     n = corners.shape[1]
-    out = np.zeros((2, 8*n), dtype = np.float64)
+    out = np.zeros((2, 8*n), dtype = np.float32)
 
     x1 = corners[:, -1]
 
