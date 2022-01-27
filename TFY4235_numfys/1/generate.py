@@ -36,3 +36,30 @@ def generate_next_level(corners: np.ndarray) -> np.ndarray:
         x1 = x2
     
     return out
+
+
+def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
+    """Generate a lattice for a level l Koch snowflake, where start is the 0th level fractal
+
+    Args:
+        start (np.ndarray): the 4 starting corners of the fractal
+        l (int): layer number, 0 for a square
+
+    Returns:
+        np.ndarray: 2 by n array
+    """
+    xmin = min(start[0, :])
+    xmax = max(start[0, :])
+    ymin = min(start[1, :])
+    ymax = max(start[1, :])
+
+    dx = (xmax - xmin)
+    dy = (ymax - ymin)
+
+    factor = (1 - 0.25**(l+1)) / 0.75 - 1
+    x = np.arange(xmin - dy * factor, xmax + dy * factor + dx* 0.25**l, dx* 0.25**l, dtype = np.float32)
+    y = np.arange(ymin - dx * factor, ymax + dx * factor + dy* 0.25**l, dy* 0.25**l, dtype = np.float32)
+
+    xx, yy = np.meshgrid(x, y)
+
+    return np.array([[xx.flatten()],[yy.flatten()]])
