@@ -37,6 +37,55 @@ def generate_next_level(corners: np.ndarray) -> np.ndarray:
     
     return out
 
+def reverse_iteration(x0: np.ndarray, x1: np.ndarray, x2: np.ndarray, l: int = 1) -> np.ndarray:
+    """generate l iterations of point x0 with regards to line x1-x2, backwards
+
+    Args:
+        x0 (np.ndarray): point to transform
+        x1 (np.ndarray): corner 1
+        x2 (np.ndarray): corner 2
+        l (int): iterations to perform
+
+    Returns:
+        np.ndarray: final position of point x0
+    """
+
+    def rot(p, c = np.zeros((2, 1)), cw = True):
+        dir = p - c if cw else c - p
+        return c + np.array([dir[1, :], -dir[0, :]])
+    
+    def flip(p, c):
+        dir = p - c
+        return c - dir
+    
+    def get_side(p, x1, x2):
+        # -1 = left, 1 = right, 0 = on the line
+        val = ((x2[0, :] - x1[0, :]) * (p[0, :] - x1[0, :]) - (x2[1, :] - x1[1, :]) * (p[1, :] - x1[1, :]))
+        if abs(val) < 0.0001:
+            return 0
+        return 1 if val > 0 else -1
+
+    vec = 0.25*(x2 - x1)
+    ort = rot(vec, cw = False)
+    diag = vec + ort
+    ort_diag = vec - ort
+
+    out = x0 - x1
+    for _ in range(l):
+        if get_side(out, 2*vec, 2*vec + diag) == 1:
+            out = flip(out, 2*vec)
+        s = get_side(out, vec + ort, vec + ort + ort_diag)
+        if s == 1:
+            out = rot(out, vec + ort)
+        elif s == 0:
+            if get_side(out, vec + 0.5*diag, vec + diag) == 1:
+                out = rot(out, vec + ort)
+        if get_side(out, vec, vec + ort_diag) >= 0:
+            out = rot(out, vec, False)
+        out *= 4
+
+    return x1 + out
+
 
 def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
     """Generate a lattice for a level l Koch snowflake, where start is the 0th level fractal
@@ -62,4 +111,4 @@ def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
 
     xx, yy = np.meshgrid(x, y)
 
-    return np.array([[xx.flatten()],[yy.flatten()]])
+    return np.array([xx.flatten(),yy.flatten()])
