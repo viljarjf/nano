@@ -53,7 +53,7 @@ def distance_estimate(p: np.ndarray, start: np.ndarray, l: int, new) -> float:
     
     return d
 
-@numba.njit
+#@numba.njit
 def is_inside(point: np.ndarray, start: np.ndarray) -> int:
     """returns whether a point is inside or outside the curve
 
@@ -68,7 +68,7 @@ def is_inside(point: np.ndarray, start: np.ndarray) -> int:
     p0 = start[:, 0]
 
     # epsilon: small number to negate floating point precision
-    e = 0.0001
+    e = 0.00001
 
     p = point - p0
     a = np.linalg.norm(p0 - start[:, 1])
@@ -76,8 +76,8 @@ def is_inside(point: np.ndarray, start: np.ndarray) -> int:
     ct = (start[:, -1] - p0)[1] / b
     st = np.math.sin(np.math.acos(ct))
     p = np.array([
-        a*ct *p[0] + a*st*p[1], 
-        -b*st*p[0] + b*ct*p[1]
+        a*ct*p[0] + a*st*p[1], 
+       -b*st*p[0] + b*ct*p[1]
         ])
     
     # now we need to check if the point p is inside or outside the standard 1x1 fractal
@@ -104,21 +104,22 @@ def is_inside(point: np.ndarray, start: np.ndarray) -> int:
         ]
     ])
     final_polygon = np.array([
-        [1, 3, 2, 3],
-        [1, 0, 1, 3]
+        [1, 3, 3],
+        [1, 0, 3]
     ])
     if utils.is_inside_convex_quadrilateral(3*p, bounding_box) >= 0:
         # inside the box, need more processing
 
         # if it is on a diagonal, it is guaranteed to be inside 
             # this also ensures that we don't need to consider edge cases of points being on a diagonal
-        if np.abs(p[0]) == np.abs(p[1]):
-            return 1
+        #if p[1] == p[0] or p[1] == 1-p[0]:
+        #    return 1
 
         # we know everything is rotationally symmetric around (0.5, 0.5), so we can just tansform the point down
         
         # above y=x, we rotate 180
-        if p[1] >= p[0]:
+        if  (p[1] > p[0] + e and p[1] <= 0.5) or \
+            (p[1] > p[0] - e and p[1] >= 0.5):
             p = 1-p
         
         # above y=1-x, rotate 90 deg cockwise

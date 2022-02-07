@@ -100,7 +100,7 @@ def is_inside_polygon(p: np.ndarray, poly: np.ndarray) -> int:
 
     n = 0
     p0 = poly[:, -1]
-    p_inf = np.array([max(poly[0,:]) + 1, 1])
+    p_inf = p0 + np.array([11, -2])
     for i in range(poly.shape[1]):
         p1 = poly[:, i]
         inter, on_border = doIntersect(p, p_inf, p0, p1)
@@ -111,7 +111,7 @@ def is_inside_polygon(p: np.ndarray, poly: np.ndarray) -> int:
     n //= 2
     return 1 if n%2 else -1
 
-@numba.njit
+#@numba.njit
 def is_inside_convex_quadrilateral(p: np.ndarray, poly: np.ndarray) -> int:
     """better restriction on the polygon = better is_inside function
 

@@ -7,27 +7,29 @@ def main():
     start = np.array([[0, 1, 1, 0], [0, 0, 1, 1]], dtype = np.float32)
 
     new = start
-    l = 2
+    l = 3
     for i in range(l):
         new = generate.generate_next_level(new)
         print(f"Iteration {i+1} done")
+    
+    properties.is_inside(np.array([0.59375, 0.03125]), start)
 
     new = np.hstack((new, [[new[0, 0]], [new[1,0]]]))
-    lattice = generate.generate_lattice(start, l+1)
+    lattice = generate.generate_lattice(start, l)
     l_pts = lattice.shape[1]
     for i in range(lattice.shape[1]):
         if properties.is_inside(lattice[:, i], start) == -1:
             lattice[:, i] = [0, 0]
             l_pts -= 1
     
-    print(f"corners: {new.shape[1]}\ncount: {l_pts}\nfraction: {l_pts / new.shape[1] * 100 :.1f}%")
+    print(f"corners: {new.shape[1] - 1}\ncount: {l_pts}\nfraction: {l_pts / new.shape[1] * 100 :.1f}%")
 
-    plt.plot(new[0, :], new[1, :], c = "b")
+    #plt.plot(new[0, :], new[1, :], c = "b")
     plt.scatter(lattice[0, :], lattice[1, :], c = "g")
-    plt.show()
+    #plt.show()
 
-    x = np.linspace(0.1, 0.2, 1024)
-    y = np.linspace(0.4, 0.5, 1024)
+    x = np.linspace(-0.01, 0.01, 256)
+    y = np.linspace(0.48, 0.5, 256)
     xx, yy = np.meshgrid(x, y)
 
     zz = xx.copy()
