@@ -111,7 +111,7 @@ def is_inside_polygon(p: np.ndarray, poly: np.ndarray) -> int:
     n //= 2
     return 1 if n%2 else -1
 
-#@numba.njit
+@numba.njit
 def is_inside_convex_quadrilateral(p: np.ndarray, poly: np.ndarray) -> int:
     """better restriction on the polygon = better is_inside function
 

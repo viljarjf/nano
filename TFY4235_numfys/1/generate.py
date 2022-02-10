@@ -1,6 +1,10 @@
 import numpy as np
 import numba
 
+from scipy import sparse
+
+from scipy.sparse._coo import coo_matrix
+
 @numba.njit
 def generate_next_level(corners: np.ndarray) -> np.ndarray:
     """generate the next level of the fractal
@@ -109,6 +113,17 @@ def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
     x = np.arange(xmin - dy * factor, xmax + dy * factor + dx* 0.25**l, dx* 0.25**l, dtype = np.float32)
     y = np.arange(ymin - dx * factor, ymax + dx * factor + dy* 0.25**l, dy* 0.25**l, dtype = np.float32)
 
-    xx, yy = np.meshgrid(x, y)
+    return np.array(np.meshgrid(x, y))
 
-    return np.array([xx.flatten(),yy.flatten()])
+
+
+def generate_sparce_matrix(n: int) -> coo_matrix:
+    center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
+    not_center = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
+    return sparse.bmat(
+        [[center, not_center] + [None]*(n-2)] + \
+        [[None]*i + [not_center, center, not_center] + [None] * (n-3-i) for i in range(n-2)] + \
+        [[None] * (n-2) + [not_center, center]], 
+        dtype = np.float32, # necessary for eigenvalue calculations
+        format = "dok"
+    )

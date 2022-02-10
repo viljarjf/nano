@@ -1,5 +1,3 @@
-from cgitb import small
-from ctypes import util
 import numpy as np
 import numba
 from matplotlib import pyplot as plt
@@ -53,7 +51,7 @@ def distance_estimate(p: np.ndarray, start: np.ndarray, l: int, new) -> float:
     
     return d
 
-#@numba.njit
+@numba.njit
 def is_inside(point: np.ndarray, start: np.ndarray) -> int:
     """returns whether a point is inside or outside the curve
 
@@ -176,3 +174,32 @@ def is_inside(point: np.ndarray, start: np.ndarray) -> int:
             return flip_side
     else:
         return -1
+
+
+def set_zero(i, j, n, arr):
+    n = int(arr.shape[0]**0.5)
+    indices = [(n*j + i + 0, n*j + i + 0)]
+    if i < n-1:
+        indices += [
+        (n*j + i + 1, n*j + i + 0),
+        (n*j + i + 0, n*j + i + 1)
+        ]
+    if i > 0:
+        indices += [
+        (n*j + i - 1, n*j + i + 0),
+        (n*j + i + 0, n*j + i - 1)
+        ]
+    if j < n-1:
+        indices += [
+        ((j + 1)*n + i, (j - 0)*n + i),
+        ((j - 0)*n + i, (j + 1)*n + i)
+        ]
+    if j > 0:
+        indices += [
+        ((j - 1)*n + i, (j - 0)*n + i),
+        ((j - 0)*n + i, (j - 1)*n + i)
+        ]
+        
+    for y, x in indices:
+        arr[y, x] = 0
+
