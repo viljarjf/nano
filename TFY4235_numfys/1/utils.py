@@ -1,6 +1,7 @@
 import numba
 import numpy as np
 
+
 def rotate(p, origin=(0, 0), degrees=90):
     angle = np.deg2rad(degrees)
     R = np.array([[np.cos(angle), -np.sin(angle)],
@@ -139,3 +140,16 @@ def is_inside_convex_quadrilateral(p: np.ndarray, poly: np.ndarray) -> int:
     if intersect and res:
         return 0
     return 1 if res else -1
+
+@numba.njit
+def set_ind_to_0(A_data: np.ndarray, A_indptr: np.ndarray, i: int) -> None:
+    """sets the given row or colum of the given matrix to 0
+    Whether a row or column is set depends on the type of the parent data structure,
+    i.e. csr or csc sparse matrices
+
+    Args:
+        A_data (np.ndarray): Matrix data to modify
+        A_indptr (np.ndarray): The indptr-member of the matrix
+        i (int): the row or col to eliminate
+    """
+    A_data[A_indptr[i]:A_indptr[i+1]] = 0

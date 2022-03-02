@@ -3,7 +3,9 @@ import numba
 
 from scipy import sparse
 
-from scipy.sparse._coo import coo_matrix
+from scipy.sparse._csc import csc_matrix
+
+from . import properties, utils
 
 @numba.njit
 def generate_next_level(corners: np.ndarray) -> np.ndarray:
@@ -116,14 +118,29 @@ def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
     return np.array(np.meshgrid(x, y))
 
 
+def generate_sparce_matrix(lattice: np.ndarray, start: np.ndarray) -> csc_matrix:
 
-def generate_sparce_matrix(n: int) -> coo_matrix:
+    n = lattice.shape[1]
     center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
     not_center = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
-    return sparse.bmat(
+    A = sparse.bmat(
         [[center, not_center] + [None]*(n-2)] + \
         [[None]*i + [not_center, center, not_center] + [None] * (n-3-i) for i in range(n-2)] + \
         [[None] * (n-2) + [not_center, center]], 
         dtype = np.float32, # necessary for eigenvalue calculations
-        format = "dok"
+        format = "csr"
     )
+
+    @numba.jit(nopython = True, parallel = True)
+    def set_zeros(A_data, A_indptr):
+        for i in numba.prange(n):
+            for j in numba.prange(n):
+                if properties.is_inside(lattice[:, i, j], start) != 1:
+                    utils.set_ind_to_0(A_data, A_indptr, n*j + i)
+
+    set_zeros(A.data, A.indptr)
+    A = A.tocsc()
+    set_zeros(A.data, A.indptr)
+    A.eliminate_zeros()
+    A.sort_indices()
+    return A
