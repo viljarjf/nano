@@ -1,8 +1,11 @@
 #include "rng.h"
-#include "stdlib.h"
-#include "math.h"
+#include "constants.h"
 
-#define PI 3.14159
+#include <stdlib.h>
+#include <math.h>
+#include <stdio.h>
+
+
 
 /**
  * @brief Return a pseudo-random number, uniformly distibuted in [0, 1]
@@ -19,4 +22,15 @@ double rng(){
     double u2 = uniform();
     return sqrt(-2*log(u1)) * cos(2*PI*u2);
     // return sqrt(-2*log(u1)) * sin(2*PI*u2);  // Independent, same distribution
+}
+
+void write_to_file(int n){
+    // write a bunch of random numbers to file for easy plotting in python
+    // to verify the distribution
+    FILE *fptr = fopen("randnums.txt", "w");
+
+    for (int i = 0; i < 10000; i++){
+        fprintf(fptr, "%f\n", rng());
+    }
+    fclose(fptr);
 }

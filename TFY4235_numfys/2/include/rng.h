@@ -8,4 +8,11 @@
  */
 double rng();
 
+/**
+ * @brief Write n random numbers to a file, to verify the distribution
+ * 
+ * @param n 
+ */
+void write_rng_to_file(int n);
+
 #endif

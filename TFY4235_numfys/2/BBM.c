@@ -1,20 +1,37 @@
 #include <stdio.h>
-#include "rng.h"
-#include "stdlib.h"
+#include <stdlib.h>
+
+#include "euler.h"
+
+#define N_PARTICLES 10000
+#define N_STEPS     1000
 
 int main(int argsc, char *argv[]){
     // based
     printf("Biased Brownian Motion\n");
     srand((unsigned) time());
 
-    // write a bunch of random numbers to file for easy plotting in python
-    // to verify the distribution
-    FILE *fptr = fopen("randnums.txt", "w");
-
-    for (int i = 0; i < 10000; i++){
-        fprintf(fptr, "%f\n", rng());
-    }
-    fclose(fptr);
+    printf("Upper bound delta t: %f\n", calc_delta_t(R1));
     
+    double x0 = 0;
+    double t0 = 0;
+
+    double xi;
+    double ti;
+
+    FILE *fptr = fopen("data/particles.txt", "w");
+
+    for (int p = 0; p < N_PARTICLES; p++){
+        xi = x0;
+        ti = t0;
+        for (int i = 0; i < N_STEPS; i++){
+            xi = euler_scheme(xi, ti, R1);
+            ti += DELTA_T;
+        }
+        fprintf(fptr, "%f\n", xi);
+    }
+
+    fclose(fptr);
+
     return 0;
 }
