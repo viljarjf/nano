@@ -3,8 +3,8 @@
 
 #include "euler.h"
 
-#define N_PARTICLES 10000
-#define N_STEPS     1000
+#define N_PARTICLES 1000
+#define N_STEPS     10000
 
 int main(int argsc, char *argv[]){
     // based
@@ -25,8 +25,7 @@ int main(int argsc, char *argv[]){
         xi = x0;
         ti = t0;
         for (int i = 0; i < N_STEPS; i++){
-            xi = euler_scheme(xi, ti, R1);
-            ti += DELTA_T;
+            xi = euler_scheme(xi, &ti, R1);
         }
         fprintf(fptr, "%f\n", xi);
     }
