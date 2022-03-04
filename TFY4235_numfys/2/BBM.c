@@ -3,7 +3,7 @@
 
 #include "euler.h"
 
-#define N_PARTICLES 1000
+#define N_PARTICLES 100
 #define N_STEPS     10000
 
 int main(int argsc, char *argv[]){
@@ -22,12 +22,11 @@ int main(int argsc, char *argv[]){
     FILE *fptr = fopen("data/particles.txt", "w");
 
     for (int p = 0; p < N_PARTICLES; p++){
-        xi = x0;
-        ti = t0;
         for (int i = 0; i < N_STEPS; i++){
-            xi = euler_scheme(xi, &ti, R1);
+            euler_scheme(&xi, &ti, R1);
+            fprintf(fptr, "%f\n", xi);
         }
-        fprintf(fptr, "%f\n", xi);
+        fprintf(fptr, ";\n");
     }
 
     fclose(fptr);

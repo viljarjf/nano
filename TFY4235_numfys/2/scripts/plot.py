@@ -18,9 +18,14 @@ def get_data(filename: str = None, cutoff: float = None) -> np.ndarray:
     filename = os.path.join(path, "..", "data", filename)
 
     data = []
+    data_particle = []
     with open(filename, "r") as f:
         for line in f:
-            data.append(float(line))
+            if ";" not in line:
+                data_particle.append(float(line))
+            else:
+                data.append(data_particle)
+                data_particle = []
     data = np.array(data)
 
     if cutoff is not None:

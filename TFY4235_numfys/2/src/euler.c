@@ -2,12 +2,12 @@
 
 #include <math.h>
 
-double euler_scheme(double x, double *t, double r){
+double euler_scheme(double *x, double *t, double r){
     double omega = 1 / (6*PI*ETA*r*L*L);
     double D = KBT;
-    double dU = F(x, *t * omega);
+    double dU = F(*x, *t * omega);
     *t += DELTA_T / omega;
-    return x - F(x, *t) * DELTA_T + sqrt(2 * D * DELTA_T) * rng();
+    *x += - F(*x, *t) * DELTA_T + sqrt(2 * D * DELTA_T) * rng();
 }
 
 double calc_delta_t(double r){

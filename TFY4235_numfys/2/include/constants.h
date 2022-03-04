@@ -3,7 +3,7 @@
 
 #define L           2000        // [nm]
 #define ALPHA       0.95         // [~]
-#define TAU         0.01         // [s]
+#define TAU         0.1         // [s]
 #define DELTA_U     80.0        // [eV]
 #define KBT         0.026       // [eV]
 #define ETA         0.001       // [Pas]
