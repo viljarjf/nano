@@ -1,3 +1,4 @@
 # Ignore bulid artefacts
 *.o
 BBM
+data/
