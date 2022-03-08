@@ -47,14 +47,17 @@ static void get_dict(
     *dict_size = size;
 }
 
-FILE *get_numpy_file(
+void get_numpy_file(
     char *filename, 
     int *shape, 
     size_t n_dims,
-    NumpyType datatype
+    NumpyType datatype,
+    numpy_file_t *file
 ){
     // open file
-    FILE *fptr = fopen(filename, "wb");
+    char filepath[9 + strlen(filename)];
+    sprintf(filepath, "data/%s.npy", filename);
+    FILE *fptr = fopen(filepath, "wb");
 
     // write magic numpy header start
     fprintf(fptr, "\x93NUMPY");
@@ -72,5 +75,16 @@ FILE *get_numpy_file(
     fwrite(&h, sizeof(h), 1, fptr);
     fprintf(fptr, dict);
 
-    return fptr;
+    file->fptr = fptr;
+    file->type = datatype;
+}
+
+void write_to_numpy_file(numpy_file_t *fptr, void *value, NumpyType type){
+    if (type == fptr->type){
+        fwrite(value, sizeof(value), 1, fptr->fptr);
+    }
+}
+
+void close_numpy_file(numpy_file_t *file){
+    fclose(file->fptr);
 }

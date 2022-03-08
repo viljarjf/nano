@@ -6,7 +6,6 @@
 static int f_t(double t){
     if (TAU == 0.0) return 0;
     int v = (3.0/4.0*TAU <= fmod(t, TAU));
-    //printf("%i %f %f\n", v, fmod(t, TAU), 3.0/4.0*TAU);
     return v;
 }
 
@@ -23,7 +22,7 @@ static double U_r(double x){
 
 static double F_r(double x){
     // -nabla U
-
+    x = fabs(x);
     if (0 <= fmod(x, 1) && fmod(x, 1) < ALPHA){
         return -1.0 / ALPHA;
     }

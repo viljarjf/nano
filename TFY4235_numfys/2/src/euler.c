@@ -5,9 +5,9 @@
 double euler_scheme(double *x, double *t, double r){
     double omega = 1 / (6*PI*ETA*r*L*L);
     double D = KBT;
-    double dU = F(*x, *t * omega);
-    *x += - dU * DELTA_T + sqrt(2 * D * DELTA_T * omega) * rng();
-    *t += DELTA_T / omega;
+    double dU = F(*x*L, *t);
+    *x += - dU * DELTA_T * omega + sqrt(2 * D * DELTA_T * omega) * rng();
+    *t += DELTA_T;
 }
 
 double calc_delta_t(double r){
