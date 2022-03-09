@@ -5,8 +5,7 @@
 
 static int f_t(double t){
     if (TAU == 0.0) return 0;
-    int v = (3.0/4.0*TAU <= fmod(t, TAU));
-    return v;
+    return (3.0/4.0*TAU <= fmod(t, TAU));
 }
 
 static double U_r(double x){
