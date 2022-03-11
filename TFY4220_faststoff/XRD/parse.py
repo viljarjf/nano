@@ -1,6 +1,5 @@
 """Functions to parse data from txt file"""
 import os
-import glob
 import numpy as np
 
 def get_data(filename: str = "data.txt") -> "list[np.ndarray]":
@@ -10,7 +9,7 @@ def get_data(filename: str = "data.txt") -> "list[np.ndarray]":
         start = False
         data = []
         run = []
-        for n, line in enumerate(f):
+        for line in f:
             if "# mv" in line:
                 start = not start
                 if run:
