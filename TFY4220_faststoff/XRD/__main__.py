@@ -14,7 +14,9 @@ def main():
     plt.plot(unknown[:, 0], unknown[:, 1])
     plt.plot("Si and unknown sample")
     plt.legend(["Si", "Unknkown"])
-    plt.xlabel("$2\\theta$")
+    plt.xlabel("$2\\theta$ [deg]")
+    plt.ylabel("Normalised intensity")
+    plt.yticks([])
     plt.show(block = False)
 
     # normalisation factor for KCl is different
@@ -25,7 +27,9 @@ def main():
     plt.plot(unknown[:, 0], unknown[:, 1] / np.max(unknown[:, 1]))
     plt.legend(["KCl", "NaCl", "Unknown"])
     plt.title("Simulated KCl and NaCl")
-    plt.xlabel("$2\\theta$")
+    plt.xlabel("$2\\theta$ [deg]")
+    plt.ylabel("Normalised intensity")
+    plt.yticks([])
     plt.show(block = False)
 
     print("Enter peak values for group 1")

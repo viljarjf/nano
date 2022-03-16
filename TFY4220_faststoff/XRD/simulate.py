@@ -16,6 +16,8 @@ def get_lattice_data(substance: str) -> "tuple[np.ndarray, np.ndarray]":
             ],
             l_const = a
         )
+        instr_broadening = 0.2
+
     elif substance == "NaCl":
         a = 5.63
         lattice = pylattice.FCC(a)
@@ -26,6 +28,7 @@ def get_lattice_data(substance: str) -> "tuple[np.ndarray, np.ndarray]":
             ],
             l_const = a
         )
+        instr_broadening = 0.15
     else:
         raise NotImplementedError("Only NaCl and KCl are supported")
     
@@ -33,7 +36,7 @@ def get_lattice_data(substance: str) -> "tuple[np.ndarray, np.ndarray]":
 
     # Plot a simulated XRD with copper radiation
     scattering_data = pylattice.powder_XRD(crystal, LAMBDA)
-    angles, values = pylattice.spectrumify(scattering_data, instr_broadening=0.2)
+    angles, values = pylattice.spectrumify(scattering_data, instr_broadening=instr_broadening)
 
     mask = angles < 40
     return angles[mask], values[mask]
