@@ -1,3 +1,3 @@
 [submodule "TFY4220_faststoff/XRD/pylattice"]
 	path = TFY4220_faststoff/XRD/pylattice
-	url = https://github.com/allevitan/pylattice.git
+	url = https://github.com/viljarjf/pylattice.git
