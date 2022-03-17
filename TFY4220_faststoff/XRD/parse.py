@@ -22,3 +22,18 @@ def get_data(filename: str = "data.txt") -> "list[np.ndarray]":
                 run.append([float(i) for i in line.strip().split()])
 
     return data
+
+def get_calculated_peaks() -> np.ndarray:
+    """returns an array of calculated 2theta-values of peaks
+    for Si
+
+    Returns:
+        np.ndarray
+    """
+    return np.array([
+        13,
+        21.2,
+        25,
+        30.3,
+        33.1
+    ])
