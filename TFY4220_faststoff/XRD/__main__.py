@@ -7,14 +7,14 @@ import numpy as np
 def main():
     KCl_angles, KCl_data = simulate.get_lattice_data("KCl")
     NaCl_angles, NaCl_data = simulate.get_lattice_data("NaCl")
-    Si, unknown = parse.get_data()
+    Si, unknown = parse.get_data(lim = 35)
     Si_calc = parse.get_calculated_peaks()
 
     plt.figure()
     plt.plot(Si[:, 0], Si[:, 1])
     plt.vlines(Si_calc, 0, 1.2*max(Si[:, 1]), colors = ["r"]*len(Si_calc))
     plt.title("Si spectrum")
-    plt.legend(["Si", "Calculated peaks"])
+    plt.legend(["Si", "Calculated peaks"], loc="upper left")
     plt.xlabel("$2\\theta$ [deg]")
     plt.ylabel("Normalised intensity")
     plt.yticks([])
