@@ -22,4 +22,22 @@ double U(double x, double t);
  */
 double F(double x, double t);
 
+/**
+ * @brief is the potential on?
+ * 
+ * @param t Time
+ * @return int 
+ * @note Uses reduced units
+ */
+int f_t(double t);
+
+/**
+ * @brief unmodulated saw potential
+ * 
+ * @param x coordinate
+ * @return double 
+ * @note Uses reduced units
+ */
+double U_r(double x);
+
 #endif

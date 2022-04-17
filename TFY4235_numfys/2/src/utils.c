@@ -1,5 +1,9 @@
 #include "utils.h"
 
+static numpy_file_t* numpy_files[MAX_NUMPY_FILES];
+static int n_numpy_files = 0;
+
+
 static void get_dict(
     int *shape, 
     size_t n_dims, 
@@ -47,17 +51,26 @@ static void get_dict(
     *dict_size = size;
 }
 
-void get_numpy_file(
+int make_numpy_file(
     char *filename, 
     int *shape, 
     size_t n_dims,
     NumpyType datatype,
     numpy_file_t *file
 ){
+    // check if we can make more files
+    if (n_numpy_files >= MAX_NUMPY_FILES){
+        return ERROR_MAX_FILES;
+    }
+
     // open file
     char filepath[9 + strlen(filename)];
     sprintf(filepath, "data/%s.npy", filename);
     FILE *fptr = fopen(filepath, "wb");
+
+    if (fptr == NULL){
+        return ERROR_FILE_CREATION_FAILED;
+    }
 
     // write magic numpy header start
     fprintf(fptr, "\x93NUMPY");
@@ -77,6 +90,9 @@ void get_numpy_file(
 
     file->fptr = fptr;
     file->type = datatype;
+
+    numpy_files[n_numpy_files++] = file;
+    return 0;
 }
 
 void write_to_numpy_file(numpy_file_t *fptr, void *value, NumpyType type){
@@ -85,6 +101,10 @@ void write_to_numpy_file(numpy_file_t *fptr, void *value, NumpyType type){
     }
 }
 
-void close_numpy_file(numpy_file_t *file){
-    fclose(file->fptr);
+void close_numpy_files(){
+    for(int i = 0; i < n_numpy_files; i++){
+        fclose(numpy_files[i]->fptr);
+        free(numpy_files[i]);
+    }
+    n_numpy_files = 0;
 }

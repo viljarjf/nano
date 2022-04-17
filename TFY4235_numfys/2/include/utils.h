@@ -2,9 +2,11 @@
 #define BBM_UTILS_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
-#define NUMPY_MAJOR_VERSION 1
-#define NUMPY_MINOR_VERSION 0
+#define NUMPY_MAJOR_VERSION     1
+#define NUMPY_MINOR_VERSION     0
+#define MAX_NUMPY_FILES         10
 
 typedef enum {
     FLOAT32,
@@ -18,6 +20,11 @@ typedef struct {
     NumpyType type;
 } numpy_file_t;
 
+typedef enum {
+    ERROR_MAX_FILES = 1,
+    ERROR_FILE_CREATION_FAILED
+} file_status_t;
+
 /**
  * @brief Get the numpy file object
  * 
@@ -26,22 +33,15 @@ typedef struct {
  * @param n_dims dimensions of array
  * @param datatype 
  * @param file output pointer to resulting file object
- * @return numpy_file_t* 
+ * @return state 
  */
-void get_numpy_file(
+int make_numpy_file(
     char *filename, 
     int *shape, 
     size_t n_dims,
     NumpyType datatype,
     numpy_file_t *file
 );
-
-/**
- * @brief Close the file object
- * 
- * @param file 
- */
-void close_numpy_file(numpy_file_t *file);
 
 /**
  * @brief Write the value to the file 
@@ -57,5 +57,13 @@ void write_to_numpy_file(
     void *value, 
     NumpyType type
 );
+
+/**
+ * @brief Close the file object
+ * 
+ * @param file 
+ */
+void close_numpy_files();
+
 
 #endif

@@ -11,9 +11,8 @@
  * @param x Coordinate, will be updated
  * @param t Time, will be updated
  * @param r Particle radius
- * @return double Next coordinate
  */
-double euler_scheme(double *x, double *t, double r);
+void euler_scheme(double *x, double *t, double r);
 
 /**
  * @brief Calculate an number that should be much larger than delta t

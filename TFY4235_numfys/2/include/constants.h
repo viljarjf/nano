@@ -1,15 +1,19 @@
 #ifndef BBM_CONSTANTS_H
 #define BBM_CONSTANTS_H
 
-#define L           0.1        // [nm]
-#define ALPHA       0.1        // [~]
-#define TAU         10         // [s]
-#define DELTA_U     80.0       // [eV]
-#define KBT         0.026      // [eV]
-#define ETA         0.001      // [Pas]
-#define R1          12         // [nm]
-#define DELTA_T     0.001      // [s]  IDK man, har ikke regna på det enda
+typedef struct {
+    double L;
+    double ALPHA;
+    double TAU;
+    double DELTA_U;
+    double KBT;
+    double R1;
+    double DELTA_T;
+} constants_t;
+
+extern const constants_t *constants;
 
 #define PI          3.14159     // [~]
+#define ETA         0.001       // [Pas]
 
 #endif

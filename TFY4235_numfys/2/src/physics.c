@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include <math.h>
 
-static int f_t(double t){
-    if (TAU == 0.0) return 0;
-    return (3.0/4.0*TAU <= fmod(t, TAU));
+int f_t(double t){
+    if (constants->TAU == 0.0) return 0;
+    return (3.0/4.0*constants->TAU <= fmod(t, constants->TAU));
 }
 
-static double U_r(double x){
-    if (0 <= fmod(x, 1) && fmod(x, 1) < ALPHA){
-        return x / ALPHA;
+double U_r(double x){
+    if (0 <= fmod(x, 1) && fmod(x, 1) < constants->ALPHA){
+        return x / constants->ALPHA;
     }
-    else if (ALPHA <= fmod(x, 1) && fmod(x, 1) < 1){
-        return (1 - x) / (1 - ALPHA);
+    else if (constants->ALPHA <= fmod(x, 1) && fmod(x, 1) < 1){
+        return (1 - x) / (1 - constants->ALPHA);
     }
     // sanity check
     else return 0.0;
@@ -22,11 +22,11 @@ static double U_r(double x){
 static double F_r(double x){
     // -nabla U
     x = fabs(x);
-    if (0 <= fmod(x, 1) && fmod(x, 1) < ALPHA){
-        return -1.0 / ALPHA;
+    if (0 <= fmod(x, 1) && fmod(x, 1) < constants->ALPHA){
+        return -1.0 / constants->ALPHA;
     }
-    else if (ALPHA <= fmod(x, 1) && fmod(x, 1) < 1){
-        return 1.0 / (1 - ALPHA);
+    else if (constants->ALPHA <= fmod(x, 1) && fmod(x, 1) < 1){
+        return 1.0 / (1 - constants->ALPHA);
     }
     // sanity check
     else return 0.0;
