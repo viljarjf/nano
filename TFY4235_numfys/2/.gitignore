@@ -1,4 +1,6 @@
 # Ignore bulid artefacts
-*.o
-BBM
+bin/
+bulid/
+
+# data folder from executing the program
 data/
