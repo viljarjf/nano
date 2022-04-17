@@ -1,6 +1,9 @@
 #ifndef BBM_RNG_H
 #define BBM_RNG_H
 
+
+double uniform();
+
 /**
  * @brief sample from a standard normal distribution
  * 

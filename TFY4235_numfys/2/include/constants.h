@@ -11,9 +11,17 @@ typedef struct {
     double DELTA_T;
 } constants_t;
 
-extern const constants_t *constants;
+typedef struct {
+    double D;
+    double DELTA_T_HAT;
+} reduced_constants_t;
 
-#define PI          3.14159     // [~]
-#define ETA         0.001       // [Pas]
+void get_reduced_constants(reduced_constants_t *reduced_constants, constants_t *constants);
+
+extern constants_t *constants;
+
+#define PI              3.14159     // [~]
+#define ETA             0.001       // [Pas]
+#define ELECTRONVOLT    1.7022e-19  // [J]
 
 #endif

@@ -51,7 +51,7 @@ static void get_dict(
     *dict_size = size;
 }
 
-int make_numpy_file(
+file_status_t make_numpy_file(
     char *filename, 
     int *shape, 
     size_t n_dims,

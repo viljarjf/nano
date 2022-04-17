@@ -12,7 +12,7 @@
  * 
  * @return double 
  */
-static double uniform(){
+double uniform(){
     return rand() / (double)RAND_MAX;
 }
 

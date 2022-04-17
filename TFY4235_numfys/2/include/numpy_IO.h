@@ -21,7 +21,8 @@ typedef struct {
 } numpy_file_t;
 
 typedef enum {
-    ERROR_MAX_FILES = 1,
+    STATUS_OK,
+    ERROR_MAX_FILES,
     ERROR_FILE_CREATION_FAILED
 } file_status_t;
 
@@ -35,7 +36,7 @@ typedef enum {
  * @param file output pointer to resulting file object
  * @return state 
  */
-int make_numpy_file(
+file_status_t make_numpy_file(
     char *filename, 
     int *shape, 
     size_t n_dims,

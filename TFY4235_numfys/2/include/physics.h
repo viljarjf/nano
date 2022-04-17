@@ -2,6 +2,7 @@
 #define BBM_PHYSICS_H
 
 #include "constants.h"
+
 /**
  * @brief Calculate the potential at point x at time t
  * 
@@ -39,5 +40,28 @@ int f_t(double t);
  * @note Uses reduced units
  */
 double U_r(double x);
+
+/**
+ * @brief Calculate an number that should be much larger than delta t
+ * 
+ * @return double 
+ */
+double calc_delta_t();
+
+/**
+ * @brief Calculate the probability of being in energy U
+ * 
+ * @param U energy
+ * @return double 
+ */
+double bolzmann_distribution_potential(double U);
+
+/**
+ * @brief Calculate the probability of being at position x
+ * 
+ * @param x position
+ * @return double 
+ */
+double bolzmann_distribution_position(double x);
 
 #endif
