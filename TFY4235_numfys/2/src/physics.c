@@ -4,6 +4,14 @@
 #include <stdio.h>
 #include <math.h>
 
+// precalculate constants
+static double aL = 0;
+static int precalc_finished = 0;
+static precalc(){
+    if (!precalc_finished){
+        aL = constants->ALPHA * constants->L;
+    }
+}
 
 int f_t(double t){
     if (constants->TAU == 0.0) return 0;
@@ -11,11 +19,13 @@ int f_t(double t){
 }
 
 double U_r(double x){
-    if (is_in_mod_range(x, 0, constants->ALPHA * constants->L, constants->L)){
-        return x / (constants->ALPHA * constants->L);
+    precalc();
+    x = fmod(x, constants->L);
+    if (is_in_range(x, 0, aL)){
+        return x / aL;
     }
-    else if (is_in_mod_range(x, constants->ALPHA * constants->L, constants->L, constants->L)){
-        return (constants->L - x) / (constants->L * (1 - constants->ALPHA));
+    else if (is_in_range(x, aL, constants->L)){
+        return (constants->L - x) / (constants->L - aL);
     }
     // sanity check
     else return 0.0;
@@ -23,12 +33,13 @@ double U_r(double x){
 
 static double F_r(double x){
     // -nabla U
-    x = fabs(x);
-    if (0 <= fmod(x, 1) && fmod(x, 1) < constants->ALPHA){
-        return -1.0 / constants->ALPHA;
+    precalc();
+    x = fmod(x, constants->L);
+    if (is_in_range(x, 0, aL)){
+        return -constants->L / constants->ALPHA;
     }
-    else if (constants->ALPHA <= fmod(x, 1) && fmod(x, 1) < 1){
-        return 1.0 / (1 - constants->ALPHA);
+    else if (is_in_range(x, aL, constants->L)){
+        return constants->L / (constants->L - aL);
     }
     // sanity check
     else return 0.0;
