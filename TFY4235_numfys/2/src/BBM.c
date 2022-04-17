@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "euler.h"
-#include "utils.h"
+#include "numpy_IO.h"
 
 #define N_PARTICLES 100
 #define N_STEPS     100000
@@ -50,6 +50,8 @@ int main(int argsc, char *argv[]){
             euler_scheme(&xi, &ti, constants->R1);
             write_to_numpy_file(data, &xi, FLOAT64);          
             write_to_numpy_file(timef, &ti, FLOAT64);
+
+            // only do potential-stuff once
             if(!p){
                 pot = f_t(ti);
                 write_to_numpy_file(potential, &pot, FLOAT64);
