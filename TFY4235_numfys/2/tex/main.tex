@@ -1,0 +1,46 @@
+\documentclass{labreport}
+\usepackage[utf8]{inputenc}
+
+\usepackage[backend=biber,style=vancouver]{biblatex}
+\usepackage{csquotes}
+
+\newcommand{\candnum}{\note{FIX}}
+
+
+\title{Diffusion of particles in a non-uniform transient potential}
+\shorttitle{Assignment 2}
+%\author{Viljar Johan Femoen \affiliation{Department of Physics, NTNU, Trondheim}} 
+%\shortauthor{Femoen}
+\author{Candidate number \candnum}
+\shortauthor{\candnum}
+\labreportreceived{\today}  
+\labreportpublished{}
+\course{TFY4235 Numerical Physics}
+% \labreportyear{2021}
+ 
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Semiconductor processing and manufacturing is becoming increasingly important for modern technology, both as electronic processing units and as other micro- and nano-scale components. Two \ce{GaAs} chips, labeled chip 218 and chip 219, were manufactured using molecular beam epitaxy, and a Hall bar was created using photolithography. The characterisation indicates that chip 218 was $n$-doped, and 219 was $p$-doped. The carrier density of chip 218 was found to be \SI{5.5(0.0)e17}{\per\centi\metre\cubed}, and \SI{1.3(0.0)e18}{\per\centi\metre\cubed} for chip 219.
+For chip 218, the Hall mobility was found to be \SI{3.3(1)e3}{\centi\metre\squared\per\volt\per\second}, whereas for chip 219 it was found to be \SI{1.8(0)e2}{\centi\metre\squared\per\volt\per\second}.
+\end{abstract}
+
+\input{text/01 intro}
+\input{text/02 theory}
+\input{text/03 experimental}
+\input{text/04 results}
+\input{text/05 discussion}
+\input{text/06 conclusion}
+
+\begin{center}
+    \rule{2cm}{.4pt}
+\end{center}
+\makeatletter
+\@beginparpenalty=10000
+\makeatother
+\nocite{*}
+\printbibliography
+\end{document}
