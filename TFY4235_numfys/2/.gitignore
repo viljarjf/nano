@@ -1,6 +1,6 @@
 # Ignore bulid artefacts
 bin/
-bulid/
+build/
 
 # data folder from executing the program
 data/
