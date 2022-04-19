@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "euler.h"
-#include "numpy_IO.h"
+#include "BBM.h"
 #include "rng.h"
 
-#define N_PARTICLES 100000
+#define N_PARTICLES 1000
 #define N_STEPS     5000
-
 
 // initialize constants
 constants_t tmp = {
@@ -20,16 +18,6 @@ constants_t tmp = {
     .DELTA_T   =  0.00005                  // [s]  IDK man, har ikke regna på det enda
 };
 constants_t *constants = &tmp;
-
-
-typedef struct {
-    numpy_file_t *data;
-    numpy_file_t *timef;
-    numpy_file_t *potential;
-    numpy_file_t *bolzmann;
-    numpy_file_t *tau;
-    reduced_constants_t *reduced_constants;
-} runtime_struct_t;
 
 
 void setup(runtime_struct_t *s){
@@ -160,27 +148,7 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
 }
 
 
-int main(int argsc, char *argv[]){
-    
-    char header[33] = "################################";
-    printf("%s\n#    Biased Brownian Motion    #\n%s\n", header, header); // b(i)ased
-
-    srand((unsigned)time());
-    
-    printf("Starting setup...\n");
-    runtime_struct_t *t = malloc(sizeof(runtime_struct_t));
-    setup(t);
-    printf("Setup complete.\n");
-
-    printf("Starting computation...\n");
-    //run(t);
-    sweep_tau(t, 1000, 1.0, 3.0);
-    printf("Computation complete.\n");
-
-    write_json_metadata(N_PARTICLES, N_STEPS, argv[1]);
+void teardown(char *note){
+    write_json_metadata(N_PARTICLES, N_STEPS, note);
     close_numpy_files();
-
-    printf("%s\n#   Data generation complete   #\n%s\n", header, header);
-
-    return 0;
 }
