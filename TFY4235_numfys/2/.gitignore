@@ -1,0 +1,6 @@
+# Ignore bulid artefacts
+bin/
+build/
+
+# data folder from executing the program
+data/
