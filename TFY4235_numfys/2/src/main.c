@@ -8,13 +8,14 @@ int main(int argsc, char *argv[]){
     srand((unsigned)time());
     
     printf("Starting setup...\n");
-    runtime_struct_t *t = malloc(sizeof(runtime_struct_t));
-    setup(t);
+    runtime_struct_t *s = malloc(sizeof(runtime_struct_t));
+    setup(s);
     printf("Setup complete.\n");
 
     printf("Starting computation...\n");
-    //run(t);
-    sweep_tau(t, 1000, 1.0, 3.0);
+    run(s);
+    //sweep_tau(s, 10, 1.0, 3.0);
+    //multithread_run(s);
     printf("Computation complete.\n");
 
     teardown(argv[1]);

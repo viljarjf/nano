@@ -37,7 +37,7 @@ double F_reduced(double x_hat, double t){
     return F_r_reduced(x_hat) * f_t(t);
 }
 
-double calc_delta_t_hat(reduced_constants_t *reduced_constants){
+double calc_delta_t_hat(){
     double D = reduced_constants->D;
     double a = constants->ALPHA;
     double F = fmax(fabs(F_r_reduced(0)), fabs(F_r_reduced(a)));

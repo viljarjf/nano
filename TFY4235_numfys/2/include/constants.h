@@ -16,9 +16,10 @@ typedef struct {
     double DELTA_T_HAT;
 } reduced_constants_t;
 
-void get_reduced_constants(reduced_constants_t *reduced_constants, constants_t *constants);
+void update_reduced_constants();
 
-extern constants_t *constants;
+constants_t *constants;
+reduced_constants_t *reduced_constants;
 
 #define PI              3.14159     // [~]
 #define ETA             0.001       // [Pas]
