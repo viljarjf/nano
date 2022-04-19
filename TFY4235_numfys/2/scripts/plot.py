@@ -1,37 +1,62 @@
+"""Pretty plots"""
+
 import os
 import numpy as np
+from matplotlib import pyplot as plt
+import scipy.integrate
 
-def get_data(data_filename: str = None, time_filename: str = None, cutoff: float = None, n: int = 1) -> "tuple[np.ndarray, np.ndarray]":
-    """get data from a file
+from . import data
 
-    Args:
-        data_filename (str, optional): name of file in data folder. Defaults to "particles.npy"
-        time_filename (str, optional): name of file containing time corresponding to data. Defaults to "time.npy"
-        cutoff (float, optional): if provided, remove all data greater than cuttoff
-        n (int, optional): return every n datapoint. Defaults to 1 (return all data)
+def trajectories(block = True, all = False, legend = True):
+    d = data.get("particles")#cutoff = -3.e7)
+    t = data.get("time")
 
-    Returns:
-        np.ndarray: list of data points
-        np.ndarray: list of time points
-    """
-    path = os.path.dirname(__file__)
+    p = [i+10 for i in [1]]#, 3, 6, 11, 12, 13, 14]]
+    if all:
+        p = list(range(d.shape[0]))
+    plt.figure()
+    m = 0
+    for i in p:
+        m = max(m, np.max(d[i,:]))
+        plt.plot(t, d[i, :])
 
-    if data_filename is None:
-        data_filename = "particles.npy"
-    data_filename = os.path.join(path, "..", "data", data_filename)
+    #U = data.get("potential.npy")
+    #plt.plot(t, U[::10,0])
+    #plt.plot(U[::10,1], t)
+    
+    plt.xlabel("Time")
+    plt.ylabel("Distance")
+    if legend:
+        plt.legend(p + ["Potential state", "Potential value"])
+    plt.show(block = block)
 
-    data = np.load(data_filename)
-    data = data[:,::n]
 
-    if time_filename is None:
-        time_filename = "time.npy"
-    time_filename = os.path.join(path, "..", "data", time_filename)
+def hist(block = True):
+    d, t = data.get_data()#cutoff = -3.e7)
+    
+    d += 1
+    d %= 1
 
-    time = np.load(time_filename)
-    time = time[:,::n]
+    plt.figure()
+    plt.hist(d[:, -1::10].flatten(), bins=100, density=True)
+    p = data.get("bolzmann.npy")
 
-    if cutoff is not None:
-        time = np.delete(time, data > cutoff)
-        data = np.delete(data, data > cutoff)
+    plt.plot(p[:,1], p[:,0])
+    print(f"Integral of p: {scipy.integrate.quad(lambda x: p[int(x), 0], 0, len(p))}")
+    plt.show(block = block)
 
-    return data, time
+def drift_velocities(v: np.ndarray, title = None, block = True): 
+    tau = data.get("tau")
+    tau_unique = np.unique(tau)
+    v_reshape = np.reshape(v, (tau_unique.shape[0], -1))
+    v_reshape_mean = np.mean(v_reshape, axis = 1)
+    v_reshape_std = np.std(v_reshape, axis = 1)
+    plt.figure()
+    if title is not None:
+        plt.title(title)
+    plt.errorbar(tau_unique, v_reshape_mean, yerr=v_reshape_std)
+    plt.xlabel("Tau")
+    plt.ylabel("Velocity")
+    plt.title("Mean")
+    
+    plt.show(block=block)

@@ -44,6 +44,7 @@ double F_r_reduced(double x_hat);
  */
 double calc_delta_t_hat(reduced_constants_t *reduced_constants);
 
+
 /**
  * @brief Calculate the probability of being at position x_hat
  * 

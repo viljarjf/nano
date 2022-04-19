@@ -60,6 +60,15 @@ void write_to_numpy_file(
 );
 
 /**
+ * @brief Write the constants in the constants struct to a json file
+ * 
+ * @param n_particles 
+ * @param n_steps 
+ * @param note optional text note
+ */
+void write_json_metadata(int n_particles, int n_steps, char *note);
+
+/**
  * @brief Close the file object
  * 
  * @param file 
