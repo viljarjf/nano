@@ -1,11 +1,7 @@
-from nuclear.utils import plot, rng
+from nuclear import decay
 
 def main():
-    d = []
-    for _ in range(10000):
-        d.append(rng.linear_congruential())
-    
-    plot.hist(d)
+    pass
 
 if __name__ == "__main__":
     main()

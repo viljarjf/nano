@@ -1,8 +1,8 @@
 """Probabilities"""
 # ^ tutorial on how to write good documentation right there
 
-# can easily be swapped for std lib
-from nuclear.utils import random
+
+from nuclear.utils.rng import random        # can easily be swapped for std lib
 import numpy as np
 
 def no_decay(dt: float, l: float) -> bool:
