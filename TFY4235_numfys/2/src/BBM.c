@@ -5,7 +5,7 @@
 #include "rng.h"
 
 #define N_PARTICLES 1000
-#define N_STEPS     100000
+#define N_STEPS     100
 
 // initialize constants
 constants_t tmp = {
@@ -145,7 +145,10 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
                 write_to_numpy_file(s->timef, &ti, FLOAT64);
             }
         }
+        printf("\r%u%%", 100*p/N_PARTICLES);
+        fflush(stdout);
     }
+    printf("\n");
 }
 
 

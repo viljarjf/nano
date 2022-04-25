@@ -1,7 +1,7 @@
 #include "BBM.h"
 
 int main(int argsc, char *argv[]){
-    
+
     char header[33] = "################################";
     printf("%s\n#    Biased Brownian Motion    #\n%s\n", header, header);
 
@@ -13,8 +13,8 @@ int main(int argsc, char *argv[]){
     printf("Setup complete.\n");
 
     printf("Starting computation...\n");
-    run(s);
-    //sweep_tau(s, 10, 1.0, 3.0);
+    //run(s);
+    sweep_tau(s, 100000, 1.0, 3.0);
     //multithread_run(s);
     printf("Computation complete.\n");
 
