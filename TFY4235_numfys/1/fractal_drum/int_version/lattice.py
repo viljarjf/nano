@@ -66,7 +66,7 @@ def fractal(l: int, dtype: np.dtype = np.uint32) -> np.ndarray:
 
 @numba.njit
 def lattice(fractal: np.ndarray, subdivision: int = 2) -> np.ndarray:
-    fractal *= np.uint16(3*subdivision)
+    fractal *= np.uint16(subdivision)
     n = np.max(fractal)+1
     out = np.zeros((n, n), dtype=np.int8)
 
@@ -99,4 +99,19 @@ def lattice(fractal: np.ndarray, subdivision: int = 2) -> np.ndarray:
         check.append((x + 0, y - 1))
 
     return out
-    
+
+def calc_n(l: int, sub: int) -> int:
+    """Calculate n from the level and subdivision
+
+    Args:
+        l (int): fractal level
+        sub (int): subdivision level
+
+    Returns:
+        int: size of grid
+    """
+    n0 = 1
+    ni = lambda i: 4*ni(i-1) + 2 if i else n0
+    nl = ni(l)
+    n = nl * sub + 1
+    return n

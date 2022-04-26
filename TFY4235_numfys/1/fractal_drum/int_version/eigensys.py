@@ -4,7 +4,7 @@ import numpy as np
 from scipy import sparse
 import numba
 
-def matrix_without_boundary(n: int) -> sparse.spmatrix:
+def matrix_without_boundary(n: int) -> sparse.csr_matrix:
     center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
     not_center = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
     A = sparse.bmat(
@@ -17,7 +17,7 @@ def matrix_without_boundary(n: int) -> sparse.spmatrix:
     return A
 
 
-def apply_boundary(eigsys: sparse.spmatrix, fractal: np.ndarray) -> sparse.spmatrix:
+def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> sparse.csc_matrix:
     n = fractal.shape[0]
 
     @numba.jit(nopython = True, parallel = True)

@@ -12,5 +12,7 @@ if __name__ == "__main__":
     for logger_name in loggers:
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.WARNING)
-
-    int_version.main()
+    l = 4
+    sub = 2
+    logging.info(f"Starting fractal drum calculations at fractal level {l} and subdivision {sub}")
+    int_version.main(l, sub)
