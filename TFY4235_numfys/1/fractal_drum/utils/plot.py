@@ -19,7 +19,7 @@ def eigenmodes(n: int, eigenvectors: np.ndarray, eigenvals: np.ndarray, boundary
         plt.colorbar()
         plt.xticks([])
         plt.yticks([])
-        plt.savefig(os.path.join(figdir, f"Eigenvector #{i:03}.png"))
+        plt.savefig(os.path.join(figdir, f"Eigenvector #{i+1:03}.png"))
         plt.close()
 
 def is_inside(grid: np.ndarray):

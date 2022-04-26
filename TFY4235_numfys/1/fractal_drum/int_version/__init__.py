@@ -10,7 +10,7 @@ from fractal_drum.utils import plot, save, load
 def main(l: int, sub: int):
 
     logging.info("Starting fractal setup")
-    boundary = lattice.fractal(l, dtype=np.uint16)
+    boundary = lattice.fractal(l, sub, dtype=np.uint16)
     n = lattice.calc_n(l, sub)
     #plot.is_inside(grid)
     logging.debug(f"Boundary points: {boundary.shape[1]}")
