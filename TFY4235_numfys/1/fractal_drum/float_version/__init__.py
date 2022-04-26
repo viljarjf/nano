@@ -1,5 +1,7 @@
+"""Version of the code using floats"""
+
 import os
-from . import generate, properties, utils
+from fractal_drum.float_version import generate, properties, utils
 
 from matplotlib import pyplot as plt
 import numpy as np
@@ -16,18 +18,18 @@ def main():
 
     new = start
     for i in range(l):
-        new = generate.generate_next_level(new)
+        new = generate.next_level(new)
         print(f"Iteration {i+1} done")
         
     # not strictly necessary, but compiling the function doesn't hurt
     properties.is_inside(np.array([0.59375, 0.03125]), start)
 
-    lattice = generate.generate_lattice(start, l)
+    lattice = generate.lattice(start, l)
     
     print("Starting matrix setup")
 
     n = lattice.shape[1]
-    A = generate.generate_sparce_matrix(lattice, start)
+    A = generate.sparce_matrix(lattice, start)
     h = np.linalg.norm(start[:, 1] - start[:, 0]) / n
 
     A = cupy.sparse.csc_matrix(A)
@@ -64,6 +66,3 @@ def main():
         plt.savefig(os.path.join(figdir, f"Eigenvector #{i}.png"))
         plt.close()
     print("Done")
-
-if __name__ == "__main__":
-    main()
