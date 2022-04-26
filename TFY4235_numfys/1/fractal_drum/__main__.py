@@ -1,4 +1,3 @@
-
 from fractal_drum import float_version
 from fractal_drum import int_version
 import logging
@@ -6,7 +5,12 @@ import logging
 if __name__ == "__main__":
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
+        level=logging.DEBUG,
         datefmt='%H:%M:%S'
     )
+    loggers = ["numba", "matplotlib", "PIL"]
+    for logger_name in loggers:
+        logger = logging.getLogger(logger_name)
+        logger.setLevel(logging.WARNING)
+
     int_version.main()
