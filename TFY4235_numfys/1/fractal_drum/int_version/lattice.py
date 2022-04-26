@@ -100,6 +100,7 @@ def lattice(fractal: np.ndarray, subdivision: int = 2) -> np.ndarray:
 
     return out
 
+
 def calc_n(l: int, sub: int) -> int:
     """Calculate n from the level and subdivision
 

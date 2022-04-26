@@ -43,7 +43,6 @@ def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> tuple[spar
 
 def fill_eigenvector(l: int, sub: int, eigenvec: np.ndarray, indices) -> np.ndarray:
     n2 = lattice.calc_n(l, sub)**2
-    s = eigenvec.size
     out = np.zeros(n2, dtype=eigenvec.dtype)
     out[indices] = eigenvec
     return out

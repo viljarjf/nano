@@ -26,15 +26,14 @@ def main(l: int, sub: int):
         grid = lattice.lattice(boundary, sub)
         A, ind = eigensys.apply_boundary(A, grid)
         logging.debug(f"Matrix size: {n*n}x{n*n}")
+        logging.debug(f"Pruned matrix size: {A.shape[0]}x{A.shape[1]}")
         logging.debug(f"Non-zero values: {A.nnz}")
         logging.info("Matrix setup complete")
 
         logging.info("Starting to solve the eigensystem")
-        import matplotlib.pyplot as plt
-        plt.matshow(A.toarray())
-        plt.show()
-        return
         vals, _vecs = linalg.eigsh(A, k = 100, sigma = 0)
+        vals = vals[::-1]
+        _vecs = _vecs[:, ::-1]
         vecs = np.zeros((n**2, _vecs.shape[1]), dtype=_vecs.dtype)
         for i in range(vecs.shape[1]):
             vecs[:, i] = eigensys.fill_eigenvector(l, sub, _vecs[:, i], ind)
@@ -51,5 +50,5 @@ def main(l: int, sub: int):
     vals **= 0.5
     
     logging.info("Starting to make figures")
-    plot.eigenmodes(n, vecs, vals, boundary)
+    plot.eigenmodes(n, vecs, vals, boundary, amount=10)
     logging.info("Finished making figures")
