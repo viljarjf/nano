@@ -13,9 +13,9 @@ def eigenmodes(n: int, eigenvectors: np.ndarray, eigenvals: np.ndarray, boundary
     y = np.arange(0, n)
     for i in range(eigenvectors.shape[1]):
         plt.figure(figsize = (6, 6), dpi = 250)
-        plt.pcolormesh(x, y, eigenvectors[:, i].reshape(n, n)**2)
-        plt.plot([*boundary[0, :], boundary[0, -1]], [*boundary[1, :], boundary[1, -1]] )
         plt.title(f"omega / v: {eigenvals[i]:.5f}")
+        plt.pcolormesh(x, y, eigenvectors[:, i].reshape(n, n))
+        plt.plot([*boundary[0, :], boundary[0, -1]], [*boundary[1, :], boundary[1, -1]] )
         plt.colorbar()
         plt.xticks([])
         plt.yticks([])

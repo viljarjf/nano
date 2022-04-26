@@ -4,6 +4,8 @@ import numpy as np
 from scipy import sparse
 import numba
 
+from fractal_drum.int_version import lattice
+
 def matrix_without_boundary(n: int) -> sparse.csr_matrix:
     center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
     not_center = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
@@ -17,7 +19,7 @@ def matrix_without_boundary(n: int) -> sparse.csr_matrix:
     return A
 
 
-def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> sparse.csc_matrix:
+def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> tuple[sparse.csc_matrix, np.ndarray]:
     n = fractal.shape[0]
 
     @numba.jit(nopython = True, parallel = True)
@@ -31,5 +33,17 @@ def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> sparse.csc
     eigsys = eigsys.tocsc()
     set_zeros(eigsys.data, eigsys.indptr)
     eigsys.eliminate_zeros()
-    eigsys.sort_indices()
-    return eigsys
+
+    # remove zero-rows
+    indices = eigsys.getnnz(0)>0
+    eigsys = eigsys[eigsys.getnnz(1)>0][:,eigsys.getnnz(0)>0]
+    
+    return eigsys, indices
+
+
+def fill_eigenvector(l: int, sub: int, eigenvec: np.ndarray, indices) -> np.ndarray:
+    n2 = lattice.calc_n(l, sub)**2
+    s = eigenvec.size
+    out = np.zeros(n2, dtype=eigenvec.dtype)
+    out[indices] = eigenvec
+    return out
