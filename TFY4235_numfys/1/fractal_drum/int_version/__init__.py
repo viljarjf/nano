@@ -5,7 +5,7 @@ from scipy.sparse import linalg
 import logging
 
 from fractal_drum.int_version import lattice, eigensys
-from fractal_drum.utils import plot, save, load
+from fractal_drum.utils import plot, save, load, fractal_dimension
 
 def main(l: int, sub: int):
 
@@ -29,13 +29,12 @@ def main(l: int, sub: int):
         logging.debug(f"Pruned matrix size: {A.shape[0]}x{A.shape[1]}")
         logging.debug(f"Non-zero values: {A.nnz}")
         logging.info("Matrix setup complete")
-
         logging.info("Starting to solve the eigensystem")
-        vals, _vecs = linalg.eigsh(A, k = 100, sigma = 0)
+        vals, _vecs = linalg.eigsh(A, k = 500, sigma = 0)
         vals = vals[::-1]
         _vecs = _vecs[:, ::-1]
         vecs = np.zeros((n**2, _vecs.shape[1]), dtype=_vecs.dtype)
-        for i in range(vecs.shape[1]):
+        for i in range(_vecs.shape[1]):
             vecs[:, i] = eigensys.fill_eigenvector(l, sub, _vecs[:, i], ind)
         logging.info("Finished solving the eigensystem")
         
@@ -46,9 +45,26 @@ def main(l: int, sub: int):
         vecs, vals = data
         logging.info("Stored data found, using that instead of re-calculating")
 
-    vals *= -1
+    vals *= -(4**l*sub)**2
     vals **= 0.5
     
     logging.info("Starting to make figures")
     plot.eigenmodes(n, vecs, vals, boundary, amount=10)
     logging.info("Finished making figures")
+    
+    logging.info("Calculating fractal dimension")
+    dNs = []
+    Ns = []
+    for omega in vals:
+        Ns.append(fractal_dimension.N(vals, omega))
+        dNs.append(fractal_dimension.dN(vals, omega))
+    dNs = np.array(dNs)
+    Ns = np.array(Ns)
+    d, _ = fractal_dimension.d(vals, dNs)
+    d, k = d
+    logging.debug(f"{d = }")
+    plot.idos(vals, Ns)
+    plot.weyl_berry_conjecture(vals, dNs, d, k)
+
+    logging.info("Fractal dimension calculation complete")
+

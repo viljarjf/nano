@@ -3,6 +3,9 @@
 import numba
 import numpy as np
 
+OUT = -1
+EDGE = 0
+IN = 1
 
 def fractal(l: int, sub: int, dtype: np.dtype = np.uint32) -> np.ndarray:
     """Generates a lattice 
@@ -71,9 +74,6 @@ def lattice(fractal: np.ndarray, subdivision: int = 2) -> np.ndarray:
     out = np.zeros((n, n), dtype=np.int8)
 
     # we do some traversal to figure out if we are inside or outside
-    OUT = -1
-    EDGE = 0
-    IN = 1
 
     out += OUT
 

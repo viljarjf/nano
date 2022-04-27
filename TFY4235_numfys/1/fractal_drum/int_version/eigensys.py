@@ -7,16 +7,41 @@ import numba
 from fractal_drum.int_version import lattice
 
 def matrix_without_boundary(n: int) -> sparse.csr_matrix:
-    center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
-    not_center = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
-    A = sparse.bmat(
-        [[center, not_center] + [None]*(n-2)] + \
-        [[None]*i + [not_center, center, not_center] + [None] * (n-3-i) for i in range(n-2)] + \
-        [[None] * (n-2) + [not_center, center]], 
-        dtype = np.float32, # needs to be float32 for eigenvalue calculations
-        format = "csr"
+    inner = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)
+    outer = sparse.diags([1], [0], shape = (n, n), dtype = np.int8)
+    inner_spots = sparse.identity(n, dtype=np.int8)
+    outer_spots = sparse.diags(
+        [1, 0, 1], 
+        [-1, 0, 1], 
+        shape=(n, n), 
+        dtype=np.int8, 
     )
-    return A
+    A = sparse.kron(inner, inner_spots) + \
+        sparse.kron(outer, outer_spots)
+    return A.astype(np.float32)
+
+def big_matrix_without_boundary(n: int) -> sparse.csr_matrix:
+    inner = sparse.diags([-1, 16, -60, 16, -1], [-2, -1, 0, 1, 2], shape = (n, n), dtype = np.int8)
+    middle = 16 * sparse.identity(n, dtype = np.int8)
+    outer = -sparse.identity(n, dtype=np.int8)
+
+    inner_spots = sparse.identity(n, dtype=np.int8)
+    middle_spots = sparse.diags(
+        [1, 0, 1], 
+        [-1, 0, 1], 
+        shape=(n, n), 
+        dtype=np.int8, 
+    )
+    outer_spots = sparse.diags(
+        [1, 0, 1], 
+        [-2, 0, 2], 
+        shape=(n, n), 
+        dtype=np.int8, 
+    )
+    A = sparse.kron(inner, inner_spots) + \
+        sparse.kron(middle, middle_spots) + \
+        sparse.kron(outer, outer_spots)
+    return A.astype(np.float32)
 
 
 def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> tuple[sparse.csc_matrix, np.ndarray]:
@@ -26,7 +51,7 @@ def apply_boundary(eigsys: sparse.csr_matrix, fractal: np.ndarray) -> tuple[spar
     def set_zeros(A_data, A_indptr):
         for i in numba.prange(n):
             for j in numba.prange(n):
-                if fractal[i, j] != 1:
+                if fractal[i, j] != lattice.IN:
                     A_data[A_indptr[n*j + i]:A_indptr[n*j + i+1]] = 0
 
     set_zeros(eigsys.data, eigsys.indptr)
