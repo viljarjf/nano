@@ -8,7 +8,7 @@ from scipy.sparse._csc import csc_matrix
 from . import properties, utils
 
 @numba.njit
-def generate_next_level(corners: np.ndarray) -> np.ndarray:
+def next_level(corners: np.ndarray) -> np.ndarray:
     """generate the next level of the fractal
 
     Args:
@@ -93,7 +93,7 @@ def reverse_iteration(x0: np.ndarray, x1: np.ndarray, x2: np.ndarray, l: int = 1
     return x1 + out
 
 
-def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
+def lattice(start: np.ndarray, l: int) -> np.ndarray:
     """Generate a lattice for a level l Koch snowflake, where start is the 0th level fractal
 
     Args:
@@ -118,7 +118,7 @@ def generate_lattice(start: np.ndarray, l: int) -> np.ndarray:
     return np.array(np.meshgrid(x, y))
 
 
-def generate_sparce_matrix(lattice: np.ndarray, start: np.ndarray) -> csc_matrix:
+def sparce_matrix(lattice: np.ndarray, start: np.ndarray) -> csc_matrix:
 
     n = lattice.shape[1]
     center = sparse.diags([1, -4, 1], [-1, 0, 1], shape = (n, n), dtype = np.int8)

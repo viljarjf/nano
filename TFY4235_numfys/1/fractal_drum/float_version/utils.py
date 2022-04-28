@@ -15,7 +15,7 @@ def is_inside_polygon(p: np.ndarray, poly: np.ndarray) -> int:
     """check if a point is inside or outside a polygon
         O(n)
     Args:
-        p (np.ndarray): poitn
+        p (np.ndarray): point
         poly (np.ndarray): 2 x n, polygon
 
     Returns:
