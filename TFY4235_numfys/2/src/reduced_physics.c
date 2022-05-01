@@ -51,3 +51,9 @@ double reduced_bolzmann_distribution(double x_hat){
     double norm = constants->DELTA_U / constants->KBT;
     return norm * exp(-U_r_reduced(x_hat)*norm) / (1 - exp(-norm));
 }
+
+double reduced_normal_distribution(double x_hat, double t){
+    double f = 4 * t * constants->KBT /  (6*PI*ETA*constants->R1 * constants->L* constants->L);
+    double x = x_hat;// * constants->L;    
+    return exp(-x*x / f) / sqrt(PI*f);
+}

@@ -50,16 +50,30 @@ The amount of particles in the simulation plays a large role in the noise of the
 and consequently $T_c$. For a $10x10$ grid, $T_c$ can be said to be around \SI{29}{\kelvin},
 whereas for the $80x80$ grid, $M(T)=0$ is not reached within \SI{50}{\kelvin}.
 
-As discussed, the magnetization 
+As discussed, the magnetization decreases up to $T_c$. 
+The value of $T_c$ is predicted to increase with increasing $B_0$, 
+as the effect of the magnetic field becomes harder to overcome for the thermal noise.
+This would lead to an interesting effect in magnetic materials: 
+the maximal temperature a magnetic material can stay stable at increases 
+with the thickness of the material, 
+as each layer magnetically interracts with the neighbouring layers.
+The implications for nanomagnets are that the material would either need to be 
+cooled to near-absolute-zero temperatures, or sit in a ridiculosly strong magnetic field.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/i.png}
+    \caption{
+        Increasing the value of $|\vec{B}|$ significantly increases $T_c$.
+        The simulation was run on a $80x80$ grid of particles, and the temporal
+        average was performed on the final \SI{5}{\pico\second} of the simulation
+        for each temperature step, corresponding to 500 timesteps. 
+    }
+    \label{fig:i}
+\end{figure}
 
-% The amplitude of the thermal noise term is dependendt only on the temperature 
-% of the system, as can be seen in equation \ref{eq:Fth}.
-% This means that $T_c$ should roughly follow $B_0$, as the size of $B_0$ determines
-% the energy threshold to overcome to reach $M(T)=0$. 
-% 
-% Four different values of $B_0$, seperated by powers of two, were used to 
-% investigate the dependendce of $T_c$ on $B_0$. All other parameters were 
-% kept constant at $\alpha = 0.5$, and $J = $\SI{1}{\milli\electronvolt}.
-% The numerical results supports the qualitative prediction, 
-% as can be seen in figure \note{fix}. $T_c$ increases with increasing $B_0$.
+Simulations support this, as seen in figure \ref{fig:i}. 
+Increasing the magnetic field dramatically increases $T_c$. 
+Note, however, that a multiple-tesla magnetic field is difficult to attain for longer periods,
+but having it be at the correct strength for a few picoseconds should be possible.
+

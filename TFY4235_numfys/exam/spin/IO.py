@@ -4,7 +4,7 @@ import numpy as np
 from spin import __config as cfg
 from spin.LLG import Const
 
-from typing import Union
+from typing import Union # still necessary as of 3.9
 
 def save(c: Const, Sjn: np.ndarray, filename: str = None):
     if filename is None:

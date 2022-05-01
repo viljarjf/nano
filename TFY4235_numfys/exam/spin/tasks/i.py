@@ -9,6 +9,7 @@ def M(Sj: np.ndarray) -> tuple[float, float]:
 
 def run():
     print(__file__)
+    # fiddle with combining stored data with new generated data
     Bfs = [1/8, 1/2, 1, 2, 4]
     Tr1 = np.linspace(50, 100, 100) #([0] + [i/2+10 for i in range(0, 40)] + [40, 50])
     Tr2 = np.linspace(50, 100, 100) #([0, 10] + [i/2+20 for i in range(0, 40)] + [50])

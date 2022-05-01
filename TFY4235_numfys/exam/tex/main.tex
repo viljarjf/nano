@@ -8,44 +8,56 @@
 
 \title{Numerical modeling of spin in magnetic materials}
 \shorttitle{Exam TFY4235}
-%\author{Viljar Johan Femoen \affiliation{Department of Physics, NTNU, Trondheim}} 
-%\shortauthor{Femoen}
+
 \author{Viljar Johan Femoen, Candidate \candnum}
 \shortauthor{Viljar Femoen}
+
 \labreportreceived{\today}  
 \labreportpublished{}
 \course{TFY4235 Numerical Physics}
-% \labreportyear{2021}
  
 \addbibresource{bibliography.bib}
 
 \begin{document}
 \maketitle
 
-\begin{abstract}
-TODO
-\end{abstract}
-
-\begin{equation}
-    \label{eq:Fth}
-    F_{\text{th}} = \sqrt{\frac{2\alpha k_BT}{\gamma\mu\Delta t}}\Gamma
-\end{equation}
-
 \section{Problem 1}
-%\input{text/task_1}
+\input{text/task 1}
 
 \section{Problem 2}
 
-\input{text/01 intro}
+\input{text/intro}
 
-\input{text/02 single}
+\input{text/single}
 
-\input{text/03 line}
+\input{text/linear}
 
+\input{text/planar}
 
 \begin{center}
     \rule{2cm}{.4pt}
 \end{center}
+Thanks to Henrik Kaarbø, Eskil Vik, and Erlend Johansen,
+for the discussions regarding the tasks.
+
+\onecolumn
+\section{Appendix A}
+Source code for Problem 1.
+\href{
+    https://www.github.com/viljarjf/nano/tree/main/TFY4235_numfys/2
+    }{\color{blue}{The GitHub source can be found here}}
+
+\input{text/code2}
+
+\newpage
+\section{Appendix B}
+Source code for Problem 2
+\href{
+    https://www.github.com/viljarjf/nano/tree/main/TFY4235_numfys/exam
+    }{\color{blue}{The GitHub source can be found here}}
+
+\input{text/code1}
+
 \makeatletter
 \@beginparpenalty=10000
 \makeatother

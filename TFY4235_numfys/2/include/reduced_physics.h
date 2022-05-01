@@ -52,4 +52,6 @@ double calc_delta_t_hat();
  */
 double reduced_bolzmann_distribution(double x_hat);
 
+
+double reduced_normal_distribution(double x_hat, double t);
 #endif

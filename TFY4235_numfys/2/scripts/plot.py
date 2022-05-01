@@ -11,7 +11,7 @@ def trajectories(block = True, all = False, legend = True):
     d = data.get("particles")#cutoff = -3.e7)
     t = data.get("time")
 
-    p = [i+10 for i in [1]]#, 3, 6, 11, 12, 13, 14]]
+    p = [i+10 for i in [1, 3, 6, 11, 12, 13, 14]]
     if all:
         p = list(range(d.shape[0]))
     plt.figure()
@@ -32,18 +32,20 @@ def trajectories(block = True, all = False, legend = True):
 
 
 def hist(block = True):
-    d, t = data.get_data()#cutoff = -3.e7)
+    d = data.get("particles")#cutoff = -3.e7)
     
-    d += 1
-    d %= 1
+    #d += 1
+    #d %= 1
 
     plt.figure()
-    plt.hist(d[:, -1::10].flatten(), bins=100, density=True)
-    p = data.get("bolzmann.npy")
+    plt.hist(d[:, -1].flatten(), bins=100, density=True)
+    p = data.get("bolzmann.npy") #/ d.shape[0]
 
-    plt.plot(p[:,1], p[:,0])
+    #plt.plot(p[:,1], p[:,0])
     print(f"Integral of p: {scipy.integrate.quad(lambda x: p[int(x), 0], 0, len(p))}")
+    plt.legend(["Observations", "Normal distribution"])
     plt.show(block = block)
+
 
 def drift_velocities(v: np.ndarray, title = None, block = True): 
     tau = data.get("tau")
@@ -54,7 +56,7 @@ def drift_velocities(v: np.ndarray, title = None, block = True):
     plt.figure()
     if title is not None:
         plt.title(title)
-    plt.errorbar(tau_unique, v_reshape_mean, yerr=v_reshape_std)
+    plt.errorbar(tau_unique, v_reshape_mean, v_reshape_std)
     plt.xlabel("Tau")
     plt.ylabel("Velocity")
     plt.title("Mean")

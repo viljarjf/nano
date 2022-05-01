@@ -10,12 +10,12 @@
 // initialize constants
 constants_t tmp = {
     .L         =  20e-6,                // [m]
-    .ALPHA     =  0.1,                 // [~]
-    .TAU       =  2,                 // [s]
+    .ALPHA     =  0.2,                  // [~]
+    .TAU       =  3,                    // [s]
     .DELTA_U   =  80*ELECTRONVOLT,      // [J]
     .KBT       =  0.0026*ELECTRONVOLT,  // [J]
-    .R1        =  12e-9,                // [m]
-    .DELTA_T   =  0.00005                  // [s]  IDK man, har ikke regna på det enda
+    .R1        =  3*12e-9,              // [m]
+    .DELTA_T   =  0.0002                // [s]  IDK man, har ikke regna på det enda
 };
 constants_t *constants = &tmp;
 reduced_constants_t tmp2 = {0,0};
@@ -54,7 +54,7 @@ void setup(runtime_struct_t *s){
     printf("  D: %f\n", reduced_constants->D);
     double calc_dt_hat = calc_delta_t_hat();
     printf("  Upper bound delta t hat: %f\n", calc_dt_hat);
-    printf("  Current delta t hat: %f\n", constants->TAU);
+    printf("  Current delta t hat: %f\n", reduced_constants->DELTA_T_HAT);
     /*
     if(reduced_constants->DELTA_T_HAT / calc_dt_hat > 2){
         printf(" Setting delta t to half of upper bound\n");
@@ -78,7 +78,7 @@ void run(runtime_struct_t *s){
 
         // initial state of system
         ti = 0;
-        xi_hat = uniform();
+        xi_hat = 0;//uniform();
         
 
         for (double i = 0; i < N_STEPS; i++){
@@ -96,9 +96,11 @@ void run(runtime_struct_t *s){
                 // hack to get regularly spaced data
                 write_buffer = U_r_reduced(i / (double)N_STEPS);
                 write_to_numpy_file(s->potential, &write_buffer, FLOAT64);
-                write_buffer = reduced_bolzmann_distribution(i / (double)N_STEPS);
+                //write_buffer = reduced_bolzmann_distribution(i / (double)N_STEPS);
+                write_buffer = reduced_normal_distribution(-0.5 + i / (double)N_STEPS, constants->DELTA_T*N_STEPS);
+
                 write_to_numpy_file(s->bolzmann, &write_buffer, FLOAT64);
-                write_buffer = i / (double)N_STEPS;
+                write_buffer = -0.5 + i / (double)N_STEPS;
                 write_to_numpy_file(s->bolzmann, &write_buffer, FLOAT64);
             }
         }
@@ -116,6 +118,7 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
     int save_period = 1000;
 
     // the denominator uses integer division. Should be fine
+    // edit two weeks later: it was not
     double step = (end - start) / (N_PARTICLES / n);
 
     constants->TAU = start;
@@ -130,7 +133,8 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
         if (!(p%n)){
             constants->TAU += step;
         }
-        write_to_numpy_file(s->tau, &constants->TAU, FLOAT64);
+
+        write_to_numpy_file(s->tau, &(constants->TAU), FLOAT64);
 
         for (double i = 0; i < N_STEPS; i++){
 

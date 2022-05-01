@@ -3,6 +3,7 @@
 import numpy as np
 from typing import Callable
 
+
 def step(
     dt: float, 
     Sj: np.ndarray, 
@@ -15,6 +16,7 @@ def step(
     Sj1 = normalize(Sj + dt/2*(dSjp + dSj(Sj1p)))
     
     return Sj1
+
 
 def normalize(Sj: np.ndarray) -> np.ndarray:
     l = np.linalg.norm(Sj, axis=-1, keepdims=True)

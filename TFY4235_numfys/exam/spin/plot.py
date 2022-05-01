@@ -6,6 +6,7 @@ from matplotlib import animation
 
 from spin import heun
 
+
 def coords_single(Sjn: np.ndarray, dt: float, title: str = None, nx: int = 0, ny: int = 0, block: bool = True) -> None:
     """plot coordinates from single particle
 
@@ -33,6 +34,7 @@ def coords_single(Sjn: np.ndarray, dt: float, title: str = None, nx: int = 0, ny
     plt.title(title)
     plt.show(block=block)
 
+
 def coords_multiple(Sjn: np.ndarray, dt: float, title: str, particles: list = "all", block: bool = True, t0: float = 0) -> None:
     """plot coordinates from particles
 
@@ -56,6 +58,7 @@ def coords_multiple(Sjn: np.ndarray, dt: float, title: str, particles: list = "a
     plt.title(title)
     plt.tight_layout()
     plt.show(block=block)
+
 
 def quiver(Sjn: np.ndarray, dt: float) -> None:
     """Nice 3D plot
@@ -129,6 +132,7 @@ def quiver2D(Sjn: np.ndarray, dt: float) -> None:
     plt.tight_layout()
     anim.save("test.gif", animation.PillowWriter(fps = 60))
     plt.show()
+
 
 def quiver_realtime(Sj0: np.ndarray, dSj: np.ndarray, dt: float, substeps: int = 50) -> None:
     x = np.arange(Sj0.shape[0])

@@ -49,6 +49,7 @@ def pad(c: Const, Sj: np.ndarray) -> tuple[np.ndarray, tuple]:
     padded = np.pad(Sj, pad, mode='constant')
     return padded, pad
 
+
 def shave(pad: tuple, Sj: np.ndarray) -> np.ndarray:
     """Shave off padding
 
@@ -62,6 +63,7 @@ def shave(pad: tuple, Sj: np.ndarray) -> np.ndarray:
     (_, xu), (_, yu), (_, _) = pad
     xm, ym, _ = Sj.shape
     return Sj[:xm - xu, :ym - yu, :]
+
 
 @numba.jit(nopython=True, parallel=True)
 def numba_wrap(Sj: np.ndarray, xmax: int, ymax: int) -> np.ndarray:
@@ -84,6 +86,7 @@ def numba_wrap(Sj: np.ndarray, xmax: int, ymax: int) -> np.ndarray:
                 Sj[x, y-1, :] + \
                 Sj[x, y+1, :]
     
+    # ensure correct behaviour on final step
     xs, ys, _ = Sj.shape
     if xs == xmax:
         out[-1, :, :] = Sj[0, :, :]
@@ -95,6 +98,7 @@ def numba_wrap(Sj: np.ndarray, xmax: int, ymax: int) -> np.ndarray:
         out[:, -1, :] += Sj[:, -1, :]
     
     return out
+
 
 def F_eff(c: Const, pad: tuple) -> Callable[[np.ndarray], np.ndarray]:
     f0 = -c.J
@@ -132,6 +136,7 @@ def F(c: Const, pad: tuple) -> Callable[[np.ndarray], np.ndarray]:
     _F_th = F_th(c)
 
     return lambda Sj: _F_eff(Sj) + _F_th(Sj)
+
 
 def dSj(c: Const, pad: tuple) -> Callable[[np.ndarray], np.ndarray]:
     _F = F(c, pad)
