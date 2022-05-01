@@ -1,0 +1,141 @@
+\subsection*{Introduction}
+Using the Heisenberg model, the behaviour of spin in a material was investigated.
+A material was represented as a $n_x$ by $n_y$ two-dimensional equidistant lattice, 
+where each point in the lattice had three degrees of freedom for the direction of its spin.
+All spins were normalized at all times. 
+
+The Hamiltonian of the system is given by 
+\begin{equation}
+    \label{eq:lewis}
+    H = - \sum_{j \neq k}^NJ_{jk}\vec{S}_j\cdot\vec{S}_k
+        - dz \sum_{j = 1}^N(\vec{S}_j\cdot\vec{e}_z)^2
+        - \mu_s \sum_{j = 1}^N \vec{S}_j \cdot \vec{B}_j,
+\end{equation}
+where a subscript $j$ refers to a given position $j_x,\, j_y$, $J_{jk}$ is a matrix describing coupling, 
+$N = n_xn_y$ is the amount of lattice points,
+$dz$ is a anisotropy coefficient, and $\mu_s$ is the magnetic moment. 
+The time-dependence of $\vec{S}_j$ is given by the Landau-Lifshitz-Gilbert equation:
+\begin{equation}
+    \label{eq:ode}
+    \frac{\partial}{\partial t} \vec{S}_j = \frac{-\gamma}{1 + \alpha^2}
+    \left(\vec{S}_j\times\vec{F}_j + \alpha\vec{S}_j \times \left(\vec{S}_j\times\vec{F}_j\right)\right),
+\end{equation}
+where
+\begin{equation}
+    \label{eq:F}
+    \vec{F}_j = -\frac{1}{\mu_s}\frac{\delta H}{\delta \vec{S}_j} 
+                + \sqrt{\frac{2\alpha k_BT}{\gamma\mu\Delta t}}\Gamma,
+\end{equation}
+with the gyromagnetic ratio $\gamma$, a damping coefficient $\alpha$, 
+thermal energy $k_BT$, and a 3D standard normal gaussian $\Gamma$.
+
+To simplify the system, $J_{jk} = J$ where $j$ and $k$ are nearest neighbours, else 0. 
+Furthermore $\vec{B}_j = B_0\vec{e}_z \,\,\forall j$ and is temporally constant.
+
+To solve the differential equation \ref{eq:ode}, Heun's method was utilized. 
+In general, Heun's method states
+\begin{align*}
+    \vec{\tilde{S}}_j^{\tau + 1} &= \vec{S}_j^\tau + \Delta t f(\vec{S}_j^\tau)\\
+    \vec{S}_j^{\tau + 1} &= \vec{S}_j^\tau + 
+            \frac{\Delta t}{2}\left(f(\vec{S}_j^\tau) + f(\vec{\tilde{S}}_j^{\tau + 1})\right),
+\end{align*}
+where, in this case, $f$ is the right-hand side of equation \ref{eq:ode}.
+Equation \ref{eq:F} can be further simplified into 
+\begin{equation}
+    \label{eq:simp}
+    \frac{J}{\mu_s}\sum_{\text{neighbours}\,k}\vec{S}_k
+        + \left(\frac{2dzS_{j, z}}{\mu_s} + B_0\right)\vec{e}_z
+        + \sqrt{\frac{2\alpha k_BT}{\gamma\mu\Delta t}}\Gamma
+\end{equation}
+by performing the differentiation.
+
+The program to run the simulation was written in Python, based mainly on the library Numpy,
+and some code further optimized with Numba and outsourced to Scipy. 
+The program architecture was based mainly on using vectorized operations wherever possible. 
+This allows for full utilization of the optimized lower-level Cython-based libraries. Where such methods were slow,
+Numba was used to compile iteration-based functions instead.
+To increase generality, a library was written to create functions for equations 
+\ref{eq:lewis} and \ref{eq:F}, based on the set of constants used in these. 
+These functions were then passed on to the Heun solver, along with an initial condition.
+This allows for a simple interface for further tinkering with the system.
+
+Random numbers for the $\Gamma$-term was generated using Numpy's pseudorandom generators.
+Each axis was sampled independently from a standard normal gaussian.
+For generating random initial conditions, Numpy's pseudorandom sublibrary was used to generate
+one pseudorandom number between -1 and 1 for each axis. Since these are subsequently normalized by projecting
+onto the unit sphere, a bias towards the corners of the unit cube is observed in the sampling.
+For the purposes of this simulation, this bias is not considered detrimental, and therefore not accounted for.
+
+The program was run on a 8-core AMD Ryzen 9 5900HS CPU with 16GB of RAM, 
+with some overnight calculations run on a 12-core AMD Ryzen 9 3900X CPU with 64 GB of RAM.
+Multithreading the Numba operations allowed for 100\% utilization on all cores.
+Since simple matrix operations typically are faster to run on a GPU than a CPU,
+initial testing was performed on an Nvidia RTX 3080 GPU with 10 GB VRAM. This revealed little performance gain, 
+and further development of GPU-optimized code was subsequentally dropped.
+
+Unless otherwise specified, the following default parameters were used: 
+\begin{itemize}
+    \item $J = \SI{1}{\milli\electronvolt}$
+    \item $dz = \SI{0}{\milli\electronvolt}$
+    \item $\mu_s = \mu_b = \SI{0.0579}{\milli\electronvolt\per\tesla}$
+    \item $B_0 = \SI{1.72}{\tesla}$
+    \item $k_B = \SI{0.0862}{\milli\electronvolt\per\kelvin}$
+    \item $\gamma = \SI{0.176}{\per\tesla\per\pico\second}$
+    \item $\Delta t = \SI{1}{\femto\second}$
+    \item $T = \SI{0}{\kelvin}$
+\end{itemize}
+
+\subsection*{Single-particle simulations}
+A simulation was performed with $\alpha = 0$, $n_x = n_y = 1$, and the initial condition 
+$\vec{S}_{1,1}^0 = \left[-0.2,\, 0,\, 0.8\right]$. 
+This simple simulation gives insight into the idealized behaviour of the system, 
+and is the easiest to understand pysically.
+
+Mathematically, the equations describing the system becomes
+\begin{equation*}
+    \frac{\partial}{\partial t} \vec{S} = -\gamma B_0\vec{S}\times\vec{e}_z
+\end{equation*}
+
+From this, one might observe that $\frac{\partial}{\partial t}S_{j,\,z} = 0$. 
+We therefore expect a constant $z$ component of $\vec{S}$.
+Furthermore, the cross product should result in a circular motion around the $z$-axis, 
+with constant radius.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/a.png}
+    \caption{Simulation with a single particle and no damping. 
+    The particle precesses around its $z$-axis.}
+    \label{fig:a}
+\end{figure}
+
+The simulation resulted in the behaviour observed in figure \ref{fig:a}. 
+This aligns well with the predicted behaviour, as the $z$-component remains constant and
+the two remaining components oscilate sinusoidally.
+
+Next, a similar simulation with $\alpha = 0.1$ being the only difference was performed. 
+The main difference in the equations is the introduction of the second term in equation \ref{eq:ode}, 
+which due to the consecutive cross product is expected to make 
+$\vec{S} \rightarrow \vec{e}_z$ as $t$ increases. 
+
+The resulting motion for $S_x$ is $A\cos(\omega t)\exp(\frac{-t}{\tau})$, 
+where $A$ is the amplitude, $\omega$ is the angular frequency of oscilation, 
+and $\tau$ is the time constant of the decay. 
+Linear spin wave theory states that $\tau = \frac{1}{\alpha\omega}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/b.png}
+    \caption{
+        Simulation with a single particle and damping. 
+        The amplitude of oscilations decrease exponentially with time.
+    }
+    \label{fig:b}
+\end{figure}
+
+Performing the simulation yielded the results in figure \ref{fig:b}, 
+which follows the expected behaviour closely. A curve fit was performed on the data using Scipy, 
+resulting in $\omega = \SI{30.0\pm0.1}{\radian\per\pico\second}$ and $\tau = \SI{0.33\pm0.01}{\pico\second}$.
+The measured $\tau$ is within 0.3\% of the value predicted by linear spin wave theory, 
+indicating that .
+

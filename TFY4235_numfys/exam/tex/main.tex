@@ -1,0 +1,54 @@
+\documentclass{labreport}
+\usepackage[utf8]{inputenc}
+
+\usepackage[backend=biber,style=vancouver]{biblatex}
+\usepackage{csquotes}
+
+\newcommand{\candnum}{\note{FIX}}
+
+\title{Numerical modeling of spin in magnetic materials}
+\shorttitle{Exam TFY4235}
+%\author{Viljar Johan Femoen \affiliation{Department of Physics, NTNU, Trondheim}} 
+%\shortauthor{Femoen}
+\author{Viljar Johan Femoen, Candidate \candnum}
+\shortauthor{Viljar Femoen}
+\labreportreceived{\today}  
+\labreportpublished{}
+\course{TFY4235 Numerical Physics}
+% \labreportyear{2021}
+ 
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+TODO
+\end{abstract}
+
+\begin{equation}
+    \label{eq:Fth}
+    F_{\text{th}} = \sqrt{\frac{2\alpha k_BT}{\gamma\mu\Delta t}}\Gamma
+\end{equation}
+
+\section{Problem 1}
+%\input{text/task_1}
+
+\section{Problem 2}
+
+\input{text/01 intro}
+
+\input{text/02 single}
+
+\input{text/03 line}
+
+
+\begin{center}
+    \rule{2cm}{.4pt}
+\end{center}
+\makeatletter
+\@beginparpenalty=10000
+\makeatother
+\nocite{*}
+\printbibliography
+\end{document}

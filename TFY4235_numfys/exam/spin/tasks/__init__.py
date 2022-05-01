@@ -1,0 +1,1 @@
+__all__ = [c for c in "abcdefghi"]
