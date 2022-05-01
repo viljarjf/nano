@@ -11,16 +11,16 @@ def run():
     print(__file__)
     # fiddle with combining stored data with new generated data
     Bfs = [1/8, 1/2, 1, 2, 4]
-    Tr1 = np.linspace(50, 100, 100) #([0] + [i/2+10 for i in range(0, 40)] + [40, 50])
-    Tr2 = np.linspace(50, 100, 100) #([0, 10] + [i/2+20 for i in range(0, 40)] + [50])
-    Tr3 = np.linspace(50, 100, 100) #([0, 10] + [i/2+20 for i in range(0, 40)] + [50])
-    Tr4 = np.linspace(50, 100, 100) #([0, 15] + [i/2+30 for i in range(0, 40)])
-    Tr5 = np.linspace(50, 100, 100) #([0, 15] + [i/2+30 for i in range(0, 40)])
+    Tr1 = np.linspace(0, 100, 200) #([0] + [i/2+10 for i in range(0, 40)] + [40, 50])
+    Tr2 = np.linspace(0, 100, 200) #([0, 10] + [i/2+20 for i in range(0, 40)] + [50])
+    Tr3 = np.linspace(0, 100, 200) #([0, 10] + [i/2+20 for i in range(0, 40)] + [50])
+    Tr4 = np.linspace(0, 100, 200) #([0, 15] + [i/2+30 for i in range(0, 40)])
+    Tr5 = np.linspace(0, 100, 200) #([0, 15] + [i/2+30 for i in range(0, 40)])
 
     for Bf, Trange in zip(
         Bfs, 
         [Tr1, Tr2, Tr3, Tr4, Tr5]):
-        
+        continue
         c = DEFAULT_C.copy()
         c.alpha = 0.5
         c.periodic_boundary = True

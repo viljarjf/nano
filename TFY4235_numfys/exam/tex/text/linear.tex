@@ -58,7 +58,7 @@ initial disturbance, as the end points continue to affect their neighbours as th
 
 Performing the simulation with $\alpha = 0$ and $n_y = 30$ being the only differences from the previous case, 
 the results presented in figure \ref{fig:d1} were obtained. 
-From these, one might obsere that the wave behaves as expected, bouncing back and fhourth between the boundaries.
+From these, one might obsere that the wave behaves as expected, bouncing back and fourth between the boundaries.
 Note also the presence of a much slower wave originating from the boundary each time the wave leaves, 
 travelling at roughly half the speed of the main wave. This is
 exemplified most clearly in the dark band seen originating from the initial disturbance. 
@@ -80,6 +80,18 @@ within some error caused by the other disturbances.
     \label{fig:e1}
 \end{figure}
 
+
+Simulations align well with the predicted behaviour. 
+As seen in figure \ref{fig:e1}, there are two waves travelling in opposite directions, 
+eventually meeting and passing through each other. 
+Interestingly, neighbouring particles are out of phase by $\pi$, as opposed to $\frac{\pi}{2}$ with damping.
+This can be seen in figure \ref{fig:e2}, plotting the first and last particle's $x$-component of $\vec{S}_j$.
+A discrepancy with the predicted behaviour is the collision between the waves. 
+Normally, waves pass through each other. In this case, they seem to collide.
+This is intuitive physically, as the two waves precess in opposite directions. 
+When they meet, they may not simply pass through each other, 
+but rather force each other back the way they came. 
+
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{figures/e.png}
@@ -89,12 +101,6 @@ within some error caused by the other disturbances.
     }
     \label{fig:e2}
 \end{figure}
-
-Simulations align well with the predicted behaviour. 
-As seen in figure \ref{fig:e1}, there are two waves travelling in opposite directions, 
-eventually meeting and passing through each other. 
-Interestingly, neighbouring particles are out of phase by $\pi$, as opposed to $\frac{\pi}{2}$ with damping.
-This can be seen in figure \ref{fig:e2}, plotting the first and last particle's $x$-component of $\vec{S}_j$.
 
 The coupling term $J$ dictates how strongly the atoms interract with each other, but also how they interract.
 For a $dz > 0$ and $B_0 = 0$, one should expect the atoms to eventually align in the $z$-direction as this
