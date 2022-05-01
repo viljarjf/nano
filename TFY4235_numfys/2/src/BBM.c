@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "euler.h"
-#include "numpy_IO.h"
+#include "BBM.h"
 #include "rng.h"
 
-#define N_PARTICLES 100000
-#define N_STEPS     5000
-
+#define N_PARTICLES 1000
+#define N_STEPS     100
 
 // initialize constants
 constants_t tmp = {
@@ -20,16 +18,8 @@ constants_t tmp = {
     .DELTA_T   =  0.00005                  // [s]  IDK man, har ikke regna på det enda
 };
 constants_t *constants = &tmp;
-
-
-typedef struct {
-    numpy_file_t *data;
-    numpy_file_t *timef;
-    numpy_file_t *potential;
-    numpy_file_t *bolzmann;
-    numpy_file_t *tau;
-    reduced_constants_t *reduced_constants;
-} runtime_struct_t;
+reduced_constants_t tmp2 = {0,0};
+reduced_constants_t *reduced_constants = &tmp2;
 
 
 void setup(runtime_struct_t *s){
@@ -59,11 +49,10 @@ void setup(runtime_struct_t *s){
     make_numpy_file("bolzmann", steps_shape_2d, 2, FLOAT64, s->bolzmann);
     make_numpy_file("tau", particles_shape_1d, 2, FLOAT64, s->tau);
 
-    s->reduced_constants = malloc(sizeof(reduced_constants_t));
-    get_reduced_constants(s->reduced_constants, constants);
+    update_reduced_constants();
 
-    printf("  D: %f\n", s->reduced_constants->D);
-    double calc_dt_hat = calc_delta_t_hat(s->reduced_constants);
+    printf("  D: %f\n", reduced_constants->D);
+    double calc_dt_hat = calc_delta_t_hat();
     printf("  Upper bound delta t hat: %f\n", calc_dt_hat);
     printf("  Current delta t hat: %f\n", constants->TAU);
     /*
@@ -93,7 +82,7 @@ void run(runtime_struct_t *s){
         
 
         for (double i = 0; i < N_STEPS; i++){
-            euler_scheme(&xi_hat, &ti, s->reduced_constants);
+            euler_scheme(&xi_hat, &ti);
 
             xi_hat_float = (float)xi_hat;
             write_to_numpy_file(s->data, &xi_hat_float, FLOAT32);
@@ -146,7 +135,7 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
         for (double i = 0; i < N_STEPS; i++){
 
             for (int j = 0; j < save_period; j++){
-                euler_scheme(&xi_hat, &ti, s->reduced_constants);
+                euler_scheme(&xi_hat, &ti);
             }
             
             xi_hat_float = (float)xi_hat;
@@ -156,31 +145,46 @@ void sweep_tau(runtime_struct_t *s, int n, double start, double end){
                 write_to_numpy_file(s->timef, &ti, FLOAT64);
             }
         }
+        printf("\r%u%%", 100*p/N_PARTICLES);
+        fflush(stdout);
+    }
+    printf("\n");
+}
+
+
+void multithread_run(runtime_struct_t *s){
+    thread_t *threads[N_PARTICLES];
+    for (int i = 0; i < N_PARTICLES; i++){
+        threads[i] = open_thread(i, N_STEPS);
+    }
+
+    // spin
+    for (int i = 0; i < N_PARTICLES; i++){
+        while (threads[i]->status == IDLE || threads[i]->status == RUNNNING){}
+    }
+
+    for (int i = 0; i < N_PARTICLES; i++){
+        float xi_hat_float = 0;
+
+        switch (threads[i]->status)
+        {
+        case ERROR:
+            for (int j = 0; j < N_STEPS; j++){
+                write_to_numpy_file(s->data, &xi_hat_float, FLOAT32);
+            }
+            break;
+        case KILLED:
+            for (int j = 0; j < threads[i]->data_size; j++){
+                xi_hat_float = threads[i]->xdata[j];
+                write_to_numpy_file(s->data, &xi_hat_float, FLOAT32);
+            }
+            break;
+        }
     }
 }
 
 
-int main(int argsc, char *argv[]){
-    
-    char header[33] = "################################";
-    printf("%s\n#    Biased Brownian Motion    #\n%s\n", header, header); // b(i)ased
-
-    srand((unsigned)time());
-    
-    printf("Starting setup...\n");
-    runtime_struct_t *t = malloc(sizeof(runtime_struct_t));
-    setup(t);
-    printf("Setup complete.\n");
-
-    printf("Starting computation...\n");
-    //run(t);
-    sweep_tau(t, 1000, 1.0, 3.0);
-    printf("Computation complete.\n");
-
-    write_json_metadata(N_PARTICLES, N_STEPS, argv[1]);
+void teardown(char *note){
+    write_json_metadata(N_PARTICLES, N_STEPS, note);
     close_numpy_files();
-
-    printf("%s\n#   Data generation complete   #\n%s\n", header, header);
-
-    return 0;
 }

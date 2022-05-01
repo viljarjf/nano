@@ -2,8 +2,8 @@
 
 #include <math.h>
 
-void euler_scheme(double *x_hat, double *t, reduced_constants_t *red_consts){
+void euler_scheme(double *x_hat, double *t){
     double dU = -F_reduced(*x_hat, *t);
-    *x_hat += - dU * red_consts->DELTA_T_HAT + sqrt(2 * red_consts->D * red_consts->DELTA_T_HAT) * rng();
+    *x_hat += - dU * reduced_constants->DELTA_T_HAT + sqrt(2 * reduced_constants->D * reduced_constants->DELTA_T_HAT) * rng();
     *t += constants->DELTA_T;
 }
