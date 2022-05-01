@@ -37,7 +37,7 @@ double F_reduced(double x_hat, double t){
     return F_r_reduced(x_hat) * f_t(t);
 }
 
-double calc_delta_t_hat(reduced_constants_t *reduced_constants){
+double calc_delta_t_hat(){
     double D = reduced_constants->D;
     double a = constants->ALPHA;
     double F = fmax(fabs(F_r_reduced(0)), fabs(F_r_reduced(a)));
@@ -50,4 +50,10 @@ double calc_delta_t_hat(reduced_constants_t *reduced_constants){
 double reduced_bolzmann_distribution(double x_hat){
     double norm = constants->DELTA_U / constants->KBT;
     return norm * exp(-U_r_reduced(x_hat)*norm) / (1 - exp(-norm));
+}
+
+double reduced_normal_distribution(double x_hat, double t){
+    double f = 4 * t * constants->KBT /  (6*PI*ETA*constants->R1 * constants->L* constants->L);
+    double x = x_hat;// * constants->L;    
+    return exp(-x*x / f) / sqrt(PI*f);
 }

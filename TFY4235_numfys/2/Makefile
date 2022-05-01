@@ -16,7 +16,7 @@ OBJEXT			:= o
 
 #Flags, Libraries and Includes
 CFLAGS			:= -g -Wall
-LIB				:= -lm
+LIB				:= -lm -pthread
 INC				:= -I$(INCDIR)
 INCDEP			:= -I$(INCDIR)
 

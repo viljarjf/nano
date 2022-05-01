@@ -12,6 +12,6 @@
  * @param t Time, will be updated
  * @param r Particle radius
  */
-void euler_scheme(double *x_hat, double *t, reduced_constants_t *red_consts);
+void euler_scheme(double *x_hat, double *t);
 
 #endif

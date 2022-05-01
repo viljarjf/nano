@@ -1,8 +1,13 @@
-from . import plot, data, drift
+from scripts import plot, data, drift
 import numpy as np
 
 def main():
-    plot.trajectories()#all = True, legend = False)
+    """
+    I did not set up a proper structure for this.
+    I just commented out the code I did not want to run, given what code was run from C.
+    """
+    
+    #plot.trajectories()#all = True, legend = False)
     #plot.hist(block=True)
 
     d = data.get("particles")

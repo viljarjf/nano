@@ -1,0 +1,54 @@
+
+\subsection*{Single-particle simulations}
+A simulation was performed with $\alpha = 0$, $n_x = n_y = 1$, and the initial condition 
+$\vec{S}_{1,1}^0 = \left[-0.2,\, 0,\, 0.8\right]$. 
+This simple simulation gives insight into the idealized behaviour of the system, 
+and is the easiest to understand pysically.
+
+Mathematically, the equations describing the system become
+\begin{equation*}
+    \frac{\partial}{\partial t} \vec{S} = -\gamma B_0\vec{S}\times\vec{e}_z
+\end{equation*}
+
+From this, one might observe that $\frac{\partial}{\partial t}S_{j,\,z} = 0$. 
+We therefore expect a constant $z$ component of $\vec{S}$.
+Furthermore, the cross product should result in a circular motion around the $z$-axis, 
+with constant radius.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/a.png}
+    \caption{Simulation with a single particle and no damping. 
+    The particle precesses around its $z$-axis.}
+    \label{fig:a}
+\end{figure}
+
+The simulation resulted in the behaviour observed in figure \ref{fig:a}. 
+This aligns well with the predicted behaviour, as the $z$-component remains constant and
+the two remaining components oscilate sinusoidally.
+
+Next, a similar simulation with $\alpha = 0.1$ being the only difference was performed. 
+The main difference in the equations is the introduction of the second term in equation \ref{eq:ode}, 
+which due to the consecutive cross product is expected to make 
+$\vec{S} \rightarrow \vec{e}_z$ as $t$ increases. 
+
+The resulting motion for $S_x$ is $A\cos(\omega t)\exp(\frac{-t}{\tau})$, 
+where $A$ is the amplitude, $\omega$ is the angular frequency of oscilation, 
+and $\tau$ is the time constant of the decay. 
+Linear spin wave theory states that $\tau = \frac{1}{\alpha\omega}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/b.png}
+    \caption{
+        Simulation with a single particle and damping. 
+        The amplitude of oscilations decrease exponentially with time.
+    }
+    \label{fig:b}
+\end{figure}
+
+Performing the simulation yielded the results in figure \ref{fig:b}, 
+which follows the expected behaviour closely. A curve fit was performed on the data using Scipy, 
+resulting in $\omega = \SI{30.0\pm0.1}{\radian\per\pico\second}$ and $\tau = \SI{0.33\pm0.01}{\pico\second}$.
+The measured $\tau$ is within 0.3\% of the value predicted by linear spin wave theory, 
+suggesting that the simulation conforms with the phyics.

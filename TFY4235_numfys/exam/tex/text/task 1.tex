@@ -1,0 +1,177 @@
+\subsection*{Task 1}
+
+I did this on paper, but did not prioritize writing it in \LaTeX.
+
+\subsection*{Task 2}
+
+A higher-order numerical solver can account for non-linear behaviour between 
+simulation steps. As this is not the case for our potential, there is no need
+to use a non-linear solver, i.e. a solver with higher order than Euler. In fact, 
+the system does not really need multiple timesteps; the state on each change in 
+the potential modulation function is determined explicitly by the convolution 
+of the state at the previous transition and a gaussian of an appropriate variance.
+Of course, the non-zero potential must also be accounted for, but with the noise
+term already accounted for this is a deterministic problem with an exact solution.
+One could thereby solve the system in the Fourier space instead, 
+for ease of convolution, and need only calculate the state twice per $\tau$.
+I did not implement this programatically, but if my algebra is correct,
+this should result in the same particle distribution as the relatively naiive 
+(as in, difficult to scale) particle simulation.
+
+\subsection*{Task 3}
+
+See Appendix A, or 
+\href{
+    https://www.github.com/viljarjf/nano/tree/main/TFY4235_numfys/2
+    }{\color{blue}{the GitHub source}}
+
+I decided to write the simulations in C, as I like the language. The GCC compiler
+was used on WSL Ubuntu to compile the code, writing its output as binary data
+directly to numpy files. These were subssequently read into python for 
+visualization with matplotlib.
+
+Source files are found in src/, header files in include/, 
+python scripts in scripts/, build artefacts will be generated in build/, 
+the binary will be placed in bin/, and numpy data will be placed in data/.
+
+\subsection*{Task 4}
+
+The C standard library was used to genreate pseudorandom numbers between 0 and 1.
+These were subsequently transformed into the standard normal distribution
+using the Box-Müller algorithm.
+
+\subsection*{Task 5}
+
+See Task 3
+
+\subsection*{Task 6}
+
+See Task 3
+
+\subsection*{Task 7}
+
+The given formula for the Boltzmann distribution is not normalized,
+as a factor $\Delta U$ is missing. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/71.png}
+    \caption{
+        Simulations with the flashing off correlate well with the distribution
+        proposed by statistical mechanics.
+    }
+    \label{fig:71}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/72.png}
+    \caption{
+        Simulations with the flashing off correlate with the distribution
+        proposed by statistical mechanics, although seperating it from a 
+        uniform distribution is difficult.
+    }
+    \label{fig:72}
+\end{figure}
+
+Figure \ref{fig:71} and \ref{fig:72} show the particle distribution with the potential on,
+for $\Delta U = 10k_BT$ and $\Delta U = 0.1k_BT$, respectively. From this, one might observe
+that the higher potential forces the particles into the bottom of the potential, 
+rather than staying mostly uniform. 
+
+\subsection*{Task 8}
+
+A high $\Delta U$ makes the particles favour the low-energy state at the
+bottom of the saw potentials. A high value would increase the speed at which
+particles flow towards this state when the potential is turned on, 
+reducing the time necessary to keep the potential on. 
+However, since a short time with the potential on would yield 
+a short time with the potential off, thereby reducing the time the particle 
+has to diffuse to the other side of the potential barrier. 
+
+\subsection*{Task 9}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/9.png}
+    \caption{
+        Average drift velocity realised for 1000 particles for each $\tau$.
+    }
+    \label{fig:9}
+\end{figure}
+
+Figure \ref{fig:9} depicts the drift velocity as a funcion of $\tau$. 
+From this, $\tau_\text{op}$ is estimated as \SI{3}{\second}.
+
+\subsection*{Task 10}
+
+The given figure uses $t_r = \frac{r_\text{eff}}{2D}$, 
+which for the experiment in Task 9 is 
+$\frac{(\alpha\SI{20}{\micro\metre})^2}{2\cdot\SI{1.92}{\micro\metre\squared\per\second}} 
+= \SI{0.25}{\second}$.
+
+The optimal flux is achieved at $\frac{t_r}{t_{off}} \approx 2$, 
+i.e. $\tau = t_{off} / 0.75 = t_r / 1.5 \approx \SI{2.7}{\second}$.
+This misses the estimated $\tau_{op}$ by about 10\%, 
+which is deemed reasonable.
+
+\subsection*{Task 11}
+
+The only factor containing the radius is $\omega \propto \frac{1}{r}$, 
+meaning a doubling of radius is equivalent to halving the time.
+Therefore, the $\tau_{op}$ for $r_2$ should be three times higher.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/10.png}
+    \caption{
+        Average drift velocity realised for 1000 particles for each $\tau$,
+        for $r = 3r_1$.
+    }
+    \label{fig:10}
+\end{figure}
+
+Looking at the data in figure \ref{fig:10}, estimating $\tau_{op}$ 
+is not feasible. \SI{9}{\second} seems reasonable enough.
+
+
+\subsection*{Task 12}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/12.png}
+    \caption{
+        Simulating 100 000 particles over time, they exibit regular 
+        diffusion as expected.
+    }
+    \label{fig:12}
+\end{figure}
+
+As can be seen in figure \ref{fig:12}, the particles exibit diffusion as expected.
+
+\subsection*{Task 13}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/13.png}
+    \caption{
+        To increase the timescale, fewer particles were simulated 
+        with the potential turned on than with it off. 
+        The resulting final distribution is highly dependent on where in
+        the potential period the simulation is stopped; if the potential 
+        is off then the distribution is more spread out,
+        whereas the distribution becomes more sharp peaks if the potential is on.
+    }
+    \label{fig:13}
+\end{figure}
+
+Figure \ref{fig:13} depicts the distribution after a few periods of the 
+potential. The behaviour is like a gaussian convoluted with a delta function
+for each potential minima, modulated by a gaussian travelling along the $x$-axis.
+What type of differential equation that would produce such a function as its
+solution is not familiar to me. 
+It looks reasonably like a wave packet in fourier space, 
+suggesting it might be similar to waves. 
+Obviously, the original differential equation looks like the output, 
+which makes every stochastic differential equation I have encountered behave like this
+(sample size of 1).

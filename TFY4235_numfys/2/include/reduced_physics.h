@@ -39,10 +39,9 @@ double F_r_reduced(double x_hat);
 /**
  * @brief Calculate an number that should be much larger than delta t hat
  * 
- * @param reduced_constants pointer to reduced constants struct
  * @return double 
  */
-double calc_delta_t_hat(reduced_constants_t *reduced_constants);
+double calc_delta_t_hat();
 
 
 /**
@@ -53,4 +52,6 @@ double calc_delta_t_hat(reduced_constants_t *reduced_constants);
  */
 double reduced_bolzmann_distribution(double x_hat);
 
+
+double reduced_normal_distribution(double x_hat, double t);
 #endif

@@ -20,7 +20,7 @@ static int get_size(NumpyType t){
     case INT64:
         return sizeof(long);
     default:
-        break;
+        return 8;
     }
 }
 
