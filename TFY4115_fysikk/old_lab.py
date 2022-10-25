@@ -1,6 +1,5 @@
 import numpy
-import matplotlib
-import matplotlib.pyplot
+from matplotlib import pyplot as plt
 import os
 
 
@@ -78,9 +77,9 @@ def v_and_x(t, x0, x=1.4, dt=0.0001, v0=0):
         X[j]=X[j-1]+dt*V[j-1]
         V[j]=V[j-1]+dt*(-9.81*numpy.sin(numpy.arctan(dS(X[j-1])))/(1+c)*(1-c))
         print((-9.81*numpy.sin(numpy.arctan(dS(X[j-1])))/(1+c)*(1-c)))
-    matplotlib.pyplot.plot(t,X,color='r')
-    matplotlib.pyplot.plot(t,V,color='b')
-    matplotlib.pyplot.show()
+    plt.plot(t,X,color='r')
+    plt.plot(t,V,color='b')
+    plt.show()
     
     
 
@@ -99,44 +98,44 @@ def fikspunkt(f,x0, iterasjoner):
 
     
 def draw_full_func(): #Tegner kulebanen 
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(0.2, 1.4,0.001)
-    matplotlib.pyplot.plot(t1,[S(x) for x in t1])
-    matplotlib.pyplot.title('Kulebanen')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.plot(t1,[S(x) for x in t1])
+    plt.title('Kulebanen')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
     fig.set_size_inches(20, 2.25*4)
     fig.savefig('Figurer av kulebanen/Kulebane_kort.png')
 
 def draw_derivert(): #Tegner den deriverte av kulebanen
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(0,1.4,0.001)
-    matplotlib.pyplot.plot(t1,[dS(x) for x in t1])
-    matplotlib.pyplot.title('Derivert')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.plot(t1,[dS(x) for x in t1])
+    plt.title('Derivert')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
     fig.set_size_inches(18.5, 10.5)
     fig.savefig('Figurer av kulebanen/Kulebane_derivert.png')
     
 def draw_dobbeltderivert(): #Tegner den dobbeltderiverte
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(0,1.4,0.01)
-    matplotlib.pyplot.plot(t1,[d2S(x) for x in t1])
-    matplotlib.pyplot.title('Dobbeltderivert')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.plot(t1,[d2S(x) for x in t1])
+    plt.title('Dobbeltderivert')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
     fig.set_size_inches(18.5, 10.5)
     fig.savefig('Figurer av kulebanen/Kulebane_dobbeltderivert.png')
 
 def draw_kombo(): #Tegner den deriverte og den dobbeltderiverte i samme plot. Må kalles manuelt om den ønskes. derivert er rød og dobbel er blå
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(0,1.4,0.01)
-    matplotlib.pyplot.plot(t1,[dS(x) for x in t1], color='r')
-    matplotlib.pyplot.plot(t1,[d2S(x) for x in t1], color='b')
-    matplotlib.pyplot.plot(t1,[0 for x in t1])
-    matplotlib.pyplot.title('Derivert (rød) og dobbeltderivert (blå)')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.plot(t1,[dS(x) for x in t1], color='r')
+    plt.plot(t1,[d2S(x) for x in t1], color='b')
+    plt.plot(t1,[0 for x in t1])
+    plt.title('Derivert (rød) og dobbeltderivert (blå)')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
     fig.set_size_inches(18.5, 10.5)
     fig.savefig('Figurer av kulebanen/Kulebane_kombo.png')
 
@@ -148,21 +147,21 @@ def draw_new_N(a=0,b=1.4,h0=h_0): #Tegner normalkraften til kula gjennom hele ba
     # du kaller opp denne på nytt med en ny h0, eller starter programmet på nytt. Sistnevnte tilbakestiller h_0 til standard
     global h_0
     h_0=h0
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(a,b,.0001)
-    matplotlib.pyplot.title('Normalkraft/masse')
-    matplotlib.pyplot.subplot(2, 1, 1)
-    matplotlib.pyplot.plot(t1,[new_N(x) for x in t1], color='r')
-    matplotlib.pyplot.plot(t1,[0 for x in t1], color='g')
-    matplotlib.pyplot.ylabel('y (N/kg)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.title('Normalkraft/masse')
+    plt.subplot(2, 1, 1)
+    plt.plot(t1,[new_N(x) for x in t1], color='r')
+    plt.plot(t1,[0 for x in t1], color='g')
+    plt.ylabel('y (N/kg)')
+    plt.xlabel('x (meter)')
 
 
-    matplotlib.pyplot.subplot(2,1,2)
-    matplotlib.pyplot.plot(t1, [S(x) for x in t1], color='c')
-    matplotlib.pyplot.plot(t1, [h0 for x in t1], color='b')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.subplot(2,1,2)
+    plt.plot(t1, [S(x) for x in t1], color='c')
+    plt.plot(t1, [h0 for x in t1], color='b')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
 
     
 
@@ -197,19 +196,19 @@ def ball_i_lufta(x, x0, v0):
 def draw_ballbane(a,b, x0):
     global h_0
     h_0=S(x0)
-    fig = matplotlib.pyplot.figure()
+    fig = plt.figure()
     t1 = numpy.arange(a,b,0.001)
-    matplotlib.pyplot.plot(t1,ballbane(t1,x0), color='r')
-    matplotlib.pyplot.plot(t1,[S(x)-0.01 for x in t1], color='b')
-    matplotlib.pyplot.title('Ballens bane')
-    matplotlib.pyplot.ylabel('y (meter)')
-    matplotlib.pyplot.xlabel('x (meter)')
+    plt.plot(t1,ballbane(t1,x0), color='r')
+    plt.plot(t1,[S(x)-0.01 for x in t1], color='b')
+    plt.title('Ballens bane')
+    plt.ylabel('y (meter)')
+    plt.xlabel('x (meter)')
     fig.set_size_inches(18.5, 10.5)
     fig.savefig(f'Figurer av kulebanen/Ballbaner/Ballbane_h0={S(x0)}.png')
     
 def draw_N_3D(a=0.95, b=1.05):
     global h_0
-    fig = matplotlib.pyplot.figure(figsize=(5,5))
+    fig = plt.figure(figsize=(5,5))
     ax = fig.add_subplot(111, projection='3d')
     X = numpy.arange(a, b, 0.001)
     Y=numpy.flip(numpy.arange(a-0.65, b-0.65, 0.001))
@@ -225,10 +224,10 @@ def draw_N_3D(a=0.95, b=1.05):
         null.append(temp)
     null=numpy.array(null)
     X,Y=numpy.meshgrid(X,Y)
-    matplotlib.pyplot.title('Normalkraft/masse')
+    plt.title('Normalkraft/masse')
     ax.set_ylim(0.4,0.3)
-    matplotlib.pyplot.xlabel('x (meter)')
-    matplotlib.pyplot.ylabel('Starthøyde (meter)')
+    plt.xlabel('x (meter)')
+    plt.ylabel('Starthøyde (meter)')
     ax.set_zlabel('Normalkraft (N/kg)')
     ax.set_zlim(-10,10)
     ax.plot_surface(X,Y,Z, color='r',alpha = 1, rstride=4, cstride=4, linewidth=0.5, antialiased=True) 
@@ -244,248 +243,9 @@ lette_x_for_h3465=0.9685
 #print('hei')
 
 t_ex=[x*0.007+0.15 for x in range(13, 93)]
-y_exp=[0.074462,
-0.074152,
-0.07328,
-0.07308,
-0.07216,
-0.07119,
-0.07035,
-0.06989,
-0.06893,
-0.06796,
-0.06697,
-0.06592,
-0.06486,
-0.06381,
-0.06269,
-0.06152,
-0.05975,
-0.05849,
-0.05661,
-0.0552,
-0.05327,
-0.05111,
-0.04896,
-0.04623,
-0.04381,
-0.04072,
-0.03754,
-0.03353,
-0.02954,
-0.02497,
-0.02005,
-0.01479,
-0.00935,
-0.00405,
--0.00584,
--0.01395,
--0.02354,
--0.03354,
--0.04354,
--0.05454,
--0.06554,
--0.07754,
--0.08954,
--0.10054,
--0.11154,
--0.12154,
--0.12954,
--0.13454,
--0.13654,
--0.13154,
--0.12954,
--0.12154,
--0.11154,
--0.10054,
--0.08954,
--0.07954,
--0.06854,
--0.05754,
--0.04754,
--0.03954,
--0.03154,
--0.02454,
--0.01754,
--0.01214,
--0.00737,
--0.00326,
-0,
-0.00216,
-0.0324,
-0.00928,
-0.00929,
-0.0024,
-0.00025,
--0.00245,
--0.00615,
--0.01057,
--0.01575,
--0.02154,
--0.02954,
--0.03754,
-]
-x_exp=[x+0.42 for x in [0.035043573,
-0.03707998,
-0.042020881,
-0.04452191,
-0.049584093,
-0.054122423,
-0.058817662,
-0.06188555,
-0.0669361,
-0.072002349,
-0.076667724,
-0.081620955,
-0.086616592,
-0.091516128,
-0.096379113,
-0.101482533,
-0.107701305,
-0.112935551,
-0.119254274,
-0.124532713,
-0.130868697,
-0.137046662,
-0.143364312,
-0.15046132,
-0.156869125,
-0.163853898,
-0.170752283,
-0.178430744,
-0.185998598,
-0.193510627,
-0.201405117,
-0.209174453,
-0.217312763,
-0.227234887,
-0.233246332,
-0.241245041,
-0.249345179,
-0.257263154,
-0.265360036,
-0.273725519,
-0.282245033,
-0.291568715,
-0.301328199,
-0.312423903,
-0.324812789,
-0.338593258,
-0.354073968,
-0.370585028,
-0.387957655,
-0.405265928,
-0.421943374,
-0.436694276,
-0.44945966,
-0.460738556,
-0.470388629,
-0.479566587,
-0.488416009,
-0.496617783,
-0.504691189,
-0.512265641,
-0.520500759,
-0.528812884,
-0.5371219,
-0.54511384,
-0.553891557,
-0.562233046,
-0.570576692,
-0.578904869,
-0.586535802,
-0.596577434,
-0.601372514,
-0.611630018,
-0.61990079,
-0.628471823,
-0.637861791,
-0.646961331,
-0.656374872,
-0.665875531,
-0.675651293,
-0.685515154
-]]
-v_ex=[x*0.8+0.3 for x in [0.315839473,
-0.353857081,
-0.375928175,
-0.382230156,
-0.489270387,
-0.470549273,
-0.393529468,
-0.412037947,
-0.514989392,
-0.49632738,
-0.491624249,
-0.508557021,
-0.505897257,
-0.500075292,
-0.511286908,
-0.584844609,
-0.592356776,
-0.598579905,
-0.602768937,
-0.604209031,
-0.658272181,
-0.660967999,
-0.713592695,
-0.72275349,
-0.724151742,
-0.761681777,
-0.812615572,
-0.860864267,
-0.867205826,
-0.904713545,
-0.933956697,
-0.958595956,
-1.050601462,
-1.100434412,
-1.140348727,
-1.178205471,
-1.257224736,
-1.303938369,
-1.341607943,
-1.396573475,
-1.455881142,
-1.513638112,
-1.559215621,
-1.61987856,
-1.663060155,
-1.709481179,
-1.736148417,
-1.733078604,
-1.740875339,
-1.733682417,
-1.655103701,
-1.652578902,
-1.580541731,
-1.504379036,
-1.433785849,
-1.412146572,
-1.371211874,
-1.295315261,
-1.194609553,
-1.148455796,
-1.134175744,
-1.074743531,
-1.010015783,
-0.984649717,
-0.964087446,
-0.911961687,
-0.876538,
-0.8142443,
-0.952754213,
-0.801046138,
-0.827636629,
-1.030618031,
-0.87620478,
-0.953398159,
-1.009774271,
-1.042713539,
-1.10149762,
-1.173937123,
-1.245510461,
-]]
+y_exp=[0.074462, 0.074152, 0.07328, 0.07308, 0.07216, 0.07119, 0.07035, 0.06989, 0.06893, 0.06796, 0.06697, 0.06592, 0.06486, 0.06381, 0.06269, 0.06152, 0.05975, 0.05849, 0.05661, 0.0552, 0.05327, 0.05111, 0.04896, 0.04623, 0.04381, 0.04072, 0.03754, 0.03353, 0.02954, 0.02497, 0.02005, 0.01479, 0.00935, 0.00405, -0.00584, -0.01395, -0.02354, -0.03354, -0.04354, -0.05454, -0.06554, -0.07754, -0.08954, -0.10054, -0.11154, -0.12154, -0.12954, -0.13454, -0.13654, -0.13154, -0.12954, -0.12154, -0.11154, -0.10054, -0.08954, -0.07954, -0.06854, -0.05754, -0.04754, -0.03954, -0.03154, -0.02454, -0.01754, -0.01214, -0.00737, -0.00326, 0, 0.00216, 0.0324, 0.00928, 0.00929, 0.0024, 0.00025, -0.00245, -0.00615, -0.01057, -0.01575, -0.02154, -0.02954, -0.03754, ]
+x_exp=[x+0.42 for x in [0.035043573, 0.03707998, 0.042020881, 0.04452191, 0.049584093, 0.054122423, 0.058817662, 0.06188555, 0.0669361, 0.072002349, 0.076667724, 0.081620955, 0.086616592, 0.091516128, 0.096379113, 0.101482533, 0.107701305, 0.112935551, 0.119254274, 0.124532713, 0.130868697, 0.137046662, 0.143364312, 0.15046132, 0.156869125, 0.163853898, 0.170752283, 0.178430744, 0.185998598, 0.193510627, 0.201405117, 0.209174453, 0.217312763, 0.227234887, 0.233246332, 0.241245041, 0.249345179, 0.257263154, 0.265360036, 0.273725519, 0.282245033, 0.291568715, 0.301328199, 0.312423903, 0.324812789, 0.338593258, 0.354073968, 0.370585028, 0.387957655, 0.405265928, 0.421943374, 0.436694276, 0.44945966, 0.460738556, 0.470388629, 0.479566587, 0.488416009, 0.496617783, 0.504691189, 0.512265641, 0.520500759, 0.528812884, 0.5371219, 0.54511384, 0.553891557, 0.562233046, 0.570576692, 0.578904869, 0.586535802, 0.596577434, 0.601372514, 0.611630018, 0.61990079, 0.628471823, 0.637861791, 0.646961331, 0.656374872, 0.665875531, 0.675651293, 0.685515154 ]]
+v_ex=[x*0.8+0.3 for x in [0.315839473, 0.353857081, 0.375928175, 0.382230156, 0.489270387, 0.470549273, 0.393529468, 0.412037947, 0.514989392, 0.49632738, 0.491624249, 0.508557021, 0.505897257, 0.500075292, 0.511286908, 0.584844609, 0.592356776, 0.598579905, 0.602768937, 0.604209031, 0.658272181, 0.660967999, 0.713592695, 0.72275349, 0.724151742, 0.761681777, 0.812615572, 0.860864267, 0.867205826, 0.904713545, 0.933956697, 0.958595956, 1.050601462, 1.100434412, 1.140348727, 1.178205471, 1.257224736, 1.303938369, 1.341607943, 1.396573475, 1.455881142, 1.513638112, 1.559215621, 1.61987856, 1.663060155, 1.709481179, 1.736148417, 1.733078604, 1.740875339, 1.733682417, 1.655103701, 1.652578902, 1.580541731, 1.504379036, 1.433785849, 1.412146572, 1.371211874, 1.295315261, 1.194609553, 1.148455796, 1.134175744, 1.074743531, 1.010015783, 0.984649717, 0.964087446, 0.911961687, 0.876538, 0.8142443, 0.952754213, 0.801046138, 0.827636629, 1.030618031, 0.87620478, 0.953398159, 1.009774271, 1.042713539, 1.10149762, 1.173937123, 1.245510461, ]]
 
 t=0.7
 x0=0.45
@@ -508,20 +268,20 @@ for j in range(1,len(t)):
     else:
         V[j]=V[j-1]+(dt*9.81)
         cond=1
-#fig=matplotlib.pyplot.figure()
+#fig=plt.figure()
 #fig.set_size_inches(10*0.7, 7*0.7)
-##matplotlib.pyplot.subplot(2, 1, 1)
-##matplotlib.pyplot.xlabel('tid (s)')
-##matplotlib.pyplot.ylabel('x(t) (meter)')
-##matplotlib.pyplot.plot(t,X,'r')
-##matplotlib.pyplot.plot(t_ex,x_exp,':b')
-##matplotlib.pyplot.subplot(2, 1, 2)
-##matplotlib.pyplot.ylabel('y(t) (meter)' )
-##matplotlib.pyplot.xlabel('tid (s)')
-##matplotlib.pyplot.plot(t,[S(x) for x in X],'r')
-##matplotlib.pyplot.plot(t_ex,[S(x) for x in x_exp],':b')
+##plt.subplot(2, 1, 1)
+##plt.xlabel('tid (s)')
+##plt.ylabel('x(t) (meter)')
+##plt.plot(t,X,'r')
+##plt.plot(t_ex,x_exp,':b')
+##plt.subplot(2, 1, 2)
+##plt.ylabel('y(t) (meter)' )
+##plt.xlabel('tid (s)')
+##plt.plot(t,[S(x) for x in X],'r')
+##plt.plot(t_ex,[S(x) for x in x_exp],':b')
 ##fig.tight_layout()
-##matplotlib.pyplot.savefig('x_og_y.png')
+##plt.savefig('x_og_y.png')
 #
 #new_v=numpy.zeros(len(X)-1)
 #for x in range(len(X)-1):
@@ -538,25 +298,25 @@ for j in range(1,len(t)):
 #        new_cond=1
 #
 #
-#matplotlib.pyplot.xlabel('tid (s)')
-#matplotlib.pyplot.ylabel('v(t) (m/s)')
-#matplotlib.pyplot.plot(t,V,'r')
-##matplotlib.pyplot.plot(t,new_v,'b')
-##matplotlib.pyplot.plot(t, extra_new_v, 'g')
-#matplotlib.pyplot.plot(t_ex[:-1],v_ex,':b')
-#matplotlib.pyplot.savefig('fart.png')
+#plt.xlabel('tid (s)')
+#plt.ylabel('v(t) (m/s)')
+#plt.plot(t,V,'r')
+##plt.plot(t,new_v,'b')
+##plt.plot(t, extra_new_v, 'g')
+#plt.plot(t_ex[:-1],v_ex,':b')
+#plt.savefig('fart.png')
 
 f=numpy.zeros(len(t))
 n=f.copy()
 for j in range(len(f)):
     f[j]=9.81*numpy.sin(numpy.arctan(dS(X[j])))/(1+c)-9.81*numpy.cos(numpy.arctan(dS(X[j])))/(1+c)
     n[j]=new_N(X[j])
-matplotlib.pyplot.xlabel('tid (s)')
-matplotlib.pyplot.ylabel('kraft/masse (N/kg)')
-matplotlib.pyplot.plot(t,f,'r')
-matplotlib.pyplot.plot(t,n,'b')
-matplotlib.pyplot.title('Friksjonskraft og normalkraft')
-matplotlib.pyplot.savefig('f.png')
+plt.xlabel('tid (s)')
+plt.ylabel('kraft/masse (N/kg)')
+plt.plot(t,f,'r')
+plt.plot(t,n,'b')
+plt.title('Friksjonskraft og normalkraft')
+plt.savefig('f.png')
 
 #draw_full_func()
 #draw_derivert()
