@@ -14,3 +14,6 @@ class Region:
     material: Material
     start: float
     end: float
+
+    def __hash__(self):
+        return hash(self.material.x) + hash(self.start) + hash(self.end - self.start)

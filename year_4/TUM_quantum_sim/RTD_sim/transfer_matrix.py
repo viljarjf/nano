@@ -8,11 +8,11 @@ class TransferMatrix(np.ndarray):
     pass
 
 
-def _T_shift_LHS(beta2: float | complex, d: float) -> TransferMatrix:
-    """Left-hand matrix for shifting a potential to z=d instead of z=0
+def _T_shift(k2: float | complex, d: float) -> TransferMatrix:
+    """Matrix for shifting a potential to z=d instead of z=0
 
     Args:
-        beta2 (float | complex): final beta (k / m*)
+        k2 (float | complex): final k
         d (float): potential shift
 
     Returns:
@@ -20,62 +20,42 @@ def _T_shift_LHS(beta2: float | complex, d: float) -> TransferMatrix:
     """
     return np.array(
         [
-            [np.exp(complex(0, -beta2*d)), 0], 
-            [0, np.exp(complex(0, beta2*d))]
+            [np.exp(1j*k2*d), 0], 
+            [0, np.exp(-1j*k2*d)]
         ]
     )
 
-
-def _T_shift_RHS(beta1: float | complex, d: float) -> TransferMatrix:
-    """Right-hand matrix for shifting a potential to z=d instead of z=0
-
-    Args:
-        beta1 (float | complex): initial beta (k / m*)
-        d (float): potential shift
-
-    Returns:
-        TransferMatrix: Right matrix for shifting
-    """
-    return np.array(
-        [
-            [np.exp(complex(0, beta1*d)), 0], 
-            [0, np.exp(complex(0, -beta1*d))]
-        ]
-    )
-
-
-def _T0(beta1: float | complex, beta2: float | complex) -> TransferMatrix:
-    """Create a transfer matrix for a given beta (k / m*) transition at z=0
+def _T0(k1: float | complex, k2: float | complex) -> TransferMatrix:
+    """Create a transfer matrix for a given k transition at z=0
 
     Args:
-        beta1 (float | complex): initial beta (k / m*)
-        beta2 (float | complex): final beta (k / m*)
+        k1 (float | complex): initial k
+        k2 (float | complex): final k
 
     Returns:
         TransferMatrix: 2x2 transfer matrix
     """
-    return (1 / (2*beta2)) * np.array(
+    return (1 / (2*k2)) * np.array(
         [
-            [ beta2 + beta2, beta2 - beta1],
-            [ beta2 - beta1, beta2 + beta1]
+            [ k2 + k2, k2 - k1],
+            [ k2 - k1, k2 + k1]
         ]
     )
 
 
-def T(beta1: float | complex, beta2: float | complex, d: float) -> TransferMatrix:
-    """Create a transfer matrix for a given beta (k / m*) transition at z=d.
+def Td(k1: float | complex, k2: float | complex, d: float) -> TransferMatrix:
+    """Create a transfer matrix for a given k transition at z=d.
     Assuming constant potential between z=0 and z=d
 
     Args:
-        beta1 (float | complex): initial beta (k / m*)
-        beta2 (float | complex): final beta (k / m*)
+        k1 (float | complex): initial k
+        k2 (float | complex): final k
         d (float): potential transition position
 
     Returns:
         TransferMatrix: 2x2 transfer matrix
     """
-    Tl = _T_shift_LHS(beta2, d)
-    Tr = _T_shift_RHS(beta2, d)
-    T0 = _T0(beta1, beta2)
+    Tl = _T_shift(k2, d)
+    T0 = _T0(k1, k2)
 
-    return Tl @ T0 @ Tr
+    return Tl @ T0

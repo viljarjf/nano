@@ -4,24 +4,14 @@ Equations describing the system.
 Pragmatix approximations, not precise analytical solutions
 """
 
+from functools import lru_cache
+import numpy as np
+
 from RTD_sim import constants as c
 from RTD_sim.region import Region
 
 from RTD_sim import RTD_SIM_LOGGER as logging
 
-
-def _k(E: float, V: float, m: float) -> float | complex:
-    """Calculate the wave "vector"(1D) of an electron. Can be complex, if the barrier is too tall
-
-    Args:
-        E (float): Energy of the electron
-        V (float): Potential experienced at that position
-        m (float): Effective mass of the electron
-
-    Returns:
-        float | complex: wave vector
-    """
-    return (2*m*(E - V))**0.5 / c.hbar
 
 class System:
 
@@ -83,12 +73,14 @@ class System:
     def E(self) -> float:
         """Electrical field"""
         return self._U / self.L
-    
+
     @property
     def L(self) -> float:
         """Length of system"""
         return self._regions[-1].end
 
+    def __hash__(self):
+        return sum(hash(r) for r in self._regions) + hash(self._U)
     
     def set_voltage(self, voltage: float) -> None:
         """Sets the potential difference of the system
@@ -117,6 +109,7 @@ class System:
         else:
             raise ValueError("Not a region")
 
+    @lru_cache
     def V(self, z: float) -> float:
         """Calculate the potential at position z
 
@@ -127,6 +120,35 @@ class System:
             float: potential 
         """
         r = self._find_region(z)
-        return r.material.dV + z*self.E
+        return r.material.dV + z*self.E*c.e0
 
-    
+
+    @lru_cache
+    def m_star(self, z: float) -> float:
+        """Get effective mass at position z
+
+        Args:
+            z (float): pos
+
+        Returns:
+            float: [kg] effective mass
+        """
+        return self._find_region(z).material.m
+
+
+    def k(self, E: float, z: float) -> float | complex:
+        """get wave number at position z
+
+        Args:
+            E (float): Inherent energy of wave
+            z (float): pos
+
+        Returns:
+            float | complex: wave number. Complex if exponential decay instead of wave
+        """
+        m = self.m_star(z)
+        return (2*m*(E - self.V(z))/ c.hbar**2 + 0j)**0.5
+
+
+    def beta(self, E: float, z: float) -> float | complex:
+        return self.k(E, z) / self.m_star(z)
