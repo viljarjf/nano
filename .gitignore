@@ -2,23 +2,18 @@
 *.pdf
 *.zip
 *.png
-*MakeFile
 *.txt
 *.mp4
 *.fuse_hidden*
 *.synctex.gz
-*.txt
-*.mp4
 *.csv
 
 # courses
-TFY4185*
-TFY4350*
+TFY4185/
+TFY4350/
 EXPH0300
 
 # folders
 .vscode
 __pycache__
-*.build
-*debug/
-*release/
+.build
