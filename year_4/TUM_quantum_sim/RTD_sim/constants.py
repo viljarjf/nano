@@ -1,5 +1,5 @@
 """
-System constants and nature constants
+Nature constants
 """
 
 e0      =   1       # [C]   Electron charge
