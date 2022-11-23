@@ -27,3 +27,18 @@ def m_star(x: float) -> float:
         float: [kg] Effective mass of electron
     """
     return c.me * (0.067 + 0.0174*x + 0.145*x**2)
+
+
+def k(E: float, V: float, m: float) -> float | complex:
+    """Calculate the wave "vector"(1D) of an electron. Can be complex, if the barrier is too tall
+
+    Args:
+        E (float): Energy of the electron
+        V (float): Potential experienced at that position
+        m (float): Effective mass of the electron
+
+    Returns:
+        float | complex: wave vector
+    """
+    return (2*m*(E - V))**0.5 / c.hbar
+
