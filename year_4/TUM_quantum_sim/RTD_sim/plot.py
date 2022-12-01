@@ -42,7 +42,7 @@ def probability_density(E: float, s: System, N: int) -> None:
         T = Td(k1, k2, z[n])
         coefs = np.matmul(T, coefs)
     
-    f = z < 20e-9
+    f = z < 2.0e-9
     plt.figure()
     plt.plot(z[f], np.real(p1)[f])
     plt.show()
