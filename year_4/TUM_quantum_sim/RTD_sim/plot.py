@@ -9,7 +9,7 @@ import numpy as np
 
 from RTD_sim.system import System
 from RTD_sim import constants as c
-from RTD_sim.transfer_matrix import Td
+from RTD_sim.transfer_matrix import M
 
 def potential(s: System, N: int = 200) -> None:
     plt.figure()
@@ -38,15 +38,28 @@ def probability_density(E: float, s: System, N: int) -> None:
         if n+1 == N:
             break
         k1 = s.k(E, z[n])
-        k2 = s.k(E, z[n+1])
-        T = Td(k1, k2, z[n])
+        beta1 = s.beta(E, z[n])
+        beta2 = s.beta(E, z[n+1])
+        T = M(k1, beta1, beta2, dz)
         coefs = np.matmul(T, coefs)
     
-    f = z < 20e-9
+    f = z < 2000e-9
     plt.figure()
     plt.plot(z[f], np.real(p1)[f])
+    plt.title("Real part of incident wave")
     plt.show()
 
     plt.figure()
-    plt.plot(z[f], (abs(p1)**2)[f])
+    plt.plot(z[f], (abs(p1 + p2)**2)[f])
+    plt.title("Probability (not notmalised)")
+    plt.show()
+
+
+def effective_mass(s: System, N: int = 200) -> None:
+    plt.figure()
+    z = np.linspace(0, s.L, N)
+    m = np.vectorize(s.m_star)(z)
+    plt.plot(z / 1e-9, m / c.me)
+    plt.xlabel("z [nm]")
+    plt.ylabel("m [electron masses]")
     plt.show()

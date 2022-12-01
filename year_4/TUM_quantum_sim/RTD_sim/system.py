@@ -136,6 +136,7 @@ class System:
         return self._find_region(z).material.m
 
 
+    @lru_cache
     def k(self, E: float, z: float) -> float | complex:
         """get wave number at position z
 
@@ -147,7 +148,7 @@ class System:
             float | complex: wave number. Complex if exponential decay instead of wave
         """
         m = self.m_star(z)
-        return (2*m*(E - self.V(z))/ c.hbar**2 + 0j)**0.5
+        return (2*m*(E - self.V(z)) + 0j)**0.5 / c.hbar
 
 
     def beta(self, E: float, z: float) -> float | complex:

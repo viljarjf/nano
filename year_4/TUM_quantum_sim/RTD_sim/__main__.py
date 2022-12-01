@@ -1,3 +1,6 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
 from RTD_sim import RTD_SIM_LOGGER as logging
 
 from RTD_sim.material import Material
@@ -5,6 +8,7 @@ from RTD_sim.region import Region
 from RTD_sim.system import System
 from RTD_sim import plot
 from RTD_sim import solver
+from RTD_sim import constants
 
 def main():
     logging.info("Initialising sim")
@@ -22,20 +26,26 @@ def main():
         Region(GaAs,    pad+3*w,    pad+3*w+pad)
     ]
     sys = System(regions)
-    #sys.set_voltage(-0.1)
+    sys.set_voltage(-0.1)
 
 
-    logging.info("Plotting the potential")
-    plot.potential(sys)
+    #logging.info("Plotting the potential")
+    #plot.potential(sys)
+    #plot.effective_mass(sys)
 
-
-    eV = 0.2
+    eV = 1
     logging.info(f"Plotting the probability density for E={eV}eV")
-    plot.probability_density(eV, sys, 1000)
+    #plot.probability_density(eV, sys, 1000)
 
     logging.info("Calculating transmission probability")
-    T = solver.T(1, sys, 1000)
-    logging.info(f"{T = }")
+    Es = np.linspace(0, 1, 100) 
+    Ts = []
+    for E in Es:
+        Ts.append(solver.T(E * constants.e0, sys, 1000))
+    plt.figure()
+    plt.plot(Es, Ts)
+    plt.xlabel("[eV]")
+    plt.show()
 
 if __name__ == "__main__":
     main()
