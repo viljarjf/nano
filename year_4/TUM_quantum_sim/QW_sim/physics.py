@@ -35,10 +35,6 @@ def potential(sys: System) -> np.ndarray:
     Returns:
         np.ndarray: 2D float array, eV
     """
-    out = np.zeros((sys.Ny, sys.Nx))
-
-    dV = _bandgap(sys.x)
-    out += dV
 
     # figure out where the wire is in the simulation area
     buffer_x = (sys.Lx - sys.wire_x) / 2
@@ -53,7 +49,9 @@ def potential(sys: System) -> np.ndarray:
     wire_Nx_max = wire_Nx_min + wire_Nx_width
     wire_Ny_max = wire_Ny_min + wire_Ny_width
 
+    out = np.zeros((sys.Ny, sys.Nx))
+    dV = _bandgap(sys.x)
 
-    out[wire_Ny_min:wire_Ny_max, wire_Nx_min:wire_Nx_max] = 0
+    out[wire_Ny_min:wire_Ny_max, wire_Nx_min:wire_Nx_max] = -dV
 
     return out
