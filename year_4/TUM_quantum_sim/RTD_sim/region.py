@@ -6,7 +6,7 @@ Properties of different regions of the semiconductor
 
 from dataclasses import dataclass
 
-from RTD_sim.material import Material
+from TUM_quantum_sim.RTD_sim.material import Material
 
 @dataclass
 class Region:

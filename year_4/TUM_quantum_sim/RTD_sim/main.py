@@ -1,14 +1,14 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from RTD_sim import RTD_SIM_LOGGER as logging
+from TUM_quantum_sim.RTD_sim import RTD_SIM_LOGGER as logging
 
-from RTD_sim.material import Material
-from RTD_sim.region import Region
-from RTD_sim.system import System
-from RTD_sim import plot
-from RTD_sim import solver
-from RTD_sim import constants
+from TUM_quantum_sim.RTD_sim.material import Material
+from TUM_quantum_sim.RTD_sim.region import Region
+from TUM_quantum_sim.RTD_sim.system import System
+from TUM_quantum_sim.RTD_sim import plot
+from TUM_quantum_sim.RTD_sim import solver
+from TUM_quantum_sim import constants
 
 def main():
     logging.info("Initialising sim")

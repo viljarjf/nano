@@ -7,10 +7,10 @@ Pragmatix approximations, not precise analytical solutions
 from functools import lru_cache
 import numpy as np
 
-from RTD_sim import constants as c
-from RTD_sim.region import Region
+from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.RTD_sim.region import Region
 
-from RTD_sim import RTD_SIM_LOGGER as logging
+from TUM_quantum_sim.RTD_sim import RTD_SIM_LOGGER as logging
 
 
 class System:

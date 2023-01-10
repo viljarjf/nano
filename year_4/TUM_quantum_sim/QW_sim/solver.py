@@ -1,7 +1,7 @@
 from scipy import sparse as sp
 import numpy as np
 
-from QW_sim.system import System
+from TUM_quantum_sim.QW_sim.system import System
 
 from dataclasses import dataclass
 

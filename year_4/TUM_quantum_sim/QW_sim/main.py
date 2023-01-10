@@ -1,10 +1,10 @@
-from QW_sim import QW_SIM_LOGGER as logging
+from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
 
-from QW_sim import solver
-from QW_sim import physics
-from QW_sim import matrix
-from QW_sim.system import System
-from QW_sim import constants as c
+from TUM_quantum_sim.QW_sim import solver
+from TUM_quantum_sim.QW_sim import physics
+from TUM_quantum_sim.QW_sim import matrix
+from TUM_quantum_sim.QW_sim.system import System
+from TUM_quantum_sim import constants as c
 
 from matplotlib import pyplot as plt
 import matplotlib

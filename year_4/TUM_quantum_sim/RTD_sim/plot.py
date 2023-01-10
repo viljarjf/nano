@@ -7,9 +7,9 @@ Plot stuff
 from matplotlib import pyplot as plt
 import numpy as np
 
-from RTD_sim.system import System
-from RTD_sim import constants as c
-from RTD_sim.transfer_matrix import M
+from TUM_quantum_sim.RTD_sim.system import System
+from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.RTD_sim.transfer_matrix import M
 
 def potential(s: System, N: int = 200) -> None:
     plt.figure()
