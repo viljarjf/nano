@@ -12,14 +12,14 @@ class Solution:
 
 
 def eigen(sys: System, H: sp.spmatrix, n: int = 5) -> list[Solution]:
-    vals, vecs = sp.linalg.eigsh(H, k=n, which="SM")
+    vals, vecs = sp.linalg.eigsh(H, k=n, which="SA")
 
     out = []
     for i in range(n):
         out.append(
             Solution(
                 vals[i],
-                vecs[:, i].reshape(sys.Nx, sys.Ny).T
+                vecs[:, i].reshape(sys.Ny, sys.Nx)
             )
         )
     return out

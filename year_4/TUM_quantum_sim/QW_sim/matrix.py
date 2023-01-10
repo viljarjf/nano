@@ -17,11 +17,11 @@ def hamiltonian(sys: System) -> np.ndarray:
     cy = f / dy**2
     c = cx + cy
 
-    Dj = sp.diags([2*c, -cx, -cx], [0, 1, -1], shape=(sys.Ny, sys.Ny))
+    Dj = sp.diags([2*c, -cx, -cx], [0, 1, -1], shape=(sys.Nx, sys.Nx))
 
-    H = sp.kron(sp.diags([1], shape=(sys.Nx, sys.Nx)), Dj)
-    H += sp.diags([-cy, -cy], [sys.Ny, -sys.Ny], shape=(sys.Nx*sys.Ny, sys.Nx*sys.Ny))
-    H += sp.diags(V.T.flatten())
+    H = sp.kron(sp.diags([1], shape=(sys.Ny, sys.Ny)), Dj)
+    H += sp.diags([-cy, -cy], [sys.Nx, -sys.Nx], shape=(sys.Nx*sys.Ny, sys.Nx*sys.Ny))
+    H += sp.diags(V.flatten())
 
     return H
 
@@ -55,5 +55,8 @@ def apply_boundary(sys: System, H: sp.spmatrix) -> sp.spmatrix:
     H = H.tocsc()
     set_zeros(H.data, H.indptr)
     H.eliminate_zeros()
+
+    # aight I'll just do this easier
+    
 
     return H

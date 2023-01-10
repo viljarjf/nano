@@ -19,21 +19,23 @@ def main():
         Ly = 60e-9,
         wire_x = 16e-9,
         wire_y = 24e-9,
-        Nx = 200,
-        Ny = 300,
+        Nx = 20,
+        Ny = 30,
         x = 0.1
         )
 
     H = matrix.hamiltonian(s)
-    H = matrix.apply_boundary(s, H)
+    # it seems there is no extra boundary condition??
+    # H = matrix.apply_boundary(s, H)
 
     # plt.figure()
     # plt.imshow(H.toarray() / c.e0)
     # plt.show()
 
     # plt.figure()
-    # plt.imshow(physics.potential(s) * c.e0)
+    # plt.imshow(physics.potential(s))
     # plt.show()
+    
 
     solutions = solver.eigen(s, H, n = 20)
     start_plot = 0
@@ -41,7 +43,7 @@ def main():
     plt.figure()
     for i in range(4*4):
         plt.subplot(4, 4, i+1)
-        plt.imshow(abs(solutions[start_plot + i].eigenvector.T)**2)
+        plt.imshow(solutions[start_plot + i].eigenvector)
         plt.title(f"{solutions[start_plot + i].eigenvalue / c.e0 :.3f} eV")
     plt.tight_layout()
     plt.show()
