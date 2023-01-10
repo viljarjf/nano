@@ -2,17 +2,18 @@ import numpy as np
 from scipy import sparse as sp
 import numba
 
-from QW_sim.system import System
-from QW_sim import physics
-from QW_sim import constants
+from TUM_quantum_sim.QW_sim.system import System
+from TUM_quantum_sim.QW_sim import physics
+from TUM_quantum_sim import constants
+from TUM_quantum_sim.utils import m_star
 
 def hamiltonian(sys: System) -> np.ndarray:
-    V = physics.potential(sys) * constants.e0
+    V = physics.potential(sys)
 
     dx = sys.Lx / sys.Nx
     dy = sys.Ly / sys.Ny
 
-    f = constants.hbar**2 / (2 * constants.me * physics._effective_mass(0))
+    f = constants.hbar**2 / (2 * m_star(0))
     cx = f / dx**2
     cy = f / dy**2
     c = cx + cy

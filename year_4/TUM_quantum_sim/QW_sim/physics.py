@@ -1,29 +1,7 @@
 import numpy as np
 
-from QW_sim.system import System
-
-def _bandgap(x: float) -> float:
-    """band gap between GaAs and Al_xGa_1-xAs
-
-    Args:
-        x (float): Al amount
-
-    Returns:
-        float: eV
-    """
-    return  0.62 * (1.594*x + x *(1 - x) * (0.127 - 1.310*x)) 
-
-
-def _effective_mass(x: float) -> float:
-    """estimate effective mass of electron in AlGaAs
-
-    Args:
-        x (float): Al amount
-
-    Returns:
-        float: electron masses
-    """
-    return 0.067 + 0.0174*x + 0.145*x**2
+from TUM_quantum_sim.QW_sim.system import System
+from TUM_quantum_sim.utils import delta_V
 
 
 def potential(sys: System) -> np.ndarray:
@@ -33,7 +11,7 @@ def potential(sys: System) -> np.ndarray:
         sys (System): the system parameters
 
     Returns:
-        np.ndarray: 2D float array, eV
+        np.ndarray: 2D float array, [J]
     """
 
     # figure out where the wire is in the simulation area
@@ -50,7 +28,7 @@ def potential(sys: System) -> np.ndarray:
     wire_Ny_max = wire_Ny_min + wire_Ny_width
 
     out = np.zeros((sys.Ny, sys.Nx))
-    dV = _bandgap(sys.x)
+    dV = delta_V(sys.x)
 
     out[wire_Ny_min:wire_Ny_max, wire_Nx_min:wire_Nx_max] = -dV
 

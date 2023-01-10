@@ -1,8 +1,8 @@
 
 import numpy as np
 
-from RTD_sim.system import System
-from RTD_sim.transfer_matrix import M, TransferMatrix
+from TUM_quantum_sim.RTD_sim.system import System
+from TUM_quantum_sim.RTD_sim.transfer_matrix import M, TransferMatrix
 
 def _T_mat_tot(E: float, sys: System, N: int) -> TransferMatrix:
     z = np.linspace(0, sys.L, N)
