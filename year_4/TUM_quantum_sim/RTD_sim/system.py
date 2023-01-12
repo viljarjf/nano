@@ -93,6 +93,16 @@ class System:
         else:
             raise ValueError("Not a valid potential")
 
+    def set_electric_field(self, field: float) -> None:
+        """Sets the electric field strength
+
+        Args:
+            field (float): Electric field, [V/m]
+        """
+        if float(field) == field:
+            self._U = -field * self.L
+        else:
+            raise ValueError("Not a valid electric field")
 
     def add_region(self, region: Region) -> None:
         """Add a region to the system. 
@@ -110,18 +120,26 @@ class System:
             raise ValueError("Not a region")
 
     @lru_cache
-    def V(self, z: float) -> float:
-        """Calculate the potential at position z
-
-        Args:
-            z (float): position
-
-        Returns:
-            float: potential 
-        """
+    def _V(self, z: float) -> float:
         r = self._find_region(z)
         return r.material.dV + z*self.E*c.e0
 
+    
+    def V(self, z: float | np.ndarray) -> float | np.ndarray:
+        """Calculate the potential at position z
+
+        Args:
+            z (float | np.ndarray): position
+
+        Returns:
+            float | np.ndarray: potential 
+        """
+        if isinstance(z, float):
+            return self._V(z)
+        elif isinstance(z, np.ndarray):
+            return np.vectorize(self._V)(z)
+        else:
+            raise TypeError("Invalid type for argument 'z'")
 
     @lru_cache
     def m_star(self, z: float) -> float:
