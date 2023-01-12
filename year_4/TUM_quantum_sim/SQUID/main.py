@@ -94,15 +94,15 @@ def main():
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
     H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
-    H = H0 + sp.diags(V0)
+    H0 += sp.diags(V0)
 
     # plt.figure()
     # plt.title("Hamiltonian")
-    # plt.imshow(H.toarray())
+    # plt.imshow(H0.toarray())
     # plt.show()
 
     # find the two smallest (algebraic, not in absolute value) eigenvalues
-    _E, _psi = sp.linalg.eigsh(H, k=2, which="SA")
+    _E, _psi = sp.linalg.eigsh(H0, k=2, which="SA")
     psi1 = _psi[:, 0]
     psi2 = _psi[:, 1]
 
@@ -145,11 +145,11 @@ def main():
 
     I = sp.eye(N, N, format="csc")
     prefactor = dt/(2j * c.hbar)
-    H *= prefactor
+    H = prefactor * H0
 
     while tn < t_end:
-        Vn = potential(z, tn + dt, a, Vb, E, omega)
-        Hn = prefactor * (H0 + sp.diags(Vn))
+        Vt = temporal_potential(z, tn + dt, E, omega)
+        Hn = prefactor * (H0 + sp.diags(Vt))
 
         psi_n = sp.linalg.inv(I - Hn) @ (I + H) @ psi_n
 
@@ -160,7 +160,7 @@ def main():
         if tn // t_store > len(psi):
             psi.append(psi_n)
             t.append(tn)
-            V.append(Vn)
+            V.append(V0 + Vt)
             SQUID_LOGGER.info(f"{tn = :.2e}")
 
     t = np.array(t)
@@ -177,9 +177,9 @@ def main():
     # fig.colorbar(surf, shrink=0.5, aspect=5)
     # plt.show()
 
-    # anmation
+    # animation
     fig, (ax1, ax2) = plt.subplots(2, 1)
-    ln_psi, = ax1.plot(z, psi[0, :])
+    ln_psi, = ax1.plot(z, abs(psi[0, :])**2)
     ln_V, = ax2.plot(z, V[0, :])
 
     def init():
