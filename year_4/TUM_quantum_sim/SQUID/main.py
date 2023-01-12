@@ -5,6 +5,7 @@ from TUM_quantum_sim import constants as c
 from matplotlib import pyplot as plt
 import matplotlib
 from matplotlib import cm
+from matplotlib.animation import FuncAnimation
 import numpy as np
 from scipy import sparse as sp
 
@@ -83,7 +84,7 @@ def main():
     dz = z[1] - z[0]
 
     SQUID_LOGGER.info("Calculating potential")
-    V = static_potential(z, a, Vb)
+    V0 = static_potential(z, a, Vb)
 
     # plt.figure()
     # plt.plot(z, V)
@@ -93,7 +94,7 @@ def main():
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
     H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
-    H = H0 + sp.diags(V)
+    H = H0 + sp.diags(V0)
 
     # plt.figure()
     # plt.title("Hamiltonian")
@@ -106,12 +107,12 @@ def main():
     psi2 = _psi[:, 1]
 
     # plt.figure()
-    # plt.suptitle("$\Psi_{1,2}$")
+    # plt.suptitle("$|\Psi_{1,2}|^2$")
     # plt.subplot(2, 1, 1)
-    # plt.plot(z, psi1)
+    # plt.plot(z, abs(psi1)**2)
     # plt.title(_E[0] / c.e0)
     # plt.subplot(2, 1, 2)
-    # plt.plot(z, psi2)
+    # plt.plot(z, abs(psi2)**2)
     # plt.title(_E[1] / c.e0)
     # plt.tight_layout()
     # plt.show()
@@ -122,15 +123,14 @@ def main():
     # F^n = 1/ihbar * H^n @ psi^n
     # H^n = H0 + V^n
     # Rearrange this by hand to get the stuff in the while loop
-    t = []
     tn = 0
+    t = [tn]
     t_end = 10e-15
-    t_store = 1e-15 # time between each stored psi
-    t.append(tn)
-    dt = 0.75 * (np.max(V) + 4 * abs(h0))
+    t_store = 0.25e-15 # time between each stored psi
+    dt = 0.25 * (np.max(V0) + 4 * abs(h0))
 
     E = 1e9
-    omega = np.pi*2e12
+    omega = np.pi*200e12
     # E = omega = 0
 
 
@@ -138,10 +138,10 @@ def main():
     SQUID_LOGGER.info(f"{E = :.2e}")
     SQUID_LOGGER.info(f"{omega = :.2e}")
 
-    psi = []
-    psi0 = (psi1 + psi2) * 2**-0.5
-    psi_n = psi0
-    psi.append(psi_n)
+    psi_n = (psi1 + psi2) * 2**-0.5
+    psi = [psi_n]
+
+    V = [V0]
 
     I = sp.eye(N, N, format="csc")
     prefactor = dt/(2j * c.hbar)
@@ -160,24 +160,43 @@ def main():
         if tn // t_store > len(psi):
             psi.append(psi_n)
             t.append(tn)
+            V.append(Vn)
             SQUID_LOGGER.info(f"{tn = :.2e}")
+
     t = np.array(t)
     psi = np.array(psi)
+    V = np.array(V)
 
-    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    # 3D plot
+    # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    # X, Y = np.meshgrid(z, t)
+    # surf = ax.plot_surface(X, Y, abs(psi)**2, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
+    # plt.xlabel("z [m]")
+    # plt.ylabel("t [s]")
+    # plt.title("$|\Psi|^2$")
+    # fig.colorbar(surf, shrink=0.5, aspect=5)
+    # plt.show()
 
-    # Make data.
-    X, Y = np.meshgrid(z, t)
+    # anmation
+    fig, (ax1, ax2) = plt.subplots(2, 1)
+    ln_psi, = ax1.plot(z, psi[0, :])
+    ln_V, = ax2.plot(z, V[0, :])
 
-    # Plot the surface.
-    surf = ax.plot_surface(X, Y, abs(psi)**2, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
-    plt.xlabel("z [m]")
-    plt.ylabel("t [s]")
-    plt.title("$|\Psi|^2$")
+    def init():
+        ax1.set_ylim(0, 0.2)
+        ax2.set_ylim(-2*c.e0, 10*c.e0)
+        return ln_psi, ln_V,
 
-    # Add a color bar which maps values to colors.
-    fig.colorbar(surf, shrink=0.5, aspect=5)
+    def frames():
+        for n in range(psi.shape[0]):
+            yield psi[n, :], V[n, :]
 
+    def update(data):
+        ln_psi.set_data(z, abs(data[0])**2)
+        ln_V.set_data(z, data[1])
+        return ln_psi, ln_V,
+
+    ani = FuncAnimation(fig, update, frames=frames, init_func=init, blit=True)
     plt.show()
 
     SQUID_LOGGER.info("Simulation finished, exiting...")
