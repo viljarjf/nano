@@ -135,8 +135,8 @@ def main():
     nabla_z2 = 1/dz**2 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
     H0 = h0 * nabla_z2
 
-    def iterate(V: np.ndarray, log: bool = False) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """returns E, psi, dV"""
+    def iterate(V: np.ndarray, log: bool = False) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """returns E, psi, dV, p"""
         if log:
             logging.info("Finding stationary eigenstates")
 
@@ -198,25 +198,33 @@ def main():
         delta_V = c.e0 / (epsilon) * sp.linalg.inv(nabla_z2) @ rho
         delta_V = delta_V.real # it is strictly real anyway
 
-        return En, psi, delta_V        
+        return En, psi, delta_V, p 
 
     V0 = V
-    En, psi, dV = iterate(V0, log=True)
+    En, psi, dV, p = iterate(V0, log=True)
     En_old = 10*En # dummy value
     n_iter = 0
     logging.info("Iterating the Schrödinger equation and the Poisson equation")
     while np.any(abs(En - En_old) > 1e-5*c.e0):
         V = V0 + dV
         En_old = En
-        En, psi, dV = iterate(V)
+        En, psi, dV, p = iterate(V)
         n_iter += 1
         if not n_iter % 10:
             logging.info(f"{n_iter = } iterations")
 
-    print(n_iter)
-    En0, psi0, _ = iterate(V0)
+    logging.info(f"Used {n_iter} iterations")
+    
+    En0, psi0, _, p0 = iterate(V0)
     plot_psi(z, V0, En0, psi0, block=False)
     plot_psi(z, V0 + dV, En, psi)
+
+    logging.info("Occupation of initial solution")
+    for i in range(len(p0)):
+        logging.info(f"p{i} = {p0[i]*100 :.3f}%")
+    logging.info("Occupation of final solution")
+    for i in range(len(p)):
+        logging.info(f"p{i} = {p[i]*100 :.3f}%")
 
     logging.info("Simulation finished, exiting...")
 
