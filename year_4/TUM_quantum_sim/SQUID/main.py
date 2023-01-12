@@ -92,7 +92,7 @@ def main():
     SQUID_LOGGER.info("Finding stationary eigenstates")
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
-    H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N))
+    H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
     H = H0 + sp.diags(V)
 
     # plt.figure()
@@ -119,17 +119,19 @@ def main():
 
     # Crank-Nicholson
     # psi^n+1 = psi^n + dt/2 * (F^n + F^n+1)
-    # F^n = 1/ihbar * H^n * psi^n
+    # F^n = 1/ihbar * H^n @ psi^n
+    # H^n = H0 + V^n
     # Rearrange this by hand to get the stuff in the while loop
     t = []
     tn = 0
     t_end = 10e-15
+    t_store = 1e-15 # time between each stored psi
     t.append(tn)
-    dt = 0.5 * (np.max(V) + 4 * abs(h0))
+    dt = 0.75 * (np.max(V) + 4 * abs(h0))
 
     E = 1e9
     omega = np.pi*2e12
-    E = omega = 0
+    # E = omega = 0
 
 
     SQUID_LOGGER.info(f"{dt = :.2e}")
@@ -141,19 +143,21 @@ def main():
     psi_n = psi0
     psi.append(psi_n)
 
+    I = sp.eye(N, N, format="csc")
     prefactor = dt/(2j * c.hbar)
+    H *= prefactor
+
     while tn < t_end:
         Vn = potential(z, tn + dt, a, Vb, E, omega)
-        Hn = H0 + sp.diags(Vn)
+        Hn = prefactor * (H0 + sp.diags(Vn))
 
-        # just fix this, its wrong in the notes I think
-        psi_n = sp.linalg.inv(sp.eye(N, N) - prefactor * Hn) @ (psi_n + prefactor * H)
+        psi_n = sp.linalg.inv(I - Hn) @ (I + H) @ psi_n
 
         tn += dt
         H = Hn
 
         # store every 1fs
-        if tn // 1e-15 > len(psi):
+        if tn // t_store > len(psi):
             psi.append(psi_n)
             t.append(tn)
             SQUID_LOGGER.info(f"{tn = :.2e}")
@@ -166,9 +170,10 @@ def main():
     X, Y = np.meshgrid(z, t)
 
     # Plot the surface.
-    surf = ax.plot_surface(X, Y, psi, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
+    surf = ax.plot_surface(X, Y, abs(psi)**2, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
     plt.xlabel("z [m]")
     plt.ylabel("t [s]")
+    plt.title("$|\Psi|^2$")
 
     # Add a color bar which maps values to colors.
     fig.colorbar(surf, shrink=0.5, aspect=5)
