@@ -153,33 +153,34 @@ def main():
 
         if log:
             logging.info("Found 5 stationary eigenstates")
-        for i in range(len(En)):
-            if log:
+            for i in range(len(En)):
                 logging.info(f"E{i} = {En[i] / c.e0 :.3f} eV")
 
         # plot_psi(z, V, En, psi)
 
         # estimate mu with newton's method
+        # use relative tolerance
         if log:
             logging.info("Estimating mu")
         mu_n = En[-1]
-        tol = c.e0 * 1e-10
+        tol = 1e-10
         error = float("inf")
         iter_fun = lambda mu: (calc_n(En, m, mu, T) - n2D) / calc_dn_dmu(En, m, mu, T)
         while error > tol:
-            error = iter_fun(mu_n)
-            mu_n -= error
+            mu_n -= iter_fun(mu_n)
+            error = abs(1 - calc_n(En, m, mu_n, T) / n2D)
         mu = mu_n
         if log:
             logging.info(f"mu = {mu / c.e0 :.3e} eV")
         if log:
             logging.info(f"n = {calc_n(En, m, mu, T) :.3e}")
+            logging.info(f"n2D = {n2D :.3e}")
 
         if log:
             logging.info("Calculating occupation")
         p = np.array([calc_n([Ei], m, mu, T) / n2D for Ei in En])
-        for i in range(len(p)):
-            if log:
+        if log:
+            for i in range(len(p)):
                 logging.info(f"p{i} = {p[i]*100 :.3f}%")
 
         if log:
@@ -222,9 +223,11 @@ def main():
     logging.info("Occupation of initial solution")
     for i in range(len(p0)):
         logging.info(f"p{i} = {p0[i]*100 :.3f}%")
+    logging.info(f"Total: {sum(p0)*100:.1f}%")
     logging.info("Occupation of final solution")
     for i in range(len(p)):
         logging.info(f"p{i} = {p[i]*100 :.3f}%")
+    logging.info(f"Total: {sum(p)*100:.1f}%")
 
     logging.info("Simulation finished, exiting...")
 
