@@ -1,9 +1,24 @@
 # nano
-Programs made during nanotechnology studies
+Programs made during nanotechnology studies.
 
+Focus area of nanoelectronics.
 
-The earlier courses (namely TDT4110 ITGK, TFY4115 fysikk 1, and to some degree TDT4102 C++) contain mostly bad code. 
-I've improved by the time TKJ4215 statterm comes around, although some exercises were solved in a memey way. Beware.
+# 7th semester
+
+### Simulation of Quantum Devices
+
+Different simulation methods for quantum devices, course taken at TU Munich.
+In the beginning, I spent way too much time writing the code abstractly. The more advanced simulations have not even been split into multiple files...
+
+- Dual QW: Thermal equilibrium electron occupation in a double well potential, simulated using finite difference.
+
+- QCL: Quantum Cascade Laser simulation, with a strange non-periodic multi-well potential. Non-temporally simulated with finite difference, using the Schrödinger-Poisson equation.
+
+- QW: Quantum wire simulation, using finite difference
+
+- RTD: Resonant Tunneling Diode simulated with transfer matrices
+
+- SQUID: Supposedly simulating a Superconducting QUantum Interference Device, but it's just the same potential as the dual QW. Simulated temporally with finite difference.
 
 # 6th semester
 
