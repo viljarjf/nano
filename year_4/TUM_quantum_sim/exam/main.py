@@ -1,6 +1,7 @@
-from TUM_quantum_sim.SQUID import SQUID_LOGGER as logging
+from TUM_quantum_sim.exam import EXAM_LOGGER as logging
 
 from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.exam import potential
 
 from matplotlib import pyplot as plt
 import matplotlib
@@ -9,65 +10,6 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 from scipy import sparse as sp
 
-def static_potential(
-    z: float | np.ndarray,
-    a: float,
-    Vb: float
-    ) -> np.ndarray:
-    """create a discretised array of the potential
-
-    Args:
-        z (float | np.ndarray): z coordinate in potential, [m]
-        a (float): Potential function parameter, [m]
-        Vb (float): Energy scaling, [J]
-
-    Returns:
-        float | np.ndarray: potential [J]
-    """
-    z0 = a / (4*2**0.5)
-    return Vb * (-0.25 * (z/z0)**2 + 1/64 * (z/z0)**4)
-
-def temporal_potential(
-    z: float | np.ndarray,
-    t: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
-    """Calculate the temporal evolution of the potential
-
-    Args:
-        z (float | np.ndarray): position [m]
-        t (float): time [s]
-        E (float): Electric field strength [V/m]
-        omega (float): frequency, [rad/s]
-
-    Returns:
-        float | np.ndarray: potential [J]
-    """
-    return -c.e0 * E * z * np.sin(omega * t)
-
-def potential(
-    z: float | np.ndarray,
-    t: float,
-    a: float,
-    Vb: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
-    """Calculate potential
-
-    Args:
-        z (float | np.ndarray): z coordinate in potential, [m]
-        t (float): time [s]
-        a (float): Potential function parameter, [m]
-        Vb (float): Energy scaling, [J]
-        E (float): Electric field strength [V/m]
-        omega (float): frequency, [rad/s]
-
-    Returns:
-        float | np.ndarray: potential [J]
-    """
-    return static_potential(z, a, Vb) + temporal_potential(z, t, E, omega)
 
 def main():
     logging.info("Starting simulation")
@@ -84,7 +26,7 @@ def main():
     dz = z[1] - z[0]
 
     logging.info("Calculating potential")
-    V0 = static_potential(z, a, Vb)
+    V0 = potential.static(z, a, Vb)
 
     # plt.figure()
     # plt.plot(z, V)
@@ -148,7 +90,7 @@ def main():
     H = prefactor * H0
 
     while tn < t_end:
-        Vt = temporal_potential(z, tn + dt, E, omega)
+        Vt = potential.temporal(z, tn + dt, E, omega)
         Hn = prefactor * (H0 + sp.diags(Vt))
 
         psi_n = sp.linalg.inv(I - Hn) @ (I + H) @ psi_n
