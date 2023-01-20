@@ -49,3 +49,28 @@ def psi_3D(z: np.ndarray, t: np.ndarray, psi: np.ndarray):
     fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.show()
 
+def psi_animation(z: np.ndarray, V: np.ndarray, psi: np.ndarray):
+    fig, (ax1, ax2) = plt.subplots(2, 1)
+
+    ln_psi, = ax1.plot(z, abs(psi[0, :])**2)
+    ln_V, = ax2.plot(z, V[0, :])
+
+    def init():
+        ax1.set_title("$|\Psi|^2$")
+        ax2.set_title("Potential [eV]")
+        ax1.set_ylim(0, 0.2)
+        ax2.set_ylim(-2, 10)
+        fig.tight_layout()
+        return ln_psi, ln_V,
+
+    def frames():
+        for n in range(psi.shape[0]):
+            yield psi[n, :], V[n, :]
+
+    def update(data):
+        ln_psi.set_data(z, abs(data[0])**2)
+        ln_V.set_data(z, data[1] / c.e0)
+        return ln_psi, ln_V,
+
+    ani = FuncAnimation(fig, update, frames=frames, init_func=init, blit=True)
+    plt.show()
