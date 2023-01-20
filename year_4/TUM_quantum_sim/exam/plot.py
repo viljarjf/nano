@@ -74,3 +74,10 @@ def psi2_animation(z: np.ndarray, V: np.ndarray, abs_psi_squared: np.ndarray):
 
     ani = FuncAnimation(fig, update, frames=frames, init_func=init, blit=True)
     plt.show()
+
+def psi2_z(t: np.ndarray, z_ind: int, abs_psi_squared: np.ndarray):
+    plt.figure()
+    plt.plot(t / 1e-15, abs_psi_squared[:, z_ind])
+    plt.xlabel("time [fs]")
+    plt.ylabel(f"$|\psi_{{{int(z_ind)}}}|^2$")
+    plt.show()
