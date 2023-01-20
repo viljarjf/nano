@@ -49,6 +49,9 @@ def main():
 
     # find the smallest (algebraic, not in absolute value) eigenvalues
     _E, _psi = sp.linalg.eigsh(H0, k=n_states, which="SA")
+    # normalise
+    for i in range(n_states):
+        _psi[:, i] /= np.sqrt(np.trapz(_psi[:, i]**2, z))
 
     logging.info("Eigenstates found.")
     # plot.psi(z, _E, _psi)

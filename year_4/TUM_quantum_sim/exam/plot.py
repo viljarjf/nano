@@ -58,7 +58,7 @@ def psi2_animation(z: np.ndarray, V: np.ndarray, abs_psi_squared: np.ndarray):
     def init():
         ax1.set_title("$|\Psi|^2$")
         ax2.set_title("Potential [eV]")
-        ax1.set_ylim(0, 0.2)
+        # ax1.set_ylim(0, 0.2)
         ax2.set_ylim(-2, 10)
         fig.tight_layout()
         return ln_psi, ln_V,
