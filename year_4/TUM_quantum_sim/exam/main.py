@@ -2,11 +2,8 @@ from TUM_quantum_sim.exam import EXAM_LOGGER as logging
 
 from TUM_quantum_sim import constants as c
 from TUM_quantum_sim.exam import potential
+from TUM_quantum_sim.exam import plot
 
-from matplotlib import pyplot as plt
-import matplotlib
-from matplotlib import cm
-from matplotlib.animation import FuncAnimation
 import numpy as np
 from scipy import sparse as sp
 
@@ -14,13 +11,12 @@ from scipy import sparse as sp
 def main():
     logging.info("Starting simulation")
 
-    matplotlib.use("QtAgg")
-    
     a = 1e-9
     L = 2*a
     N = 50
     m = c.me
     Vb = c.e0
+    n_states = 2
 
     z = np.linspace(-L/2, L/2, N)
     dz = z[1] - z[0]
@@ -28,37 +24,28 @@ def main():
     logging.info("Calculating potential")
     V0 = potential.static(z, a, Vb)
 
-    # plt.figure()
-    # plt.plot(z, V)
-    # plt.show()
+    # plot.V(z, V0)
 
-    logging.info("Finding stationary eigenstates")
+    logging.info(f"Finding {n_states} stationary eigenstates")
+
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
-    H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
+    H0 = h0 * sp.diags(
+        [1, -2, 1], [-1, 0, 1], 
+        shape=(N, N), 
+        dtype=np.complex128, 
+        format="csc"
+        )
     H0 += sp.diags(V0)
 
-    # plt.figure()
-    # plt.title("Hamiltonian")
-    # plt.imshow(H0.toarray())
-    # plt.show()
+    # plot.H(H0)
 
-    # find the two smallest (algebraic, not in absolute value) eigenvalues
-    _E, _psi = sp.linalg.eigsh(H0, k=2, which="SA")
+    # find the smallest (algebraic, not in absolute value) eigenvalues
+    _E, _psi = sp.linalg.eigsh(H0, k=n_states, which="SA")
     psi1 = _psi[:, 0]
     psi2 = _psi[:, 1]
 
-    # plt.figure()
-    # plt.suptitle("$|\Psi_{1,2}|^2$")
-    # plt.subplot(2, 1, 1)
-    # plt.plot(z, abs(psi1)**2)
-    # plt.title(_E[0] / c.e0)
-    # plt.subplot(2, 1, 2)
-    # plt.plot(z, abs(psi2)**2)
-    # plt.title(_E[1] / c.e0)
-    # plt.tight_layout()
-    # plt.show()
-
+    # plot.psi(z, _E, _psi)
 
     # Crank-Nicholson
     # psi^n+1 = psi^n + dt/2 * (F^n + F^n+1)
@@ -109,6 +96,7 @@ def main():
     psi = np.array(psi)
     V = np.array(V)
 
+    return
     # 3D plot
     # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
     # X, Y = np.meshgrid(z, t)
