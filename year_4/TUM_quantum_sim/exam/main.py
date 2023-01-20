@@ -66,7 +66,7 @@ def main():
     # calculate initial psi
     psi_half = (_psi[:, 0] + _psi[:, 1]) * 2**-0.5
     V_half = potential.temporal(z, dt/2, E, omega)
-    H_half = dt/(2j * c.hbar) * (H0 + V_half) @ psi_half
+    H_half = (H0 + V_half) @ (dt/(2j * c.hbar) * psi_half)
     psi_0 = psi_half - H_half
     psi_1 = psi_half + H_half
     psi = [np.abs(psi_0)**2]
@@ -84,9 +84,8 @@ def main():
         # H^n = H0 + V^n
 
         Vt = potential.temporal(z, tn, E, omega)
-        H = 2*dt/(1j * c.hbar) * (H0 + Vt)
 
-        psi_2 = H @ psi_1 + psi_0
+        psi_2 = (H0 + Vt) @ (2*dt/(1j * c.hbar) * psi_1) + psi_0
 
         psi_0, psi_1 = psi_1, psi_2
 
@@ -108,7 +107,7 @@ def main():
 
     # plot.psi2_3D(z, t, psi)
 
-    plot.psi2_animation(z, V, psi)
+    # plot.psi2_animation(z, V, psi)
     
     # plot.psi2_z(t, np.nonzero(z == 0.0)[0], psi)
 
