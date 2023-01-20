@@ -76,6 +76,7 @@ def main():
     prefactor = dt/(2j * c.hbar)
     H = prefactor * H0
 
+    logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} ps")
     while tn < t_end:
         Vt = potential.temporal(z, tn + dt, E, omega)
         Hn = prefactor * (H0 + sp.diags(Vt))
@@ -90,22 +91,15 @@ def main():
             psi.append(psi_n)
             t.append(tn)
             V.append(V0 + Vt)
-            logging.info(f"{tn = :.2e}")
 
     t = np.array(t)
     psi = np.array(psi)
     V = np.array(V)
+    
+    logging.info("Temporal simulation completed")
 
+    plot.psi_3D(z, t, psi)
     return
-    # 3D plot
-    # fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    # X, Y = np.meshgrid(z, t)
-    # surf = ax.plot_surface(X, Y, abs(psi)**2, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
-    # plt.xlabel("z [m]")
-    # plt.ylabel("t [s]")
-    # plt.title("$|\Psi|^2$")
-    # fig.colorbar(surf, shrink=0.5, aspect=5)
-    # plt.show()
 
     # animation
     fig, (ax1, ax2) = plt.subplots(2, 1)

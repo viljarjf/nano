@@ -38,3 +38,14 @@ def psi(z: np.ndarray, E: np.ndarray, psi: np.ndarray):
     plt.title(E[1] / c.e0)
     plt.tight_layout()
     plt.show()
+
+def psi_3D(z: np.ndarray, t: np.ndarray, psi: np.ndarray):
+    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+    X, Y = np.meshgrid(z, t)
+    surf = ax.plot_surface(X, Y, abs(psi)**2, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
+    plt.xlabel("z [m]")
+    plt.ylabel("t [s]")
+    plt.title("$|\Psi|^2$")
+    fig.colorbar(surf, shrink=0.5, aspect=5)
+    plt.show()
+
