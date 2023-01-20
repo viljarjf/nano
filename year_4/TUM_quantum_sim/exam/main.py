@@ -32,7 +32,7 @@ def main():
     logging.info("Calculating potential")
     V0 = potential.static(z, a, Vb)
 
-    # plot.V(z, V0)
+    plot.V(z, V0)
 
     logging.info(f"Finding {n_states} stationary eigenstates")
 
@@ -45,7 +45,8 @@ def main():
         format="dia"
         ))
     H0.add_static_potential(V0)
-    # plot.H(H0)
+
+    plot.H(H0)
 
     # find the smallest (algebraic, not in absolute value) eigenvalues
     _E, _psi = sp.linalg.eigsh(H0, k=n_states, which="SA")
@@ -54,11 +55,11 @@ def main():
         _psi[:, i] /= np.sqrt(np.trapz(_psi[:, i]**2, z))
 
     logging.info("Eigenstates found.")
-    # plot.psi(z, _E, _psi)
+    plot.psi(z, _E, _psi)
 
     logging.info("Performing setup for temporal simulation")
     # estimate a decent dt from lectures
-    V_max = V0 + potential.temporal(z, np.pi, E, 1)
+    V_max = V0 + potential.temporal(z, np.pi/2, E, 1)
     E_max = max(
         abs(min(V_max)),
         abs(max(V_max) + 4 * abs(h0)),
@@ -109,9 +110,9 @@ def main():
     
     logging.info("Temporal simulation completed")
 
-    # plot.psi2_3D(z, t, psi)
+    plot.psi2_3D(z, t, psi)
 
-    # plot.psi2_animation(z, V, psi)
+    plot.psi2_animation(z, V, psi)
     
     # plot.psi2_z(t, np.nonzero(z == 0.0)[0], psi)
 
