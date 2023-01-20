@@ -1,4 +1,4 @@
-from TUM_quantum_sim.Dual_QW import DQW_LOGGER
+from TUM_quantum_sim.Dual_QW import DQW_LOGGER as  logging
 
 from TUM_quantum_sim import constants as c
 
@@ -44,7 +44,7 @@ def calc_dn_dmu(E: np.ndarray, m: float, mu: float, T: float) -> float:
     return DOS_2D(m) * c.kb * T * sum(d_fermi_dirac(Ei, mu, T) for Ei in E)
 
 def main():
-    DQW_LOGGER.info("Starting simulation")
+    logging.info("Starting simulation")
 
     matplotlib.use("QtAgg")
     
@@ -60,14 +60,14 @@ def main():
     z = np.linspace(-L/2, L/2, N)
     dz = z[1] - z[0]
 
-    DQW_LOGGER.info("Calculating potential")
+    logging.info("Calculating potential")
     V = potential(z, a, Vb, E)
 
     # plt.figure()
     # plt.plot(z, V)
     # plt.show()
 
-    DQW_LOGGER.info("Finding stationary eigenstates")
+    logging.info("Finding stationary eigenstates")
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
     H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
@@ -81,9 +81,9 @@ def main():
     # find the five smallest (algebraic, not in absolute value) eigenvalues
     En, psi = sp.linalg.eigsh(H0, k=5, which="SA")
 
-    DQW_LOGGER.info("Found 5 stationary eigenstates")
+    logging.info("Found 5 stationary eigenstates")
     for i in range(len(En)):
-        DQW_LOGGER.info(f"E{i} = {En[i] / c.e0 :.3f} eV")
+        logging.info(f"E{i} = {En[i] / c.e0 :.3f} eV")
 
     # plt.figure()
     # plt.suptitle("$|\Psi_{1,2}|^2$")
@@ -97,7 +97,7 @@ def main():
     # plt.show()
     
     # estimate mu with newton's method
-    DQW_LOGGER.info("Estimating mu")
+    logging.info("Estimating mu")
     mu_n = -2.5*c.e0
     tol = c.e0 * 1e-10
     error = float("inf")
@@ -107,10 +107,10 @@ def main():
         mu_n -= error
 
 
-    DQW_LOGGER.info(f"mu = {mu_n / c.e0 :.3f} eV")
-    DQW_LOGGER.info(f"n = {calc_n(En, m, mu_n, T) :.3e}")
+    logging.info(f"mu = {mu_n / c.e0 :.3f} eV")
+    logging.info(f"n = {calc_n(En, m, mu_n, T) :.3e}")
 
-    DQW_LOGGER.info("Simulation finished, exiting...")
+    logging.info("Simulation finished, exiting...")
 
 if __name__ == "__main__":
     main()
