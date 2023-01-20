@@ -57,15 +57,19 @@ def main():
     logging.info(f"{omega = :.2e}")
 
     tn = 0
-    t = [tn]
     t_end = 50e-15
-    t_store = 0.5e-15 # time between each stored psi
-
-    psi_0 = (psi1 + psi2) * 2**-0.5
-    psi_1 = psi_0
-    psi = [psi_0]
+    t_store = 0.5e-15 # time between each data storage
+    t = [tn]
 
     V = [V0]
+
+    # calculate initial psi
+    psi_half = (psi1 + psi2) * 2**-0.5
+    V_half = potential.temporal(z, dt/2, E, omega)
+    H_half = dt/(2j * c.hbar) * (H0 + sp.diags(V_half)) @ psi_half
+    psi_0 = psi_half - H_half
+    psi_1 = psi_half + H_half
+    psi = [psi_0]
 
     logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} ps")
     while tn < t_end:
@@ -86,7 +90,9 @@ def main():
 
         # store data every {t_store} seconds
         if tn // t_store > len(psi):
-            psi.append(psi_2)
+            # approximation
+            abs_psi_squared = 0.5 * (np.conjugate(psi_1) * psi_2 + psi_1 * np.conjugate(psi_2))
+            psi.append(abs_psi_squared)
             t.append(tn)
             V.append(V0 + Vt)
 
@@ -96,9 +102,9 @@ def main():
     
     logging.info("Temporal simulation completed")
 
-    # plot.psi_3D(z, t, psi)
+    # plot.psi2_3D(z, t, psi)
 
-    plot.psi_animation(z, V, psi)
+    plot.psi2_animation(z, V, psi)
     
 
     logging.info("Simulation finished, exiting...")
