@@ -22,9 +22,9 @@ def main():
     E = 1e9
     omega = np.pi*200e12
     t_end = 100e-15     # end of simulation
-    t_store = 2e-15     # time between each data storage
+    t_store = 1e-15     # time between each data storage
 
-    E = omega = 0       # override 
+    # E = omega = 0       # override 
 
     z = np.linspace(-L/2, L/2, N)
     dz = z[1] - z[0]
@@ -36,7 +36,7 @@ def main():
 
     logging.info(f"Finding {n_states} stationary eigenstates")
 
-    # hamiltonian
+    # Set up hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
     H0 = Hamiltonian(sp.diags(
         [h0, -2*h0, h0], [-1, 0, 1], 
@@ -81,8 +81,10 @@ def main():
 
     logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} fs")
     coef = 2*dt/(1j * c.hbar)
+    steps = 0
     while tn < t_end:
-        
+        steps += 1
+
         # Leapfrog
         # psi^n+1 = psi^n-1 + 2*dt*F^n
         # F^n = 1/ihbar * H^n @ psi^n
@@ -109,6 +111,7 @@ def main():
     V = np.array(V)
     
     logging.info("Temporal simulation completed")
+    logging.info(f"Took {steps} steps, stored data {len(t)} times")
 
     plot.psi2_3D(z, t, psi)
 
