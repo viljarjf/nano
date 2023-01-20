@@ -151,7 +151,7 @@ def main():
         Vt = temporal_potential(z, tn + dt, E, omega)
         Hn = prefactor * (H0 + sp.diags(Vt))
 
-        psi_n = sp.linalg.inv(I - Hn) @ (I + H) @ psi_n
+        psi_n = sp.linalg.spsolve(I - Hn, (I + H) @ psi_n)
 
         tn += dt
         H = Hn
