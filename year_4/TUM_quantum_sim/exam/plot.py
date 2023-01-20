@@ -29,13 +29,14 @@ def H(H: sp.spmatrix):
 
 def psi(z: np.ndarray, E: np.ndarray, psi: np.ndarray):
     plt.figure()
-    plt.suptitle("$|\Psi_{1,2}|^2$")
-    plt.subplot(2, 1, 1)
-    plt.plot(z, abs(psi[:, 0])**2)
-    plt.title(f"E$_1$: {E[0] / c.e0 :.3f} eV")
-    plt.subplot(2, 1, 2)
-    plt.plot(z, abs(psi[:, 1])**2)
-    plt.title(f"E$_2$: {E[1] / c.e0 :.3f} eV")
+    plt.title("$|\Psi_{1,2}|^2$")
+    plt.plot(z / 1e-9, abs(psi[:, 0])**2)
+    plt.plot(z / 1e-9, abs(psi[:, 1])**2)
+    plt.xlabel("z [nm]")
+    plt.legend([
+        f"E$_1$: {E[0] / c.e0 :.3f} eV",
+        f"E$_2$: {E[1] / c.e0 :.3f} eV"
+        ])
     plt.tight_layout()
     plt.show()
 
