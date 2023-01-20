@@ -11,12 +11,19 @@ from scipy import sparse as sp
 def main():
     logging.info("Starting simulation")
 
+    # simulation setup
     a = 1e-9
     L = 2*a
-    N = 50
+    N = 51              
     m = c.me
     Vb = c.e0
     n_states = 2
+    E = 1e9
+    omega = np.pi*200e12
+    t_end = 1000e-15    # end of simulation
+    t_store = 2e-15     # time between each data storage
+
+    E = omega = 0       # override 
 
     z = np.linspace(-L/2, L/2, N)
     dz = z[1] - z[0]
@@ -42,45 +49,37 @@ def main():
 
     # find the smallest (algebraic, not in absolute value) eigenvalues
     _E, _psi = sp.linalg.eigsh(H0, k=n_states, which="SA")
-    psi1 = _psi[:, 0]
-    psi2 = _psi[:, 1]
 
+    logging.info("Eigenstates found.")
     # plot.psi(z, _E, _psi)
 
-    E = 1e9
-    omega = np.pi*200e12
+    logging.info("Performing setup for temporal simulation")
+    # estimate a decent dt from lectures
     dt = 0.25 * (np.max(V0) + 4 * abs(h0))
-    # E = omega = 0
-
-    logging.info(f"{dt = :.2e}")
-    logging.info(f"{E = :.2e}")
-    logging.info(f"{omega = :.2e}")
-
-    tn = 0
-    t_end = 50e-15
-    t_store = 0.5e-15 # time between each data storage
-    t = [tn]
-
-    V = [V0]
+    logging.info(f"{dt = :.2e} s")
 
     # calculate initial psi
-    psi_half = (psi1 + psi2) * 2**-0.5
+    psi_half = (_psi[:, 0] + _psi[:, 1]) * 2**-0.5
     V_half = potential.temporal(z, dt/2, E, omega)
     H_half = dt/(2j * c.hbar) * (H0 + sp.diags(V_half)) @ psi_half
     psi_0 = psi_half - H_half
     psi_1 = psi_half + H_half
-    psi = [psi_0]
+    psi = [np.abs(psi_0)**2]
 
-    logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} ps")
+    tn = 0      # current simulation time
+    t = [tn]    # array for storing times
+    V = [V0]    # array for storing potentials
+
+    logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} fs")
     while tn < t_end:
         
         # Leapfrog
-        # psi^n+1 = psi^n-1 + dt*F^n
+        # psi^n+1 = psi^n-1 + 2*dt*F^n
         # F^n = 1/ihbar * H^n @ psi^n
         # H^n = H0 + V^n
 
         Vt = potential.temporal(z, tn, E, omega)
-        H = dt/(2j * c.hbar) * (H0 + sp.diags(Vt))
+        H = 2*dt/(1j * c.hbar) * (H0 + sp.diags(Vt))
 
         psi_2 = H @ psi_1 + psi_0
 
@@ -92,7 +91,7 @@ def main():
         if tn // t_store > len(psi):
             # approximation
             abs_psi_squared = 0.5 * (np.conjugate(psi_1) * psi_2 + psi_1 * np.conjugate(psi_2))
-            psi.append(abs_psi_squared)
+            psi.append(abs_psi_squared.real) # it's strictly real anyway, just make matplotlib happy
             t.append(tn)
             V.append(V0 + Vt)
 
@@ -104,8 +103,9 @@ def main():
 
     # plot.psi2_3D(z, t, psi)
 
-    plot.psi2_animation(z, V, psi)
+    # plot.psi2_animation(z, V, psi)
     
+    # plot.psi2_z(t, np.nonzero(z == 0.0)[0], psi)
 
     logging.info("Simulation finished, exiting...")
 
