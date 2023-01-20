@@ -134,12 +134,12 @@ class System:
         Returns:
             float | np.ndarray: potential 
         """
-        if isinstance(z, float):
+        if isinstance(z, float) or isinstance(z, int):
             return self._V(z)
         elif isinstance(z, np.ndarray):
             return np.vectorize(self._V)(z)
         else:
-            raise TypeError("Invalid type for argument 'z'")
+            raise TypeError(f"Invalid type for argument 'z': {type(z)}")
 
     @lru_cache
     def m_star(self, z: float) -> float:
