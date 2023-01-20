@@ -47,48 +47,46 @@ def main():
 
     # plot.psi(z, _E, _psi)
 
-    # Crank-Nicholson
-    # psi^n+1 = psi^n + dt/2 * (F^n + F^n+1)
-    # F^n = 1/ihbar * H^n @ psi^n
-    # H^n = H0 + V^n
-    # Rearrange this by hand to get the stuff in the while loop
-    tn = 0
-    t = [tn]
-    t_end = 10e-15
-    t_store = 0.25e-15 # time between each stored psi
-    dt = 0.25 * (np.max(V0) + 4 * abs(h0))
-
     E = 1e9
     omega = np.pi*200e12
+    dt = 0.25 * (np.max(V0) + 4 * abs(h0))
     # E = omega = 0
-
 
     logging.info(f"{dt = :.2e}")
     logging.info(f"{E = :.2e}")
     logging.info(f"{omega = :.2e}")
 
-    psi_n = (psi1 + psi2) * 2**-0.5
-    psi = [psi_n]
+    tn = 0
+    t = [tn]
+    t_end = 50e-15
+    t_store = 0.5e-15 # time between each stored psi
+
+    psi_0 = (psi1 + psi2) * 2**-0.5
+    psi_1 = psi_0
+    psi = [psi_0]
 
     V = [V0]
 
-    I = sp.eye(N, N, format="csc")
-    prefactor = dt/(2j * c.hbar)
-    H = prefactor * H0
-
     logging.info(f"Starting temporal simulation for {t_end / 1e-15 :.1f} ps")
     while tn < t_end:
-        Vt = potential.temporal(z, tn + dt, E, omega)
-        Hn = prefactor * (H0 + sp.diags(Vt))
+        
+        # Leapfrog
+        # psi^n+1 = psi^n-1 + dt*F^n
+        # F^n = 1/ihbar * H^n @ psi^n
+        # H^n = H0 + V^n
 
-        psi_n = sp.linalg.spsolve(I - Hn, (I + H) @ psi_n)
+        Vt = potential.temporal(z, tn, E, omega)
+        H = dt/(2j * c.hbar) * (H0 + sp.diags(Vt))
+
+        psi_2 = H @ psi_1 + psi_0
+
+        psi_0, psi_1 = psi_1, psi_2
 
         tn += dt
-        H = Hn
 
-        # store every 1fs
+        # store data every {t_store} seconds
         if tn // t_store > len(psi):
-            psi.append(psi_n)
+            psi.append(psi_2)
             t.append(tn)
             V.append(V0 + Vt)
 
@@ -98,30 +96,10 @@ def main():
     
     logging.info("Temporal simulation completed")
 
-    plot.psi_3D(z, t, psi)
-    return
+    # plot.psi_3D(z, t, psi)
 
-    # animation
-    fig, (ax1, ax2) = plt.subplots(2, 1)
-    ln_psi, = ax1.plot(z, abs(psi[0, :])**2)
-    ln_V, = ax2.plot(z, V[0, :])
-
-    def init():
-        ax1.set_ylim(0, 0.2)
-        ax2.set_ylim(-2*c.e0, 10*c.e0)
-        return ln_psi, ln_V,
-
-    def frames():
-        for n in range(psi.shape[0]):
-            yield psi[n, :], V[n, :]
-
-    def update(data):
-        ln_psi.set_data(z, abs(data[0])**2)
-        ln_V.set_data(z, data[1])
-        return ln_psi, ln_V,
-
-    ani = FuncAnimation(fig, update, frames=frames, init_func=init, blit=True)
-    plt.show()
+    plot.psi_animation(z, V, psi)
+    
 
     logging.info("Simulation finished, exiting...")
 
