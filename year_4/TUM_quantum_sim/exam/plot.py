@@ -32,19 +32,19 @@ def psi(z: np.ndarray, E: np.ndarray, psi: np.ndarray):
     plt.suptitle("$|\Psi_{1,2}|^2$")
     plt.subplot(2, 1, 1)
     plt.plot(z, abs(psi[:, 0])**2)
-    plt.title(E[0] / c.e0)
+    plt.title(f"E$_1$: {E[0] / c.e0 :.3f} eV")
     plt.subplot(2, 1, 2)
     plt.plot(z, abs(psi[:, 1])**2)
-    plt.title(E[1] / c.e0)
+    plt.title(f"E$_2$: {E[1] / c.e0 :.3f} eV")
     plt.tight_layout()
     plt.show()
 
 def psi2_3D(z: np.ndarray, t: np.ndarray, abs_psi_squared: np.ndarray):
     fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    X, Y = np.meshgrid(z, t)
+    X, Y = np.meshgrid(z / 1e-9, t / 1e-15)
     surf = ax.plot_surface(X, Y, abs_psi_squared, cmap=cm.get_cmap("viridis"),linewidth=0, antialiased=False)
-    plt.xlabel("z [m]")
-    plt.ylabel("t [s]")
+    plt.xlabel("z [nm]")
+    plt.ylabel("t [fs]")
     plt.title("$|\Psi|^2$")
     fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.show()
@@ -52,12 +52,17 @@ def psi2_3D(z: np.ndarray, t: np.ndarray, abs_psi_squared: np.ndarray):
 def psi2_animation(z: np.ndarray, V: np.ndarray, abs_psi_squared: np.ndarray):
     fig, (ax1, ax2) = plt.subplots(2, 1)
 
+    # nicer x-axis
+    z /= 1e-9
+
     ln_psi, = ax1.plot(z, abs_psi_squared[0, :])
     ln_V, = ax2.plot(z, V[0, :])
 
     def init():
         ax1.set_title("$|\Psi|^2$")
+        ax1.set_xlabel("z [nm]")
         ax2.set_title("Potential [eV]")
+        ax2.set_xlabel("z [nm]")
         # ax1.set_ylim(0, 0.2)
         ax2.set_ylim(-2, 10)
         fig.tight_layout()
