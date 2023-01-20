@@ -1,4 +1,4 @@
-from TUM_quantum_sim.SQUID import SQUID_LOGGER
+from TUM_quantum_sim.SQUID import SQUID_LOGGER as logging
 
 from TUM_quantum_sim import constants as c
 
@@ -70,7 +70,7 @@ def potential(
     return static_potential(z, a, Vb) + temporal_potential(z, t, E, omega)
 
 def main():
-    SQUID_LOGGER.info("Starting simulation")
+    logging.info("Starting simulation")
 
     matplotlib.use("QtAgg")
     
@@ -83,14 +83,14 @@ def main():
     z = np.linspace(-L/2, L/2, N)
     dz = z[1] - z[0]
 
-    SQUID_LOGGER.info("Calculating potential")
+    logging.info("Calculating potential")
     V0 = static_potential(z, a, Vb)
 
     # plt.figure()
     # plt.plot(z, V)
     # plt.show()
 
-    SQUID_LOGGER.info("Finding stationary eigenstates")
+    logging.info("Finding stationary eigenstates")
     # hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
     H0 = h0 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
@@ -134,9 +134,9 @@ def main():
     # E = omega = 0
 
 
-    SQUID_LOGGER.info(f"{dt = :.2e}")
-    SQUID_LOGGER.info(f"{E = :.2e}")
-    SQUID_LOGGER.info(f"{omega = :.2e}")
+    logging.info(f"{dt = :.2e}")
+    logging.info(f"{E = :.2e}")
+    logging.info(f"{omega = :.2e}")
 
     psi_n = (psi1 + psi2) * 2**-0.5
     psi = [psi_n]
@@ -161,7 +161,7 @@ def main():
             psi.append(psi_n)
             t.append(tn)
             V.append(V0 + Vt)
-            SQUID_LOGGER.info(f"{tn = :.2e}")
+            logging.info(f"{tn = :.2e}")
 
     t = np.array(t)
     psi = np.array(psi)
@@ -199,7 +199,7 @@ def main():
     ani = FuncAnimation(fig, update, frames=frames, init_func=init, blit=True)
     plt.show()
 
-    SQUID_LOGGER.info("Simulation finished, exiting...")
+    logging.info("Simulation finished, exiting...")
 
 if __name__ == "__main__":
     main()
