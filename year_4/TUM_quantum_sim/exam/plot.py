@@ -1,10 +1,9 @@
 
-from matplotlib import pyplot as plt
 import matplotlib
-from matplotlib import cm
-from matplotlib.animation import FuncAnimation
-
 import numpy as np
+from matplotlib import cm
+from matplotlib import pyplot as plt
+from matplotlib.animation import FuncAnimation
 from scipy import sparse as sp
 
 from TUM_quantum_sim import constants as c

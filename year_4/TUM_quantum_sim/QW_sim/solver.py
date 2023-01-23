@@ -1,11 +1,11 @@
-from scipy import sparse as sp
+from dataclasses import dataclass
+
 import numpy as np
+from qm_sim.hamiltonian import Hamiltonian
+from scipy import sparse as sp
 
 from TUM_quantum_sim.QW_sim.system import System
 
-from qm_sim.hamiltonian import Hamiltonian
-
-from dataclasses import dataclass
 
 @dataclass
 class Solution:

@@ -1,12 +1,10 @@
-from TUM_quantum_sim.exam import EXAM_LOGGER as logging
+import numpy as np
+from qm_sim.hamiltonian import Hamiltonian
+from scipy import sparse as sp
 
 from TUM_quantum_sim import constants as c
-from TUM_quantum_sim.exam import potential
-from TUM_quantum_sim.exam import plot
-from qm_sim.hamiltonian import Hamiltonian
-
-import numpy as np
-from scipy import sparse as sp
+from TUM_quantum_sim.exam import EXAM_LOGGER as logging
+from TUM_quantum_sim.exam import plot, potential
 
 
 def main():

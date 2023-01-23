@@ -1,15 +1,14 @@
-from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
-
-from TUM_quantum_sim.QW_sim import solver
-from TUM_quantum_sim.QW_sim import physics
-from TUM_quantum_sim.QW_sim.system import System
-from TUM_quantum_sim import constants as c
-from TUM_quantum_sim.utils import m_star
-
+import matplotlib
+from matplotlib import pyplot as plt
 from qm_sim.hamiltonian import Hamiltonian
 
-from matplotlib import pyplot as plt
-import matplotlib
+from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
+from TUM_quantum_sim.QW_sim import physics, solver
+from TUM_quantum_sim.QW_sim.system import System
+from TUM_quantum_sim.utils import m_star
+
+
 def main():
 
     matplotlib.use('QTagg')
