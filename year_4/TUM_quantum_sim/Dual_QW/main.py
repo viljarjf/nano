@@ -1,11 +1,11 @@
-from TUM_quantum_sim.Dual_QW import DQW_LOGGER as  logging
-
-from TUM_quantum_sim import constants as c
-
-from matplotlib import pyplot as plt
 import matplotlib
 import numpy as np
+from matplotlib import pyplot as plt
 from scipy import sparse as sp
+
+from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.Dual_QW import DQW_LOGGER as logging
+
 
 def potential(
     z: float | np.ndarray,

@@ -1,9 +1,11 @@
-from scipy import sparse as sp
+from dataclasses import dataclass
+
 import numpy as np
+from qm_sim.hamiltonian import Hamiltonian
+from scipy import sparse as sp
 
 from TUM_quantum_sim.QW_sim.system import System
 
-from dataclasses import dataclass
 
 @dataclass
 class Solution:
@@ -11,15 +13,15 @@ class Solution:
     eigenvector: np.ndarray
 
 
-def eigen(sys: System, H: sp.spmatrix, n: int = 5) -> list[Solution]:
-    vals, vecs = sp.linalg.eigsh(H, k=n, which="SA")
+def eigen(sys: System, H: Hamiltonian, n: int = 5) -> list[Solution]:
+    vals, vecs = H.eigen(n)
 
     out = []
     for i in range(n):
         out.append(
             Solution(
                 vals[i],
-                vecs[:, i].reshape(sys.Ny, sys.Nx)
+                vecs[i, :]
             )
         )
     return out

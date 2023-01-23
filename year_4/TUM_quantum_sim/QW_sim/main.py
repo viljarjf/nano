@@ -1,13 +1,14 @@
-from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
-
-from TUM_quantum_sim.QW_sim import solver
-from TUM_quantum_sim.QW_sim import physics
-from TUM_quantum_sim.QW_sim import matrix
-from TUM_quantum_sim.QW_sim.system import System
-from TUM_quantum_sim import constants as c
-
-from matplotlib import pyplot as plt
 import matplotlib
+from matplotlib import pyplot as plt
+from qm_sim.hamiltonian import Hamiltonian
+
+from TUM_quantum_sim import constants as c
+from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
+from TUM_quantum_sim.QW_sim import physics, solver
+from TUM_quantum_sim.QW_sim.system import System
+from TUM_quantum_sim.utils import m_star
+
+
 def main():
 
     matplotlib.use('QTagg')
@@ -24,18 +25,10 @@ def main():
         x = 0.1
         )
 
-    H = matrix.hamiltonian(s)
-    # it seems there is no extra boundary condition??
-    # H = matrix.apply_boundary(s, H)
-
-    # plt.figure()
-    # plt.imshow(H.toarray() / c.e0)
-    # plt.show()
-
-    # plt.figure()
-    # plt.imshow(physics.potential(s))
-    # plt.show()
+    H = Hamiltonian((s.Nx, s.Ny), (s.Lx, s.Ly), m_star(0))
+    V = physics.potential(s)
     
+    H.set_static_potential(V)
 
     solutions = solver.eigen(s, H, n = 20)
     start_plot = 0

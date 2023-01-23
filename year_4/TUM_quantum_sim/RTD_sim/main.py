@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from TUM_quantum_sim.RTD_sim import RTD_SIM_LOGGER as logging
-
 from TUM_quantum_sim.RTD_sim.material import Material
 from TUM_quantum_sim.RTD_sim.region import Region
 from TUM_quantum_sim.RTD_sim.system import System

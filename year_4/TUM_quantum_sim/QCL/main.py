@@ -1,16 +1,15 @@
-from TUM_quantum_sim.QCL import QCL_LOGGER as logging
+import matplotlib
+import numpy as np
+from matplotlib import pyplot as plt
+from scipy import sparse as sp
 
 from TUM_quantum_sim import constants as c
 from TUM_quantum_sim import utils
+from TUM_quantum_sim.QCL import QCL_LOGGER as logging
 from TUM_quantum_sim.RTD_sim.material import Material
 from TUM_quantum_sim.RTD_sim.region import Region
 from TUM_quantum_sim.RTD_sim.system import System
 
-
-from matplotlib import pyplot as plt
-import matplotlib
-import numpy as np
-from scipy import sparse as sp
 
 def potential(
     z: float | np.ndarray,
