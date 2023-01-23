@@ -16,3 +16,4 @@ EXPH0300
 .vscode
 __pycache__
 .build
+.venv/

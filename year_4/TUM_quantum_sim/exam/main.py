@@ -3,7 +3,7 @@ from TUM_quantum_sim.exam import EXAM_LOGGER as logging
 from TUM_quantum_sim import constants as c
 from TUM_quantum_sim.exam import potential
 from TUM_quantum_sim.exam import plot
-from TUM_quantum_sim.exam.sparse_override import Hamiltonian
+from qm_sim.hamiltonian import Hamiltonian
 
 import numpy as np
 from scipy import sparse as sp
@@ -38,21 +38,13 @@ def main():
 
     # Set up hamiltonian
     h0 = -c.hbar**2 / (2 * m * dz**2)
-    H0 = Hamiltonian(sp.diags(
-        [h0, -2*h0, h0], [-1, 0, 1], 
-        shape=(N, N), 
-        dtype=np.complex128, 
-        format="dia"
-        ))
-    H0.add_static_potential(V0)
+    H0 = Hamiltonian((N,), (L,), m)
+    H0.set_static_potential(V0)
 
-    plot.H(H0)
+    plot.H(H0.asarray())
 
     # find the smallest (algebraic, not in absolute value) eigenvalues
-    _E, _psi = sp.linalg.eigsh(H0, k=n_states, which="SA")
-    # normalise
-    for i in range(n_states):
-        _psi[:, i] /= np.sqrt(np.trapz(_psi[:, i]**2, z))
+    _E, _psi = H0.eigen(n_states)
 
     logging.info("Eigenstates found.")
     plot.psi(z, _E, _psi)
@@ -68,9 +60,9 @@ def main():
     logging.info(f"{dt = :.2e} s")
 
     # calculate initial psi
-    psi_half = (_psi[:, 0] + _psi[:, 1]) * 2**-0.5
+    psi_half = (_psi[0, :] + _psi[1, :]) * 2**-0.5
     V_half = potential.temporal(z, dt/2, E, omega)
-    H_half = H0.add(V_half) @ (dt/(2j * c.hbar) * psi_half)
+    H_half = (H0 + V_half) @ (dt/(2j * c.hbar) * psi_half)
     psi_0 = psi_half - H_half
     psi_1 = psi_half + H_half
     psi = [np.abs(psi_0)**2]
@@ -92,7 +84,7 @@ def main():
 
         Vt = potential.temporal(z, tn, E, omega)
 
-        psi_2 = H0.add(Vt) @ (coef * psi_1) + psi_0
+        psi_2 = (H0 + Vt) @ (coef * psi_1) + psi_0
 
         psi_0, psi_1 = psi_1, psi_2
 
@@ -117,8 +109,6 @@ def main():
 
     plot.psi2_animation(z, V, psi)
     
-    # plot.psi2_z(t, np.nonzero(z == 0.0)[0], psi)
-
     logging.info("Simulation finished, exiting...")
 
 if __name__ == "__main__":

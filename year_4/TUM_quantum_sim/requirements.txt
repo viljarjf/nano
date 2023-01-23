@@ -3,3 +3,4 @@ matplotlib
 PyQt5
 numba
 scipy
+qm-sim

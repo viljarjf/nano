@@ -21,17 +21,17 @@ def V(z: np.ndarray, V: np.ndarray):
     plt.title("Potential")
     plt.show()
 
-def H(H: sp.spmatrix):
+def H(H: np.ndarray):
     plt.figure()
     plt.title("Hamiltonian")
-    plt.imshow(np.real(H.toarray()))
+    plt.imshow(np.real(H))
     plt.show()
 
 def psi(z: np.ndarray, E: np.ndarray, psi: np.ndarray):
     plt.figure()
     plt.title("$|\Psi_{1,2}|^2$")
-    plt.plot(z / 1e-9, abs(psi[:, 0])**2)
-    plt.plot(z / 1e-9, abs(psi[:, 1])**2)
+    plt.plot(z / 1e-9, abs(psi[0, :])**2)
+    plt.plot(z / 1e-9, abs(psi[1, :])**2)
     plt.xlabel("z [nm]")
     plt.legend([
         f"E$_1$: {E[0] / c.e0 :.3f} eV",
