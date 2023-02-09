@@ -1,12 +1,11 @@
 """
-GaAs quantum dot, 
-modelled as a two-level system.
-Exited in resonance by an external wave
+GaAs qubit, 
+exited in resonance by an external wave
 """
 
 import logging
 
-QD_LOGGER = logging.getLogger("QD")
+QB_LOGGER = logging.getLogger("QB")
 
 logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
