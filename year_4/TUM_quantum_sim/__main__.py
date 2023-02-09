@@ -3,6 +3,7 @@ from TUM_quantum_sim.RTD_sim import main as RTD
 from TUM_quantum_sim.SQUID import main as SQUID
 from TUM_quantum_sim.Dual_QW import main as Dual_QW
 from TUM_quantum_sim.QCL import main as QCL
+from TUM_quantum_sim.QD import main as QD
 from TUM_quantum_sim.exam import main as exam
 
 if __name__ == "__main__":
@@ -11,5 +12,6 @@ if __name__ == "__main__":
     # SQUID.main()
     # Dual_QW.main()
     # QCL.main()
-    exam.main()
+    QD.main()
+    # exam.main()
     pass
