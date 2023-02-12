@@ -7,7 +7,6 @@ from scipy.integrate import solve_ivp
 from TUM_quantum_sim import constants as c
 from TUM_quantum_sim.QB import QB_LOGGER as logging
 
-
 a = 0
 b = 1
 
@@ -28,17 +27,18 @@ def bloch_vector_func(rho: np.ndarray) -> np.ndarray:
         np.ndarray: shape(3, n), xyz coordinates
     """
     rho_aa = rho[a, a, :]
-    rho_ba = rho[b, a, :]
-    x = 2.0 * rho_ba.real
-    y = 2.0 * rho_ba.imag
-    z = 2.0 * rho_aa - 1.0
+    rho_ab = rho[a, b, :]
+    rho_bb = rho[b, b, :]
+    x = rho_ab + rho_ab.conjugate()
+    y = -1j * (rho_ab - rho_ab.conjugate())
+    z = rho_bb - rho_aa
     return np.array([x, y, z])
 
 def bloch_vector_animation(s: np.ndarray):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1, projection="3d")
     q = ax.quiver(0, 0, 0, *s[:, 0].real)
-    path, = ax.plot3D(*s[:, 0].real)
+    path, = ax.plot3D(*s[:, 0].real, color="red")
     artists = [path, q]
 
     def init():
@@ -74,17 +74,27 @@ def main():
     d = np.array([[0, _d], [_d, 0]])
     # relaxation rates
     g_1 = 0
-    g_2 = 2e13 
+    g_2 = 2e13
     g = np.array([[g_1, g_2], [g_2, g_1]])
     # energy gap
     E_g = 1.43*c.e0
     # energy and frequency of external wave
     omega_0 = E_g / c.hbar
-    Omega_R = 1 * omega_0
+    Omega_R = 0.05 * omega_0
+    Omega_R_t = lambda t: Omega_R * np.cos(omega_0 * t)
+    
 
     H0 = np.array([[E_g, 0], [0, 0]])
-    HI = lambda t: -c.hbar * Omega_R * np.cos(omega_0 * t)
+    HI = lambda t: -c.hbar * Omega_R_t(t)
     H = lambda t: H0 + HI(t)
+
+    def d_bloch_vector_func(t: float, s: np.ndarray) -> np.ndarray:
+        mat = np.array([
+            [-g_2,      -omega_0,           0               ],
+            [ omega_0,   -g_2,               2*Omega_R_t(t) ],
+            [ 0,         -2*Omega_R_t(t),   -g_1            ]
+            ])
+        return mat @ s
 
     logging.info("Finding non-dissipated equilibrium")
     
@@ -112,6 +122,9 @@ def main():
     
     t = np.linspace(0, T, 1000)
     sol_diss = solve_ivp(dissipation_ode_func, [0, T], y0, t_eval=t)
+
+    sol_bloch = solve_ivp(d_bloch_vector_func, [0, T], [0, 0, -1], t_eval=t)
+    bloch_vector_animation(sol_bloch.y)
 
     rho = sol_diss.y.reshape(2,2, -1).copy()
     
