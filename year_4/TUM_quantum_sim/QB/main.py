@@ -34,7 +34,7 @@ def bloch_vector_func(rho: np.ndarray) -> np.ndarray:
     z = rho_bb - rho_aa
     return np.array([x, y, z])
 
-def bloch_vector_animation(s: np.ndarray):
+def bloch_vector_animation(s: np.ndarray, title: str = None):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1, projection="3d")
     q = ax.quiver(0, 0, 0, *s[:, 0].real)
@@ -42,6 +42,8 @@ def bloch_vector_animation(s: np.ndarray):
     artists = [path, q]
 
     def init():
+        if title is not None:
+            ax.set_title(title)
         ax.set_xlim(-1, 1)
         ax.set_ylim(-1, 1)
         ax.set_zlim(-1, 1)
@@ -80,7 +82,7 @@ def main():
     E_g = 1.43*c.e0
     # energy and frequency of external wave
     omega_0 = E_g / c.hbar
-    Omega_R = 0.05 * omega_0
+    Omega_R = 1 * omega_0
     Omega_R_t = lambda t: Omega_R * np.cos(omega_0 * t)
     
 
@@ -103,16 +105,19 @@ def main():
         _y = y.reshape(2,2)
         return d_rho_func(_H, _y).flatten()
 
-    y0 = np.array([[0, 1], [1, 0]]).flatten().astype(np.complex128)
+    y0 = np.array([[1, 0], [0, 0]]).flatten().astype(np.complex128)
     T = 5*np.pi / Omega_R
 
+    logging.info("Temporally evolving without dissipation")
     sol_eq = solve_ivp(equilibrium_ode_func, [0, T], y0)
+    rho_eq_full = sol_eq.y.reshape(2,2, -1).copy()
+    s_eq = bloch_vector_func(rho_eq_full)
+    bloch_vector_animation(s_eq, title="Non-dissipated system")
 
+    # for the 1st order response
     rho_eq = sol_eq.y[:, 1].reshape(2,2).copy()
     rho_eq[1, 0] = 0
     rho_eq[0, 1] = 0
-
-    print(rho_eq)
 
     def dissipation_ode_func(t, y):
         _H = H(t)
@@ -121,15 +126,15 @@ def main():
         return out.flatten()
     
     t = np.linspace(0, T, 1000)
+    logging.info("Solving the system with dissipation")
     sol_diss = solve_ivp(dissipation_ode_func, [0, T], y0, t_eval=t)
-
-    sol_bloch = solve_ivp(d_bloch_vector_func, [0, T], [0, 0, -1], t_eval=t)
-    bloch_vector_animation(sol_bloch.y)
-
     rho = sol_diss.y.reshape(2,2, -1).copy()
-    
     s = bloch_vector_func(rho)
-    bloch_vector_animation(s)
+    bloch_vector_animation(s, title="Dissipation")
+
+    logging.info("Solving d_s directly")
+    sol_bloch = solve_ivp(d_bloch_vector_func, [0, T], [0, 0, -1], t_eval=t)
+    bloch_vector_animation(sol_bloch.y, title="$s = \int\partial s$")
 
     plt.figure()
 
