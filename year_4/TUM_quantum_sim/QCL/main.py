@@ -186,11 +186,16 @@ def main():
             logging.info("Calculating charge density")
 
         # dopant concentration
-        nD = np.vectorize(lambda z: n2D / (sys._find_region(z).end - sys._find_region(z).start))(z)
+        def dopant_density(z: float) -> float:
+            r = sys._find_region(z)
+            if r == sys._regions[wells.index(155)]:
+                return n2D / (r.end - r.start)
+            return 0.0
+        nD = np.vectorize(dopant_density)(z)
 
         rho = c.e0 * (nD - n2D * sum([p[i] * abs(psi[:, i])**2 for i in range(len(p))]))
 
-        # plot_rho(z, nD, rho)
+        plot_rho(z, nD, rho)
 
         if log:
             logging.info("Solving the Poisson equation")
@@ -227,6 +232,9 @@ def main():
     for i in range(len(p)):
         logging.info(f"p{i} = {p[i]*100 :.3f}%")
     logging.info(f"Total: {sum(p)*100:.1f}%")
+    logging.info("Energy difference:")
+    for i in range(len(p)):
+        logging.info(f"delta E{i} = {(En[i] - En0[i]) / c.e0 :.3e} eV")
 
     logging.info("Simulation finished, exiting...")
 
