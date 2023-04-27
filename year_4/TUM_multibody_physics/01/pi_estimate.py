@@ -66,7 +66,7 @@ def mc_pi_variance(N: int, M: int) -> float:
     return np.var(pi_arr - np.pi)
 
 
-def task_1():
+def main():
     N = 1000
     print(f"Pi = {mc_calc_pi(N)} ({N = })")
 
@@ -93,11 +93,6 @@ def task_1():
     plt.title("Monte-Carlo estimation of $\\pi$, Variance of error")
     plt.show()
 
-    
-
-
-def main():
-    task_1()
 
 if __name__ == "__main__":
     main()
