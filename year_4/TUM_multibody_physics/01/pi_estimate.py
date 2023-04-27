@@ -1,15 +1,12 @@
 """
-Exercise 1, Computational Methods in Many-Body Physics
+Computational Methods in Many-Body Physics
+Exercise 1, task 1:
+Estimate π with Monte Carlo
 """
 import numpy as np
 from matplotlib import pyplot as plt
 import tqdm
 
-# Task 1.1 a
-#   Estimate π by “shooting” (i.e., drawing random numbers) N times uniformly on a
-#   square and counting the number of points hitting a disc target: the ratio of hits to
-#   N should correspond to the ratio of the areas of the target to the area you shoot
-#   on.
 
 def mc_hypersphere_volume(N: int, d: int) -> float:
     """Calculate the volume of a `d`-dimensional hypersphere 
@@ -67,9 +64,19 @@ def mc_pi_variance(N: int, M: int) -> float:
 
 
 def main():
+
+    
+    # Task 1.1 a
+    #   Estimate π by “shooting” (i.e., drawing random numbers) N times uniformly on a
+    #   square and counting the number of points hitting a disc target: the ratio of hits to
+    #   N should correspond to the ratio of the areas of the target to the area you shoot
+    #   on.
     N = 1000
     print(f"Pi = {mc_calc_pi(N)} ({N = })")
 
+    # Estimate the variance of the error for given N by repeating this a few times.
+    # Plot the variance of the error versus N on a log-log scale. What is the scaling of
+    # the error?
     N = [i for i in range(10, 1000, 5)]
     M = 1000
     pi_var = []
