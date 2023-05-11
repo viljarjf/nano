@@ -154,9 +154,14 @@ class IsingModel:
             neighbours =   (spins[xy_2_idx(x, (y + 1) % Ly)] + # down
                             spins[xy_2_idx(x, (y - 1) % Ly)] + # up
                             spins[xy_2_idx((x + 1) % Lx, y)] + # right
-                            spins[xy_2_idx((x - 1) % Lx, y)])  # left        
-            dE =  2 * J * spins[idx] * neighbours # dE = -2 * Energy at site idx
+                            spins[xy_2_idx((x - 1) % Lx, y)])  # left     
+            # dE = -2 * Energy at site x, y
+            # Energy at site = -J * sum(spin_xy * spin_neighbour) 
+            # => dE = -2 * (-J) * spin_xy * sum(neighbours)
+            dE =  2 * J * spins[idx] * neighbours 
 
+            # e^-dE when dE < 0 is always greater than 1.
+            # Therefore, this if-statement captures the dE < 0 condition to flip
             if np.exp(-dE / kbT) > np.random.rand():
                 spins[idx] *= -1
             
@@ -170,7 +175,7 @@ class IsingModel:
 
 
     @staticmethod
-    @njit(parallel=True)
+    @njit
     def __jit_measure_energy(J: float, spins: np.ndarray, bond_indices: np.ndarray) -> float:
         out = 0
         for spin_1, spin_2 in bond_indices:
