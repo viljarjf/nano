@@ -14,6 +14,11 @@ J = 1.0
 Lx = Ly = 40
 T = 1.5
 
+def running_mean(x, N):
+    cumsum = np.cumsum(np.pad(x, N//2, "constant", constant_values=0)) 
+    return (cumsum[N:] - cumsum[:-N]) / float(N)
+
+
 metro_system = IsingModel(J, Lx, Ly)
 sw_system = IsingModel(J, Lx, Ly)
 
@@ -79,10 +84,12 @@ def animation(_):
     metro_im.set_data(metro_system.spin_array)
     sw_im.set_data(sw_system.spin_array)
 
-    metro_E_plot.set_data(dummy_E_x, metro_E)
-    sw_E_plot.set_data(dummy_E_x, sw_E)
-    metro_M_plot.set_data(dummy_M_x, metro_M)
-    sw_M_plot.set_data(dummy_M_x, sw_M)
+    # use running mean to lessen noise in plot
+    metro_E_plot.set_data(dummy_E_x, running_mean(metro_E, 4))
+    sw_E_plot.set_data(dummy_E_x, running_mean(sw_E, 4))
+    # Use wider running mean for the noisier M
+    metro_M_plot.set_data(dummy_M_x, running_mean(metro_M, 10))
+    sw_M_plot.set_data(dummy_M_x, running_mean(sw_M, 10))
 
     E_ax.set_ylim(min(np.min(metro_E), np.min(sw_E)) * 1.1, max(np.max(metro_E), np.max(sw_E)) * 1.1)
 
