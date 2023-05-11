@@ -1,20 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import numba
-from numba import prange, float32, int32, int8
+from numba import prange, njit
 from scipy import sparse as sp
 
-spec = {
-    "J": float32,
-    "Lx": int32,
-    "Ly": int32,
-    "bond_indices": int32[:, :],
-    "spins": int8[:, :],
-    "bonds": int8[:],
-}
 
-# Compiling takes a lot of time, so it is not that much of a speedup.
-@numba.experimental.jitclass(spec)
 class System:
 
     def __init__(self, J: float, Lx: int, Ly: int, initial_state: np.ndarray = None):
@@ -23,29 +13,42 @@ class System:
         self.Ly = Ly
 
         # Initialize bond indices
-        self.bond_indices = np.empty((2*self.N, 2), dtype=np.int32)
-        for n in range(self.N):
-            x, y = self.idx_2_xy(n)
-            # left-right
-            self.bond_indices[2*n, 0] = n
-            self.bond_indices[2*n, 1] = self.xy_2_idx(x, (y + 1) % self.Ly)
-            # up-down
-            self.bond_indices[2*n + 1, 0] = n
-            self.bond_indices[2*n + 1, 1] = self.xy_2_idx((x + 1) % self.Lx, y)
-
+        self.bond_indices = self.__jit_init_bond_indices(self.shape)
+    
         # Set random initial state if not given.
-        # Numba does not support many array operations,
-        # so this algorithm is dumbed down a lot.
-        self.spins = np.ones(self.shape, dtype=np.int8)
         if initial_state is None:
-            for n in prange(self.N):
-                if np.random.random() < 0.5:
-                    y, x = self.idx_2_xy(n)
-                    self.spins[y, x] = -1
+            self.spins = self.__jit_init_state_random(self.shape)
         else:
-            self.spins = initial_state
+            # TODO check input for shape, dtype ect
+            self.spins = initial_state.flatten()
 
         self.bonds = np.zeros(2*self.N, dtype=np.int8)
+
+    @staticmethod
+    @njit(parallel=True)
+    def __jit_init_state_random(N: int) -> np.ndarray:
+        # Numba does not support many array operations,
+        # so this algorithm is dumbed down a lot.
+        spins = np.ones(N, dtype=np.int8)
+        for n in prange(N):
+            if np.random.random() < 0.5:
+                spins[n] = -1
+        return spins
+
+    @staticmethod
+    @njit(parallel=True)
+    def __jit_init_bond_indices(shape: tuple[int]) -> np.ndarray:
+        Ly, Lx = shape
+        N = Lx * Ly
+        bond_indices = np.empty((2*N, 2), dtype=np.int32)
+        for n in range(N):
+            # left-right
+            bond_indices[2*n, 0] = n
+            bond_indices[2*n, 1] = (n + 1) % Lx
+            # up-down
+            bond_indices[2*n + 1, 0] = n
+            bond_indices[2*n + 1, 1] = (n + Lx) % N
+        return bond_indices
             
     @property
     def N(self) -> int:
@@ -59,19 +62,20 @@ class System:
         return self.Ly * x + y
     
     def idx_2_xy(self, idx: int) -> tuple[int, int]:
-        return divmod(idx, self.Ly)
-    
-    def get_spin(self, idx: int) -> int:
-        return self.spins[self.idx_2_xy(idx)]
-    
-    def update_bonds(self, kbT: float):
-        for i, (spin_1, spin_2) in enumerate(self.bond_indices):
+        return divmod(idx, self.Ly)    
+
+    @staticmethod
+    @njit(parallel=True)
+    def __jit_update_bonds(kbT: float, spins: np.ndarray, bond_indices: np.ndarray) -> np.ndarray:
+        N_bonds = bond_indices.shape[0]
+        bonds = np.empty(N_bonds, dtype=np.int8)
+        for i, (spin_1, spin_2) in enumerate(bond_indices):
             # equal spins: no bond
-            if self.get_spin(spin_1) != self.get_spin(spin_2):
-                self.bonds[i] = 0
+            if bonds[spin_1] != bonds[spin_2]:
+                bonds[i] = 0
             # Different spins: 1 with probability e^-beta*J
             else:
-                self.bonds[i] = np.random.random() > np.exp(-self.J / kbT)
+                bonds[i] = np.random.random() > np.exp(-self.J / kbT)
     
     def flip_clusters(self, n_clusters: int, clusters: np.ndarray):
         # pre-determine which clusters to flip
@@ -81,7 +85,7 @@ class System:
             # check if it should be flipped
             if clusters_to_flip[clusters[idx]]:
                 # flip
-                self.spins[self.idx_2_xy(idx)] *= -1
+                self.spins[idx] *= -1
     
     def show_clusters(self, clusters: np.ndarray) -> np.ndarray:
         out = np.empty(self.shape)
