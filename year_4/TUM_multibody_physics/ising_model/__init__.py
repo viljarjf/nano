@@ -49,14 +49,22 @@ class IsingModel:
     def __jit_get_init_bond_indices(shape: tuple[int]) -> np.ndarray:
         Ly, Lx = shape
         N = Lx * Ly
+
+        def xy_2_idx(x: int, y: int) -> int:
+            return Ly * x + y
+    
+        def idx_2_xy(idx: int) -> tuple[int, int]:
+            return divmod(idx, Ly)  
+        
         bond_indices = np.empty((2*N, 2), dtype=np.int32)
-        for n in range(N):
+        for n in prange(N):
+            x, y = idx_2_xy(n)
             # left-right
             bond_indices[2*n, 0] = n
-            bond_indices[2*n, 1] = (n + 1) % Lx
+            bond_indices[2*n, 1] = xy_2_idx(x, (y + 1) % Ly)
             # up-down
             bond_indices[2*n + 1, 0] = n
-            bond_indices[2*n + 1, 1] = (n + Lx) % N
+            bond_indices[2*n + 1, 1] = xy_2_idx((x + 1) % Lx, y)
         return bond_indices
     
     def init_bond_indices(self):
@@ -67,7 +75,9 @@ class IsingModel:
     @njit(parallel=True)
     def __jit_update_bonds(J: int, kbT: float, bonds: np.ndarray, spins: np.ndarray, 
                            bond_indices: np.ndarray) -> np.ndarray:
-        for i, (spin_1, spin_2) in enumerate(bond_indices):
+        # I don't know any parallel equivalent of enumerate, use this instead
+        for i in prange(bond_indices.shape[0]):
+            spin_1, spin_2 = bond_indices[i]
             # equal spins: no bond
             if spins[spin_1] != spins[spin_2]:
                 bonds[i] = 0
@@ -129,15 +139,22 @@ class IsingModel:
         Ly, Lx = shape
         N = Lx * Ly
 
+        def xy_2_idx(x: int, y: int) -> int:
+            return Ly * x + y
+    
+        def idx_2_xy(idx: int) -> tuple[int, int]:
+            return divmod(idx, Ly) 
+
         for _ in range(equilibrium_flips + flips):
 
             idx = np.random.randint(N)
+            x, y = idx_2_xy(idx)
 
             # Measure change in energy of flipping chosen site
-            neighbours =   (spins[(idx + 1) % Lx] + # right
-                            spins[(idx - 1) % Lx] + # left
-                            spins[(idx + Lx) % N] + # down
-                            spins[(idx - Lx) % N])  # up        
+            neighbours =   (spins[xy_2_idx(x, (y + 1) % Ly)] + # down
+                            spins[xy_2_idx(x, (y - 1) % Ly)] + # up
+                            spins[xy_2_idx((x + 1) % Lx, y)] + # right
+                            spins[xy_2_idx((x - 1) % Lx, y)])  # left        
             dE =  2 * J * spins[idx] * neighbours # dE = -2 * Energy at site idx
 
             if np.exp(-dE / kbT) > np.random.rand():
@@ -167,7 +184,11 @@ class IsingModel:
         return self.Ly * x + y
     
     def idx_2_xy(self, idx: int) -> tuple[int, int]:
-        return divmod(idx, self.Ly)    
+        return divmod(idx, self.Ly)  
+
+    @property
+    def spin_array(self):
+        return self.spins.reshape(self.shape)  
     
     @property
     def N(self) -> int:
