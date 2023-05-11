@@ -9,14 +9,20 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Slider
 
 import numpy as np
+import numba
 
 J = 1.0
 Lx = Ly = 40
-T = 1.5
+T = 2 / np.log(1 + np.sqrt(2)) # Tc
 
-def running_mean(x, N):
-    cumsum = np.cumsum(np.pad(x, N//2, "constant", constant_values=0)) 
-    return (cumsum[N:] - cumsum[:-N]) / float(N)
+@numba.njit
+def running_mean(x: np.ndarray, N: int) -> np.ndarray:
+    out = np.empty(x.shape)
+    for i in range(N):
+        out[i] = np.mean(x[i:i + N])
+    for i in range(N, x.size):
+        out[i] = np.mean(x[i - N:i + 1])
+    return out
 
 
 metro_system = IsingModel(J, Lx, Ly)
@@ -65,7 +71,7 @@ M_ax.legend()
 # fig.tight_layout()
 
 T_slider = Slider(slider_ax, 'Temperature ', valmin=0, valmax=5, 
-             valinit=1, valfmt='%.2f K/k_B', facecolor='#cc7000')
+             valinit=T, valfmt='%.2f K/k_B', facecolor='#cc7000')
 
 def animation(_):
     metro_system.iterate_metropolis(T, 3 * Lx * Ly)
