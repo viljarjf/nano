@@ -81,9 +81,9 @@ class IsingModel:
             # equal spins: no bond
             if spins[spin_1] != spins[spin_2]:
                 bonds[i] = 0
-            # Different spins: 1 with probability e^-beta*J
+            # Different spins: 1 with probability e^-2beta*J
             else:
-                bonds[i] = np.random.random() > np.exp(-J / kbT)
+                bonds[i] = np.random.random() > np.exp(-2*J / kbT)
 
     def update_bonds(self, kbT: float):
         self.__jit_update_bonds(self.J, kbT, self.bonds, self.spins, self.bond_indices) 
