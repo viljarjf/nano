@@ -14,6 +14,14 @@ def _get_filename(L: int, J: float = 0, T0: float = 1, Tn: float = 3.5,
     out += ("square" if model == IsingModel else "triangular")
     out = out.replace(".", "_")
     return out + ".npz"
+
+def _setup_data_folder():
+    if not DATA_FOLDER.exists():
+        os.mkdir(DATA_FOLDER)
+        # Add gitignore. 
+        # Dynamic in case the folder name changes
+        with open(DATA_FOLDER / ".gitignore", "w") as f:
+            f.write("*\n")
     
 
 def get_data(L: int, J: float = 0, T0: float = 1, Tn: float = 3.5, 
@@ -35,6 +43,7 @@ def get_data(L: int, J: float = 0, T0: float = 1, Tn: float = 3.5,
     :return: Energies, Magnetizations, Temperatures
     :rtype: tuple[np.ndarray, np.ndarray, np.ndarray]
     """
+    _setup_data_folder()
 
     filename = Path(DATA_FOLDER, _get_filename(L, J, T0, Tn, N, model))
     try:
@@ -50,7 +59,6 @@ def get_data(L: int, J: float = 0, T0: float = 1, Tn: float = 3.5,
             system.iterate_swendsen_wang(Ts[0])
 
         Es, Ms = system.sweep_swendsen_wang(Ts, 200)
-        Es, Ms, Ts = file["Es"], file["Ms"], file["Ts"]
 
         np.savez(filename, Es=Es, Ms=Ms, Ts=Ts)
 
