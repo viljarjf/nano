@@ -2,7 +2,7 @@
 Verify both algorighms with a cool animation
 """
 # hack to import with single file execution
-from __init__ import IsingModel
+from .triangular_lattice import TriangularIsingModel as IsingModel
 
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
