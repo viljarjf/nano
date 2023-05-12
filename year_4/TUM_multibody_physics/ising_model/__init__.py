@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 import numba
 from numba import prange, njit
 from scipy import sparse as sp
+from tqdm import tqdm
 
 
 class IsingModel:
@@ -173,6 +174,21 @@ class IsingModel:
         self.update_bonds(kbT)
         self.find_and_flip_clusters()
 
+
+    def sweep_swendsen_wang(self, kbTs: np.ndarray, steps_per_temperature: int) -> tuple[np.ndarray, np.ndarray]:
+        """output: 
+        Energies, shape (kbTs, steps)
+        Magnetization, shape (kbTs, steps)
+        """
+        Es = np.empty((*kbTs.shape, steps_per_temperature))
+        Ms = np.empty((*kbTs.shape, steps_per_temperature))
+        for i, T in tqdm(enumerate(kbTs)):
+            for j in range(steps_per_temperature):
+                self.iterate_swendsen_wang(T)
+                Es[i, j] = self.E
+                Ms[i, j] = self.M
+        return Es, Ms
+    
 
     @staticmethod
     @njit
