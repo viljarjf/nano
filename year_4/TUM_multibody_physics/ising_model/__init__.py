@@ -226,4 +226,8 @@ class IsingModel:
     
     @property
     def M(self) -> float:
+        return np.sum(self.spins)
+    
+    @property
+    def m(self) -> float:
         return np.mean(self.spins)
