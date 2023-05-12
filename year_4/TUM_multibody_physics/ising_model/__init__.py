@@ -182,7 +182,7 @@ class IsingModel:
         """
         Es = np.empty((*kbTs.shape, steps_per_temperature))
         Ms = np.empty((*kbTs.shape, steps_per_temperature))
-        for i, T in tqdm(enumerate(kbTs)):
+        for i, T in tqdm(enumerate(kbTs), desc=f"L = {self.Lx}", total=kbTs.shape[0]):
             for j in range(steps_per_temperature):
                 self.iterate_swendsen_wang(T)
                 Es[i, j] = self.E
