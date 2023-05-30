@@ -7,9 +7,7 @@ H = -J sum_i sigma^x_i sigma^x_{i+1} - g sum_i sigma^z i; periodic boundary cond
 """
 
 import numpy as np
-import scipy
 from scipy import sparse
-import scipy.sparse.linalg
 import matplotlib.pyplot as plt
 
 Id = sparse.csr_matrix(np.eye(2))
@@ -45,7 +43,7 @@ def gen_hamiltonian(sx_list, sz_list, g, J=1.):
     return H
 
 
-def lanczos(psi0, H, N=200, stabilize=False):
+def lanczos(psi0: np.ndarray, H: sparse.spmatrix, N: int =200, stabilize=False):
     """Perform a Lanczos iteration building the tridiagonal matrix T and ONB of the Krylov space."""
     if psi0.ndim != 1:
         raise ValueError("psi0 should be a vector, "
