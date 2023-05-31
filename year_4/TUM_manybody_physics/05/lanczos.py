@@ -42,6 +42,8 @@ def gen_hamiltonian(sx_list, sz_list, g, J=1.):
         H = H - g * sz_list[j]
     return H
 
+def gen_hamiltonian_L(L: int, g: float, J: float = 1.0) -> sparse.csr_matrix:
+    return gen_hamiltonian(gen_sx_list(L), gen_sz_list(L), g, J)
 
 def lanczos(psi0: np.ndarray, H: sparse.spmatrix, N: int =200, stabilize=False):
     """Perform a Lanczos iteration building the tridiagonal matrix T and ONB of the Krylov space."""
