@@ -97,6 +97,7 @@ def colorplot(xs, ys, data, **kwargs):
     """
     data = np.asarray(data)
     if data.shape != (len(xs), len(ys)):
+        print(data.shape)
         raise ValueError("Shape of data doesn't match len of xs and ys!")
     dx = (xs[-1] - xs[0])/(len(xs)-1)
     assert abs(dx - (xs[1]-xs[0])) < 1.e-10
