@@ -2,6 +2,9 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import sparse as sp
+from qm_sim.hamiltonian import Hamiltonian
+from qm_sim.spatial_derivative.cartesian import laplacian
+from scipy.sparse.linalg import spsolve
 
 from TUM_quantum_sim import constants as c
 from TUM_quantum_sim import utils
@@ -70,9 +73,9 @@ def plot_psi(z: np.ndarray, V: np.ndarray, En: np.ndarray, psi: np.ndarray, bloc
     plt.ylabel("V [eV]")
     plt.title("Potential")
     ax=plt.gca()
-    for i in range(5):
+    for i in range(min(len(En), 5)):
         plt.subplot(2, 3, i+2, sharex=ax)
-        plt.plot(z * 1e9, abs(psi[:, i])**2)
+        plt.plot(z * 1e9, abs(psi[i, :])**2)
         plt.title(f"E$_{i}$ = {En[i] / c.e0 :.3e} eV")
         plt.xlabel("z [nm]")
     plt.tight_layout()
@@ -130,25 +133,20 @@ def main():
     # plot_V(z, V)
 
     # hamiltonian
-    h0 = -c.hbar**2 / (2 * m)
-    nabla_z2 = 1/dz**2 * sp.diags([1, -2, 1], [-1, 0, 1], shape=(N, N), dtype=np.complex128, format="csc")
-    H0 = h0 * nabla_z2
+    H = Hamiltonian(N, L, m)
+    nabla_z2 = laplacian([N], [L]).asformat("csc")
 
     def iterate(V: np.ndarray, log: bool = False) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """returns E, psi, dV, p"""
         if log:
             logging.info("Finding stationary eigenstates")
 
-        H = H0 + sp.diags(V)
+        H.V = V
 
         # plot_H(H)
 
         # find the five smallest (algebraic, not in absolute value) eigenvalues
-        En, psi = sp.linalg.eigsh(H, k=5, which="SA")
-
-        # normalise eigenvectors
-        for i in range(len(En)):
-            psi[:, i] /= np.sqrt(np.trapz(psi[:, i]**2, z))
+        En, psi = H.eigen(5)
 
         if log:
             logging.info("Found 5 stationary eigenstates")
@@ -161,7 +159,7 @@ def main():
         # use relative tolerance
         if log:
             logging.info("Estimating mu")
-        mu_n = En[-1]
+        mu_n = En[0]
         tol = 1e-10
         error = float("inf")
         iter_fun = lambda mu: (calc_n(En, m, mu, T) - n2D) / calc_dn_dmu(En, m, mu, T)
@@ -193,15 +191,15 @@ def main():
             return 0.0
         nD = np.vectorize(dopant_density)(z)
 
-        rho = c.e0 * (nD - n2D * sum([p[i] * abs(psi[:, i])**2 for i in range(len(p))]))
+        rho = c.e0 * (nD - n2D * sum([p[i] * abs(psi[i, :])**2 for i in range(len(p))]))
 
         plot_rho(z, nD, rho)
 
         if log:
             logging.info("Solving the Poisson equation")
 
-        delta_V = c.e0 / (epsilon) * sp.linalg.inv(nabla_z2) @ rho
-        delta_V = delta_V.real # it is strictly real anyway
+        delta_V = c.e0 / (epsilon) * spsolve(nabla_z2, rho)
+        # delta_V = delta_V.real # it is strictly real anyway
 
         return En, psi, delta_V, p 
 
