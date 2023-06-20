@@ -27,13 +27,13 @@ def main():
     sys = System(regions)
     sys.set_voltage(-0.1)
 
-    # logging.info("Plotting the potential")
-    # plot.potential(sys)
-    # plot.effective_mass(sys)
+    logging.info("Plotting the potential")
+    plot.potential(sys)
+    plot.effective_mass(sys)
 
     eV = 1
     logging.info(f"Plotting the probability density for E={eV}eV")
-    # plot.probability_density(eV, sys, 1000)
+    plot.probability_density(eV, sys, 1000)
 
     logging.info("Calculating transmission probability")
     Es = np.linspace(0, 1, 100)

@@ -60,7 +60,7 @@ def main():
     H = Hamiltonian((s.Nx, s.Ny), (s.Lx, s.Ly), m_star(0))
     H.V = potential(s)
 
-    # H.plot_potential()
+    H.plot_potential()
     H.plot_eigen(12)
 
 

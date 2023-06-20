@@ -2,7 +2,7 @@ import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
 from qm_sim.hamiltonian import Hamiltonian
-from qm_sim.spatial_derivative.cartesian import laplacian
+from qm_sim.spatial_derivative.cartesian import laplacian, CartesianDiscretization
 from scipy import sparse as sp
 from scipy.sparse.linalg import spsolve
 
@@ -141,11 +141,11 @@ def main():
     sys.set_electric_field(E)
     V = sys.V(z)
 
-    # plot_V(z, V)
+    plot_V(z, V)
 
     # hamiltonian
     H = Hamiltonian(N, L, m)
-    nabla_z2 = laplacian([N], [L]).asformat("csc")
+    nabla_z2 = laplacian(H.discretization).asformat("csc")
 
     def iterate(
         V: np.ndarray, log: bool = False
@@ -156,8 +156,6 @@ def main():
 
         H.V = V
 
-        # plot_H(H)
-
         # find the five smallest (algebraic, not in absolute value) eigenvalues
         En, psi = H.eigen(5)
 
@@ -165,8 +163,6 @@ def main():
             logging.info("Found 5 stationary eigenstates")
             for i in range(len(En)):
                 logging.info(f"E{i} = {En[i] / c.e0 :.3f} eV")
-
-        # plot_psi(z, V, En, psi)
 
         # estimate mu with newton's method
         # use relative tolerance
