@@ -1,45 +1,68 @@
+from dataclasses import dataclass
+
 import matplotlib
-from matplotlib import pyplot as plt
+import numpy as np
 from qm_sim.hamiltonian import Hamiltonian
 
-from TUM_quantum_sim import constants as c
 from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
-from TUM_quantum_sim.QW_sim import physics, solver
-from TUM_quantum_sim.QW_sim.system import System
-from TUM_quantum_sim.utils import m_star
+from TUM_quantum_sim.utils import delta_V, m_star
+
+
+@dataclass
+class System:
+    Lx: float
+    Ly: float
+    wire_x: float
+    wire_y: float
+    Nx: int
+    Ny: int
+    x: float
+
+
+def potential(sys: System) -> np.ndarray:
+    """create a Nx x Ny array of potential
+
+    Args:
+        sys (System): the system parameters
+
+    Returns:
+        np.ndarray: 2D float array, [J]
+    """
+
+    # figure out where the wire is in the simulation area
+    buffer_x = (sys.Lx - sys.wire_x) / 2
+    buffer_y = (sys.Ly - sys.wire_y) / 2
+
+    wire_Nx_min = int(sys.Nx * buffer_x // sys.Lx)
+    wire_Ny_min = int(sys.Ny * buffer_y // sys.Ly)
+
+    wire_Nx_width = int(sys.Nx * sys.wire_x // sys.Lx)
+    wire_Ny_width = int(sys.Ny * sys.wire_y // sys.Ly)
+
+    wire_Nx_max = wire_Nx_min + wire_Nx_width
+    wire_Ny_max = wire_Ny_min + wire_Ny_width
+
+    out = np.zeros((sys.Nx, sys.Ny))
+    dV = delta_V(sys.x)
+
+    out[wire_Nx_min:wire_Nx_max, wire_Ny_min:wire_Ny_max] = -dV
+
+    return out
 
 
 def main():
-
-    matplotlib.use('QTagg')
+    matplotlib.use("QTagg")
 
     logging.info("Starting quantum wire simulation")
 
-    s = System(
-        Lx = 40e-9,
-        Ly = 60e-9,
-        wire_x = 16e-9,
-        wire_y = 24e-9,
-        Nx = 20,
-        Ny = 30,
-        x = 0.1
-        )
+    s = System(Lx=40e-9, Ly=60e-9, wire_x=16e-9, wire_y=24e-9, Nx=60, Ny=90, x=0.1)
 
     H = Hamiltonian((s.Nx, s.Ny), (s.Lx, s.Ly), m_star(0))
-    V = physics.potential(s)
-    
-    H.set_static_potential(V)
+    H.V = potential(s)
 
-    solutions = solver.eigen(s, H, n = 20)
-    start_plot = 0
+    H.plot_potential()
+    H.plot_eigen(12)
 
-    plt.figure()
-    for i in range(4*4):
-        plt.subplot(4, 4, i+1)
-        plt.imshow(solutions[start_plot + i].eigenvector)
-        plt.title(f"{solutions[start_plot + i].eigenvalue / c.e0 :.3f} eV")
-    plt.tight_layout()
-    plt.show()
 
 if __name__ == "__main__":
     main()

@@ -8,7 +8,7 @@ import logging
 QB_LOGGER = logging.getLogger("QB")
 
 logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%H:%M:%S'
-    )
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%H:%M:%S",
+)

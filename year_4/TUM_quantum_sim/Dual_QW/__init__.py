@@ -9,7 +9,7 @@ import logging
 DQW_LOGGER = logging.getLogger("DQW")
 
 logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%H:%M:%S'
-    )
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%H:%M:%S",
+)

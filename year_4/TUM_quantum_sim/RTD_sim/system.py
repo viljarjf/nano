@@ -14,7 +14,6 @@ from TUM_quantum_sim.RTD_sim.region import Region
 
 
 class System:
-
     def __init__(self, regions: list[Region], voltage: float = None) -> None:
         """Set up a system. regions must be continuous and start at z=0
 
@@ -34,7 +33,7 @@ class System:
         self._regions = regions
         if not self._validate_regions():
             raise ValueError("Invalid list of regions")
-    
+
     def _validate_regions(self) -> bool:
         """Checks if the regions are continuous, non-overlapping and sorted
 
@@ -48,11 +47,10 @@ class System:
             else:
                 return False
         return True
-            
 
     def _find_region(self, z: float) -> Region:
         """Returns the region at position z.
-        
+
         If z is exactly at a boundary, use the lower-z region.
 
         Args:
@@ -63,12 +61,12 @@ class System:
         """
         if z > self.L or z < 0:
             raise ValueError("Not inside the system")
-        
+
         for r in self._regions:
             if r.start <= z and r.end > z:
                 return r
-        return r # failsafe for z = L
-        
+        return r  # failsafe for z = L
+
     @property
     def E(self) -> float:
         """Electrical field"""
@@ -81,7 +79,7 @@ class System:
 
     def __hash__(self):
         return sum(hash(r) for r in self._regions) + hash(self._U)
-    
+
     def set_voltage(self, voltage: float) -> None:
         """Sets the potential difference of the system
 
@@ -105,7 +103,7 @@ class System:
             raise ValueError("Not a valid electric field")
 
     def add_region(self, region: Region) -> None:
-        """Add a region to the system. 
+        """Add a region to the system.
         Assumes that the region has the same start as the previous end
 
         Args:
@@ -122,9 +120,8 @@ class System:
     @lru_cache
     def _V(self, z: float) -> float:
         r = self._find_region(z)
-        return r.material.dV + z*self.E*c.e0
+        return r.material.dV + z * self.E * c.e0
 
-    
     def V(self, z: float | np.ndarray) -> float | np.ndarray:
         """Calculate the potential at position z
 
@@ -132,7 +129,7 @@ class System:
             z (float | np.ndarray): position
 
         Returns:
-            float | np.ndarray: potential 
+            float | np.ndarray: potential
         """
         if isinstance(z, float) or isinstance(z, int):
             return self._V(z)
@@ -153,7 +150,6 @@ class System:
         """
         return self._find_region(z).material.m
 
-
     @lru_cache
     def k(self, E: float, z: float) -> float | complex:
         """get wave number at position z
@@ -166,8 +162,7 @@ class System:
             float | complex: wave number. Complex if exponential decay instead of wave
         """
         m = self.m_star(z)
-        return (2*m*(E - self.V(z)) + 0j)**0.5 / c.hbar
-
+        return (2 * m * (E - self.V(z)) + 0j) ** 0.5 / c.hbar
 
     def beta(self, E: float, z: float) -> float | complex:
         return self.k(E, z) / self.m_star(z)

@@ -11,7 +11,7 @@ import logging
 RTD_SIM_LOGGER = logging.getLogger("RTD_sim")
 
 logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%H:%M:%S'
-    )
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%H:%M:%S",
+)

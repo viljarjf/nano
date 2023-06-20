@@ -2,11 +2,8 @@ import numpy as np
 
 from TUM_quantum_sim import constants as c
 
-def static(
-    z: float | np.ndarray,
-    a: float,
-    Vb: float
-    ) -> np.ndarray:
+
+def static(z: float | np.ndarray, a: float, Vb: float) -> np.ndarray:
     """create a discretised array of the potential
 
     Args:
@@ -17,15 +14,13 @@ def static(
     Returns:
         float | np.ndarray: potential [J]
     """
-    z0 = a / (4*2**0.5)
-    return Vb * (-0.25 * (z/z0)**2 + 1/64 * (z/z0)**4)
+    z0 = a / (4 * 2**0.5)
+    return Vb * (-0.25 * (z / z0) ** 2 + 1 / 64 * (z / z0) ** 4)
+
 
 def temporal(
-    z: float | np.ndarray,
-    t: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
+    z: float | np.ndarray, t: float, E: float, omega: float
+) -> float | np.ndarray:
     """Calculate the temporal evolution of the potential
 
     Args:
@@ -39,14 +34,10 @@ def temporal(
     """
     return -c.e0 * E * z * np.sin(omega * t)
 
+
 def total(
-    z: float | np.ndarray,
-    t: float,
-    a: float,
-    Vb: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
+    z: float | np.ndarray, t: float, a: float, Vb: float, E: float, omega: float
+) -> float | np.ndarray:
     """Calculate potential
 
     Args:
