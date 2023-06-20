@@ -8,9 +8,9 @@ from dataclasses import dataclass
 
 from TUM_quantum_sim.RTD_sim.material import Material
 
+
 @dataclass
 class Region:
-
     material: Material
     start: float
     end: float

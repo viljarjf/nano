@@ -1,13 +1,12 @@
-import matplotlib
-from matplotlib import pyplot as plt
-from qm_sim.hamiltonian import Hamiltonian
-import numpy as np
-
-from qm_sim import nature_constants as c
-from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
-from TUM_quantum_sim.utils import m_star, delta_V
-
 from dataclasses import dataclass
+
+import matplotlib
+import numpy as np
+from qm_sim.hamiltonian import Hamiltonian
+
+from TUM_quantum_sim.QW_sim import QW_SIM_LOGGER as logging
+from TUM_quantum_sim.utils import delta_V, m_star
+
 
 @dataclass
 class System:
@@ -18,6 +17,7 @@ class System:
     Nx: int
     Ny: int
     x: float
+
 
 def potential(sys: System) -> np.ndarray:
     """create a Nx x Ny array of potential
@@ -51,22 +51,13 @@ def potential(sys: System) -> np.ndarray:
 
 
 def main():
-
-    matplotlib.use('QTagg')
+    matplotlib.use("QTagg")
 
     logging.info("Starting quantum wire simulation")
 
-    s = System(
-        Lx = 40e-9,
-        Ly = 60e-9,
-        wire_x = 16e-9,
-        wire_y = 24e-9,
-        Nx = 60,
-        Ny = 90,
-        x = 0.1
-        )
+    s = System(Lx=40e-9, Ly=60e-9, wire_x=16e-9, wire_y=24e-9, Nx=60, Ny=90, x=0.1)
 
-    H = Hamiltonian((s.Nx, s.Ny), (s.Lx, s.Ly), m_star(0))    
+    H = Hamiltonian((s.Nx, s.Ny), (s.Lx, s.Ly), m_star(0))
     H.V = potential(s)
 
     # H.plot_potential()

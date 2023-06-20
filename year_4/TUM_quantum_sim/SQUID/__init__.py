@@ -9,7 +9,7 @@ import logging
 SQUID_LOGGER = logging.getLogger("SQUID")
 
 logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%H:%M:%S'
-    )
+    format="%(asctime)s %(levelname)-8s %(message)s",
+    level=logging.INFO,
+    datefmt="%H:%M:%S",
+)

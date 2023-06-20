@@ -4,6 +4,7 @@ Generate a transfer matrix for a constant-potential system
 
 import numpy as np
 
+
 class TransferMatrix(np.ndarray):
     pass
 
@@ -18,12 +19,8 @@ def _M_shift(k1: float | complex, dz: float) -> TransferMatrix:
     Returns:
         TransferMatrix: right matrix for shifting
     """
-    return np.array(
-        [
-            [np.exp(1j*k1*dz), 0], 
-            [0, np.exp(-1j*k1*dz)]
-        ]
-    )
+    return np.array([[np.exp(1j * k1 * dz), 0], [0, np.exp(-1j * k1 * dz)]])
+
 
 def _M0(k1: float | complex, k2: float | complex) -> TransferMatrix:
     """Create a transfer matrix for a given k transition at z=0
@@ -35,15 +32,12 @@ def _M0(k1: float | complex, k2: float | complex) -> TransferMatrix:
     Returns:
         TransferMatrix: 2x2 transfer matrix
     """
-    return (1 / (2*k2)) * np.array(
-        [
-            [ k2 + k1, k2 - k1],
-            [ k2 - k1, k2 + k1]
-        ]
-    )
+    return (1 / (2 * k2)) * np.array([[k2 + k1, k2 - k1], [k2 - k1, k2 + k1]])
 
 
-def M(k1: float | complex, beta1: float | complex, beta2: float | complex, dz: float) -> TransferMatrix:
+def M(
+    k1: float | complex, beta1: float | complex, beta2: float | complex, dz: float
+) -> TransferMatrix:
     """Create a transfer matrix for a given k transition at z=d.
     Assuming constant potential between z=0 and z=d
 

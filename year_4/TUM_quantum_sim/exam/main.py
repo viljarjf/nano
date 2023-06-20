@@ -1,28 +1,29 @@
 import numpy as np
-from qm_sim.hamiltonian import Hamiltonian
 from qm_sim import nature_constants as c
+from qm_sim.hamiltonian import Hamiltonian
 
 from TUM_quantum_sim.exam import EXAM_LOGGER as logging
 from TUM_quantum_sim.exam import plot, potential
+
 
 def main():
     logging.info("Starting simulation")
 
     # simulation setup
     a = 1e-9
-    L = 2*a
+    L = 2 * a
     N = 50
     m = c.m_e
     Vb = c.e_0
     n_states = 2
     E = 1e9
-    omega = np.pi*200e12
-    t_end = 100e-15     # end of simulation
-    t_store = 1e-15     # time between each data storage
+    omega = np.pi * 200e12
+    t_end = 100e-15  # end of simulation
+    t_store = 1e-15  # time between each data storage
 
-    # E = omega = 0       # override 
+    # E = omega = 0       # override
 
-    z = np.linspace(-L/2, L/2, N)
+    z = np.linspace(-L / 2, L / 2, N)
 
     logging.info("Calculating potential")
     V = lambda t: potential.total(z, t, a, Vb, E, omega)
@@ -46,14 +47,15 @@ def main():
     for ti in t:
         _V.append(H.V(ti))
     V = np.array(_V)
-    
+
     logging.info("Temporal simulation completed")
 
     plot.psi2_3D(z, t, psi)
 
     plot.psi2_animation(z, V, psi)
-    
+
     logging.info("Simulation finished, exiting...")
+
 
 if __name__ == "__main__":
     main()

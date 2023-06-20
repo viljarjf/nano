@@ -1,18 +1,13 @@
 import matplotlib
 import numpy as np
-
-from qm_sim.hamiltonian import Hamiltonian
 from qm_sim import nature_constants as c
 from qm_sim import plot
+from qm_sim.hamiltonian import Hamiltonian
 
 from TUM_quantum_sim.SQUID import SQUID_LOGGER as logging
 
 
-def static_potential(
-    z: float | np.ndarray,
-    a: float,
-    Vb: float
-    ) -> np.ndarray:
+def static_potential(z: float | np.ndarray, a: float, Vb: float) -> np.ndarray:
     """create a discretised array of the potential
 
     Args:
@@ -23,15 +18,13 @@ def static_potential(
     Returns:
         float | np.ndarray: potential [J]
     """
-    z0 = a / (4*2**0.5)
-    return Vb * (-0.25 * (z/z0)**2 + 1/64 * (z/z0)**4)
+    z0 = a / (4 * 2**0.5)
+    return Vb * (-0.25 * (z / z0) ** 2 + 1 / 64 * (z / z0) ** 4)
+
 
 def temporal_potential(
-    z: float | np.ndarray,
-    t: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
+    z: float | np.ndarray, t: float, E: float, omega: float
+) -> float | np.ndarray:
     """Calculate the temporal evolution of the potential
 
     Args:
@@ -45,14 +38,10 @@ def temporal_potential(
     """
     return -c.e_0 * E * z * np.sin(omega * t)
 
+
 def potential(
-    z: float | np.ndarray,
-    t: float,
-    a: float,
-    Vb: float,
-    E: float,
-    omega: float
-    ) -> float | np.ndarray:
+    z: float | np.ndarray, t: float, a: float, Vb: float, E: float, omega: float
+) -> float | np.ndarray:
     """Calculate potential
 
     Args:
@@ -68,24 +57,25 @@ def potential(
     """
     return static_potential(z, a, Vb) + temporal_potential(z, t, E, omega)
 
+
 def main():
     logging.info("Starting simulation")
 
     matplotlib.use("QtAgg")
-    
+
     a = 1e-9
-    L = 2*a
+    L = 2 * a
     N = 50
     m = c.m_e
     Vb = c.e_0
     E = 1e9
-    omega = np.pi*200e12
+    omega = np.pi * 200e12
 
     logging.info("Initializing Hamiltonian")
     H = Hamiltonian(N, L, m, temporal_scheme="crank-nicolson")
-    z, = H.get_coordinate_arrays()
+    (z,) = H.get_coordinate_arrays()
     H.V = lambda t: potential(z, t, a, Vb, E, omega)
-    
+
     H.plot_potential()
 
     logging.info("Finding stationary eigenstates")
@@ -98,12 +88,13 @@ def main():
 
     logging.info("Starting temporal evolution")
     t_end = 10e-15
-    t_store = 0.25e-15 # time between each stored psi
+    t_store = 0.25e-15  # time between each stored psi
     psi_0 = (psi1 + psi2) / 2**0.5
-    
+
     H.plot_temporal(t_end, t_store, psi_0=psi_0)
 
     logging.info("Simulation finished, exiting...")
+
 
 if __name__ == "__main__":
     main()
