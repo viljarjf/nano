@@ -5,27 +5,27 @@ H = -J sum_i sigma^x_i sigma^x_{i+1} - g sum_i sigma^z i; periodic boundary cond
 """
 
 import numpy as np
-import scipy.sparse.linalg
+from scipy import sparse as sp
 import matplotlib.pyplot as plt
 
 
-def flip(s, i, N):
+def flip(s: int, i, N: int) -> int:
     """Flip the bits of the state `s` at positions i and (i+1)%N."""
     return s ^ (1 << i | 1 << ((i+1) % N))
 
 
-def translate(s, N):
+def translate(s: int, N: int) -> int:
     """Shift the bits of the state `s` one position to the right (cyclically for N bits)."""
     bs = bin(s)[2:].zfill(N)
     return int(bs[-1] + bs[:-1], base=2)
 
 
-def count_ones(s, N):
+def count_ones(s: int, N: int) -> int:
     """Count the number of `1` in the binary representation of the state `s`."""
-    return bin(s).count('1')
+    return s.bit_count()
 
 
-def is_representative(s, k, N):
+def is_representative(s: int, k: float, N: int) -> int:
     """Check if |s> is the representative for the momentum state.
 
     Returns -1 if s is not a representative.
@@ -43,7 +43,7 @@ def is_representative(s, k, N):
                 return i+1
 
 
-def get_representative(s, N):
+def get_representative(s: int, N: int) -> tuple[int, int]:
     """Find the representative r in the orbit of s and return (r, l) such that |r>= T**l|s>"""
     r = s
     t = s
@@ -56,7 +56,7 @@ def get_representative(s, N):
     return r, l
 
 
-def calc_basis(N):
+def calc_basis(N: int) -> tuple[dict[int, list[tuple[int, int]]], dict[int, dict[int, int]]]:
     """Determine the (representatives of the) basis for each block.
 
     A block is detemined by the quantum numbers `qn`, here simply `k`.
@@ -68,8 +68,8 @@ def calc_basis(N):
     `ind_in_basis[qn]` is a dictionary mapping from the representative spin configuration `sa`
     to the index within the list `basis[qn]`.
     """
-    basis = dict()
-    ind_in_basis = dict()
+    basis: dict[int, list[tuple[int, int]]] = dict()
+    ind_in_basis: dict[int, dict[int, int]] = dict()
     for sa in range(2**N):
         for k in range(-N//2+1, N//2+1):
             qn = k
@@ -88,12 +88,12 @@ def calc_H(N, J, g):
     print("Generating Hamiltonian ... ", end="", flush=True)
     basis, ind_in_basis = calc_basis(N)
     H = {}
-    for qn in basis:
+    for qn, basis_qn in basis.items():
         M = len(basis[qn])
         H_block_data = []
         H_block_inds = []
         a = 0
-        for sa, Ra in basis[qn]:
+        for sa, Ra in basis_qn:
             H_block_data.append(-g * (-N + 2*count_ones(sa, N)))
             H_block_inds.append((a, a))
             for i in range(N):
@@ -108,7 +108,7 @@ def calc_H(N, J, g):
             a += 1
         H_block_inds = np.array(H_block_inds)
         H_block_data = np.array(H_block_data)
-        H_block = scipy.sparse.csr_matrix((H_block_data, (H_block_inds[:, 0], H_block_inds[:, 1])),
+        H_block = sp.csr_matrix((H_block_data, (H_block_inds[:, 0], H_block_inds[:, 1])),
                                           shape=(M,M),dtype=complex)
         H[qn] = H_block
     print("done", flush=True)
