@@ -16,8 +16,7 @@ def flip(s: int, i, N: int) -> int:
 
 def translate(s: int, N: int) -> int:
     """Shift the bits of the state `s` one position to the right (cyclically for N bits)."""
-    bs = bin(s)[2:].zfill(N)
-    return int(bs[-1] + bs[:-1], base=2)
+    return s << 1 | s >> (N - 1)
 
 
 def count_ones(s: int, N: int) -> int:
@@ -83,7 +82,7 @@ def calc_basis(N: int) -> tuple[dict[int, list[tuple[int, int]]], dict[int, dict
     return basis, ind_in_basis
 
 
-def calc_H(N, J, g):
+def calc_H(N: int, J: float, g: float) -> dict[int, sp.csr_matrix]:
     """Determine the blocks of the Hamiltonian as scipy.sparse.csr_matrix."""
     print("Generating Hamiltonian ... ", end="", flush=True)
     basis, ind_in_basis = calc_basis(N)
