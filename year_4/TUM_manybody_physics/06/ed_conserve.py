@@ -6,7 +6,6 @@ H = -J sum_i sigma^x_i sigma^x_{i+1} - g sum_i sigma^z i; periodic boundary cond
 
 import numpy as np
 from scipy import sparse as sp
-import matplotlib.pyplot as plt
 
 
 def flip(s: int, i, N: int) -> int:
@@ -27,7 +26,7 @@ def count_ones(s: int, N: int) -> int:
 def count_zeros(s: int, N: int) -> int:
     return N - count_ones(s, N)
 
-def is_representative(s: int, k: float, N: int) -> int:
+def is_representative(s: int, k: int, N: int) -> int:
     """Check if |s> is the representative for the momentum state.
 
     Returns -1 if s is not a representative.
@@ -63,7 +62,7 @@ def get_representative(s: int, N: int) -> tuple[int, int]:
     return r, l
 
 
-def calc_basis(N: int) -> tuple[dict[int, list[tuple[int, int]]], dict[int, dict[int, int]]]:
+def calc_basis(N: int) -> tuple[dict[tuple[int, int], list[tuple[int, int]]], dict[tuple[int, int], dict[int, int]]]:
     """Determine the (representatives of the) basis for each block.
 
     A block is detemined by the quantum numbers `qn`, here simply `k`.
@@ -75,11 +74,12 @@ def calc_basis(N: int) -> tuple[dict[int, list[tuple[int, int]]], dict[int, dict
     `ind_in_basis[qn]` is a dictionary mapping from the representative spin configuration `sa`
     to the index within the list `basis[qn]`.
     """
-    basis: dict[int, list[tuple[int, int]]] = dict()
-    ind_in_basis: dict[int, dict[int, int]] = dict()
+    basis: dict[tuple[int, int], list[tuple[int, int]]] = dict()
+    ind_in_basis: dict[tuple[int, int], dict[int, int]] = dict()
     for sa in range(2**N):
         for k in range(-N//2+1, N//2+1):
-            qn = k
+            p = parity_eigenvalue(sa, N)
+            qn = (p, k)
             Ra = is_representative(sa, k, N)
             if Ra > 0:
                 if qn not in basis:
@@ -90,12 +90,13 @@ def calc_basis(N: int) -> tuple[dict[int, list[tuple[int, int]]], dict[int, dict
     return basis, ind_in_basis
 
 
-def calc_H(N: int, J: float, g: float) -> dict[int, sp.csr_matrix]:
+def calc_H(N: int, J: float, g: float) -> dict[tuple[int, int], sp.csr_matrix]:
     """Determine the blocks of the Hamiltonian as scipy.sparse.csr_matrix."""
     print("Generating Hamiltonian ... ", end="", flush=True)
     basis, ind_in_basis = calc_basis(N)
     H = {}
     for qn, basis_qn in basis.items():
+        p, _k = qn
         M = len(basis[qn])
         H_block_data = []
         H_block_inds = []
@@ -108,7 +109,7 @@ def calc_H(N: int, J: float, g: float) -> dict[int, sp.csr_matrix]:
                 if sb in ind_in_basis[qn]:
                     b = ind_in_basis[qn][sb]
                     Rb = basis[qn][b][1]
-                    k = qn*2*np.pi/N
+                    k = _k*2*np.pi/N
                     H_block_data.append(-J*np.exp(-1j*k*l)*np.sqrt(Ra/Rb))
                     H_block_inds.append((b, a))
                 # else: flipped state incompatible with the k value, |b(k)> is zero
