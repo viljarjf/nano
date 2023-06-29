@@ -16,13 +16,16 @@ def flip(s: int, i, N: int) -> int:
 
 def translate(s: int, N: int) -> int:
     """Shift the bits of the state `s` one position to the right (cyclically for N bits)."""
-    return s << 1 | s >> (N - 1)
+    #       bit shift | rollover  | ensure we dont shift into >N bits
+    return (s << 1 | s >> (N - 1) | 1 << N) ^ (1 << N)
 
 
 def count_ones(s: int, N: int) -> int:
     """Count the number of `1` in the binary representation of the state `s`."""
     return s.bit_count()
 
+def count_zeros(s: int, N: int) -> int:
+    return N - count_ones(s, N)
 
 def is_representative(s: int, k: float, N: int) -> int:
     """Check if |s> is the representative for the momentum state.
@@ -40,6 +43,11 @@ def is_representative(s: int, k: float, N: int) -> int:
                 return -1  # periodicty incompatible with k
             else:
                 return i+1
+        
+
+def parity_eigenvalue(s: int, N: int) -> int:
+    """Calculate the eigenvalue of the parity operator"""
+    return -1 if count_zeros(s, N) % 2 else 1
 
 
 def get_representative(s: int, N: int) -> tuple[int, int]:
