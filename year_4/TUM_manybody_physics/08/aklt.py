@@ -125,7 +125,6 @@ def overlap(MPS_a: list[np.ndarray], MPS_b: list[np.ndarray]) -> float:
     :rtype: float
     """
     assert len(MPS_a) == len(MPS_b)
-    assert all(Ma.shape == Mb.shape for Ma, Mb in zip(MPS_a, MPS_b))
 
     # Sum over alpha_0 and j_0
     res = np.tensordot(MPS_a[0], MPS_b[0].conj(), axes=((0, 1), (0, 1)))
@@ -135,4 +134,4 @@ def overlap(MPS_a: list[np.ndarray], MPS_b: list[np.ndarray]) -> float:
         T = np.tensordot(Ma, Mb.conj(), axes=(1, 1))
         # Sum over alpha_j both above and below
         res = np.tensordot(res, T, axes=((0, 1), (0, 2)))
-    return res.item().real
+    return abs(res.item())
