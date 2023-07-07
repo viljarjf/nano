@@ -4,11 +4,11 @@ import numpy as np
 from scipy import sparse as sp
 
 # Copied from 05/lanczos.py
-Id = sp.csr_matrix(np.eye(2), dtype=np.complex128)
-Sx = sp.csr_matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex128)
-Sz = sp.csr_matrix([[1.0, 0.0], [0.0, -1.0]], dtype=np.complex128)
-Splus = sp.csr_matrix([[0.0, 1.0], [0.0, 0.0]], dtype=np.complex128)
-Sminus = sp.csr_matrix([[0.0, 0.0], [1.0, 0.0]], dtype=np.complex128)
+Id = sp.csr_matrix(np.eye(2))
+Sx = sp.csr_matrix([[0.0, 1.0], [1.0, 0.0]])
+Sz = sp.csr_matrix([[1.0, 0.0], [0.0, -1.0]])
+Splus = sp.csr_matrix([[0.0, 1.0], [0.0, 0.0]])
+Sminus = sp.csr_matrix([[0.0, 0.0], [1.0, 0.0]])
 
 
 def _singlesite_to_full(op: sp.csr_matrix, i: int, L: int) -> sp.csr_matrix:
@@ -45,7 +45,7 @@ def gen_hamiltonian(
     """
     sx_list = _gen_sx_list(L)
     sz_list = _gen_sz_list(L)
-    H = sp.csr_matrix((2**L, 2**L), dtype=np.complex128)
+    H = sp.csr_matrix((2**L, 2**L))
     for j in range(L):
         H += -g * sz_list[j]
         # open boundary => skip neighbour interaction for first element
@@ -144,7 +144,7 @@ def overlap(bra: list[np.ndarray], ket: list[np.ndarray]) -> float:
         res = np.tensordot(res, ket_i, axes=(1, 0))
         # Sum over alpha_j and j_i
         res = np.tensordot(bra_i.conj(), res, axes=((0, 1), (0, 1)))
-    return np.linalg.norm(res.item())
+    return res.item()
 
 
 def get_minimum_chi(psi: np.ndarray, L: int, chi_0: int = 20) -> None:
@@ -195,7 +195,7 @@ def apply_op_at_site(
     :rtype: list[np.ndarray]
     """
     out = MPS.copy()
-    out[i] = np.tensordot(out[i], op, axes=(1, 0)).reshape(out[i].shape)
+    out[i] = np.tensordot(out[i], op, axes=(1, 0)).transpose([0, 2, 1])
     return out
 
 
@@ -210,7 +210,7 @@ def operator_correlation(MPS: list[np.ndarray], op: np.ndarray) -> np.ndarray:
     :rtype: np.ndarray
     """
     L = len(MPS)
-    out = np.empty((L, L), dtype=np.complex128)
+    out = np.empty((L, L), dtype=np.float64)
     for i in range(L):
         for j in range(L):
             MPS_i = apply_op_at_site(MPS, op, i)
