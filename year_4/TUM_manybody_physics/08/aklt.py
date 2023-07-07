@@ -55,10 +55,10 @@ def gen_hamiltonian(
 
 
 def get_MPS_list(psi: np.ndarray, L: int, chi_max: int) -> list[np.ndarray]:
-    """Generate a MPS representation of a state `psi`.
+    """Generate a MPS representation of a spin-1/2 state `psi`.
     Optionally compress the data with a chi smaller than 2**(L//2)
 
-    :param psi: Ising model state, fulfilling psi.size == 2**L
+    :param psi: Spin-1/2 state, fulfilling psi.size == 2**L
     :type psi: np.ndarray
     :param L: System size
     :type L: int
@@ -94,7 +94,7 @@ def get_MPS_list(psi: np.ndarray, L: int, chi_max: int) -> list[np.ndarray]:
 
 
 def get_MPS_tensor(psi: np.ndarray, L: int, chi_max: int) -> np.ndarray:
-    """Full tensor MPS representation.
+    """Full tensor MPS representation for a spin-1/2 sate.
     Optionally compress the internal matrices with a chi smaller than 2**(L//2).
     Output has same shape regardless of compression
 
@@ -108,30 +108,127 @@ def get_MPS_tensor(psi: np.ndarray, L: int, chi_max: int) -> np.ndarray:
     :return: Full MPS tensor, shape (1, *(2 for _ in range(L)), 1)
     :rtype: np.ndarray
     """
+    return MPS_list_to_tensor(get_MPS_list(psi, L, chi_max))
+
+
+def MPS_list_to_tensor(MPS: list[np.ndarray]) -> np.ndarray:
+    """Convert a MPS list format to MPS tensor format
+
+    :param MPS: MPS list format
+    :type MPS: list[np.ndarray]
+    :return: MPS tensor format
+    :rtype: np.ndarray
+    """
     return reduce(
         lambda a, b: np.tensordot(a, b, axes=(-1, 0)),
-        get_MPS_list(psi, L, chi_max),
+        MPS,
     )
 
 
-def overlap(MPS_a: list[np.ndarray], MPS_b: list[np.ndarray]) -> float:
-    """< MPS_b | MPS_a >, for two MPSs in list form
+def overlap(bra: list[np.ndarray], ket: list[np.ndarray]) -> float:
+    """< bra | ket >, for two MPSs in list form
 
-    :param MPS_a: MPS for ket state
-    :type MPS_a: list[np.ndarray]
-    :param MPS_b: MPS for bra state
-    :type MPS_b: list[np.ndarray]
+    :param bra: MPS for bra state
+    :type bra: list[np.ndarray]
+    :param ket: MPS for ket state
+    :type ket: list[np.ndarray]
     :return: Overlap
     :rtype: float
     """
-    assert len(MPS_a) == len(MPS_b)
+    assert len(bra) == len(ket)
 
     # Sum over alpha_0 and j_0
-    res = np.tensordot(MPS_a[0], MPS_b[0].conj(), axes=((0, 1), (0, 1)))
+    res = np.tensordot(bra[0].conj(), ket[0], axes=((0, 1), (0, 1)))
 
-    for Ma, Mb in zip(MPS_a[1:], MPS_b[1:]):
+    for Ma, Mb in zip(bra[1:], ket[1:]):
         # Sum over j_i
-        T = np.tensordot(Ma, Mb.conj(), axes=(1, 1))
+        T = np.tensordot(Ma.conj(), Mb, axes=(1, 1))
         # Sum over alpha_j both above and below
         res = np.tensordot(res, T, axes=((0, 1), (0, 2)))
     return abs(res.item())
+
+
+def get_minimum_chi(psi: np.ndarray, L: int, chi_0: int = 20) -> None:
+    """Iterate through smaller and smaller chi
+    untill the compressed state is sufficiently different to the original state
+
+    :param psi: State
+    :type psi: np.ndarray
+    :param L: System size
+    :type L: int
+    :param chi_0: Initial chi, defaults to 20
+    :type chi_0: int, optional
+    """
+
+    # Man, do while would be nice right now
+    M = get_MPS_tensor(psi, L, 2 ** (L // 2))
+    chi = chi_0
+    while np.allclose(M.ravel(), psi.ravel()) and chi > 1:
+        chi -= 1
+        M = get_MPS_tensor(psi, L, chi)
+
+    if chi == chi_0:
+        print(
+            "MPS representation did not correspond to original representation "
+            f"with {chi_0 = }."
+        )
+        return -1
+
+    return chi + 1  # Once again, do while would be nice
+
+
+def copy_MPS(MPS: list[np.ndarray]) -> np.ndarray:
+    """Deep copy a MPS"""
+    return [np.copy(M) for M in MPS]
+
+
+def apply_op_at_site(
+    MPS: list[np.ndarray], op: np.ndarray, i: int, copy: bool = True
+) -> list[np.ndarray]:
+    """Applies the local operator `op` at site `i`
+
+    :param MPS: State
+    :type MPS: list[np.ndarray]
+    :param op: 2x2 matrix operator
+    :type op: np.ndarray
+    :param i: Index to apply operator
+    :type i: int
+    :param copy: If True, copies the MPS before applying the operator, defaults to True
+    :type copy: bool, optional
+    :return: State
+    :rtype: list[np.ndarray]
+    """
+    if copy:
+        out = copy_MPS(MPS)
+    else:
+        out = MPS
+    out[i] = np.tensordot(out[i], op, axes=(1, 0))
+    return out
+
+
+def operator_correlation(MPS: list[np.ndarray], op: np.ndarray) -> np.ndarray:
+    """Calculate the spatial correlation of a local operator
+
+    :param MPS: State
+    :type MPS: list[np.ndarray]
+    :param op: Operator
+    :type op: np.ndarray
+    :return: LxL matrix, such that mat[i, j] = <op_i op_j>
+    :rtype: np.ndarray
+    """
+    L = len(MPS)
+    out = np.empty((L, L), dtype=np.float64)
+    for i in range(L):
+        for j in range(L):
+            MPS_i = apply_op_at_site(MPS, op, i)
+            MPS_j = apply_op_at_site(MPS, op, j)
+
+            op_i = overlap(MPS_i, MPS)
+            op_j = overlap(MPS_j, MPS)
+
+            MPS_ij = apply_op_at_site(MPS_i, j, copy=False)
+
+            op_ij = overlap(MPS_ij, MPS)
+
+            out[i, j] = op_ij - op_i * op_j
+    return out
