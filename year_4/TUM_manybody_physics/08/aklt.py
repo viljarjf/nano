@@ -137,15 +137,14 @@ def overlap(bra: list[np.ndarray], ket: list[np.ndarray]) -> float:
     """
     assert len(bra) == len(ket)
 
-    # Sum over alpha_0 and j_0
-    res = np.tensordot(bra[0].conj(), ket[0], axes=((0, 1), (0, 1)))
+    res = np.eye(1)
 
-    for Ma, Mb in zip(bra[1:], ket[1:]):
-        # Sum over j_i
-        T = np.tensordot(Ma.conj(), Mb, axes=(1, 1))
-        # Sum over alpha_j both above and below
-        res = np.tensordot(res, T, axes=((0, 1), (0, 2)))
-    return abs(res.item())
+    for bra_i, ket_i in zip(bra, ket):
+        # Sum over alpha_i
+        res = np.tensordot(res, ket_i, axes=(1, 0))
+        # Sum over alpha_j and j_i
+        res = np.tensordot(bra_i.conj(), res, axes=((0, 1), (0, 1)))
+    return np.linalg.norm(res.item())
 
 
 def get_minimum_chi(psi: np.ndarray, L: int, chi_0: int = 20) -> None:
@@ -177,14 +176,13 @@ def get_minimum_chi(psi: np.ndarray, L: int, chi_0: int = 20) -> None:
     return chi + 1  # Once again, do while would be nice
 
 
-def copy_MPS(MPS: list[np.ndarray]) -> np.ndarray:
+def deepcopy_MPS(MPS: list[np.ndarray]) -> np.ndarray:
     """Deep copy a MPS"""
     return [np.copy(M) for M in MPS]
 
 
 def apply_op_at_site(
-    MPS: list[np.ndarray], op: np.ndarray, i: int, copy: bool = True
-) -> list[np.ndarray]:
+    MPS: list[np.ndarray], op: np.ndarray, i: int) -> list[np.ndarray]:
     """Applies the local operator `op` at site `i`
 
     :param MPS: State
@@ -193,16 +191,11 @@ def apply_op_at_site(
     :type op: np.ndarray
     :param i: Index to apply operator
     :type i: int
-    :param copy: If True, copies the MPS before applying the operator, defaults to True
-    :type copy: bool, optional
     :return: State
     :rtype: list[np.ndarray]
     """
-    if copy:
-        out = copy_MPS(MPS)
-    else:
-        out = MPS
-    out[i] = np.tensordot(out[i], op, axes=(1, 0))
+    out = MPS.copy()
+    out[i] = np.tensordot(out[i], op, axes=(1, 0)).reshape(out[i].shape)
     return out
 
 
@@ -217,7 +210,7 @@ def operator_correlation(MPS: list[np.ndarray], op: np.ndarray) -> np.ndarray:
     :rtype: np.ndarray
     """
     L = len(MPS)
-    out = np.empty((L, L), dtype=np.float64)
+    out = np.empty((L, L), dtype=np.complex128)
     for i in range(L):
         for j in range(L):
             MPS_i = apply_op_at_site(MPS, op, i)
@@ -226,7 +219,7 @@ def operator_correlation(MPS: list[np.ndarray], op: np.ndarray) -> np.ndarray:
             op_i = overlap(MPS_i, MPS)
             op_j = overlap(MPS_j, MPS)
 
-            MPS_ij = apply_op_at_site(MPS_i, j, copy=False)
+            MPS_ij = apply_op_at_site(MPS_i, op, j)
 
             op_ij = overlap(MPS_ij, MPS)
 
