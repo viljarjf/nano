@@ -99,6 +99,16 @@ def init_spinup_MPS(L: int) -> MPS:
     Ss = [S.copy() for i in range(L)]
     return MPS(Bs, Ss)
 
+def init_spinright_MPS(L: int) -> MPS:
+    """Return a product state with all spins right as an MPS"""
+    B = np.zeros([1, 2, 1], np.float)
+    B[0, 0, 0] = 1 / np.sqrt(2)
+    B[0, 1, 0] = 1 / np.sqrt(2)
+    S = np.ones([1], np.float)
+    Bs = [B.copy() for i in range(L)]
+    Ss = [S.copy() for i in range(L)]
+    return MPS(Bs, Ss)
+
 
 def split_truncate_theta(
     theta: np.ndarray, chi_max: int, eps: float
