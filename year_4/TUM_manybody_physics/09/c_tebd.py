@@ -7,6 +7,7 @@ import tfi_exact
 from a_mps import MPS, split_truncate_theta
 from b_model import TFIModel
 
+from typing import Iterator
 from tqdm import tqdm
 
 
@@ -38,6 +39,22 @@ def run_TEBD(
         for k in [0, 1]:  # even, odd
             for i_bond in range(k, Nbonds, 2):
                 update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
+    # done
+
+def iterate_TEBD(
+    psi: MPS, U_bonds: list[np.ndarray], N_steps: int, chi_max: int, eps: float
+) -> Iterator[MPS]:
+    
+    """Evolve the state `psi` for `N_steps` time steps with (first order) TEBD.
+
+    The state psi is modified in place."""
+    Nbonds = psi.L - 1
+    assert len(U_bonds) == Nbonds
+    for n in tqdm(range(N_steps)):
+        for k in [0, 1]:  # even, odd
+            for i_bond in range(k, Nbonds, 2):
+                update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
+                yield psi
     # done
 
 
