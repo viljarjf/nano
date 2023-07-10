@@ -1,7 +1,9 @@
 """Toy code implementing the transverse-field ising model."""
 
 import numpy as np
+
 from a_mps import MPS
+
 
 class TFIModel:
     """Class generating the Hamiltonian of the transverse-field Ising model.
@@ -30,14 +32,15 @@ class TFIModel:
         Each ``H_bonds[i]`` has (physical) legs (i out, (i+1) out, i in, (i+1) in),
         in short ``i j i* j*``.
     """
+
     H_bonds: list[np.ndarray]
 
     def __init__(self, L: int, J: float, g: float):
         self.L, self.d = L, 2
         self.J, self.g = J, g
-        self.sigmax = np.array([[0., 1.], [1., 0.]])
-        self.sigmay = np.array([[0., -1j], [1j, 0.]])
-        self.sigmaz = np.array([[1., 0.], [0., -1.]])
+        self.sigmax = np.array([[0.0, 1.0], [1.0, 0.0]])
+        self.sigmay = np.array([[0.0, -1j], [1j, 0.0]])
+        self.sigmaz = np.array([[1.0, 0.0], [0.0, -1.0]])
         self.id = np.eye(2)
         self.init_H_bonds()
 
@@ -48,11 +51,13 @@ class TFIModel:
         H_list = []
         for i in range(self.L - 1):
             gL = gR = 0.5 * self.g
-            if i == 0: # first bond
+            if i == 0:  # first bond
                 gL = self.g
-            if i + 1 == self.L - 1: # last bond
+            if i + 1 == self.L - 1:  # last bond
                 gR = self.g
-            H_bond = -self.J * np.kron(sx, sx) - gL * np.kron(sz, id) - gR * np.kron(id, sz)
+            H_bond = (
+                -self.J * np.kron(sx, sx) - gL * np.kron(sz, id) - gR * np.kron(id, sz)
+            )
             # H_bond has legs ``i, j, i*, j*``
             H_list.append(np.reshape(H_bond, [d, d, d, d]))
         self.H_bonds = H_list

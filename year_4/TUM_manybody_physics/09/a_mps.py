@@ -38,14 +38,18 @@ class MPS:
         """Calculate effective single-site wave function on sites i in mixed canonical form.
 
         The returned array has legs ``vL, i, vR`` (as one of the Bs)."""
-        return np.tensordot(np.diag(self.Ss[i]), self.Bs[i], [1, 0])  # vL [vL'], [vL] i vR
+        return np.tensordot(
+            np.diag(self.Ss[i]), self.Bs[i], [1, 0]
+        )  # vL [vL'], [vL] i vR
 
     def get_theta2(self, i: int) -> np.ndarray:
         """Calculate effective two-site wave function on sites i,j=(i+1) in mixed canonical form.
 
         The returned array has legs ``vL, i, j, vR``."""
         j = i + 1
-        return np.tensordot(self.get_theta1(i), self.Bs[j], [2, 0])  # vL i [vR], [vL] j vR
+        return np.tensordot(
+            self.get_theta1(i), self.Bs[j], [2, 0]
+        )  # vL i [vR], [vL] j vR
 
     def get_chi(self) -> list[int]:
         """Return bond dimensions."""
@@ -68,7 +72,9 @@ class MPS:
             theta = self.get_theta2(i)  # vL i j vR
             op_theta = np.tensordot(op[i], theta, axes=[[2, 3], [1, 2]])
             # i j [i*] [j*], vL [i] [j] vR
-            result.append(np.tensordot(theta.conj(), op_theta, [[0, 1, 2, 3], [2, 0, 1, 3]]))
+            result.append(
+                np.tensordot(theta.conj(), op_theta, [[0, 1, 2, 3], [2, 0, 1, 3]])
+            )
             # [vL*] [i*] [j*] [vR*], [i] [j] [vL] [vR]
         return np.real_if_close(result)
 
@@ -77,9 +83,9 @@ class MPS:
         result = []
         for i in range(1, self.L):
             S = self.Ss[i].copy()
-            S[S < 1.e-20] = 0.  # 0*log(0) should give 0; avoid warning or NaN.
+            S[S < 1.0e-20] = 0.0  # 0*log(0) should give 0; avoid warning or NaN.
             S2 = S * S
-            assert abs(np.linalg.norm(S) - 1.) < 1.e-14
+            assert abs(np.linalg.norm(S) - 1.0) < 1.0e-14
             result.append(-np.sum(S2 * np.log(S2)))
         return np.array(result)
 
@@ -87,14 +93,16 @@ class MPS:
 def init_spinup_MPS(L: int) -> MPS:
     """Return a product state with all spins up as an MPS"""
     B = np.zeros([1, 2, 1], np.float)
-    B[0, 0, 0] = 1.
+    B[0, 0, 0] = 1.0
     S = np.ones([1], np.float)
     Bs = [B.copy() for i in range(L)]
     Ss = [S.copy() for i in range(L)]
     return MPS(Bs, Ss)
 
 
-def split_truncate_theta(theta: np.ndarray, chi_max: int, eps: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def split_truncate_theta(
+    theta: np.ndarray, chi_max: int, eps: float
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Split and truncate a two-site wave function in mixed canonical form.
 
     Split a two-site wave function as follows::
