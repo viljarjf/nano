@@ -2,7 +2,6 @@
 
 import numpy as np
 from scipy.linalg import expm
-import numba
 
 import tfi_exact
 from a_mps import MPS, split_truncate_theta

@@ -2,7 +2,6 @@
 
 import numpy as np
 from numpy.linalg import svd
-import numba
 
 
 class MPS:
@@ -111,7 +110,6 @@ def init_spinright_MPS(L: int) -> MPS:
     return MPS(Bs, Ss)
 
 
-@numba.njit
 def split_truncate_theta(
     theta: np.ndarray, chi_max: int, eps: float
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -143,7 +141,7 @@ def split_truncate_theta(
         Right-canonical matrix on site j, with legs ``vC, j, vR``
     """
     chivL, dL, dR, chivR = theta.shape
-    theta = np.reshape(theta, [chivL * dL, dR * chivR])
+    theta = theta.reshape((chivL * dL, dR * chivR))
     X, Y, Z = svd(theta, full_matrices=False)
     # truncate
     chivC = min(chi_max, np.sum(Y > eps))
@@ -153,6 +151,6 @@ def split_truncate_theta(
     # renormalize
     S = Y / np.linalg.norm(Y)  # == Y/sqrt(sum(Y**2))
     # split legs of X and Z
-    A = np.reshape(X, [chivL, dL, chivC])
-    B = np.reshape(Z, [chivC, dR, chivR])
+    A = X.reshape((chivL, dL, chivC))
+    B = Z.reshape((chivC, dR, chivR))
     return A, S, B
