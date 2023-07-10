@@ -2,6 +2,7 @@
 
 import numpy as np
 from scipy.linalg import expm
+import numba
 
 import tfi_exact
 from a_mps import MPS, split_truncate_theta
@@ -54,7 +55,7 @@ def iterate_TEBD(
         for k in [0, 1]:  # even, odd
             for i_bond in range(k, Nbonds, 2):
                 update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
-                yield psi
+        yield psi
     # done
 
 

@@ -1,7 +1,8 @@
 """Toy code implementing a matrix product state."""
 
 import numpy as np
-from scipy.linalg import svd
+from numpy.linalg import svd
+import numba
 
 
 class MPS:
@@ -110,6 +111,7 @@ def init_spinright_MPS(L: int) -> MPS:
     return MPS(Bs, Ss)
 
 
+@numba.njit
 def split_truncate_theta(
     theta: np.ndarray, chi_max: int, eps: float
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
