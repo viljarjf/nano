@@ -1,7 +1,7 @@
 """Toy code implementing the transverse-field ising model."""
 
 import numpy as np
-
+from a_mps import MPS
 
 class TFIModel:
     """Class generating the Hamiltonian of the transverse-field Ising model.
@@ -31,7 +31,7 @@ class TFIModel:
         in short ``i j i* j*``.
     """
 
-    def __init__(self, L, J, g):
+    def __init__(self, L: int, J: float, g: float):
         self.L, self.d = L, 2
         self.J, self.g = J, g
         self.sigmax = np.array([[0., 1.], [1., 0.]])
@@ -40,7 +40,7 @@ class TFIModel:
         self.id = np.eye(2)
         self.init_H_bonds()
 
-    def init_H_bonds(self):
+    def init_H_bonds(self) -> None:
         """Initialize `H_bonds` hamiltonian. Called by __init__()."""
         sx, sz, id = self.sigmax, self.sigmaz, self.id
         d = self.d
@@ -56,7 +56,7 @@ class TFIModel:
             H_list.append(np.reshape(H_bond, [d, d, d, d]))
         self.H_bonds = H_list
 
-    def energy(self, psi):
+    def energy(self, psi: MPS) -> float:
         """Evaluate energy E = <psi|H|psi> for the given MPS."""
         assert psi.L == self.L
         return np.sum(psi.bond_expectation_value(self.H_bonds))
