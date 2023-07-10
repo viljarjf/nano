@@ -7,6 +7,8 @@ import tfi_exact
 from a_mps import MPS, split_truncate_theta
 from b_model import TFIModel
 
+from tqdm import tqdm
+
 
 def calc_U_bonds(model: TFIModel, dt: float) -> list[np.ndarray]:
     """Given a model, calculate ``U_bonds[i] = expm(-dt*model.H_bonds[i])``.
@@ -32,7 +34,7 @@ def run_TEBD(
     The state psi is modified in place."""
     Nbonds = psi.L - 1
     assert len(U_bonds) == Nbonds
-    for n in range(N_steps):
+    for n in tqdm(range(N_steps)):
         for k in [0, 1]:  # even, odd
             for i_bond in range(k, Nbonds, 2):
                 update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
