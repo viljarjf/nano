@@ -6,12 +6,12 @@ The Hamiltonian reads
 """
 import numpy as np
 import scipy.sparse as sparse
-import scipy.sparse.linalg._eigen.arpack as arp
 import warnings
 import scipy.integrate
+from functools import reduce
 
 
-def finite_gs_energy(L, J, g):
+def finite_gs_energy(L: int, J: float, g: float) -> float:
     """For comparison: obtain ground state energy from exact diagonalization.
 
     Exponentially expensive in L, only works for small enough `L` <~ 20.
@@ -29,11 +29,8 @@ def finite_gs_energy(L, J, g):
         z_ops = [id] * L
         x_ops[i_site] = sx
         z_ops[i_site] = sz
-        X = x_ops[0]
-        Z = z_ops[0]
-        for j in range(1, L):
-            X = sparse.kron(X, x_ops[j], 'csr')
-            Z = sparse.kron(Z, z_ops[j], 'csr')
+        X = reduce(lambda a, b: sparse.kron(a, b, 'csr'), x_ops)
+        Z = reduce(lambda a, b: sparse.kron(a, b, 'csr'), z_ops)
         sx_list.append(X)
         sz_list.append(Z)
     H_xx = sparse.csr_matrix((2**L, 2**L))
@@ -47,7 +44,7 @@ def finite_gs_energy(L, J, g):
     return E[0]
 
 
-def infinite_gs_energy(J, g):
+def infinite_gs_energy(J: float, g: float) -> float:
     """For comparison: Calculate groundstate energy density of an infinite system.
 
     The analytic formula stems from mapping the model to free fermions, see
