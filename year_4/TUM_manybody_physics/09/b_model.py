@@ -30,6 +30,7 @@ class TFIModel:
         Each ``H_bonds[i]`` has (physical) legs (i out, (i+1) out, i in, (i+1) in),
         in short ``i j i* j*``.
     """
+    H_bonds: list[np.ndarray]
 
     def __init__(self, L: int, J: float, g: float):
         self.L, self.d = L, 2

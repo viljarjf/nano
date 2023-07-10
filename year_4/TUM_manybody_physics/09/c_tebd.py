@@ -2,11 +2,12 @@
 
 import numpy as np
 from scipy.linalg import expm
-from a_mps import split_truncate_theta
+from a_mps import split_truncate_theta, MPS
+from b_model import TFIModel
 import tfi_exact
 
 
-def calc_U_bonds(model, dt):
+def calc_U_bonds(model: TFIModel, dt: float) -> list[np.ndarray]:
     """Given a model, calculate ``U_bonds[i] = expm(-dt*model.H_bonds[i])``.
 
     Each local operator has legs (i out, (i+1) out, i in, (i+1) in), in short ``i j i* j*``.
@@ -22,7 +23,7 @@ def calc_U_bonds(model, dt):
     return U_bonds
 
 
-def run_TEBD(psi, U_bonds, N_steps, chi_max, eps):
+def run_TEBD(psi: MPS, U_bonds: list[np.ndarray], N_steps: int, chi_max: int, eps: float) -> None:
     """Evolve the state `psi` for `N_steps` time steps with (first order) TEBD.
 
     The state psi is modified in place."""
@@ -35,7 +36,7 @@ def run_TEBD(psi, U_bonds, N_steps, chi_max, eps):
     # done
 
 
-def update_bond(psi, i, U_bond, chi_max, eps):
+def update_bond(psi: MPS, i: int, U_bond: list[np.ndarray], chi_max: int, eps: float) -> None:
     """Apply `U_bond` acting on i,j=(i+1) to `psi`."""
     j = i + 1
     # construct theta matrix
@@ -53,7 +54,7 @@ def update_bond(psi, i, U_bond, chi_max, eps):
 
 
 
-def example_TEBD_gs_finite(L, J, g):
+def example_TEBD_gs_finite(L: int, J: float, g: float) -> tuple[float, MPS, TFIModel]:
     print("finite TEBD, (imaginary time evolution)")
     print("L={L:d}, J={J:.1f}, g={g:.2f}".format(L=L, J=J, g=g))
     import a_mps
