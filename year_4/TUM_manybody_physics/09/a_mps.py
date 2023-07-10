@@ -26,7 +26,7 @@ class MPS:
         Number of sites.
     """
 
-    def __init__(self, Bs, Ss):
+    def __init__(self, Bs: list[np.ndarray], Ss: list[np.ndarray]):
         self.Bs = Bs
         self.Ss = Ss
         self.L = len(Bs)
@@ -34,24 +34,24 @@ class MPS:
     def copy(self):
         return MPS([B.copy() for B in self.Bs], [S.copy() for S in self.Ss])
 
-    def get_theta1(self, i):
+    def get_theta1(self, i: int) -> np.ndarray:
         """Calculate effective single-site wave function on sites i in mixed canonical form.
 
         The returned array has legs ``vL, i, vR`` (as one of the Bs)."""
         return np.tensordot(np.diag(self.Ss[i]), self.Bs[i], [1, 0])  # vL [vL'], [vL] i vR
 
-    def get_theta2(self, i):
+    def get_theta2(self, i: int) -> np.ndarray:
         """Calculate effective two-site wave function on sites i,j=(i+1) in mixed canonical form.
 
         The returned array has legs ``vL, i, j, vR``."""
         j = i + 1
         return np.tensordot(self.get_theta1(i), self.Bs[j], [2, 0])  # vL i [vR], [vL] j vR
 
-    def get_chi(self):
+    def get_chi(self) -> list[int]:
         """Return bond dimensions."""
         return [self.Bs[i].shape[2] for i in range(self.L - 1)]
 
-    def site_expectation_value(self, op):
+    def site_expectation_value(self, op: np.ndarray) -> np.ndarray:
         """Calculate expectation values of a local operator at each site."""
         result = []
         for i in range(self.L):
@@ -61,7 +61,7 @@ class MPS:
             # [vL*] [i*] [vR*], [i] [vL] [vR]
         return np.real_if_close(result)
 
-    def bond_expectation_value(self, op):
+    def bond_expectation_value(self, op: np.ndarray) -> np.ndarray:
         """Calculate expectation values of a local operator at each bond."""
         result = []
         for i in range(self.L - 1):
@@ -72,7 +72,7 @@ class MPS:
             # [vL*] [i*] [j*] [vR*], [i] [j] [vL] [vR]
         return np.real_if_close(result)
 
-    def entanglement_entropy(self):
+    def entanglement_entropy(self) -> np.ndarray:
         """Return the (von-Neumann) entanglement entropy for a bipartition at any of the bonds."""
         result = []
         for i in range(1, self.L):
@@ -84,7 +84,7 @@ class MPS:
         return np.array(result)
 
 
-def init_spinup_MPS(L):
+def init_spinup_MPS(L: int) -> MPS:
     """Return a product state with all spins up as an MPS"""
     B = np.zeros([1, 2, 1], np.float)
     B[0, 0, 0] = 1.
@@ -94,7 +94,7 @@ def init_spinup_MPS(L):
     return MPS(Bs, Ss)
 
 
-def split_truncate_theta(theta, chi_max, eps):
+def split_truncate_theta(theta: np.ndarray, chi_max: int, eps: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Split and truncate a two-site wave function in mixed canonical form.
 
     Split a two-site wave function as follows::
