@@ -33,18 +33,12 @@ def run_TEBD(
     """Evolve the state `psi` for `N_steps` time steps with (first order) TEBD.
 
     The state psi is modified in place."""
-    Nbonds = psi.L - 1
-    assert len(U_bonds) == Nbonds
-    for n in tqdm(range(N_steps)):
-        for k in [0, 1]:  # even, odd
-            for i_bond in range(k, Nbonds, 2):
-                update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
-    # done
+    [0 for _ in iterate_TEBD(psi, U_bonds, N_steps, chi_max, eps)]
+
 
 def iterate_TEBD(
     psi: MPS, U_bonds: list[np.ndarray], N_steps: int, chi_max: int, eps: float
 ) -> Iterator[MPS]:
-    
     """Evolve the state `psi` for `N_steps` time steps with (first order) TEBD.
 
     The state psi is modified in place."""
@@ -57,9 +51,25 @@ def iterate_TEBD(
         yield psi
     # done
 
+def iterate_TEBD_2nd_order(
+    psi: MPS, U_bonds: list[np.ndarray], N_steps: int, chi_max: int, eps: float
+) -> Iterator[MPS]:
+    """Evolve the state `psi` for `N_steps` time steps with (second order) TEBD.
+
+    The state psi is modified in place."""
+    Nbonds = psi.L - 1
+    assert len(U_bonds) == Nbonds
+    for n in tqdm(range(N_steps)):
+        for i_bond in range(0, Nbonds, 2):
+            update_bond(psi, i_bond, U_bonds[i_bond]**0.5, chi_max, eps)
+            update_bond(psi, i_bond, U_bonds[i_bond]**0.5, chi_max, eps)
+        for i_bond in range(1, Nbonds, 2):
+            update_bond(psi, i_bond, U_bonds[i_bond], chi_max, eps)
+        yield psi
+    # done
 
 def update_bond(
-    psi: MPS, i: int, U_bond: list[np.ndarray], chi_max: int, eps: float
+    psi: MPS, i: int, U_bond: np.ndarray, chi_max: int, eps: float
 ) -> None:
     """Apply `U_bond` acting on i,j=(i+1) to `psi`."""
     j = i + 1
