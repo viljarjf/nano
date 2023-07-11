@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-def next_point(x, y) -> tuple[int, int]:
+def next_point(x: float, y: float) -> tuple[float, float]:
     r = np.random.random()
 
     if r < 0.1:
