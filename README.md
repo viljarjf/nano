@@ -22,7 +22,11 @@ I did not solve all exercises.
 
 I decided not to continue with this course.
 
-# 7th semester
+### [Superconducting Qubits: Architecture and Algorithms](year_4/TUM_quantum_computing/)
+
+Mainly fiddling around with qiskit
+
+# 7th semester (at TUM)
 
 ### [Simulation of Quantum Devices](year_4/TUM_quantum_sim/)
 
