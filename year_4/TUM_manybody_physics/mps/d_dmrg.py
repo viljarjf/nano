@@ -1,12 +1,13 @@
 """Toy code implementing the density-matrix renormalization group (DMRG)."""
 
 import numpy as np
-from a_mps import split_truncate_theta
-import scipy.sparse
+from .a_mps import split_truncate_theta
+from scipy.sparse.linalg import LinearOperator
 import scipy.sparse.linalg._eigen.arpack as arp
+from .b_model import TFIModel, MPS
 
 
-class HEffective(scipy.sparse.linalg.LinearOperator):
+class HEffective(LinearOperator):
     """Class for the effective Hamiltonian.
 
     To be diagonalized in `DMRGEngine.update_bond`. Looks like this::
@@ -20,18 +21,19 @@ class HEffective(scipy.sparse.linalg.LinearOperator):
         .--vL             vR--.
     """
 
-    def __init__(self, LP, RP, W1, W2):
+    def __init__(self, LP: np.ndarray, RP: np.ndarray, W1: np.ndarray, W2: np.ndarray):
         self.LP = LP  # vL wL* vL*
         self.RP = RP  # vR* wR* vR
         self.W1 = W1  # wL wC i i*
         self.W2 = W2  # wC wR j j*
         chi1, chi2 = LP.shape[0], RP.shape[2]
         d1, d2 = W1.shape[2], W2.shape[2]
-        self.theta_shape = (chi1, d1, d2, chi2)  # vL i j vR
-        self.shape = (chi1 * d1 * d2 * chi2, chi1 * d1 * d2 * chi2)
+        self.theta_shape: tuple[int, int, int, int] = (chi1, d1, d2, chi2)  # vL i j vR
+        self.shape: tuple[int, int] = (chi1 * d1 * d2 * chi2, chi1 * d1 * d2 * chi2)
         self.dtype = W1.dtype
 
-    def _matvec(self, theta):
+    # overload
+    def _matvec(self, theta: np.ndarray) -> np.ndarray:
         """calculate |theta'> = H_eff |theta>"""
         x = np.reshape(theta, self.theta_shape)  # vL i j vR
         x = np.tensordot(self.LP, x, axes=(2, 0))  # vL wL* [vL*], [vL] i j vR
@@ -65,12 +67,13 @@ class DMRGEngine(object):
         Each ``LPs[i]`` has legs ``vL wL* vL*``, ``RPS[i]`` has legs ``vR* wR* vR``
     """
 
-    def __init__(self, psi, model, chi_max=100, eps=1.e-12):
+    def __init__(self, psi: MPS, model: TFIModel, chi_max: int = 100, eps: float = 1.e-12):
         assert psi.L == model.L  # ensure compatibility
         self.H_mpo = model.H_mpo
+        self.model = model
         self.psi = psi
-        self.LPs = [None] * psi.L
-        self.RPs = [None] * psi.L
+        self.LPs: list[np.ndarray] = [None] * psi.L
+        self.RPs: list[np.ndarray] = [None] * psi.L
         self.chi_max = chi_max
         self.eps = eps
         # initialize left and right environment
@@ -85,6 +88,7 @@ class DMRGEngine(object):
         # initialize necessary RPs
         for i in range(psi.L - 1, 1, -1):
             self.update_RP(i)
+        self._prev_energy = float("inf")
 
     def sweep(self):
         # sweep from left to right
@@ -137,3 +141,9 @@ class DMRGEngine(object):
         LP = np.tensordot(W, LP, axes=[[0, 3], [1, 2]])  # [wL] wR i [i*], vL [wL*] [i] vR
         LP = np.tensordot(Ac, LP, axes=[[0, 1], [2, 1]])  # [vL*] [i*] vR*, wR [i] [vL] vR
         self.LPs[j] = LP  # vR* wR vR (== vL wL* vL* on site i+1)
+
+    def converged(self, tol: float = 1e-7) -> bool:
+        e = self.model.energy(self.psi)
+        diff = e - self._prev_energy
+        self._prev_energy = e
+        return abs(diff) < tol
