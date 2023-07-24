@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from a_mps import MPS
+from .a_mps import MPS
 
 
 class TFIModel:
@@ -34,6 +34,7 @@ class TFIModel:
     """
 
     H_bonds: list[np.ndarray]
+    H_mpo: list[np.ndarray]
 
     def __init__(self, L: int, J: float, g: float):
         self.L, self.d = L, 2
@@ -43,6 +44,7 @@ class TFIModel:
         self.sigmaz = np.array([[1.0, 0.0], [0.0, -1.0]])
         self.id = np.eye(2)
         self.init_H_bonds()
+        self.init_H_mpo()
 
     def init_H_bonds(self) -> None:
         """Initialize `H_bonds` hamiltonian. Called by __init__()."""
@@ -61,6 +63,19 @@ class TFIModel:
             # H_bond has legs ``i, j, i*, j*``
             H_list.append(np.reshape(H_bond, [d, d, d, d]))
         self.H_bonds = H_list
+    
+    def init_H_mpo(self) -> None:
+        """Initialize `H_mpo` hamiltonian. Called by __init__()."""
+        I = self.id
+        sx = self.sigmax
+        sz = self.sigmaz
+        z = np.zeros_like(I)
+        W = np.array([
+            [I, sx, -self.g * sz],
+            [z,  z, -self.J * sx],
+            [z,  z, I]
+        ])
+        self.H_mpo = [W.copy() for _ in range(self.L)]        
 
     def energy(self, psi: MPS) -> float:
         """Evaluate energy E = <psi|H|psi> for the given MPS."""
