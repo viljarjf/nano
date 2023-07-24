@@ -3,9 +3,9 @@
 import numpy as np
 from scipy.linalg import expm
 
-import tfi_exact
-from a_mps import MPS, split_truncate_theta
-from b_model import TFIModel
+from . import tfi_exact
+from .a_mps import MPS, split_truncate_theta
+from .b_model import TFIModel
 
 from typing import Iterator
 from tqdm import tqdm
