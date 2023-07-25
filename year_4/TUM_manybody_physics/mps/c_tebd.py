@@ -94,8 +94,7 @@ def update_bond(
 def example_TEBD_gs_finite(L: int, J: float, g: float) -> tuple[float, MPS, TFIModel]:
     print("finite TEBD, (imaginary time evolution)")
     print("L={L:d}, J={J:.1f}, g={g:.2f}".format(L=L, J=J, g=g))
-    import a_mps
-    import b_model
+    from . import a_mps, b_model
 
     model = b_model.TFIModel(L, J=J, g=g)
     psi = a_mps.init_spinup_MPS(L)
