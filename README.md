@@ -6,15 +6,17 @@ Focus area of nanoelectronics.
 
 ### [Computational Methods in Many-Body Physics](year_4/TUM_manybody_physics/)
 
-Simulation of many-body systems, mainly quantum many-body systems.
+Simulation of quantum many-body systems.
 
 - Exercise 1-3: Classical Ising model for spin-spin interactions. A small library ([ising_model](year_4/TUM_manybody_physics/ising_model/)) was written and used for the simulations.
 
-- Exercise 4-: Exact diagonalization, sparse matrix tools, and the quantum Ising model.
+- Exercise 4-6.1: Exact diagonalization, sparse matrix tools, and the quantum Ising model.
+
+- Exercise 6.2-10: Matrix product states, time evolving block decimation and density matrix renormalization group. Shared code in [mps](year_4/TUM_manybody_physics/mps/), mostly provided in the exercises.
 
 ### [Computational Physics II](year_4/TUM_computational_physics_2/)
 
-Computational physics. Classical ising model, Monte-Carlo integration, chaos ect. 
+Computational physics. Classical ising model, Monte-Carlo integration, chaos and fractals ect. 
 
 I did not solve all exercises.
 
