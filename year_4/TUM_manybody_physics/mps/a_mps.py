@@ -57,12 +57,17 @@ class MPS:
 
     def site_expectation_value(self, op: np.ndarray) -> np.ndarray:
         """Calculate expectation values of a local operator at each site."""
-        result = []
+        result = np.empty(self.L)
         for i in range(self.L):
-            theta = self.get_theta1(i)  # vL i vR
-            op_theta = np.tensordot(op, theta, axes=[1, 1])  # i [i*], vL [i] vR
-            result.append(np.tensordot(theta.conj(), op_theta, [[0, 1, 2], [1, 0, 2]]))
-            # [vL*] [i*] [vR*], [i] [vL] [vR]
+            result[i] = self.single_site_expectation_value(op, i)
+        return result
+    
+    def single_site_expectation_value(self, op: np.ndarray, i: int) -> np.ndarray:
+        """Calculate expectation values of a local operator at a given site."""
+        theta = self.get_theta1(i)  # vL i vR
+        op_theta = np.tensordot(op, theta, axes=[1, 1])  # i [i*], vL [i] vR
+        result = np.tensordot(theta.conj(), op_theta, [[0, 1, 2], [1, 0, 2]])
+        # [vL*] [i*] [vR*], [i] [vL] [vR]
         return np.real_if_close(result)
 
     def bond_expectation_value(self, op: np.ndarray) -> np.ndarray:
