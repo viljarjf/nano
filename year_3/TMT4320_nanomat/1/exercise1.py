@@ -1,9 +1,10 @@
-from typing import Any, Callable
+from typing import Callable
 from matplotlib import pyplot as plt
-import os
+from pathlib import Path
 import numpy as np
 
-FIGURE_DIR = os.path.join(os.path.dirname(__file__), "figs")
+FIGURE_DIR = Path(__file__).parent / "figs"
+FIGURE_DIR.mkdir(exist_ok=True)
 DRAW_STEPS = 1000
 RHO_NACL = 2.17 * 10**6 # g/m^3
 GAMMA = 0.2
@@ -52,8 +53,8 @@ def plot(
     if save:
         if title is None:
             raise ValueError("Cannot save without a defined title")
-        filepath = os.path.join(FIGURE_DIR, title.replace(" ", "_") + ".png")
-        plt.savefig(filepath)
+        filepath = FIGURE_DIR / title.replace(" ", "_")
+        plt.savefig(str(filepath.with_suffix(".png")))
     if clear:
         plt.clf()
 
@@ -71,7 +72,7 @@ def edge_energy(a: float | np.ndarray) -> float | np.ndarray:
 def surface_and_edge_energy(a: float | np.ndarray) -> float | np.ndarray:
     return surface_energy(a) + edge_energy(a)
 
-def fusion_enthalpy(a: Any) -> np.ndarray:
+def fusion_enthalpy() -> np.ndarray:
 
     return np.ones(DRAW_STEPS) * STD_ENTAHLPY_NACL / MM_NACL
 
@@ -103,9 +104,9 @@ def exact_ratio(r: float | np.ndarray) -> float | np.ndarray:
 def main():
     x0 = 10**-9
     xn = 10**-7
-    plot(surface_energy, x0, xn, xscale = "log", clear = False)
-    plot(edge_energy, x0, xn, xscale = "log", clear = False)
-    plot(fusion_enthalpy, x0, xn, xscale = "log", clear = False)
+    plot(surface_energy, x0, xn, yscale="log", xscale="log", clear=False)
+    plot(edge_energy, x0, xn, yscale="log", xscale="log", clear=False)
+    plot(lambda x: fusion_enthalpy(), x0, xn, yscale="log", xscale="log", clear=False)
     legend = [
         "Surface energy",
         "Edge energy",

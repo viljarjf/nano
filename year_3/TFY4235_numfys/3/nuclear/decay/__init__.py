@@ -3,9 +3,9 @@
 from nuclear.decay.probability import decay
 
 import numpy as np
-from typing import Generator
+from typing import Iterator
 
-def run(Ns0: list[int], lambdas: list[float], dt: float, n: int) -> Generator[list[int], None, None]:
+def run(Ns0: list[int], lambdas: list[float], dt: float, n: int) -> Iterator[list[int]]:
     """Run the decay algorithm for `n` timesteps. 
 
     Args:
@@ -24,7 +24,7 @@ def run(Ns0: list[int], lambdas: list[float], dt: float, n: int) -> Generator[li
         yield Ns
 
 
-def run_analytical(N0: list[int], lambdas: list[float], t: float) -> list[float]:
+def run_analytical(N0: int, lambdas: list[float], t: float) -> list[float]:
     """Calcualte the state at time `t`. Mutates the Ns
 
     Args:
@@ -35,14 +35,17 @@ def run_analytical(N0: list[int], lambdas: list[float], t: float) -> list[float]
     Returns:
         list[float]: amounts of each atom. Can be non-integral
     """
-    Ns = [N0*np.exp(-lambdas[0]*t)]
-    
-    prod = lambda l: l[0]*prod(l[1:]) if l else 1
-    diffsum = lambda l, lk: prod([li - lk for li in l])
-    hk = lambda k: prod(lambdas[:k]) / diffsum(lambdas[:k], lambdas[k])
+    Ns = []
+    lambdas = np.array(lambdas)
 
-    for i in range(1, len(lambdas)):
-        Ns.append(N0 * sum([hk(i)*np.exp(-lambdas[i]*t)]))
+    for i in range(len(lambdas)):
+        terms = []
+        for k in range(i + 1):
+            lambda_diff = lambdas[:i + 1] - lambdas[k]
+            lambda_diff_prod = np.prod(lambda_diff, where=lambda_diff != 0)
+            terms.append(np.exp(-lambdas[k] * t) / lambda_diff_prod)
+        lambda_prod = np.prod(lambdas[:i])
+        Ns.append(N0 * lambda_prod * sum(terms))
 
     Ns.append(N0 - sum(Ns))
 

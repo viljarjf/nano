@@ -3,6 +3,8 @@ from nuclear.utils import rng
 
 from matplotlib import pyplot as plt
 
+from typing import Callable
+
 
 def hist(data, nbins: int = 100, block: bool = True, title: str = ""):
     plt.figure()
@@ -12,7 +14,7 @@ def hist(data, nbins: int = 100, block: bool = True, title: str = ""):
     plt.show(block=block)
 
 
-def plot_rng(method: "function", block: bool = True, title: str = "") -> None:
+def plot_rng(method: Callable[[], int], block: bool = True, title: str = "") -> None:
     d = []
     for _ in range(int(1e6)):
         d.append(method())
